@@ -1,0 +1,7 @@
+{
+  "database": "dolt",
+  "backend": "dolt",
+  "dolt_mode": "server",
+  "dolt_database": "pricing_guide_v2",
+  "project_id": "d8b34a3c-a879-40e8-bc89-96320b34dfd8"
+}
