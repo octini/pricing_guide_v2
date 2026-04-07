@@ -49,6 +49,10 @@ FEATURE_COLS = [
 
 RARITY_DUMMIES = ["common", "uncommon", "rare", "very_rare", "legendary", "artifact"]
 
+# Top item type codes (normalized, stripping source suffix after '|')
+# Chosen for density in training set: covers majority of matched items
+ITEM_TYPE_DUMMIES = ["M", "P", "SCF", "MA", "HA", "RG", "SC", "WD", "LA", "RD", "S", "INS", "A"]
+
 
 def build_features(df: pd.DataFrame) -> pd.DataFrame:
     """Build ML feature matrix from criteria columns."""
@@ -66,6 +70,11 @@ def build_features(df: pd.DataFrame) -> pd.DataFrame:
     # Attunement
     X["attune_open"] = (df["req_attune"] == "open").astype(float)
     X["attune_class"] = (df["req_attune"] == "class").astype(float)
+
+    # One-hot item type (normalize by stripping source suffix after '|')
+    base_type = df["item_type_code"].fillna("").str.split("|").str[0]
+    for t in ITEM_TYPE_DUMMIES:
+        X[f"type_{t}"] = (base_type == t).astype(float)
 
     return X
 
@@ -108,14 +117,14 @@ def main():
     df["ml_price"] = ml_prices
 
     # Blend: rule price gets 40% weight, ML gets 60% for matched items
-    # For unmatched items, use rule price directly
+    # For unmatched items, ML with item_type features is more discriminating
     def blend_price(row):
         if pd.notna(row["amalgamated_price"]):
             # Has ground truth: blend rule and ML
             return 0.4 * row["rule_price"] + 0.6 * row["ml_price"]
         else:
-            # No ground truth: ML is more reliable than rule alone
-            return 0.5 * row["rule_price"] + 0.5 * row["ml_price"]
+            # No ground truth: bias toward ML after item_type feature addition
+            return 0.35 * row["rule_price"] + 0.65 * row["ml_price"]
 
     df["final_price"] = df.apply(blend_price, axis=1)
 
