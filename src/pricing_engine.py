@@ -65,6 +65,38 @@ CONDITION_IMMUNITY_VALUES = {
 }
 
 
+# Base mundane item costs to prevent magic variants from being cheaper than mundane base
+# These are official PHB/XPHB prices in gp
+MUNDANE_BASE_COSTS = {
+    # Armor types
+    "LA": 0,  # Light armor (average ~20 gp, low enough to ignore)
+    "MA": 0,  # Medium armor (breastplate 400 gp is the expensive one — handled below)
+    "HA": 0,  # Heavy armor — handled below per item
+    "S": 10,  # Shield
+    # Weapon types — most are cheap enough to ignore vs magic price
+    "M": 0,  # Melee weapon (too varied; longsword=15, but greatsword=50)
+    "R": 0,  # Ranged weapon
+    "A": 0,  # Ammunition (per-piece pricing irrelevant)
+}
+
+# For armor specifically, we need to know the base armor type cost
+# We detect this from item name for the most expensive armors
+EXPENSIVE_ARMOR_BASES = {
+    "plate armor": 1500,
+    "splint armor": 200,
+    "half plate": 750,
+    "chain mail": 75,
+    "breastplate": 400,
+    "ring mail": 30,
+    "scale mail": 50,
+    "chain shirt": 50,
+    "hide armor": 10,
+    "leather armor": 10,
+    "padded armor": 5,
+    "studded leather": 45,
+}
+
+
 def calculate_price(criteria: dict) -> float:
     """Calculate item price based on criteria dict.
 
@@ -74,7 +106,8 @@ def calculate_price(criteria: dict) -> float:
     official_price = criteria.get("official_price_gp")
 
     # Official prices used directly for mundane items
-    if official_price and rarity in ("mundane", "none"):
+    # NaN check: x == x is False for NaN, so NaN official prices fall through
+    if official_price is not None and official_price == official_price and rarity in ("mundane", "none"):
         return float(official_price)
 
     # Spell scrolls: use level price directly (skip other formula)
@@ -83,6 +116,16 @@ def calculate_price(criteria: dict) -> float:
         return float(SPELL_SCROLL_PRICES.get(int(scroll_level), 75))
 
     base = float(RARITY_BASE_PRICES.get(rarity, 750))
+
+    # Base mundane item cost: magic items should cost at least as much as their mundane counterpart
+    # Detect from item name for expensive armors
+    item_name_lower = str(criteria.get("name", "")).lower()
+    base_item_cost = 0.0
+    if rarity not in ("mundane", "none", "unknown", "varies"):
+        for armor_name, armor_cost in EXPENSIVE_ARMOR_BASES.items():
+            if armor_name in item_name_lower:
+                base_item_cost = float(armor_cost)
+                break
 
     # --- Additive bonuses ---
     additive = 0.0
@@ -195,7 +238,52 @@ def calculate_price(criteria: dict) -> float:
 
     # Wish effect (ring of three wishes, similar items)
     if criteria.get("wish_effect"):
-        additive += 30000  # was 500000
+        additive += 30000 # was 500000
+
+    # Charges: rechargeable charges add moderate value; non-rechargeable add less
+    charges = criteria.get("charges")
+    if charges and charges == charges:  # not None, not NaN
+        # Handle dice strings like "{@dice 1d3}" by extracting the numeric part
+        if isinstance(charges, str):
+            import re
+            m = re.search(r'(\d+)', charges)
+            if m:
+                charges = int(m.group(1))
+            else:
+                charges = None
+        elif isinstance(charges, (int, float)):
+            charges = int(charges)
+        else:
+            charges = None
+        if charges and charges > 0:
+            recharge = str(criteria.get("recharge") or "")
+            if recharge in ("dawn", "restLong", "dusk"):
+                additive += 500 * charges  # Daily recharge: significant value (Staff of Power has 20)
+            elif recharge in ("restShort",):
+                additive += 750 * charges  # Short rest recharge: higher value
+            else:
+                additive += 100 * charges  # Non-rechargeable: lower value per charge
+
+    # Ability score mods: items that set a stat to a fixed value (like Gauntlets of Ogre Power)
+    # Format: dict with {"static": {"str": 19}} or list of dicts with {type: "ability", amount: N, stat: "str"}
+    ability_mods = criteria.get("ability_score_mods")
+    if isinstance(ability_mods, dict):
+        # Dict format: {"static": {"str": 19}} means "sets STR to 19"
+        static_mods = ability_mods.get("static") or {}
+        for stat, value in static_mods.items():
+            if isinstance(value, (int, float)) and value >= 17:
+                # Value scales with how high the stat is set
+                # Calibrated: Gauntlets of Ogre Power (STR 19) amalgamates at ~5,040 gp
+                # Base uncommon 750 + ability_mod ~4,300 gp → 5,050 gp before attunement
+                additive += 3000 + 1500 * (value - 17)  # 17→3000, 18→4500, 19→6000, 20→7500
+    elif isinstance(ability_mods, list):
+        # List format: check for any static boosts
+        for mod in ability_mods:
+            if isinstance(mod, dict) and mod.get("type") == "ability":
+                amount = mod.get("amount", 0)
+                if isinstance(amount, (int, float)) and amount >= 3:
+                    # Value scales with boost magnitude
+                    additive += 1000 + 500 * (amount - 3)  # +3→1000, +4→1500, +5→2000
 
     # --- Multiplicative modifiers ---
     attune_mod = 1.0
@@ -208,12 +296,20 @@ def calculate_price(criteria: dict) -> float:
     consumable_mod = 1.0
     is_ammo = criteria.get("is_ammunition", False)
     if is_ammo:
-        consumable_mod = 0.10  # was 0.05
+        consumable_mod = 0.02  # Ammo is single-use, sold in bundles; was 0.10
 
-    # Potion/oil/elixir discount (consumables cost significantly less per rarity)
+    # Potion/oil/elixir discount — rarity-tiered (single-use consumables)
     item_type = criteria.get("item_type_code", "") or ""
-    if item_type in ("P", "G"):  # Potion, Ointment
-        consumable_mod *= 0.40  # Potions at rare+ are ~0.2-0.4× permanent items
+    if item_type in ("P", "G"):  # Potion, Oil/Ointment
+        potion_discounts = {
+            "common": 0.50,
+            "uncommon": 0.30,
+            "rare": 0.15,
+            "very_rare": 0.10,
+            "legendary": 0.08,
+            "artifact": 0.08,
+        }
+        consumable_mod *= potion_discounts.get(rarity, 0.25)
 
     material_mod = 1.0  # mithral/adamantine handled in NLP
 
@@ -221,6 +317,7 @@ def calculate_price(criteria: dict) -> float:
     sentient_mod = 1.15 if criteria.get("is_sentient") else 1.0  # was 1.25
 
     price = (base + additive) * attune_mod * consumable_mod * material_mod * curse_mod * sentient_mod
+    price = max(price, base_item_cost)  # Never cheaper than mundane base
 
     floor = RARITY_FLOORS.get(rarity, 1)
     return max(floor, price)

@@ -45,12 +45,13 @@ FEATURE_COLS = [
     "is_sentient",
     "is_cursed",
     "darkvision_feet",
+    "is_ammunition",
 ]
 
 RARITY_DUMMIES = ["common", "uncommon", "rare", "very_rare", "legendary", "artifact"]
 
 # Rarities that should NOT use ML blending (model trained on magic items)
-NON_MAGIC_RARITIES = {"mundane", "unknown", "varies"}
+NON_MAGIC_RARITIES = {"mundane", "unknown", "varies", "artifact"}
 
 # Top item type codes (normalized, stripping source suffix after '|')
 # Chosen for density in training set: covers majority of matched items
@@ -78,6 +79,18 @@ def build_features(df: pd.DataFrame) -> pd.DataFrame:
     base_type = df["item_type_code"].fillna("").str.split("|").str[0]
     for t in ITEM_TYPE_DUMMIES:
         X[f"type_{t}"] = (base_type == t).astype(float)
+
+    # Derived feature: has ability score mods (items like Gauntlets of Ogre Power)
+    # Parse ability_score_mods JSON string
+    def has_ability_mods(val):
+        if pd.isna(val) or val == "[]":
+            return 0.0
+        if isinstance(val, str):
+            # Check for static mods like {"static": {"str": 19}}
+            if "static" in val and any(stat in val for stat in ["str", "dex", "con", "int", "wis", "cha"]):
+                return 1.0
+        return 0.0
+    X["has_ability_mods"] = df["ability_score_mods"].apply(has_ability_mods)
 
     return X
 

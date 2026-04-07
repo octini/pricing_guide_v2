@@ -84,6 +84,7 @@ def main():
             "healing_daily_hp",
             "healing_consumable_avg",
             "healing_permanent_hp",
+            "official_price_gp",
         ]:
             val = c.get(num_col)
             if pd.isna(val):

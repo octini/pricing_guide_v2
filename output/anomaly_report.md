@@ -2,82 +2,82 @@
 
 ## Overall Statistics
 
-- Total items: 9,350
-- Median price: 3,992 gp
-- Mean price: 12,370 gp
-- Std dev: 22,316 gp
-- CV: 1.80
-- Skewness: 3.82
-- Price range: 0 – 178,242 gp
+- Total items: 9,422
+- Median price: 4,136 gp
+- Mean price: 13,078 gp
+- Std dev: 24,583 gp
+- CV: 1.88
+- Skewness: 3.73
+- Price range: 0 – 208,242 gp
 
 ## Outliers by Rarity
 
 | Rarity | Count | Median | IQR Width | Outliers | Outlier Rate |
 |--------|-------|--------|-----------|----------|--------------|
-| artifact | 78 | 56,458 gp | 7,256 | 4 | 5.1%  |
-| common | 435 | 137 gp | 18 | 58 | 13.3%  |
-| legendary | 1118 | 52,132 gp | 20,794 | 135 | 12.1%  |
-| mundane | 444 | 10 gp | 49 | 75 | 16.9%  |
-| rare | 2571 | 4,191 gp | 1,088 | 207 | 8.1%  |
-| uncommon | 1710 | 859 gp | 132 | 567 | 33.2%  |
+| artifact | 78 | 156,321 gp | 16,927 | 3 | 3.8%  |
+| common | 435 | 135 gp | 10 | 100 | 23.0%  |
+| legendary | 1118 | 52,554 gp | 28,823 | 133 | 11.9%  |
+| mundane | 444 | 5 gp | 49 | 76 | 17.1%  |
+| rare | 2571 | 4,298 gp | 1,343 | 225 | 8.8%  |
+| uncommon | 1710 | 835 gp | 529 | 84 | 4.9%  |
 | unknown | 115 | 1 gp | 0 | 3 | 2.6% ⚠️ zero-width IQR |
-| unknown_magic | 1209 | 2,804 gp | 1,172 | 176 | 14.6%  |
-| varies | 42 | 750 gp | 150 | 4 | 9.5%  |
-| very_rare | 1700 | 15,810 gp | 7,211 | 144 | 8.5%  |
+| unknown_magic | 1209 | 2,993 gp | 1,400 | 182 | 15.1%  |
+| varies | 42 | 750 gp | 131 | 7 | 16.7%  |
+| very_rare | 1700 | 16,209 gp | 8,680 | 156 | 9.2%  |
 
 ## Extreme Outliers (> 3× rarity median)
 
-Total: 448 items
+Total: 586 items
 
 | Name | Source | Rarity | Price | Rarity Median |
 |------|--------|--------|-------|---------------|
-| Armblade | ERLW | common | 1,013 gp | - |
-| Bird's-Eye Arrow | GriffonsSaddlebag2 | common | 4,428 gp | - |
-| Butterfly Staff Armblade | ERLW | common | 455 gp | - |
-| Illuminator's Tattoo | TCE | common | 3,054 gp | - |
-| Mask of Changed Appearance | NF | common | 2,981 gp | - |
-| Scribe's Pen | ERLW | common | 2,754 gp | - |
-| Silvered Butterfly Staff | XDMG | common | 507 gp | - |
-| Silvered Sniper Rifle | XDMG | common | 2,981 gp | - |
-| Monster Hunter's Butterfly Staff +3 | MonstersOfDrakkenheim | legendary | 178,242 gp | - |
-| Monster Hunter's Weapon +3 | MonstersOfDrakkenheim | legendary | 170,323 gp | - |
-| Potion of Dragon's Majesty | FTD | legendary | 16,456 gp | - |
-| Potion of Giant Size | SKT | legendary | 16,636 gp | - |
-| Abacus | PHB | mundane | 2 gp | - |
+| Armblade | ERLW | common | 1,017 gp | - |
+| Bird's-Eye Arrow | GriffonsSaddlebag2 | common | 4,827 gp | - |
+| Butterfly Staff Armblade | ERLW | common | 454 gp | - |
+| Cast-Off Half Plate Armor | XDMG | common | 688 gp | - |
+| Cast-Off Plate Armor | XDMG | common | 704 gp | - |
+| Earring of Message | CRCotN | common | 1,010 gp | - |
+| Half Plate Armor of Gleaming | XDMG | common | 688 gp | - |
+| Hat of Vermin | XDMG | common | 733 gp | - |
+| Heward's Handy Spice Pouch | XDMG | common | 2,133 gp | - |
+| Horn of Silent Alarm | XDMG | common | 1,042 gp | - |
+| Illuminator's Tattoo | TCE | common | 3,056 gp | - |
+| Instrument of Scribing | XDMG | common | 733 gp | - |
+| Mask of Changed Appearance | NF | common | 3,518 gp | - |
+| Medani Dowser | ExploringEberron24 | common | 680 gp | - |
+| Plate Armor of Gleaming | XDMG | common | 766 gp | - |
+| Scribe's Pen | ERLW | common | 2,762 gp | - |
+| Silvered Butterfly Staff | XDMG | common | 510 gp | - |
+| Silvered Sniper Rifle | XDMG | common | 2,993 gp | - |
+| Smoldering Half Plate Armor | XDMG | common | 688 gp | - |
+| Smoldering Plate Armor | XDMG | common | 704 gp | - |
+| Staff of Birdcalls | XDMG | common | 2,133 gp | - |
+| Staff of Flowers | XDMG | common | 2,133 gp | - |
+| Unbreakable Arrow | XGE | common | 38 gp | - |
+| Walloping Ammunition | XDMG | common | 24 gp | - |
+| Wand of Conducting | XDMG | common | 750 gp | - |
+| Wand of Pyrotechnics | XDMG | common | 1,550 gp | - |
+| Wand of Scowls | XGE | common | 750 gp | - |
+| Wand of Smiles | XGE | common | 750 gp | - |
+| Wyllow's Staff of Flowers | WDMM | common | 1,703 gp | - |
+| Monster Hunter's Butterfly Staff +3 | MonstersOfDrakkenheim | legendary | 161,000 gp | - |
+| Monster Hunter's Weapon +3 | MonstersOfDrakkenheim | legendary | 160,905 gp | - |
+| Potion of Dragon's Majesty | FTD | legendary | 11,228 gp | - |
+| Potion of Giant Size | SKT | legendary | 10,980 gp | - |
+| Acid | XPHB | mundane | 25 gp | - |
 | Adamantine Bar | WDH | mundane | 1,000 gp | - |
+| Aerenal Trinket | ERLW | mundane | 1 gp | - |
 | Airship | XPHB | mundane | 40,000 gp | - |
 | Alchemist's Fire | XPHB | mundane | 50 gp | - |
 | Alchemist's Supplies | XPHB | mundane | 50 gp | - |
 | Ale (gallon) | PHB | mundane | 0 gp | - |
 | Ale (mug) | XPHB | mundane | 0 gp | - |
 | Antitoxin | XPHB | mundane | 50 gp | - |
+| Arcane Focus | XPHB | mundane | 1 gp | - |
+| Argonnessen Trinket | ERLW | mundane | 1 gp | - |
 | Arrow | XPHB | mundane | 0 gp | - |
 | Arrows (20) | XPHB | mundane | 1 gp | - |
+| Artisan's Tools | XPHB | mundane | 1 gp | - |
 | Assassin's Blood | XDMG | mundane | 150 gp | - |
 | Axe Beak | FRHoF | mundane | 50 gp | - |
-| Backpack | XPHB | mundane | 2 gp | - |
-| Ball Bearing | PHB | mundane | 0 gp | - |
-| Ball Bearings | XPHB | mundane | 1 gp | - |
-| Bandore | FRHoF | mundane | 65 gp | - |
-| Barrel | XPHB | mundane | 2 gp | - |
-| Basic Fishing Equipment | AAG | mundane | 0 gp | - |
-| Basic Poison | XPHB | mundane | 100 gp | - |
-| Basket | XPHB | mundane | 0 gp | - |
-| Bedroll | XPHB | mundane | 1 gp | - |
-| Bell | XPHB | mundane | 1 gp | - |
-| Bit and bridle | PHB | mundane | 2 gp | - |
-| Black Sap | EGW | mundane | 300 gp | - |
-| Blanket | XPHB | mundane | 0 gp | - |
-| Blight Ichor | EGW | mundane | 200 gp | - |
-| Block and Tackle | XPHB | mundane | 1 gp | - |
-| Bolt | XPHB | mundane | 0 gp | - |
-| Bolts (20) | XPHB | mundane | 1 gp | - |
-| Bomb | XDMG | mundane | 100 gp | - |
-| Bombard | AAG | mundane | 50,000 gp | - |
-| Bread (loaf) | XPHB | mundane | 0 gp | - |
-| Breastplate | XPHB | mundane | 400 gp | - |
-| Breastplate Barding | PHB | mundane | 1,600 gp | - |
-| Bucket | XPHB | mundane | 0 gp | - |
-| Burnt Othur Fumes | XDMG | mundane | 500 gp | - |
-| Caltrop | PHB | mundane | 0 gp | - |
-| Caltrops | XPHB | mundane | 1 gp | - |
+| Bagpipes | XPHB | mundane | 30 gp | - |

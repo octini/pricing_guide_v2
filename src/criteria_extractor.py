@@ -73,7 +73,8 @@ def extract_structured_criteria(item: dict) -> dict:
     
     # Type-derived flags
     item_type = item.get("type", "")
-    c["is_ammunition"] = item_type == "A"
+    # Check for ammo flag in raw JSON (for generic variants like "+1 Ammunition")
+    c["is_ammunition"] = item_type == "A" or item.get("ammo", False)
     c["is_shield"] = item_type == "S"
     
     # Stealth/strength

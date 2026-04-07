@@ -168,7 +168,7 @@ def test_damage_resistance():
 
 
 def test_potion_consumable_discount():
-    """Potions (type 'P') get 0.40× discount. Rare potion: 4000 * 0.40 = 1600."""
+    """Potions (type 'P') get rarity-tiered discount. Rare potion: 4000 * 0.15 = 600."""
     c = make_criteria(rarity="rare", item_type_code="P")
     price = calculate_price(c)
-    assert price == pytest.approx(4000 * 0.40, rel=0.01)
+    assert price == pytest.approx(4000 * 0.15, rel=0.01)
