@@ -94,3 +94,118 @@ def extract_structured_criteria(item: dict) -> dict:
     c["item_type_code"] = item_type
     
     return c
+
+def _avg_dice(dice_str: str) -> float:
+    """Compute average of a dice expression like '2d4+2'."""
+    total = 0.0
+    # Match NdM parts
+    for m in re.finditer(r'(\d+)d(\d+)', dice_str):
+        n, d = int(m.group(1)), int(m.group(2))
+        total += n * (d + 1) / 2
+    # Add flat modifiers
+    for m in re.finditer(r'[+](\d+)(?!d)', dice_str):
+        total += int(m.group(1))
+    return total
+
+def extract_prose_criteria(description: str) -> dict:
+    """Extract pricing-relevant criteria from prose item description."""
+    c = {
+        "flight_full": False,
+        "flight_limited": False,
+        "darkvision_feet": 0,
+        "truesight": False,
+        "blindsight": False,
+        "tremorsense": False,
+        "teleportation": False,
+        "invisibility_atwill": False,
+        "healing_daily_hp": 0,
+        "healing_consumable_avg": 0.0,
+        "healing_permanent_hp": 0,
+        "tome_manual_boost": False,
+        "concentration_free": False,
+        "crit_immunity": False,
+        "wish_effect": False,
+        "spell_absorption": False,
+        "stealth_advantage": False,
+        "legendary_resistance": False,
+        "swim_speed": False,
+        "climb_speed": False,
+        "burrow_speed": False,
+    }
+    
+    desc = description.lower()
+    
+    # Flight detection
+    has_flying = "flying speed" in desc or "fly speed" in desc or "you can" in desc and "fly" in desc
+    if has_flying:
+        limited_keywords = ["minute", "hour", "until you land", "limited", "short rest", "long rest", "until you attack", "concentration", "action to end", "up to"]
+        is_limited = any(k in desc for k in limited_keywords)
+        if is_limited:
+            c["flight_limited"] = True
+        else:
+            c["flight_full"] = True
+    
+    # Darkvision
+    dv_match = re.search(r'darkvision.*?(\d+)\s*feet', desc)
+    if dv_match:
+        c["darkvision_feet"] = int(dv_match.group(1))
+    
+    # Truesight / blindsight / tremorsense
+    c["truesight"] = "truesight" in desc
+    c["blindsight"] = "blindsight" in desc
+    c["tremorsense"] = "tremorsense" in desc
+    
+    # Teleportation
+    c["teleportation"] = bool(re.search(r'\bteleport\b', desc))
+    
+    # Invisibility (at-will, not spell-based)
+    if re.search(r'\binvisible\b', desc) and re.search(r'\b(action|bonus action)\b', desc):
+        if "spell" not in desc[:desc.find("invisible")] if "invisible" in desc else True:
+            c["invisibility_atwill"] = True
+    
+    # Healing: consumable
+    heal_match = re.search(r'regain\s+(\d+d?\d*[+\d]*)\s+hit points', desc)
+    if heal_match:
+        c["healing_consumable_avg"] = _avg_dice(heal_match.group(1))
+    
+    # Healing: daily
+    daily_heal = re.search(r'(?:at dawn|each dawn|per day|once per day).{0,100}regain\s+(\d+)\s+hit points', desc)
+    if not daily_heal:
+        daily_heal = re.search(r'regain\s+(\d+)\s+hit points.{0,50}(?:at dawn|each dawn|per day)', desc)
+    if daily_heal:
+        c["healing_daily_hp"] = int(daily_heal.group(1))
+    
+    # Tome/Manual permanent boost
+    c["tome_manual_boost"] = bool(
+        re.search(r'(manual|tome).{0,200}(score increases|score increase)', desc)
+    )
+    
+    # Concentration-free
+    c["concentration_free"] = "doesn't require concentration" in desc or "does not require concentration" in desc
+    
+    # Critical hit immunity
+    c["crit_immunity"] = bool(
+        re.search(r'critical hits?.{0,50}(treated as|normal hit)', desc)
+    )
+    
+    # Wish effect
+    c["wish_effect"] = bool(re.search(r'\bwish\b', desc))
+    
+    # Spell absorption
+    c["spell_absorption"] = bool(re.search(r'(absorb|negate).{0,30}spell', desc))
+    
+    # Stealth advantage
+    c["stealth_advantage"] = bool(
+        re.search(r'advantage.{0,30}(stealth|dexterity \(stealth\))', desc) or
+        re.search(r'stealth.{0,30}advantage', desc)
+    )
+    
+    # Legendary resistance
+    c["legendary_resistance"] = "legendary resistance" in desc
+    
+    # Speed types
+    c["swim_speed"] = bool(re.search(r'\bswim(?:ming)? speed\b', desc))
+    c["climb_speed"] = bool(re.search(r'\bclimb(?:ing)? speed\b', desc))
+    c["burrow_speed"] = bool(re.search(r'\bburrow(?:ing)? speed\b', desc))
+    
+    return c
