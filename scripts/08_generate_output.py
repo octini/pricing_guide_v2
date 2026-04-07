@@ -2,6 +2,7 @@
 """Phase 8: Generate Excel and CSV output"""
 
 import sys
+import csv
 import pandas as pd
 import openpyxl
 from openpyxl.styles import PatternFill, Font, Alignment
@@ -75,7 +76,7 @@ def main():
 
     OUTPUT_CSV.parent.mkdir(parents=True, exist_ok=True)
     csv_df = out_df.drop(columns=['URL', 'Is Outlier'])
-    csv_df.to_csv(OUTPUT_CSV, index=False)
+    csv_df.to_csv(OUTPUT_CSV, index=False, quoting=csv.QUOTE_ALL)
     print(f'Saved CSV to {OUTPUT_CSV}')
 
     wb = openpyxl.Workbook()

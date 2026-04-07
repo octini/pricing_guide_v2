@@ -49,6 +49,9 @@ FEATURE_COLS = [
 
 RARITY_DUMMIES = ["common", "uncommon", "rare", "very_rare", "legendary", "artifact"]
 
+# Rarities that should NOT use ML blending (model trained on magic items)
+NON_MAGIC_RARITIES = {"mundane", "unknown", "varies"}
+
 # Top item type codes (normalized, stripping source suffix after '|')
 # Chosen for density in training set: covers majority of matched items
 ITEM_TYPE_DUMMIES = ["M", "P", "SCF", "MA", "HA", "RG", "SC", "WD", "LA", "RD", "S", "INS", "A"]
@@ -119,6 +122,9 @@ def main():
     # Blend: rule price gets 40% weight, ML gets 60% for matched items
     # For unmatched items, ML with item_type features is more discriminating
     def blend_price(row):
+        # Don't blend non-magic items with a model trained on magic items
+        if row.get("rarity", "") in NON_MAGIC_RARITIES:
+            return row["rule_price"]
         if pd.notna(row["amalgamated_price"]):
             # Has ground truth: blend rule and ML
             return 0.4 * row["rule_price"] + 0.6 * row["ml_price"]
@@ -127,6 +133,9 @@ def main():
             return 0.35 * row["rule_price"] + 0.65 * row["ml_price"]
 
     df["final_price"] = df.apply(blend_price, axis=1)
+
+    # Apply minimum price floor (1 copper piece)
+    df["final_price"] = df["final_price"].clip(lower=0.01)
 
     # Calculate final R² against amalgamated
     matched = df[df["amalgamated_price"].notna()].copy()
