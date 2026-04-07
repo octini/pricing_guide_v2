@@ -18,9 +18,12 @@ from src.utils import normalize_item_name
 
 PROJECT_ROOT = Path(__file__).parent.parent
 
-DSA_CSV = PROJECT_ROOT / "DSA.csv"
+DSA_XLSX = PROJECT_ROOT / "DSA.xlsx"
 MSRP_CSV = PROJECT_ROOT / "MSRP.csv"
 DMPG_PDF = PROJECT_ROOT / "DMPG.pdf"
+
+# Sheets in DSA.xlsx that contain item pricing data
+DSA_SHEETS = ["DMG 2024", "DMG 2014", "XGTE", "TCoE"]
 
 OUT_DIR = PROJECT_ROOT / "data" / "raw"
 
@@ -67,33 +70,51 @@ def clean_dmpg_name(raw_name: str) -> str:
 
 
 def load_dsa() -> pd.DataFrame:
-    """Load DSA price guide from DSA.csv in project root.
+    """Load DSA price guide from DSA.xlsx, combining all source book sheets.
 
-    DSA.csv columns: Item Name, Rarity, Attunement, Cost (gp), ...
+    DSA.xlsx has sheets: DMG 2024, DMG 2014, XGTE, TCoE
+    Each has columns: Item Name, Cost (gp)
+    Items appearing in multiple sheets are averaged.
     """
-    print(f"Loading DSA from {DSA_CSV}...")
-    if not DSA_CSV.exists():
-        print(f"  ERROR: DSA.csv not found at {DSA_CSV}")
+    print(f"Loading DSA from {DSA_XLSX}...")
+    if not DSA_XLSX.exists():
+        print(f"  ERROR: DSA.xlsx not found at {DSA_XLSX}")
         return pd.DataFrame(columns=["item_name", "price_gp", "normalized_name", "source"])
 
-    df = pd.read_csv(DSA_CSV)
-    # Normalise column names (strip whitespace)
-    df.columns = df.columns.str.strip()
+    all_rows = []
+    for sheet in DSA_SHEETS:
+        try:
+            df = pd.read_excel(DSA_XLSX, sheet_name=sheet)
+            df.columns = df.columns.str.strip()
+            if "Item Name" not in df.columns or "Cost (gp)" not in df.columns:
+                print(f"  WARNING: Sheet '{sheet}' missing expected columns, skipping")
+                continue
+            df = df[["Item Name", "Cost (gp)"]].copy()
+            df.columns = ["item_name", "price_gp"]
+            df["price_gp"] = pd.to_numeric(df["price_gp"], errors="coerce")
+            df = df.dropna(subset=["item_name", "price_gp"])
+            df = df[df["item_name"].astype(str).str.strip() != ""]
+            df = df[df["price_gp"] > 0]
+            df["item_name"] = df["item_name"].astype(str).str.strip()
+            all_rows.append(df)
+            print(f"  Sheet '{sheet}': {len(df)} items")
+        except Exception as e:
+            print(f"  WARNING: Could not read sheet '{sheet}': {e}")
 
-    if "Item Name" not in df.columns or "Cost (gp)" not in df.columns:
-        print(f"  ERROR: Expected 'Item Name' and 'Cost (gp)' columns. Got: {list(df.columns)}")
+    if not all_rows:
         return pd.DataFrame(columns=["item_name", "price_gp", "normalized_name", "source"])
 
-    df = df[["Item Name", "Cost (gp)"]].copy()
-    df.columns = ["item_name", "price_gp"]
-    df["price_gp"] = df["price_gp"].apply(_parse_gp)
-    df = df.dropna(subset=["price_gp"])
-    df = df[df["price_gp"] > 0]
-    df["normalized_name"] = df["item_name"].apply(normalize_item_name)
-    df["source"] = "DSA"
-    df = df[["item_name", "price_gp", "normalized_name", "source"]]
-    print(f"  DSA: {len(df)} items, price range: {df['price_gp'].min():.0f} - {df['price_gp'].max():.0f} gp")
-    return df
+    combined = pd.concat(all_rows, ignore_index=True)
+    # De-duplicate: items in multiple sheets → average price
+    deduped = (
+        combined.groupby("item_name", as_index=False)["price_gp"]
+        .mean()
+    )
+    deduped["normalized_name"] = deduped["item_name"].apply(normalize_item_name)
+    deduped["source"] = "DSA"
+    deduped = deduped[["item_name", "price_gp", "normalized_name", "source"]]
+    print(f"  DSA total: {len(deduped)} unique items (averaged across sheets), price range: {deduped['price_gp'].min():.0f} - {deduped['price_gp'].max():.0f} gp")
+    return deduped
 
 
 def load_msrp() -> pd.DataFrame:
