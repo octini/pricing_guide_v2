@@ -1,0 +1,639 @@
+item_name,price_gp,normalized_name,source
+Perfume of Bewitching Common,75.0,perfume of bewitching common,DMPG
+Potion of Climbing Common,30.0,potion of climbing common,DMPG
+Potion of Healing (Common) Common,50.0,potion of healing common common,DMPG
+Bottled Breath Uncommon,350.0,bottled breath uncommon,DMPG
+Oil of Slipperiness Uncommon,250.0,oil of slipperiness uncommon,DMPG
+Philter of Love Uncommon,150.0,philter of love uncommon,DMPG
+Potion of Animal Friendship Uncommon,200.0,potion of animal friendship uncommon,DMPG
+Potion of Fire Breath Uncommon,350.0,potion of fire breath uncommon,DMPG
+Potion of Giant Strength (Hill) Uncommon,125.0,potion of giant strength hill uncommon,DMPG
+Potion of Growth Uncommon,300.0,potion of growth uncommon,DMPG
+Potion of Healing (Uncommon) Uncommon,300.0,potion of healing uncommon uncommon,DMPG
+Potion of Poison Uncommon,500.0,potion of poison uncommon,DMPG
+Potion of Resistance Uncommon,500.0,potion of resistance uncommon,DMPG
+Potion of Waterbreathing Uncommon,400.0,potion of waterbreathing uncommon,DMPG
+Elixir of Health Rare,2000.0,elixir of health rare,DMPG
+Oil of Etherealness Rare,2000.0,oil of etherealness rare,DMPG
+Potion of Aqueous Form Rare,1000.0,potion of aqueous form rare,DMPG
+Potion of Clairvoyance Rare,900.0,potion of clairvoyance rare,DMPG
+Potion of Diminution Rare,500.0,potion of diminution rare,DMPG
+Potion of Gaseous Form Rare,1500.0,potion of gaseous form rare,DMPG
+Potion of Giant Strength (Frost/Stone) Rare,650.0,potion of giant strength frost/stone rare,DMPG
+Potion of Giant Strength (Fire) Rare,1200.0,potion of giant strength fire rare,DMPG
+Potion of Healing (Rare) Rare,750.0,potion of healing rare rare,DMPG
+Potion of Heroism Rare,800.0,potion of heroism rare,DMPG
+Potion of Invulnerability Rare,1500.0,potion of invulnerability rare,DMPG
+Potion of Maximum Power Rare,2000.0,potion of maximum power rare,DMPG
+Potion of Mind Control (beast) Rare,1600.0,potion of mind control beast rare,DMPG
+Potion of Mind Control (humanoid) Rare,2500.0,potion of mind control humanoid rare,DMPG
+Potion of Mind Reading Rare,1100.0,potion of mind reading rare,DMPG
+Oil of Sharpness Very Rare,2200.0,oil of sharpness very rare,DMPG
+Potion of Flying Very Rare,2500.0,potion of flying very rare,DMPG
+Potion of Giant Strength (Cloud) Very Rare,1800.0,potion of giant strength cloud very rare,DMPG
+Potion of Healing (Very Rare) Very Rare,1500.0,potion of healing very rare very rare,DMPG
+Potion of Invisibility Very Rare,2000.0,potion of invisibility very rare,DMPG
+Potion of Longevity Very Rare,3000.0,potion of longevity very rare,DMPG
+Potion of Mind Control (monster) Very Rare,6000.0,potion of mind control monster very rare,DMPG
+Potion of Possibility Very Rare,1900.0,potion of possibility very rare,DMPG
+Potion of Speed Very Rare,2000.0,potion of speed very rare,DMPG
+Potion of Vitality Very Rare,1800.0,potion of vitality very rare,DMPG
+Potion of Giant Size Legendary,11000.0,potion of giant size legendary,DMPG
+Potion of Giant Strength (Storm) Legendary,8000.0,potion of giant strength storm legendary,DMPG
+Spell Scroll or Tattoo (Cantrip) No 13 +5 Common,15.0,spell scroll or tattoo cantrip no 13 +5 common,DMPG
+Spell Scroll or Tattoo (1st Level) No 13 +5 Common,25.0,spell scroll or tattoo 1st level no 13 +5 common,DMPG
+Spell Scroll or Tattoo (2nd Level) No 13 +5 Uncommon,150.0,spell scroll or tattoo 2nd level no 13 +5 uncommon,DMPG
+Spell Scroll or Tattoo (3rd Level) No 15 +7 Uncommon,400.0,spell scroll or tattoo 3rd level no 15 +7 uncommon,DMPG
+Spell Scroll or Tattoo (4th Level) No 15 +7 Rare,800.0,spell scroll or tattoo 4th level no 15 +7 rare,DMPG
+Spell Scroll or Tattoo (5th Level) No 17 +9 Rare,1500.0,spell scroll or tattoo 5th level no 17 +9 rare,DMPG
+Scroll of Protection No — — Rare,3500.0,scroll of protection no — — rare,DMPG
+Spell Scroll (6th Level) No 17 +9 Very Rare,2000.0,spell scroll 6th level no 17 +9 very rare,DMPG
+Spell Scroll (7th Level) No 18 +10 Very Rare,3500.0,spell scroll 7th level no 18 +10 very rare,DMPG
+Spell Scroll (8th Level) No 18 +10 Very Rare,5000.0,spell scroll 8th level no 18 +10 very rare,DMPG
+Spell Scroll (9th Level) No 19 +11 Legendary,20000.0,spell scroll 9th level no 19 +11 legendary,DMPG
+Scroll of Tarrasque Summoning No — — Legendary,150000.0,scroll of tarrasque summoning no — — legendary,DMPG
+Scroll of the Comet No 20 — Legendary,250000.0,scroll of the comet no 20 — legendary,DMPG
+Spell Gem (Cantrip) Yes (optional) 13 +5 Uncommon,150.0,spell gem cantrip yes optional 13 +5 uncommon,DMPG
+Spell Gem (1st Level) Yes (optional) 13 +5 Uncommon,350.0,spell gem 1st level yes optional 13 +5 uncommon,DMPG
+Spell Gem (2nd Level) Yes (optional) 13 +5 Rare,1500.0,spell gem 2nd level yes optional 13 +5 rare,DMPG
+Spell Gem (3rd Level) Yes (optional) 15 +7 Rare,4000.0,spell gem 3rd level yes optional 15 +7 rare,DMPG
+Spell Gem (4th Level) Yes (optional) 15 +7 Very Rare,8000.0,spell gem 4th level yes optional 15 +7 very rare,DMPG
+Spell Gem (5th Level) Yes (optional) 17 +9 Very Rare,15000.0,spell gem 5th level yes optional 17 +9 very rare,DMPG
+Spell Gem (6th Level) Yes (optional) 17 +9 Very Rare,20000.0,spell gem 6th level yes optional 17 +9 very rare,DMPG
+Spell Gem (7th Level) Yes (optional) 18 +10 Legendary,35000.0,spell gem 7th level yes optional 18 +10 legendary,DMPG
+Spell Gem (8th Level) Yes (optional) 18 +10 Legendary,51000.0,spell gem 8th level yes optional 18 +10 legendary,DMPG
+Spell Gem (9th Level) Yes (optional) 19 +11 Legendary,78000.0,spell gem 9th level yes optional 19 +11 legendary,DMPG
+Armblade (any one-handed melee weapon) Yes (warforged) Common,100.0,armblade any one-handed melee weapon yes warforged common,DMPG
+Veteran's Cane No Common,50.0,veterans cane no common,DMPG
++1 Weapon (any) No Uncommon,500.0,weapon any no uncommon +1,DMPG
+Blood Spear Yes Uncommon,375.0,blood spear yes uncommon,DMPG
+Hellfire Weapon (any weapon) No Uncommon,500.0,hellfire weapon any weapon no uncommon,DMPG
+Ild Rune Weapon (any weapon) No Uncommon,400.0,ild rune weapon any weapon no uncommon,DMPG
+Javelin of Lightning No Uncommon,350.0,javelin of lightning no uncommon,DMPG
++1 Moon Sickle Yes (druid/ranger) Uncommon,1500.0,moon sickle yes druid/ranger uncommon +1,DMPG
+Seeker Dart No Uncommon,100.0,seeker dart no uncommon,DMPG
+Shatterspike (longsword) Yes Uncommon,550.0,shatterspike longsword yes uncommon,DMPG
+No Uncommon,500.0,no uncommon,DMPG
+Storm Boomerang No Uncommon,150.0,storm boomerang no uncommon,DMPG
+Sword of Vengeance (any sword) Yes Uncommon,400.0,sword of vengeance any sword yes uncommon,DMPG
+Trident of Fish Command Yes Uncommon,300.0,trident of fish command yes uncommon,DMPG
+Weapon of Warning Yes Uncommon,400.0,weapon of warning yes uncommon,DMPG
++2 Weapon (any) No Rare,2500.0,weapon any no rare +2,DMPG
+Acheron Blade (any sword) Yes Rare,900.0,acheron blade any sword yes rare,DMPG
+Berserker Axe (cursed) Yes Rare,2000.0,berserker axe cursed yes rare,DMPG
+Corpse Slayer (any weapon) Yes Rare,1300.0,corpse slayer any weapon yes rare,DMPG
+Dagger of Venom No Rare,1500.0,dagger of venom no rare,DMPG
+Devotee's Censer Yes (cleric/paladin) Rare,4500.0,devotees censer yes cleric/paladin rare,DMPG
+Dragon Slayer (any sword) No Rare,4800.0,dragon slayer any sword no rare,DMPG
+Dragontooth Dagger No Rare,5000.0,dragontooth dagger no rare,DMPG
+Flame Tongue (any sword) Yes Rare,5000.0,flame tongue any sword yes rare,DMPG
+Giant Slayer (any axe or sword) No Rare,4600.0,giant slayer any axe or sword no rare,DMPG
+Mace of Disruption Yes Rare,1750.0,mace of disruption yes rare,DMPG
+Mace of Smiting No Rare,2000.0,mace of smiting no rare,DMPG
+Mace of Terror Yes Rare,3500.0,mace of terror yes rare,DMPG
++2 Moon Sickle Yes (druid/ranger) Rare,4000.0,moon sickle yes druid/ranger rare +2,DMPG
+Needle of Mending (dagger) Yes Rare,1400.0,needle of mending dagger yes rare,DMPG
+Sun Blade (longsword) Yes Rare,2000.0,sun blade longsword yes rare,DMPG
+Sunforger (warhammer) Yes Rare,4600.0,sunforger warhammer yes rare,DMPG
+Sword of Life Stealing (any sword) Yes Rare,2200.0,sword of life stealing any sword yes rare,DMPG
+Sword of Wounding (any sword) Yes Rare,1200.0,sword of wounding any sword yes rare,DMPG
+Two-Birds Sling No Rare,4000.0,two-birds sling no rare,DMPG
+Vicious Weapon (any weapon) No Rare,4000.0,vicious weapon any weapon no rare,DMPG
+Weapon of Certain Death (any weapon) No Rare,1500.0,weapon of certain death any weapon no rare,DMPG
++3 Weapon (any) No Very Rare,15000.0,weapon any no very rare +3,DMPG
+Bloodaxe (greataxe) Yes Very Rare,27000.0,bloodaxe greataxe yes very rare,DMPG
+Dancing Sword (any sword) Yes Very Rare,10000.0,dancing sword any sword yes very rare,DMPG
+Duskcrusher (warhammer) Yes Very Rare,8500.0,duskcrusher warhammer yes very rare,DMPG
+Dwarven Thrower (warhammer) Yes Very Rare,25000.0,dwarven thrower warhammer yes very rare,DMPG
+Dyrrn's Tentacle Whip Yes Very Rare,17000.0,dyrrns tentacle whip yes very rare,DMPG
+Frost Brand (any sword) Yes Very Rare,11000.0,frost brand any sword yes very rare,DMPG
++3 Moon Sickle Yes (druid/ranger) Very Rare,16500.0,moon sickle yes druid/ranger very rare +3,DMPG
+Nine Lives Stealer (any sword) Yes Very Rare,36000.0,nine lives stealer any sword yes very rare,DMPG
+Oathbow (longbow) Yes Very Rare,13000.0,oathbow longbow yes very rare,DMPG
+Scimitar of Speed Yes Very Rare,7500.0,scimitar of speed yes very rare,DMPG
+Spear of Backbiting (spear or javelin) Yes Very Rare,6500.0,spear of backbiting spear or javelin yes very rare,DMPG
+Sword of the Paruns (longsword) Yes Very Rare,16000.0,sword of the paruns longsword yes very rare,DMPG
+Sword of Sharpness (slashing swords) Yes Very Rare,42000.0,sword of sharpness slashing swords yes very rare,DMPG
+Azuredge (battleaxe) Yes Legendary,53000.0,azuredge battleaxe yes legendary,DMPG
+Bookmark (dagger) Yes Legendary,30000.0,bookmark dagger yes legendary,DMPG
+Dawnbringer (longsword) Yes (non-evil) Legendary,57000.0,dawnbringer longsword yes non-evil legendary,DMPG
+Defender (any sword) Yes Legendary,55000.0,defender any sword yes legendary,DMPG
+Drown (trident) Yes Legendary,66000.0,drown trident yes legendary,DMPG
+Fane-Eater Yes (evil cleric/paladin) Legendary,55000.0,fane-eater yes evil cleric/paladin legendary,DMPG
+Gurt's Greataxe Yes Legendary,67000.0,gurts greataxe yes legendary,DMPG
+Hammer of Thunderbolts (maul) Yes Legendary,51000.0,hammer of thunderbolts maul yes legendary,DMPG
+Hazirawn (greatsword) Yes Legendary,66000.0,hazirawn greatsword yes legendary,DMPG
+Holy Avenger (any sword) Yes (paladin) Legendary,65000.0,holy avenger any sword yes paladin legendary,DMPG
+Ironfang (war pick) Yes Legendary,76000.0,ironfang war pick yes legendary,DMPG
+Korolnor Scepter Yes Legendary,63000.0,korolnor scepter yes legendary,DMPG
+Luck Blade (any sword) Yes Legendary,100000.0,luck blade any sword yes legendary,DMPG
+Matalotok (warhammer) Yes Legendary,70000.0,matalotok warhammer yes legendary,DMPG
+Orcsplitter (greataxe) Yes (good dwarf/fighter/paladin) Legendary,60000.0,orcsplitter greataxe yes good dwarf/fighter/paladin legendary,DMPG
+Rakdos Riteknife (dagger) Yes Legendary,60000.0,rakdos riteknife dagger yes legendary,DMPG
+Sunsword (longsword) Yes Legendary,55000.0,sunsword longsword yes legendary,DMPG
+Sword of Answering (longsword) Yes (same alignment) Legendary,51000.0,sword of answering longsword yes same alignment legendary,DMPG
+Tinderstrike (dagger) Yes Legendary,71000.0,tinderstrike dagger yes legendary,DMPG
+Vorpal Sword (slashing swords) Yes Legendary,75000.0,vorpal sword slashing swords yes legendary,DMPG
+Waythe (greatsword) Yes Legendary,62000.0,waythe greatsword yes legendary,DMPG
+Windvane (spear) Yes Legendary,68000.0,windvane spear yes legendary,DMPG
+Unbreakable Arrow (arrow) Common,25.0,unbreakable arrow arrow common,DMPG
+Walloping Ammunition (any) Common,30.0,walloping ammunition any common,DMPG
++1 Ammunition (any) Uncommon,50.0,ammunition any uncommon +1,DMPG
++2 Ammunition (any) Rare,250.0,ammunition any rare +2,DMPG
++3 Ammunition (any) Very Rare,1250.0,ammunition any very rare +3,DMPG
+Arrow of Slaying (any) Very Rare,1000.0,arrow of slaying any very rare,DMPG
+Sling Bullets of Althemone Very Rare,5500.0,sling bullets of althemone very rare,DMPG
+Shield of Expression No Common,50.0,shield of expression no common,DMPG
++1 Shield No Uncommon,450.0,shield no uncommon +1,DMPG
+Sentinel Shield No Uncommon,300.0,sentinel shield no uncommon,DMPG
++2 Shield No Rare,4000.0,shield no rare +2,DMPG
+Arrow-Catching Shield Yes Rare,4500.0,arrow-catching shield yes rare,DMPG
+Battering Shield Yes Rare,850.0,battering shield yes rare,DMPG
+Pariah's Shield Yes Rare,1500.0,pariahs shield yes rare,DMPG
+Shield of Missile Attraction Yes Rare,1000.0,shield of missile attraction yes rare,DMPG
+Skold Rune Shield Yes Rare,2600.0,skold rune shield yes rare,DMPG
+Stein Rune Shield Yes Rare,4600.0,stein rune shield yes rare,DMPG
++3 Shield No Very Rare,22000.0,shield no very rare +3,DMPG
+Animated Shield Yes Very Rare,6000.0,animated shield yes very rare,DMPG
+Spellguard Shield Yes Very Rare,36000.0,spellguard shield yes very rare,DMPG
+Shield of the Hidden Lord Yes Legendary,86000.0,shield of the hidden lord yes legendary,DMPG
+"Vind Rune Armor (light, medium, or heavy) Yes Uncommon",300.0,vind rune armor light medium or heavy yes uncommon,DMPG
+"Ild Rune Armor (light, medium, or heavy) Yes Rare",3000.0,ild rune armor light medium or heavy yes rare,DMPG
+Scorpion Armor (plate) Yes Rare,2100.0,scorpion armor plate yes rare,DMPG
+Hunter's Coat (leather) Yes Very Rare,5000.0,hunters coat leather yes very rare,DMPG
+Last Stand Armor (any armor) No Very Rare,6500.0,last stand armor any armor no very rare,DMPG
+Living Armor Yes Very Rare,9500.0,living armor yes very rare,DMPG
+Obsidian Flint Dragon Plate No Legendary,27000.0,obsidian flint dragon plate no legendary,DMPG
+Immovable Rod No Uncommon,500.0,immovable rod no uncommon,DMPG
+Rod of the Pact Keeper (+1) Yes Uncommon,400.0,rod of the pact keeper +1 yes uncommon,DMPG
+Rod of Retribution Yes Uncommon,250.0,rod of retribution yes uncommon,DMPG
+Rod of Rulership Yes Rare,3600.0,rod of rulership yes rare,DMPG
+Rod of the Pact Keeper (+2) Yes Rare,4000.0,rod of the pact keeper +2 yes rare,DMPG
+Rod of the Vonindod Yes Rare,3400.0,rod of the vonindod yes rare,DMPG
+Tentacle Rod Yes Rare,2000.0,tentacle rod yes rare,DMPG
+Rod of Absorption Yes Very Rare,48000.0,rod of absorption yes very rare,DMPG
+Rod of Alertness Yes Very Rare,11000.0,rod of alertness yes very rare,DMPG
+Rod of Security No Very Rare,45000.0,rod of security no very rare,DMPG
+Rod of the Pact Keeper (+3) Yes Very Rare,14000.0,rod of the pact keeper +3 yes very rare,DMPG
+Rod of Lordly Might Yes Legendary,70000.0,rod of lordly might yes legendary,DMPG
+Rod of Resurrection Yes Legendary,125000.0,rod of resurrection yes legendary,DMPG
+Imbued Wood Focus Yes Common,75.0,imbued wood focus yes common,DMPG
+Wand of Conducting No Common,90.0,wand of conducting no common,DMPG
+Wand of Pyrotechnics No Common,65.0,wand of pyrotechnics no common,DMPG
+Wand of Scowls No Common,60.0,wand of scowls no common,DMPG
+Wand of Smiles No Common,60.0,wand of smiles no common,DMPG
++1 Wand of the War Mage Yes Uncommon,400.0,wand of the war mage yes uncommon +1,DMPG
+Wand of Entangle Yes (spellcaster) Uncommon,300.0,wand of entangle yes spellcaster uncommon,DMPG
+Wand of Magic Detection No Uncommon,150.0,wand of magic detection no uncommon,DMPG
+Wand of Magic Missiles No Uncommon,300.0,wand of magic missiles no uncommon,DMPG
+Wand of Secrets No Uncommon,125.0,wand of secrets no uncommon,DMPG
+Wand of Web Yes Uncommon,250.0,wand of web yes uncommon,DMPG
++2 Wand of the War Mage Yes Rare,4000.0,wand of the war mage yes rare +2,DMPG
+Wand of Binding Yes Rare,2500.0,wand of binding yes rare,DMPG
+Wand of Enemy Detection Yes Rare,3750.0,wand of enemy detection yes rare,DMPG
+Wand of Fear Yes Rare,3250.0,wand of fear yes rare,DMPG
+Wand of Fireballs Yes Rare,4800.0,wand of fireballs yes rare,DMPG
+Wand of Lightning Bolts Yes Rare,4800.0,wand of lightning bolts yes rare,DMPG
+Wand of Paralysis Yes Rare,4250.0,wand of paralysis yes rare,DMPG
+Wand of Viscid Globs Yes Rare,900.0,wand of viscid globs yes rare,DMPG
+Wand of Winter Yes Rare,4100.0,wand of winter yes rare,DMPG
+Wand of Wonder Yes Rare,2250.0,wand of wonder yes rare,DMPG
++3 Wand of the War Mage Yes Very Rare,14000.0,wand of the war mage yes very rare +3,DMPG
+Wand of Polymorph Yes Very Rare,21000.0,wand of polymorph yes very rare,DMPG
+Staff of Adornment No Common,50.0,staff of adornment no common,DMPG
+Staff of Birdcalls No Common,70.0,staff of birdcalls no common,DMPG
+Staff of Flowers No Common,50.0,staff of flowers no common,DMPG
+Skyblinder Staff Yes Uncommon,375.0,skyblinder staff yes uncommon,DMPG
+Staff of the Adder Yes Uncommon,350.0,staff of the adder yes uncommon,DMPG
+Staff of the Python Yes Uncommon,250.0,staff of the python yes uncommon,DMPG
+Gulthias Staff Yes Rare,2200.0,gulthias staff yes rare,DMPG
+Spider Staff Yes Rare,1750.0,spider staff yes rare,DMPG
+Staff of Charming Yes Rare,3750.0,staff of charming yes rare,DMPG
+Staff of Defense Yes Rare,3400.0,staff of defense yes rare,DMPG
+Staff of Healing Yes Rare,4800.0,staff of healing yes rare,DMPG
+Staff of Swarming Insects Yes Rare,4500.0,staff of swarming insects yes rare,DMPG
+Staff of the Ivory Claw Yes (spellcaster) Rare,1000.0,staff of the ivory claw yes spellcaster rare,DMPG
+Staff of the Woodlands Yes Rare,4500.0,staff of the woodlands yes rare,DMPG
+Staff of Withering Yes Rare,2100.0,staff of withering yes rare,DMPG
+Staff of Dunamancy Yes (wizard) Very Rare,27000.0,staff of dunamancy yes wizard very rare,DMPG
+Staff of Fire Yes Very Rare,18000.0,staff of fire yes very rare,DMPG
+Staff of Frost Yes Very Rare,18000.0,staff of frost yes very rare,DMPG
+Staff of Power Yes Very Rare,46000.0,staff of power yes very rare,DMPG
+Staff of Striking Yes Very Rare,36000.0,staff of striking yes very rare,DMPG
+Staff of Thunder and Lightning Yes Very Rare,30000.0,staff of thunder and lightning yes very rare,DMPG
+Voyager Staff Yes (spellcaster) Very Rare,10500.0,voyager staff yes spellcaster very rare,DMPG
+Blackstaff Yes (special) Legendary,72000.0,blackstaff yes special legendary,DMPG
+Dragonstaff of Anghairon Yes Legendary,50500.0,dragonstaff of anghairon yes legendary,DMPG
+Staff of the Magi Yes Legendary,98000.0,staff of the magi yes legendary,DMPG
+Guild Signet Yes Uncommon,350.0,guild signet yes uncommon,DMPG
+Ring of Jumping Yes Uncommon,250.0,ring of jumping yes uncommon,DMPG
+Ring of Mind Shielding Yes Uncommon,450.0,ring of mind shielding yes uncommon,DMPG
+Ring of Obscuring Yes Uncommon,150.0,ring of obscuring yes uncommon,DMPG
+Ring of Swimming No Uncommon,300.0,ring of swimming no uncommon,DMPG
+Ring of Truth Telling Yes Uncommon,150.0,ring of truth telling yes uncommon,DMPG
+Ring of Warmth Yes Uncommon,480.0,ring of warmth yes uncommon,DMPG
+Ring of Water Walking No Uncommon,500.0,ring of water walking no uncommon,DMPG
+Ring of Animal Influence No Rare,1000.0,ring of animal influence no rare,DMPG
+Ring of Evasion Yes Rare,4900.0,ring of evasion yes rare,DMPG
+Ring of Feather Falling Yes Rare,2200.0,ring of feather falling yes rare,DMPG
+Ring of Free Action Yes Rare,4500.0,ring of free action yes rare,DMPG
+Ring of Protection Yes Rare,3000.0,ring of protection yes rare,DMPG
+Ring of Resistance Yes Rare,3500.0,ring of resistance yes rare,DMPG
+Ring of Spell Storing Yes Rare,3600.0,ring of spell storing yes rare,DMPG
+Ring of Temporal Salvation Yes Rare,2250.0,ring of temporal salvation yes rare,DMPG
+Ring of the Ram Yes Rare,4000.0,ring of the ram yes rare,DMPG
+Ring of X-Ray Vision Yes Rare,3500.0,ring of x-ray vision yes rare,DMPG
+Ring of Elemental Command Yes Legendary,200000.0,ring of elemental command yes legendary,DMPG
+Ring of Invisibility Yes Legendary,75000.0,ring of invisibility yes legendary,DMPG
+Ring of Spell Turning Yes Legendary,66000.0,ring of spell turning yes legendary,DMPG
+Ring of Three Wishes No Legendary,97950.0,ring of three wishes no legendary,DMPG
+Ring of Regeneration Yes Very Rare,40000.0,ring of regeneration yes very rare,DMPG
+Ring of Shooting Stars Yes Very Rare,20000.0,ring of shooting stars yes very rare,DMPG
+Ring of Telekinesis Yes Very Rare,25000.0,ring of telekinesis yes very rare,DMPG
+Ring of Djinni Summoning Yes Legendary,125000.0,ring of djinni summoning yes legendary,DMPG
+Breathing Bubble No Common,50.0,breathing bubble no common,DMPG
+Dread Helm No Common,55.0,dread helm no common,DMPG
+Hat of Vermin No Common,65.0,hat of vermin no common,DMPG
+Hat of Wizardry Yes (wizard) Common,75.0,hat of wizardry yes wizard common,DMPG
+Cap of Water Breathing No Uncommon,450.0,cap of water breathing no uncommon,DMPG
+Circlet of Blasting No Uncommon,350.0,circlet of blasting no uncommon,DMPG
+Hat of Disguise Yes Uncommon,475.0,hat of disguise yes uncommon,DMPG
+Headband of Intellect Yes Uncommon,450.0,headband of intellect yes uncommon,DMPG
+Helm of Comprehending Languages No Uncommon,200.0,helm of comprehending languages no uncommon,DMPG
+Helm of Telepathy Yes Uncommon,300.0,helm of telepathy yes uncommon,DMPG
+Helm of Underwater Action Yes Uncommon,500.0,helm of underwater action yes uncommon,DMPG
+Spies' Murmur Yes Uncommon,475.0,spies murmur yes uncommon,DMPG
+Helm of Teleportation Yes Rare,4250.0,helm of teleportation yes rare,DMPG
+Helm of the Gods Yes Rare,1200.0,helm of the gods yes rare,DMPG
+Ioun Stone: Awareness Yes Rare,4000.0,ioun stone: awareness yes rare,DMPG
+Ioun Stone: Protection Yes Rare,3600.0,ioun stone: protection yes rare,DMPG
+Ioun Stone: Reserve Yes Rare,4500.0,ioun stone: reserve yes rare,DMPG
+Ioun Stone: Sustenance Yes Rare,3000.0,ioun stone: sustenance yes rare,DMPG
+Knave's Eye Patch Yes Rare,2000.0,knaves eye patch yes rare,DMPG
+Helm of Brilliance Yes Very Rare,32000.0,helm of brilliance yes very rare,DMPG
+Helm of Devil Command Yes (special) Very Rare,21500.0,helm of devil command yes special very rare,DMPG
+Ioun Stone: Absorption Yes Very Rare,20000.0,ioun stone: absorption yes very rare,DMPG
+Ioun Stone: Agility Yes Very Rare,8000.0,ioun stone: agility yes very rare,DMPG
+Ioun Stone: Fortitude Yes Very Rare,8000.0,ioun stone: fortitude yes very rare,DMPG
+Ioun Stone: Insight Yes Very Rare,8000.0,ioun stone: insight yes very rare,DMPG
+Ioun Stone: Intellect Yes Very Rare,8000.0,ioun stone: intellect yes very rare,DMPG
+Ioun Stone: Leadership Yes Very Rare,8000.0,ioun stone: leadership yes very rare,DMPG
+Peregrine Mask Yes Very Rare,6000.0,peregrine mask yes very rare,DMPG
+Ioun Stone: Strength Yes Very Rare,8000.0,ioun stone: strength yes very rare,DMPG
+Belashyrra's Beholder Crown Yes Legendary,51000.0,belashyrras beholder crown yes legendary,DMPG
+Ioun Stone: Greater Absorption Yes Legendary,60000.0,ioun stone: greater absorption yes legendary,DMPG
+Ioun Stone: Mastery Yes Legendary,60000.0,ioun stone: mastery yes legendary,DMPG
+Ioun Stone: Regeneration Yes Legendary,55000.0,ioun stone: regeneration yes legendary,DMPG
+Lost Crown of Besilmer Yes Legendary,23000.0,lost crown of besilmer yes legendary,DMPG
+Ersatz Eye Yes Common,75.0,ersatz eye yes common,DMPG
+Eyes of Charming Yes Uncommon,300.0,eyes of charming yes uncommon,DMPG
+Eyes of Minute Seeing No Uncommon,150.0,eyes of minute seeing no uncommon,DMPG
+Eyes of the Eagle Yes Uncommon,400.0,eyes of the eagle yes uncommon,DMPG
+Finder's Goggles Yes (Mark of Finding) Uncommon,500.0,finders goggles yes mark of finding uncommon,DMPG
+Goggles of Night No Uncommon,300.0,goggles of night no uncommon,DMPG
+Goggles of Object Reading Yes Uncommon,350.0,goggles of object reading yes uncommon,DMPG
+Mast of the Beast No Uncommon,200.0,mast of the beast no uncommon,DMPG
+Black Dragon Mask Yes Legendary,95000.0,black dragon mask yes legendary,DMPG
+Clockwork Amulet No Common,100.0,clockwork amulet no common,DMPG
+Dark Shard Amulet Yes (warlock) Common,75.0,dark shard amulet yes warlock common,DMPG
+Amulet of Proof Against Detection and Location Yes Uncommon,400.0,amulet of proof against detection and location yes uncommon,DMPG
++1 Amulet of the Devout Yes (cleric/paladin) Uncommon,425.0,amulet of the devout yes cleric/paladin uncommon +1,DMPG
+Amulet of the Drunkard No Uncommon,500.0,amulet of the drunkard no uncommon,DMPG
+Brooch of Shielding Yes Uncommon,375.0,brooch of shielding yes uncommon,DMPG
+Medallion of Thoughts Yes Uncommon,300.0,medallion of thoughts yes uncommon,DMPG
+Necklace of Adaptation Yes Uncommon,450.0,necklace of adaptation yes uncommon,DMPG
+Periapt of Health No Uncommon,250.0,periapt of health no uncommon,DMPG
+Periapt of Wound Closure Yes Uncommon,375.0,periapt of wound closure yes uncommon,DMPG
+Amulet of Health Yes Rare,4000.0,amulet of health yes rare,DMPG
+Amulet of Protection from Turning Yes Rare,3600.0,amulet of protection from turning yes rare,DMPG
++2 Amulet of the Devout Yes (cleric/paladin) Rare,4250.0,amulet of the devout yes cleric/paladin rare +2,DMPG
+Charm of Plant Command Yes Rare,1500.0,charm of plant command yes rare,DMPG
+Necklace of Fireballs No Rare,4350.0,necklace of fireballs no rare,DMPG
+Necklace of Prayer Beads Yes (cleric/druid/paladin) Rare,5000.0,necklace of prayer beads yes cleric/druid/paladin rare,DMPG
+Periapt of Proof Against Poison No Rare,4700.0,periapt of proof against poison no rare,DMPG
+Amulet of the Black Skull Yes Very Rare,6400.0,amulet of the black skull yes very rare,DMPG
++3 Amulet of the Devout Yes (cleric/paladin) Very Rare,14500.0,amulet of the devout yes cleric/paladin very rare +3,DMPG
+Amulet of the Planes Yes Very Rare,43000.0,amulet of the planes yes very rare,DMPG
+Holy Symbol of Ravenkind Yes (good cleric/paladin) Legendary,51000.0,holy symbol of ravenkind yes good cleric/paladin legendary,DMPG
+Scarab of Protection Yes Legendary,58000.0,scarab of protection yes legendary,DMPG
+Cloak of Billowing No Common,100.0,cloak of billowing no common,DMPG
+Cloak of Many Fashions No Common,90.0,cloak of many fashions no common,DMPG
+Cloak of Elvenkind Yes Uncommon,250.0,cloak of elvenkind yes uncommon,DMPG
+Cloak of Protection Yes Uncommon,400.0,cloak of protection yes uncommon,DMPG
+Cloak of the Manta Ray No Uncommon,350.0,cloak of the manta ray no uncommon,DMPG
+Nature's Mantle Yes (druid/ranger) Uncommon,325.0,natures mantle yes druid/ranger uncommon,DMPG
+Piwafwi (Cloak of Elvenkind) Yes Uncommon,200.0,piwafwi cloak of elvenkind yes uncommon,DMPG
+Cape of the Mountebank No Rare,3900.0,cape of the mountebank no rare,DMPG
+Cloak of Displacement Yes Rare,3600.0,cloak of displacement yes rare,DMPG
+Cloak of the Bat Yes Rare,4600.0,cloak of the bat yes rare,DMPG
+Hell Hound Cloak Yes Rare,1700.0,hell hound cloak yes rare,DMPG
+Ise Rune Cloak Yes Rare,1200.0,ise rune cloak yes rare,DMPG
+Mantle of Spell Resistance Yes Rare,4200.0,mantle of spell resistance yes rare,DMPG
+Piwafwi of Fire Resistance Yes Rare,1400.0,piwafwi of fire resistance yes rare,DMPG
+Vind Rune Cloak Yes Rare,650.0,vind rune cloak yes rare,DMPG
+Wings of Flying Yes Rare,3600.0,wings of flying yes rare,DMPG
+Cloak of Arachnida Yes Very Rare,14000.0,cloak of arachnida yes very rare,DMPG
+Cloak of Invisibility Yes Legendary,54000.0,cloak of invisibility yes legendary,DMPG
+Prosthetic Limb Yes Common,100.0,prosthetic limb yes common,DMPG
+Wand Sheath Yes (warforged) Common,75.0,wand sheath yes warforged common,DMPG
+Bracers of Archery Yes Uncommon,350.0,bracers of archery yes uncommon,DMPG
+Bracer of Flying Daggers Yes Rare,1000.0,bracer of flying daggers yes rare,DMPG
+Bracers of Defense Yes Rare,4000.0,bracers of defense yes rare,DMPG
+Arcane Propulsion Arm Yes Very Rare,5100.0,arcane propulsion arm yes very rare,DMPG
+Bracelet of Rock Magic Yes Very Rare,9000.0,bracelet of rock magic yes very rare,DMPG
+Illusionist's Bracers Yes (spellcaster) Very Rare,13500.0,illusionists bracers yes spellcaster very rare,DMPG
+Prosthetic Limb Yes Common,100.0,prosthetic limb yes common,DMPG
+Gauntlets of Ogre Power Yes Uncommon,450.0,gauntlets of ogre power yes uncommon,DMPG
+Gloves of Missile Snaring Yes Uncommon,325.0,gloves of missile snaring yes uncommon,DMPG
+Gloves of Swimming and Climbing Yes Uncommon,250.0,gloves of swimming and climbing yes uncommon,DMPG
+Gloves of Thievery No Uncommon,300.0,gloves of thievery no uncommon,DMPG
+Living Gloves Yes Uncommon,500.0,living gloves yes uncommon,DMPG
+Claws of the Umber Hulk Yes Rare,4300.0,claws of the umber hulk yes rare,DMPG
+Gauntlets of Flaming Fury Yes Rare,2000.0,gauntlets of flaming fury yes rare,DMPG
+Arcane Propulsion Arm Yes Very Rare,5100.0,arcane propulsion arm yes very rare,DMPG
+Belt of Dwarvenkind Yes Rare,5000.0,belt of dwarvenkind yes rare,DMPG
+Belt of Giant Strength (Hill) Yes Rare,4000.0,belt of giant strength hill yes rare,DMPG
+Belt of Giant Strength (Stone/Frost) Yes Very Rare,12000.0,belt of giant strength stone/frost yes very rare,DMPG
+Belt of Giant Strength (Fire) Yes Very Rare,36000.0,belt of giant strength fire yes very rare,DMPG
+Belt of Giant Strength (Cloud) Yes Legendary,66000.0,belt of giant strength cloud yes legendary,DMPG
+Belt of Giant Strength (Storm) Yes Legendary,100000.0,belt of giant strength storm yes legendary,DMPG
+Clothes of Mending No Common,50.0,clothes of mending no common,DMPG
+Glamerweave (common) No Common,50.0,glamerweave common no common,DMPG
+Shiftweave No Common,100.0,shiftweave no common,DMPG
+Glamerweave (uncommon) No Uncommon,150.0,glamerweave uncommon no uncommon,DMPG
+Mizzium Apparatus Yes (special) Uncommon,500.0,mizzium apparatus yes special uncommon,DMPG
+Robe of Serpents Yes Uncommon,375.0,robe of serpents yes uncommon,DMPG
+Robe of Useful Items No Uncommon,400.0,robe of useful items no uncommon,DMPG
+Wingwear Yes Uncommon,300.0,wingwear yes uncommon,DMPG
+Butcher's Bib Yes Rare,2750.0,butchers bib yes rare,DMPG
+Lord's Ensemble Yes Rare,5000.0,lords ensemble yes rare,DMPG
+Robe of Eyes Yes Rare,5000.0,robe of eyes yes rare,DMPG
+Robe of Summer Yes Rare,2900.0,robe of summer yes rare,DMPG
+Robe of Scintillating Colors Yes Very Rare,27000.0,robe of scintillating colors yes very rare,DMPG
+Robe of Stars Yes Very Rare,45000.0,robe of stars yes very rare,DMPG
+Robe of the Archmagi Yes Legendary,75000.0,robe of the archmagi yes legendary,DMPG
+Boots of False Tracks No Common,60.0,boots of false tracks no common,DMPG
+Prosthetic Limb Yes Common,100.0,prosthetic limb yes common,DMPG
+Boots of Elvenkind No Uncommon,400.0,boots of elvenkind no uncommon,DMPG
+Boots of Striding and Springing Yes Uncommon,200.0,boots of striding and springing yes uncommon,DMPG
+Boots of the Winterlands Yes Uncommon,300.0,boots of the winterlands yes uncommon,DMPG
+Slippers of Spider Climbing Yes Uncommon,500.0,slippers of spider climbing yes uncommon,DMPG
+Stein Rune Boots Yes Uncommon,350.0,stein rune boots yes uncommon,DMPG
+Winged Boots Yes Uncommon,5000.0,winged boots yes uncommon,DMPG
+Boots of Levitation Yes Rare,4500.0,boots of levitation yes rare,DMPG
+Boots of Speed Yes Rare,3000.0,boots of speed yes rare,DMPG
+Ise Rune Boots Yes Rare,2650.0,ise rune boots yes rare,DMPG
+Vind Rune Boots Yes Rare,650.0,vind rune boots yes rare,DMPG
+Bead of Nourishment No Common,25.0,bead of nourishment no common,DMPG
+Bead of Refreshment No Common,25.0,bead of refreshment no common,DMPG
+Candle of the Deep No Common,50.0,candle of the deep no common,DMPG
+Charlatan's Die Yes Common,80.0,charlatans die yes common,DMPG
+Cleansing Stone No Common,50.0,cleansing stone no common,DMPG
+Coin of Delving No Common,50.0,coin of delving no common,DMPG
+Ear Horn of Hearing No Common,75.0,ear horn of hearing no common,DMPG
+Enduring Spellbook No Common,100.0,enduring spellbook no common,DMPG
+Everbright Lantern No Common,100.0,everbright lantern no common,DMPG
+Feather Token No Common,25.0,feather token no common,DMPG
+Heward's Handy Spice Pouch No Common,100.0,hewards handy spice pouch no common,DMPG
+Horn of Silent Alarm No Common,85.0,horn of silent alarm no common,DMPG
+Instrument of Illusions Yes Common,100.0,instrument of illusions yes common,DMPG
+Instrument of Scribing Yes Common,80.0,instrument of scribing yes common,DMPG
+Keycharm Yes (Mark of Warding) Common,50.0,keycharm yes mark of warding common,DMPG
+Lantern of Tracking No Common,75.0,lantern of tracking no common,DMPG
+Lock of Trickery No Common,50.0,lock of trickery no common,DMPG
+Moodmark Paint No Common,50.0,moodmark paint no common,DMPG
+Mystery Key No Common,50.0,mystery key no common,DMPG
+Orb of Direction No Common,50.0,orb of direction no common,DMPG
+Orb of Shielding Yes Common,80.0,orb of shielding yes common,DMPG
+Orb of Time No Common,50.0,orb of time no common,DMPG
+Pipe of Remembrance No Common,50.0,pipe of remembrance no common,DMPG
+Pipe of Smoke Monsters No Common,50.0,pipe of smoke monsters no common,DMPG
+Pole of Angling No Common,50.0,pole of angling no common,DMPG
+Pole of Collapsing No Common,55.0,pole of collapsing no common,DMPG
+Pot of Awakening No Common,85.0,pot of awakening no common,DMPG
+Pressure Capsule No Common,25.0,pressure capsule no common,DMPG
+Rope of Mending No Common,50.0,rope of mending no common,DMPG
+Ruby of the War Mage Yes (spellcaster) Common,100.0,ruby of the war mage yes spellcaster common,DMPG
+Scribe's Pen Yes (Mark of Scribing) Common,60.0,scribes pen yes mark of scribing common,DMPG
+Sekolahian Worshipping Statuette No Common,50.0,sekolahian worshipping statuette no common,DMPG
+Spellshard No Common,100.0,spellshard no common,DMPG
+Talking Doll Yes Common,75.0,talking doll yes common,DMPG
+Tankard of Sobriety No Common,80.0,tankard of sobriety no common,DMPG
+Thermal Cube No Common,50.0,thermal cube no common,DMPG
+Vox Seeker No Common,100.0,vox seeker no common,DMPG
+Alchemy Jug No Uncommon,100.0,alchemy jug no uncommon,DMPG
++1 All-Purpose Tool Yes (artificer) Uncommon,1500.0,all-purpose tool yes artificer uncommon +1,DMPG
++1 Arcane Grimoire Yes (wizard) Uncommon,425.0,arcane grimoire yes wizard uncommon +1,DMPG
+Bag of Holding No Uncommon,500.0,bag of holding no uncommon,DMPG
+Bag of Tricks No Uncommon,350.0,bag of tricks no uncommon,DMPG
+Balance of Harmony No Uncommon,200.0,balance of harmony no uncommon,DMPG
+Balloon Pack No Uncommon,275.0,balloon pack no uncommon,DMPG
++1 Bloodwell Vial Yes (sorcerer) Uncommon,425.0,bloodwell vial yes sorcerer uncommon +1,DMPG
+Brooch of Living Essence Yes Uncommon,250.0,brooch of living essence yes uncommon,DMPG
+Broom of Flying No Uncommon,4500.0,broom of flying no uncommon,DMPG
+Cursed Luckstone Yes Uncommon,250.0,cursed luckstone yes uncommon,DMPG
+Decanter of Endless Water No Uncommon,300.0,decanter of endless water no uncommon,DMPG
+Deck of Illusions No Uncommon,450.0,deck of illusions no uncommon,DMPG
+Driftglobe No Uncommon,100.0,driftglobe no uncommon,DMPG
+Dust of Deliciousness No Uncommon,150.0,dust of deliciousness no uncommon,DMPG
+Dust of Disappearance No Uncommon,200.0,dust of disappearance no uncommon,DMPG
+Dust of Dryness No Uncommon,350.0,dust of dryness no uncommon,DMPG
+Dust of Sneezing and Choking No Uncommon,150.0,dust of sneezing and choking no uncommon,DMPG
+Earworm Yes Uncommon,225.0,earworm yes uncommon,DMPG
+Elemental Gem No Uncommon,250.0,elemental gem no uncommon,DMPG
+Eversmoking Bottle No Uncommon,270.0,eversmoking bottle no uncommon,DMPG
+Feywild Shard Yes (sorcerer) Uncommon,250.0,feywild shard yes sorcerer uncommon,DMPG
+Figurine of Wondrous Power (Silver Raven) No Uncommon,380.0,figurine of wondrous power silver raven no uncommon,DMPG
+Gem of Brightness No Uncommon,250.0,gem of brightness no uncommon,DMPG
+Guardian Emblem Yes (cleric/paladin) Uncommon,300.0,guardian emblem yes cleric/paladin uncommon,DMPG
+Guild Charms No Uncommon,450.0,guild charms no uncommon,DMPG
+Infernal Puzzle Box No Uncommon,3500.0,infernal puzzle box no uncommon,DMPG
+Insignia of Claws No Uncommon,450.0,insignia of claws no uncommon,DMPG
+Instrument of the Bards (Doss Lute) Yes (bard) Uncommon,250.0,instrument of the bards doss lute yes bard uncommon,DMPG
+Instrument of the Bards (Fochlucan Bandore) Yes (bard) Uncommon,350.0,instrument of the bards fochlucan bandore yes bard uncommon,DMPG
+Instrument of the Bards (Mac-Fuimidh Cittern) Yes (bard) Uncommon,450.0,instrument of the bards mac-fuimidh cittern yes bard uncommon,DMPG
+Keoghtom's Ointment No Uncommon,400.0,keoghtoms ointment no uncommon,DMPG
+Lantern of Revealing No Uncommon,500.0,lantern of revealing no uncommon,DMPG
+Night Caller No Uncommon,350.0,night caller no uncommon,DMPG
+Paper Bird No Uncommon,350.0,paper bird no uncommon,DMPG
+Pearl of Power Yes (spellcaster) Uncommon,400.0,pearl of power yes spellcaster uncommon,DMPG
+Pipes of Haunting No Uncommon,300.0,pipes of haunting no uncommon,DMPG
+Pipes of the Sewers Yes Uncommon,150.0,pipes of the sewers yes uncommon,DMPG
+Psi Crystal Yes (Intelligence 3+) Uncommon,500.0,psi crystal yes intelligence 3+ uncommon,DMPG
+Pyroconverger Yes Uncommon,250.0,pyroconverger yes uncommon,DMPG
+Quiver of Ehlonna No Uncommon,250.0,quiver of ehlonna no uncommon,DMPG
+Rakdos Keyrune Yes (special) Uncommon,400.0,rakdos keyrune yes special uncommon,DMPG
++1 Rhythm-Maker's Drum Yes (bard) Uncommon,425.0,rhythm-makers drum yes bard uncommon +1,DMPG
+Rope of Climbing No Uncommon,350.0,rope of climbing no uncommon,DMPG
+Saddle of the Cavalier No Uncommon,250.0,saddle of the cavalier no uncommon,DMPG
+Sending Stones No Uncommon,500.0,sending stones no uncommon,DMPG
+Simic Keyrune Yes (special) Uncommon,500.0,simic keyrune yes special uncommon,DMPG
+Smokepowder No Uncommon,325.0,smokepowder no uncommon,DMPG
+Soul Coin No Uncommon,250.0,soul coin no uncommon,DMPG
+Stone of Good Luck Yes Uncommon,400.0,stone of good luck yes uncommon,DMPG
+Stone of Ill Luck Yes Uncommon,400.0,stone of ill luck yes uncommon,DMPG
+Wheel of Wind and Water No Uncommon,350.0,wheel of wind and water no uncommon,DMPG
+Wind Fan No Uncommon,150.0,wind fan no uncommon,DMPG
+Alchemical Compendium Yes (wizard) Rare,3000.0,alchemical compendium yes wizard rare,DMPG
++2 All-Purpose Tool Yes (artificer) Rare,4500.0,all-purpose tool yes artificer rare +2,DMPG
+Astral Shard Yes (sorcerer) Rare,4200.0,astral shard yes sorcerer rare,DMPG
++2 Arcane Grimoire Yes (wizard) Rare,4250.0,arcane grimoire yes wizard rare +2,DMPG
+Astromancy Archive Yes (wizard) Rare,3300.0,astromancy archive yes wizard rare,DMPG
+Atlas of Endless Horizons Yes (wizard) Rare,3750.0,atlas of endless horizons yes wizard rare,DMPG
+Azorius Keyrune Yes (special) Rare,1000.0,azorius keyrune yes special rare,DMPG
+Badge of the Watch Yes (special) Rare,3250.0,badge of the watch yes special rare,DMPG
+Bag of Beans No Rare,4200.0,bag of beans no rare,DMPG
+Banner of the Krig Rune Yes Rare,4400.0,banner of the krig rune yes rare,DMPG
+Bead of Force No Rare,3000.0,bead of force no rare,DMPG
+Bell Branch Yes (druid/warlock) Rare,750.0,bell branch yes druid/warlock rare,DMPG
+Blod Stone Yes Rare,6500.0,blod stone yes rare,DMPG
++2 Bloodwell Vial Yes (sorcerer) Rare,4250.0,bloodwell vial yes sorcerer rare +2,DMPG
+Boros Keyrune Yes (special) Rare,3500.0,boros keyrune yes special rare,DMPG
+Bowl of Commanding Water Elementals No Rare,4700.0,bowl of commanding water elementals no rare,DMPG
+Brazier of Commanding Fire Elementals No Rare,4700.0,brazier of commanding fire elementals no rare,DMPG
+Cauldron of Plenty No Rare,3500.0,cauldron of plenty no rare,DMPG
+Censer of Controlling Air Elementals No Rare,4700.0,censer of controlling air elementals no rare,DMPG
+Chime of Opening No Rare,3000.0,chime of opening no rare,DMPG
+Claw of the Wyrm Rune Yes Rare,4400.0,claw of the wyrm rune yes rare,DMPG
+Cube of Force Yes Rare,5000.0,cube of force yes rare,DMPG
+Daern's Instant Fortress No Rare,5000.0,daerns instant fortress no rare,DMPG
+Dimensional Shackles No Rare,2800.0,dimensional shackles no rare,DMPG
+Docent Yes (warforged) Rare,4500.0,docent yes warforged rare,DMPG
+Duplicitous Manuscript Yes (wizard) Rare,3000.0,duplicitous manuscript yes wizard rare,DMPG
+Eagle Whistle No Rare,600.0,eagle whistle no rare,DMPG
+Elemental Essence Shard Yes (sorcerer) Rare,3500.0,elemental essence shard yes sorcerer rare,DMPG
+Far Realm Shard Yes (sorcerer) Rare,2500.0,far realm shard yes sorcerer rare,DMPG
+Feather of Diatryma Summoning Yes Rare,600.0,feather of diatryma summoning yes rare,DMPG
+Figurine of Wondrous Power (Bronze Griffon) No Rare,3600.0,figurine of wondrous power bronze griffon no rare,DMPG
+Figurine of Wondrous Power (Ebony Fly) No Rare,3600.0,figurine of wondrous power ebony fly no rare,DMPG
+Figurine of Wondrous Power (Golden Lions) No Rare,5000.0,figurine of wondrous power golden lions no rare,DMPG
+Figurine of Wondrous Power (Ivory Goats) No Rare,5000.0,figurine of wondrous power ivory goats no rare,DMPG
+Figurine of Wondrous Power (Marble Elephant) No Rare,5000.0,figurine of wondrous power marble elephant no rare,DMPG
+Figurine of Wondrous Power (Onyx Dog) No Rare,3200.0,figurine of wondrous power onyx dog no rare,DMPG
+Figurine of Wondrous Power (Serpentine Owl) No Rare,3000.0,figurine of wondrous power serpentine owl no rare,DMPG
+Flying Chariot No Rare,4750.0,flying chariot no rare,DMPG
+Folding Boat No Rare,4750.0,folding boat no rare,DMPG
+Fulminating Treatise Yes (wizard) Rare,4000.0,fulminating treatise yes wizard rare,DMPG
+Gavel of the Venn Rune Yes Rare,2800.0,gavel of the venn rune yes rare,DMPG
+Gem of Seeing Yes Rare,5000.0,gem of seeing yes rare,DMPG
+Ghost Lantern Yes Rare,1750.0,ghost lantern yes rare,DMPG
+Gruul Keyrune Yes (special) Rare,2800.0,gruul keyrune yes special rare,DMPG
+Heart Weaver's Primer Yes Rare,3000.0,heart weavers primer yes rare,DMPG
+Heward's Handy Haversack No Rare,2000.0,hewards handy haversack no rare,DMPG
+Hook of Fisher's Delight No Rare,550.0,hook of fishers delight no rare,DMPG
+Horn of Blasting No Rare,2500.0,horn of blasting no rare,DMPG
+Horn of Valhalla (Silver/Brass) No Rare,5000.0,horn of valhalla silver/brass no rare,DMPG
+Horseshoes of Speed No Rare,3000.0,horseshoes of speed no rare,DMPG
+Instrument of the Bards (Canaith Mandolin) Yes (bard) Rare,3750.0,instrument of the bards canaith mandolin yes bard rare,DMPG
+Instrument of the Bards (Cli Lyre) Yes (bard) Rare,4250.0,instrument of the bards cli lyre yes bard rare,DMPG
+Iron Bands of Bilarro No Rare,2600.0,iron bands of bilarro no rare,DMPG
+Izzet Keyrune Yes (special) Rare,1850.0,izzet keyrune yes special rare,DMPG
+Libram of Souls and Flesh Yes (wizard) Rare,4200.0,libram of souls and flesh yes wizard rare,DMPG
+Loadstone No Rare,150.0,loadstone no rare,DMPG
+Lyre of Building Yes (bard) Rare,4750.0,lyre of building yes bard rare,DMPG
+Mirror of the Past No Rare,3800.0,mirror of the past no rare,DMPG
+Mizzium Mortar No Rare,2100.0,mizzium mortar no rare,DMPG
+Opal of the Ild Rune Yes Rare,3500.0,opal of the ild rune yes rare,DMPG
+Orb of the Stein Rune Yes Rare,2700.0,orb of the stein rune yes rare,DMPG
+Orzhov Keyrune Yes (special) Rare,1100.0,orzhov keyrune yes special rare,DMPG
+Outer Essence Shard Yes (sorcerer) Rare,2000.0,outer essence shard yes sorcerer rare,DMPG
+Planecaller's Codex Yes (wizard) Rare,3500.0,planecallers codex yes wizard rare,DMPG
+Portable Hole No Rare,5000.0,portable hole no rare,DMPG
+Professor Orb No Rare,4000.0,professor orb no rare,DMPG
+Protective Verses Yes (wizard) Rare,3500.0,protective verses yes wizard rare,DMPG
+Quaal's Feather Token No Rare,1000.0,quaals feather token no rare,DMPG
+Reveler's Concertina Yes (bard) Rare,4250.0,revelers concertina yes bard rare,DMPG
++2 Rhythm-Maker's Drum Yes (bard) Rare,4250.0,rhythm-makers drum yes bard rare +2,DMPG
+Rope of Entanglement No Rare,1000.0,rope of entanglement no rare,DMPG
+Selesnya Keyrune Yes (special) Rare,1500.0,selesnya keyrune yes special rare,DMPG
+Shadowfell Shard Yes (sorcerer) Rare,600.0,shadowfell shard yes sorcerer rare,DMPG
+Siren Song Lyre Yes Rare,650.0,siren song lyre yes rare,DMPG
+Stone of Controlling Earth Elementals No Rare,4700.0,stone of controlling earth elementals no rare,DMPG
+Stonespeaker Crystal Yes Rare,4600.0,stonespeaker crystal yes rare,DMPG
+Ventilating Lungs Yes Rare,1000.0,ventilating lungs yes rare,DMPG
+Weird Tank Yes Rare,2200.0,weird tank yes rare,DMPG
+Abracadadabrus No Very Rare,2500.0,abracadadabrus no very rare,DMPG
++3 All-Purpose Tool Yes (artificer) Very Rare,16000.0,all-purpose tool yes artificer very rare +3,DMPG
+Arcane Cannon No Very Rare,6500.0,arcane cannon no very rare,DMPG
++3 Arcane Grimoire Yes (wizard) Very Rare,14500.0,arcane grimoire yes wizard very rare +3,DMPG
+Bag of Devouring No Very Rare,12000.0,bag of devouring no very rare,DMPG
+Battle Standard of Infernal Power Yes Very Rare,6000.0,battle standard of infernal power yes very rare,DMPG
++3 Bloodwell Vial Yes (sorcerer) Very Rare,14500.0,bloodwell vial yes sorcerer very rare +3,DMPG
+Candle of Invocation Yes Very Rare,8400.0,candle of invocation yes very rare,DMPG
+Carpet of Flying No Very Rare,44000.0,carpet of flying no very rare,DMPG
+Cauldron of Rebirth Yes (druid/warlock) Very Rare,10000.0,cauldron of rebirth yes druid/warlock very rare,DMPG
+Chronolometer Yes Very Rare,12500.0,chronolometer yes very rare,DMPG
+Conch of Teleportation Yes Very Rare,1850.0,conch of teleportation yes very rare,DMPG
+Crystal Ball Yes Very Rare,42000.0,crystal ball yes very rare,DMPG
+Crystalline Chronicle Yes (wizard) Very Rare,6500.0,crystalline chronicle yes wizard very rare,DMPG
+Devastation Orb (Air) No Very Rare,8000.0,devastation orb air no very rare,DMPG
+Devastation Orb (Earth) No Very Rare,11000.0,devastation orb earth no very rare,DMPG
+Devastation Orb (Fire) No Very Rare,9500.0,devastation orb fire no very rare,DMPG
+Devastation Orb (Water) No Very Rare,9500.0,devastation orb water no very rare,DMPG
+Dimensional Loop Yes Very Rare,6000.0,dimensional loop yes very rare,DMPG
+Dimir Keyrune Yes (special) Very Rare,26000.0,dimir keyrune yes special very rare,DMPG
+Dispelling Stone No Very Rare,7000.0,dispelling stone no very rare,DMPG
+Efreeti Bottle No Very Rare,45000.0,efreeti bottle no very rare,DMPG
+Far Gear Yes Very Rare,7500.0,far gear yes very rare,DMPG
+Figurine of Wondrous Power (Obsidian Steed) No Very Rare,28500.0,figurine of wondrous power obsidian steed no very rare,DMPG
+Golgari Keyrune Yes (special) Very Rare,7500.0,golgari keyrune yes special very rare,DMPG
+Horn of Valhalla (Bronze) No Very Rare,20000.0,horn of valhalla bronze no very rare,DMPG
+Horseshoes of a Zephyr No Very Rare,6000.0,horseshoes of a zephyr no very rare,DMPG
+Ingot of the Skold Rune Yes Very Rare,15000.0,ingot of the skold rune yes very rare,DMPG
+Instrument of the Bards (Anstruth Harp) Yes (bard) Very Rare,17500.0,instrument of the bards anstruth harp yes bard very rare,DMPG
+Kyrzin's Ooze Yes Very Rare,21000.0,kyrzins ooze yes very rare,DMPG
+Manual of Bodily Health No Very Rare,36000.0,manual of bodily health no very rare,DMPG
+Manual of Gainful Exercise No Very Rare,36000.0,manual of gainful exercise no very rare,DMPG
+Manual of Golems No Very Rare,22000.0,manual of golems no very rare,DMPG
+Manual of Quickness of Action No Very Rare,36000.0,manual of quickness of action no very rare,DMPG
+Mirror of Life Trapping No Very Rare,50000.0,mirror of life trapping no very rare,DMPG
+Navigation Orb Yes Very Rare,27000.0,navigation orb yes very rare,DMPG
+Nolzur's Marvelous Pigments No Very Rare,16000.0,nolzurs marvelous pigments no very rare,DMPG
+Orb of the Veil Yes Very Rare,31000.0,orb of the veil yes very rare,DMPG
+Pennant of the Vind Rune Yes Very Rare,13000.0,pennant of the vind rune yes very rare,DMPG
+Reincarnation Dust No Very Rare,3500.0,reincarnation dust no very rare,DMPG
++3 Rhythm-Maker's Drum Yes (bard) Very Rare,14500.0,rhythm-makers drum yes bard very rare +3,DMPG
+Rotor of Return Yes Very Rare,2500.0,rotor of return yes very rare,DMPG
+Shard of the Ise Rune Yes Very Rare,9000.0,shard of the ise rune yes very rare,DMPG
+Speaking Stone No Very Rare,5000.0,speaking stone no very rare,DMPG
+Timepiece of Travel Yes Very Rare,8000.0,timepiece of travel yes very rare,DMPG
+Tome of Clear Thought No Very Rare,36000.0,tome of clear thought no very rare,DMPG
+Tome of Leadership and Influence No Very Rare,36000.0,tome of leadership and influence no very rare,DMPG
+Wheel of Stars Yes Very Rare,6500.0,wheel of stars yes very rare,DMPG
+Tome of Understanding No Very Rare,36000.0,tome of understanding no very rare,DMPG
+Apparatus of Kwalish No Legendary,90000.0,apparatus of kwalish no legendary,DMPG
+Crystal Ball of Mind Reading Yes Legendary,51000.0,crystal ball of mind reading yes legendary,DMPG
+Crystal Ball of Telepathy Yes Legendary,70000.0,crystal ball of telepathy yes legendary,DMPG
+Crystal Ball of True Seeing Yes Legendary,80000.0,crystal ball of true seeing yes legendary,DMPG
+Cubic Gate No Legendary,164000.0,cubic gate no legendary,DMPG
+Deck of Many Things No Legendary,200000.0,deck of many things no legendary,DMPG
+Horn of Valhalla (Iron) No Legendary,50000.0,horn of valhalla iron no legendary,DMPG
+Icon of Ravenloft Yes (good) Legendary,50500.0,icon of ravenloft yes good legendary,DMPG
+Infernal Tack Yes (evil) Legendary,8000.0,infernal tack yes evil legendary,DMPG
+Instrument of the Bards (Ollamh Harp) Yes (bard) Legendary,51000.0,instrument of the bards ollamh harp yes bard legendary,DMPG
+Iron Flask No Legendary,170000.0,iron flask no legendary,DMPG
+Luxon Beacon No Legendary,35000.0,luxon beacon no legendary,DMPG
+Nightfall Pearl Yes Legendary,51000.0,nightfall pearl yes legendary,DMPG
+Pyxis of Pandemonium No Legendary,25000.0,pyxis of pandemonium no legendary,DMPG
+Sovereign Glue No Legendary,5000.0,sovereign glue no legendary,DMPG
+Spell Bottle Yes Legendary,75000.0,spell bottle yes legendary,DMPG
+Sphere of Annihilation No Legendary,200000.0,sphere of annihilation no legendary,DMPG
+Talisman of Pure Good Yes (good) Legendary,125000.0,talisman of pure good yes good legendary,DMPG
+Talisman of the Sphere Yes Legendary,75000.0,talisman of the sphere yes legendary,DMPG
+Talisman of Ultimate Evil Yes (evil) Legendary,125000.0,talisman of ultimate evil yes evil legendary,DMPG
+Tome of the Stilled Tongue Yes (wizard) Legendary,60000.0,tome of the stilled tongue yes wizard legendary,DMPG
+Universal Solvent No Legendary,5000.0,universal solvent no legendary,DMPG
+Well of Many Worlds No Legendary,90000.0,well of many worlds no legendary,DMPG
+Ythryn Mythallar Yes (spellcaster) Legendary,200000.0,ythryn mythallar yes spellcaster legendary,DMPG
+Illuminator's Tattoo Yes Common,65.0,illuminators tattoo yes common,DMPG
+Masquerade Tattoo Yes Common,75.0,masquerade tattoo yes common,DMPG
+Barrier Tattoo (Uncommon) Yes Uncommon,200.0,barrier tattoo uncommon yes uncommon,DMPG
+Coiling Grasp Tattoo Yes Uncommon,500.0,coiling grasp tattoo yes uncommon,DMPG
+Eldritch Claw Tattoo Yes Uncommon,500.0,eldritch claw tattoo yes uncommon,DMPG
+Barrier Tattoo (Rare) Yes Rare,1500.0,barrier tattoo rare yes rare,DMPG
+Shadowfell Brand Tattoo Yes Rare,1100.0,shadowfell brand tattoo yes rare,DMPG
+Absorbing Tattoo Yes Very Rare,8000.0,absorbing tattoo yes very rare,DMPG
+Barrier Tattoo (Very Rare) Yes Very Rare,6000.0,barrier tattoo very rare yes very rare,DMPG
+Ghost Step Tattoo Yes Very Rare,9000.0,ghost step tattoo yes very rare,DMPG
+Lifewell Tattoo Yes Very Rare,5100.0,lifewell tattoo yes very rare,DMPG
+Blood Fury Tattoo Yes Legendary,32000.0,blood fury tattoo yes legendary,DMPG
