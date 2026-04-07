@@ -1,6 +1,12 @@
 # tests/test_pricing_engine.py
+"""Tests for rule-based pricing engine.
+
+Constants updated to match calibrated values from oracle review (2026-04-07).
+Base prices and additives were reduced ~3-10× to match real-world guide data.
+"""
 import pytest
 from src.pricing_engine import calculate_price, RARITY_BASE_PRICES, RARITY_FLOORS
+
 
 def make_criteria(rarity="rare", **kwargs):
     """Build minimal criteria dict for testing."""
@@ -62,53 +68,62 @@ def make_criteria(rarity="rare", **kwargs):
     defaults.update(kwargs)
     return defaults
 
+
 def test_base_rare_price():
     """Plain rare item with no bonuses."""
     c = make_criteria(rarity="rare")
     price = calculate_price(c)
-    assert price == 20000
+    assert price == RARITY_BASE_PRICES["rare"]  # 4000
+
 
 def test_rare_with_attunement():
-    """Rare item with open attunement: 20000 * 0.85 = 17000."""
+    """Rare item with open attunement: 4000 * 0.90 = 3600."""
     c = make_criteria(rarity="rare", req_attune="open")
     price = calculate_price(c)
-    assert price == pytest.approx(17000, rel=0.01)
+    assert price == pytest.approx(4000 * 0.90, rel=0.01)
+
 
 def test_rare_with_class_attunement():
-    """Rare item with class-restricted attunement: 20000 * 0.75 = 15000."""
+    """Rare item with class-restricted attunement: 4000 * 0.80 = 3200."""
     c = make_criteria(rarity="rare", req_attune="class")
     price = calculate_price(c)
-    assert price == pytest.approx(15000, rel=0.01)
+    assert price == pytest.approx(4000 * 0.80, rel=0.01)
+
 
 def test_weapon_bonus_plus1():
-    """Rare weapon +1 bonus: 20000 + 10000 = 30000."""
+    """Rare weapon +1 bonus: 4000 + 1500 = 5500."""
     c = make_criteria(rarity="rare", weapon_bonus=1)
     price = calculate_price(c)
-    assert price == pytest.approx(30000, rel=0.01)
+    assert price == pytest.approx(5500, rel=0.01)
+
 
 def test_weapon_bonus_plus3():
-    """Rare weapon +3 bonus: 20000 + 200000 = 220000."""
+    """Rare weapon +3 bonus: 4000 + 20000 = 24000."""
     c = make_criteria(rarity="rare", weapon_bonus=3)
     price = calculate_price(c)
-    assert price == pytest.approx(220000, rel=0.01)
+    assert price == pytest.approx(24000, rel=0.01)
+
 
 def test_ac_bonus_plus2():
-    """Rare armor +2 AC: 20000 + 40000 = 60000."""
+    """Rare armor +2 AC: 4000 + 4000 = 8000."""
     c = make_criteria(rarity="rare", ac_bonus=2)
     price = calculate_price(c)
-    assert price == pytest.approx(60000, rel=0.01)
+    assert price == pytest.approx(8000, rel=0.01)
+
 
 def test_cursed_item():
-    """Cursed rare item: 20000 * 0.70 = 14000."""
+    """Cursed rare item: 4000 * 0.75 = 3000."""
     c = make_criteria(rarity="rare", is_cursed=True)
     price = calculate_price(c)
-    assert price == pytest.approx(14000, rel=0.01)
+    assert price == pytest.approx(4000 * 0.75, rel=0.01)
+
 
 def test_sentient_item():
-    """Sentient rare item: 20000 * 1.25 = 25000."""
+    """Sentient rare item: 4000 * 1.15 = 4600."""
     c = make_criteria(rarity="rare", is_sentient=True)
     price = calculate_price(c)
-    assert price == pytest.approx(25000, rel=0.01)
+    assert price == pytest.approx(4000 * 1.15, rel=0.01)
+
 
 def test_spell_scroll_level_3():
     """Level 3 scroll = 300 gp."""
@@ -116,11 +131,13 @@ def test_spell_scroll_level_3():
     price = calculate_price(c)
     assert price == pytest.approx(300, rel=0.01)
 
+
 def test_floor_applied():
-    """Cursed common item should not go below floor (50 gp)."""
+    """Cursed common item should not go below floor."""
     c = make_criteria(rarity="common", is_cursed=True)
     price = calculate_price(c)
     assert price >= RARITY_FLOORS["common"]
+
 
 def test_official_price_used_directly():
     """Items with official prices bypass formula."""
@@ -128,20 +145,30 @@ def test_official_price_used_directly():
     price = calculate_price(c)
     assert price == 15.0
 
+
 def test_flight_full_bonus():
-    """Flight adds 15000 gp."""
+    """Flight (full) adds 3000 gp to rare base of 4000 = 7000."""
     c = make_criteria(rarity="rare", flight_full=True)
     price = calculate_price(c)
-    assert price == pytest.approx(35000, rel=0.01)  # 20000 + 15000
+    assert price == pytest.approx(4000 + 3000, rel=0.01)
+
 
 def test_teleportation_bonus():
-    """Teleportation adds 20000 gp."""
+    """Teleportation adds 5000 gp to very_rare base of 13500 = 18500."""
     c = make_criteria(rarity="very_rare", teleportation=True)
     price = calculate_price(c)
-    assert price == pytest.approx(120000, rel=0.01)  # 100000 + 20000
+    assert price == pytest.approx(13500 + 5000, rel=0.01)
+
 
 def test_damage_resistance():
-    """Each resistance adds 2000 gp."""
+    """Each resistance adds 300 gp; two resistances on rare = 4000 + 600 = 4600."""
     c = make_criteria(rarity="rare", damage_resistances=["fire", "cold"])
     price = calculate_price(c)
-    assert price == pytest.approx(24000, rel=0.01)  # 20000 + 4000
+    assert price == pytest.approx(4000 + 600, rel=0.01)
+
+
+def test_potion_consumable_discount():
+    """Potions (type 'P') get 0.40× discount. Rare potion: 4000 * 0.40 = 1600."""
+    c = make_criteria(rarity="rare", item_type_code="P")
+    price = calculate_price(c)
+    assert price == pytest.approx(4000 * 0.40, rel=0.01)
