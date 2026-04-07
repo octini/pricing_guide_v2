@@ -68,14 +68,41 @@ def fuzzy_match_items(
     candidates: list,
     threshold: int = 85,
 ) -> list:
-    """Return candidates that fuzzy-match query above threshold."""
+    """Return candidates that fuzzy-match query above threshold.
+    
+    Special handling for bonus numbers: +1, +2, +3 must match exactly.
+    """
+    import re
+    
+    # Extract bonus number from query (e.g., "+3 Shortsword" → "3")
+    query_bonus_match = re.search(r'\+(\d+)', query)
+    query_bonus = query_bonus_match.group(1) if query_bonus_match else None
+    
     results = process.extract(
-        query.lower(), 
-        candidates, 
-        scorer=fuzz.token_sort_ratio, 
+        query.lower(),
+        candidates,
+        scorer=fuzz.token_sort_ratio,
         limit=5
     )
-    return [r[0] for r in results if r[1] >= threshold]
+    
+    matched = []
+    for result in results:
+        candidate = result[0]
+        score = result[1]
+        
+        if score < threshold:
+            continue
+        
+        # Check bonus number matches
+        if query_bonus:
+            candidate_bonus_match = re.search(r'\+(\d+)', candidate)
+            candidate_bonus = candidate_bonus_match.group(1) if candidate_bonus_match else None
+            if query_bonus != candidate_bonus:
+                continue  # Skip if bonus numbers don't match
+        
+        matched.append(candidate)
+    
+    return matched
 
 
 def amalgamate_prices(

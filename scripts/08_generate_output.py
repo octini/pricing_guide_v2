@@ -55,6 +55,13 @@ def determine_price_source_label(row):
 def main():
     df = pd.read_csv(INPUT_CSV)
     print(f'Loaded {len(df)} items')
+    
+    # Exclude generic variants (items with 'items' field in raw JSON)
+    # These are placeholder items like "Horn of Valhalla" that have specific variants
+    if 'is_generic_variant' in df.columns:
+        before = len(df)
+        df = df[~df['is_generic_variant'].fillna(False)]
+        print(f'Excluded {before - len(df)} generic variants')
 
     output_rows = []
     for _, row in df.iterrows():

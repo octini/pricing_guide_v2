@@ -53,6 +53,24 @@ RARITY_DUMMIES = ["common", "uncommon", "rare", "very_rare", "legendary", "artif
 # Rarities that should NOT use ML blending (model trained on magic items)
 NON_MAGIC_RARITIES = {"mundane", "unknown", "varies", "artifact"}
 
+# Items that should NOT use ML blending (use rule price directly)
+# Material armor uses DSA formula which is already calibrated
+def is_material_armor(row):
+    """Check if item is material armor (mithral/adamantine armor)."""
+    material = row.get("material", "")
+    if material in ("mithral", "adamantine"):
+        # Check if it's armor (has a base_item_cost from armor matching)
+        item_type = str(row.get("item_type_code", "")).split("|")[0]
+        if item_type in ("LA", "MA", "HA", "S"):
+            return True
+    return False
+
+def is_spell_scroll(row):
+    """Check if item is a spell scroll (has spell_scroll_level)."""
+    spell_level = row.get("spell_scroll_level")
+    # NaN check: spell_level == spell_level is False for NaN
+    return spell_level is not None and spell_level == spell_level
+
 # Top item type codes (normalized, stripping source suffix after '|')
 # Chosen for density in training set: covers majority of matched items
 ITEM_TYPE_DUMMIES = ["M", "P", "SCF", "MA", "HA", "RG", "SC", "WD", "LA", "RD", "S", "INS", "A"]
@@ -137,6 +155,12 @@ def main():
     def blend_price(row):
         # Don't blend non-magic items with a model trained on magic items
         if row.get("rarity", "") in NON_MAGIC_RARITIES:
+            return row["rule_price"]
+        # Don't blend material armor - DSA formula is already calibrated
+        if is_material_armor(row):
+            return row["rule_price"]
+        # Don't blend spell scrolls - rule price is authoritative
+        if is_spell_scroll(row):
             return row["rule_price"]
         if pd.notna(row["amalgamated_price"]):
             # Has ground truth: blend rule and ML

@@ -81,10 +81,12 @@ MUNDANE_BASE_COSTS = {
 
 # For armor specifically, we need to know the base armor type cost
 # We detect this from item name for the most expensive armors
+# IMPORTANT: Order matters! More specific names must come before substrings
+# e.g., "half plate" must come before "plate armor" to avoid false matches
 EXPENSIVE_ARMOR_BASES = {
+    "half plate": 750,  # Must come before "plate armor"
     "plate armor": 1500,
     "splint armor": 200,
-    "half plate": 750,
     "chain mail": 75,
     "breastplate": 400,
     "ring mail": 30,
@@ -96,6 +98,67 @@ EXPENSIVE_ARMOR_BASES = {
     "studded leather": 45,
 }
 
+# Material flat-rate additions (DSA formula: MatCost = Armor Cost + Material Flat Rate)
+# These are added ON TOP of the mundane base cost for armor made of rare materials
+MATERIAL_FLAT_RATES = {
+    "mithral": 1000, # DSA: Mithral adds 1,000 gp flat
+    "adamantine": 3000, # DSA: Adamantine adds 3,000 gp flat
+    "silvered": 100, # Silvered weapons: +100 gp (PHB: silvering costs 100 gp)
+}
+
+# DSA rarity multipliers for material armor
+# These are applied to the material cost (base + flat rate) for armor made of rare materials
+MATERIAL_RARITY_MULTIPLIERS = {
+    "common": 1.0,
+    "uncommon": 1.5,
+    "rare": 2.0,
+    "very_rare": 3.0,
+    "legendary": 5.0,
+}
+
+# Standard Exchange Rates (per pound) from PHB/WDH/WDMM:
+# - Iron/Steel: 0.1 gp/lb (PHB: 1 sp = 1 lb iron)
+# - Gold: 50 gp/lb (PHB: 50 coins = 1 lb)
+# - Mithral: 50 gp/lb (WDMM: 1 lb mithral = 50 gp)
+# - Adamantine: 100 gp/lb (WDH: 10 lb adamantine bar = 1,000 gp)
+MATERIAL_COST_PER_LB = {
+    "iron": 0.1,
+    "steel": 0.1,
+    "gold": 50,
+    "mithral": 50,
+    "adamantine": 100,
+}
+
+# Ammunition weights (from 5eTools) - used for material cost calculation
+AMMUNITION_WEIGHTS = {
+    "arrow": 0.05,      # lb per arrow
+    "bolt": 0.075,      # lb per bolt
+    "bullet": 0.075,    # lb per sling bullet
+    "firearm bullet": 0.05,  # lb per firearm bullet
+    "needle": 0.02,     # lb per needle
+}
+
+# Markup factor for material ammunition
+# Mundane arrows: 0.05 lb * 0.1 gp/lb (steel) = 0.005 gp material, sells for 0.05 gp = 10x markup
+# DSA prices adamantine arrows at ~248 gp each (4,952 gp / 20)
+# Material cost: 0.05 lb * 100 gp/lb = 5 gp
+# DSA price / material cost = 248 / 5 = ~50x
+# This suggests a 50x multiplier for special material ammunition (combining markup + rarity premium)
+MATERIAL_AMMUNITION_MULTIPLIER = 50
+
+# Flavor items: items with charges that have no tactical/combat value
+# These should use a much lower charge valuation (10 gp/charge instead of 500 gp)
+FLAVOR_ITEMS = {
+    "staff of flowers",      # Creates flowers
+    "staff of birdcalls",    # Makes bird sounds
+    "wand of smiles",        # Forces smiling
+    "wand of scowls",        # Forces scowling
+    "wand of conducting",    # Conducts music
+    "wand of pyrotechnics",  # Creates fireworks (minor utility)
+    "heward's handy spice pouch",  # Produces seasoning
+"instrument of scribing", # Sends messages (minor utility)
+}
+
 
 def calculate_price(criteria: dict) -> float:
     """Calculate item price based on criteria dict.
@@ -104,6 +167,8 @@ def calculate_price(criteria: dict) -> float:
     """
     rarity = criteria.get("rarity", "unknown")
     official_price = criteria.get("official_price_gp")
+    req_attune = criteria.get("req_attune", "none")
+    item_name_lower = str(criteria.get("name", "")).lower()
 
     # Official prices used directly for mundane items
     # NaN check: x == x is False for NaN, so NaN official prices fall through
@@ -111,21 +176,75 @@ def calculate_price(criteria: dict) -> float:
         return float(official_price)
 
     # Spell scrolls: use level price directly (skip other formula)
+    # BUT: Enspelled weapons are NOT scrolls - they're weapons with embedded spells
+    # Enspelled items have charges and recharge, scrolls don't
     scroll_level = criteria.get("spell_scroll_level")
-    if scroll_level is not None:
+    is_enspelled = "enspelled" in item_name_lower
+    if scroll_level is not None and scroll_level == scroll_level and not is_enspelled: # NaN check
         return float(SPELL_SCROLL_PRICES.get(int(scroll_level), 75))
 
     base = float(RARITY_BASE_PRICES.get(rarity, 750))
 
     # Base mundane item cost: magic items should cost at least as much as their mundane counterpart
     # Detect from item name for expensive armors
-    item_name_lower = str(criteria.get("name", "")).lower()
     base_item_cost = 0.0
     if rarity not in ("mundane", "none", "unknown", "varies"):
         for armor_name, armor_cost in EXPENSIVE_ARMOR_BASES.items():
             if armor_name in item_name_lower:
                 base_item_cost = float(armor_cost)
                 break
+
+    # Material cost: add flat rate for rare materials (DSA formula)
+    # This is added to base_item_cost, not as a multiplier
+    material = criteria.get("material")
+    material_cost = 0.0
+    is_material_armor = False
+    if material and material in MATERIAL_FLAT_RATES:
+        material_cost = float(MATERIAL_FLAT_RATES[material])
+        # For armor, add material cost to base_item_cost
+        # For weapons, add as additive (handled below)
+        if base_item_cost > 0:
+            base_item_cost += material_cost
+            is_material_armor = True
+
+    # DSA formula for material armor: MatCost * rarity_multiplier * attunement_modifier
+    # This overrides the normal pricing formula for armor made of rare materials
+    if is_material_armor and material in ("mithral", "adamantine"):
+        rarity_mult = MATERIAL_RARITY_MULTIPLIERS.get(rarity, 1.0)
+        # Attunement modifier: DSA uses 1.1 for no attunement, 1.0 for attunement
+        # But we want to be consistent with our attunement discount approach
+        # So we use: base_item_cost * rarity_mult * (1.0 if attunement, 1.1 if no attunement)
+        attune_bonus = 1.1 if req_attune == "none" else 1.0
+        material_armor_price = base_item_cost * rarity_mult * attune_bonus
+        # Return this price directly, bypassing the normal formula
+        floor = RARITY_FLOORS.get(rarity, 1)
+        return max(floor, material_armor_price)
+
+    # Material ammunition: use weight-based formula
+    # This handles adamantine/mithral/silvered arrows, bolts, bullets, etc.
+    # Formula: weight * material_cost_per_lb * markup_multiplier
+    is_ammunition = criteria.get("is_ammunition", False)
+    if is_ammunition and material and material in MATERIAL_COST_PER_LB:
+        # Determine ammunition type from item name
+        item_name_lower = str(criteria.get("name", "")).lower()
+        weight = 0.05  # Default weight (arrow)
+        for ammo_type, ammo_weight in AMMUNITION_WEIGHTS.items():
+            if ammo_type in item_name_lower:
+                weight = ammo_weight
+                break
+        
+        # Calculate material cost
+        material_cost_per_lb = MATERIAL_COST_PER_LB.get(material, 100)
+        material_price = weight * material_cost_per_lb * MATERIAL_AMMUNITION_MULTIPLIER
+        
+        # Apply minimum floor based on material
+        min_price = 50 if material == "adamantine" else 25 if material == "mithral" else 10
+        return max(min_price, material_price)
+    
+    # Silvered ammunition: PHB says silvering costs 100 gp regardless of weapon size
+    # So silvered ammunition is +100 gp per piece (same as weapons)
+    if is_ammunition and material == "silvered":
+        return 100.0
 
     # --- Additive bonuses ---
     additive = 0.0
@@ -241,8 +360,9 @@ def calculate_price(criteria: dict) -> float:
         additive += 30000 # was 500000
 
     # Charges: rechargeable charges add moderate value; non-rechargeable add less
+    # Exception: flavor items (no tactical value) use much lower valuation
     charges = criteria.get("charges")
-    if charges and charges == charges:  # not None, not NaN
+    if charges and charges == charges: # not None, not NaN
         # Handle dice strings like "{@dice 1d3}" by extracting the numeric part
         if isinstance(charges, str):
             import re
@@ -256,13 +376,20 @@ def calculate_price(criteria: dict) -> float:
         else:
             charges = None
         if charges and charges > 0:
+            # Check if this is a flavor item (no tactical/combat value)
+            item_name_lower = str(criteria.get("name", "")).lower()
+            is_flavor_item = item_name_lower in FLAVOR_ITEMS
+            
             recharge = str(criteria.get("recharge") or "")
-            if recharge in ("dawn", "restLong", "dusk"):
-                additive += 500 * charges  # Daily recharge: significant value (Staff of Power has 20)
+            if is_flavor_item:
+                # Flavor items: minimal charge value (just the novelty)
+                additive += 10 * charges
+            elif recharge in ("dawn", "restLong", "dusk"):
+                additive += 500 * charges # Daily recharge: significant value (Staff of Power has 20)
             elif recharge in ("restShort",):
-                additive += 750 * charges  # Short rest recharge: higher value
+                additive += 750 * charges # Short rest recharge: higher value
             else:
-                additive += 100 * charges  # Non-rechargeable: lower value per charge
+                additive += 100 * charges # Non-rechargeable: lower value per charge
 
     # Ability score mods: items that set a stat to a fixed value (like Gauntlets of Ogre Power)
     # Format: dict with {"static": {"str": 19}} or list of dicts with {type: "ability", amount: N, stat: "str"}
@@ -275,7 +402,7 @@ def calculate_price(criteria: dict) -> float:
                 # Value scales with how high the stat is set
                 # Calibrated: Gauntlets of Ogre Power (STR 19) amalgamates at ~5,040 gp
                 # Base uncommon 750 + ability_mod ~4,300 gp → 5,050 gp before attunement
-                additive += 3000 + 1500 * (value - 17)  # 17→3000, 18→4500, 19→6000, 20→7500
+                additive += 3000 + 1500 * (value - 17) # 17→3000, 18→4500, 19→6000, 20→7500
     elif isinstance(ability_mods, list):
         # List format: check for any static boosts
         for mod in ability_mods:
@@ -283,7 +410,14 @@ def calculate_price(criteria: dict) -> float:
                 amount = mod.get("amount", 0)
                 if isinstance(amount, (int, float)) and amount >= 3:
                     # Value scales with boost magnitude
-                    additive += 1000 + 500 * (amount - 3)  # +3→1000, +4→1500, +5→2000
+                    additive += 1000 + 500 * (amount - 3) # +3→1000, +4→1500, +5→2000
+
+    # Material cost for non-armor items (weapons, ammunition)
+    # For armor, material cost was already added to base_item_cost above
+    if material and material in MATERIAL_FLAT_RATES and base_item_cost == 0:
+        # Silvered weapons: add as additive
+        if material == "silvered":
+            additive += MATERIAL_FLAT_RATES["silvered"]
 
     # --- Multiplicative modifiers ---
     attune_mod = 1.0

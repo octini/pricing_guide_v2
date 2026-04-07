@@ -74,8 +74,10 @@ def extract_structured_criteria(item: dict) -> dict:
     # Type-derived flags
     item_type = item.get("type", "")
     # Check for ammo flag in raw JSON (for generic variants like "+1 Ammunition")
-    c["is_ammunition"] = item_type == "A" or item.get("ammo", False)
-    c["is_shield"] = item_type == "S"
+    # Item type may include source suffix (e.g., "A|XPHB"), so check prefix
+    item_type_base = item_type.split("|")[0] if isinstance(item_type, str) else item_type
+    c["is_ammunition"] = item_type_base == "A" or item.get("ammo", False)
+    c["is_shield"] = item_type_base == "S"
     
     # Stealth/strength
     c["stealth_penalty"] = bool(item.get("stealth"))
@@ -90,10 +92,31 @@ def extract_structured_criteria(item: dict) -> dict:
     
     # Weapon properties
     c["weapon_properties"] = item.get("property", []) or []
-    
+
     # Item type classification helpers
     c["item_type_code"] = item_type
-    
+
+    # Generic variant detection
+    # Items with 'items' field are generic variants (e.g., "Horn of Valhalla" has variants like "Horn of Valhalla, Brass")
+    # These should be excluded from pricing guide since specific variants are already included
+    c["is_generic_variant"] = "items" in item
+
+    # Material detection (mithral, adamantine, silvered)
+    # Check item name for material keywords
+    item_name = item.get("name", "").lower()
+    c["material"] = None
+    if "mithral" in item_name:
+        c["material"] = "mithral"
+    elif "adamantine" in item_name:
+        c["material"] = "adamantine"
+    elif "silvered" in item_name or "silver" in item_name:
+        # "Silvered" is the coating, "Silver" might be the material
+        # Check if it's a silvered weapon (coating) vs silver item
+        if "silvered" in item_name:
+            c["material"] = "silvered"
+        elif item_type in ("M", "R", "A"):  # Melee, Ranged, Ammunition
+            c["material"] = "silvered"
+
     return c
 
 def _avg_dice(dice_str: str) -> float:
@@ -135,9 +158,16 @@ def extract_prose_criteria(description: str) -> dict:
     }
     
     desc = description.lower()
-    
-    # Flight detection
-    has_flying = "flying speed" in desc or "fly speed" in desc or "you can" in desc and "fly" in desc
+
+    # Flight detection - must be about the user gaining flight ability
+    # Look for phrases like "you can fly", "flying speed", "gain a fly speed"
+    has_flying = (
+        "flying speed" in desc or
+        "fly speed" in desc or
+        re.search(r'\byou can fly\b', desc) or
+        re.search(r'\bgain.*fly\w* speed\b', desc) or
+        re.search(r'\bfly\w* speed of \d+', desc)
+    )
     if has_flying:
         limited_keywords = ["minute", "hour", "until you land", "limited", "short rest", "long rest", "until you attack", "concentration", "action to end", "up to"]
         is_limited = any(k in desc for k in limited_keywords)
@@ -160,7 +190,9 @@ def extract_prose_criteria(description: str) -> dict:
     c["teleportation"] = bool(re.search(r'\bteleport\b', desc))
     
     # Invisibility (at-will, not spell-based)
-    if re.search(r'\binvisible\b', desc) and re.search(r'\b(action|bonus action)\b', desc):
+    # Must be about the user turning invisible, not just "invisible writing" or similar
+    # Look for phrases like "turn invisible", "become invisible", "you are invisible"
+    if re.search(r'\b(turn|become|you are|you can become)\s+invisible\b', desc):
         if "spell" not in desc[:desc.find("invisible")] if "invisible" in desc else True:
             c["invisibility_atwill"] = True
     
