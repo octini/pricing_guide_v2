@@ -45,6 +45,21 @@ SPELL_SCROLL_PRICES = {
     9: 100000,
 }
 
+# Enspelled item base prices (DSA formula)
+# These are the base prices for generic "Enspelled Weapon/Armor" at each spell level
+# Formula: Base_Enspelled[level] + Item_Base_Cost × 5.0
+ENSPELLED_BASE_PRICES = {
+    0: 405,      # Cantrip
+    1: 1215,     # 1st level
+    2: 3240,     # 2nd level
+    3: 5400,     # 3rd level
+    4: 12150,    # 4th level
+    5: 17010,    # 5th level
+    6: 37800,    # 6th level
+    7: 48600,    # 7th level
+    8: 60750,    # 8th level
+}
+
 WEAPON_BONUS_ADDITIVE = {1: 1500, 2: 4000, 3: 20000}   # Calibrated: was 10k/50k/200k
 AC_BONUS_ADDITIVE = {1: 1500, 2: 4000, 3: 15000}        # Calibrated: was 15k/40k/150k
 SPELL_ATTACK_ADDITIVE = {1: 1000, 2: 3000, 3: 10000}    # Calibrated: was 8k/25k/80k
@@ -84,7 +99,7 @@ MUNDANE_BASE_COSTS = {
 # IMPORTANT: Order matters! More specific names must come before substrings
 # e.g., "half plate" must come before "plate armor" to avoid false matches
 EXPENSIVE_ARMOR_BASES = {
-    "half plate": 750,  # Must come before "plate armor"
+    "half plate": 750, # Must come before "plate armor"
     "plate armor": 1500,
     "splint armor": 200,
     "chain mail": 75,
@@ -96,6 +111,27 @@ EXPENSIVE_ARMOR_BASES = {
     "leather armor": 10,
     "padded armor": 5,
     "studded leather": 45,
+}
+
+# Weapon base costs for enspelled items (PHB prices)
+# Used for DSA formula: Base_Enspelled + Item_Cost × 5.0
+WEAPON_BASE_COSTS = {
+    "dagger": 2,
+    "shortsword": 15,
+    "longsword": 15,
+    "greatsword": 50,
+    "glaive": 20,
+    "staff": 5,
+    "spear": 1,
+    "warhammer": 15,
+    "battleaxe": 10,
+    "handaxe": 5,
+    "light crossbow": 25,
+    "heavy crossbow": 50,
+    "shortbow": 25,
+    "longbow": 50,
+    # Default fallback for weapons not listed
+    "default": 15,
 }
 
 # Material flat-rate additions (DSA formula: MatCost = Armor Cost + Material Flat Rate)
@@ -187,6 +223,52 @@ def calculate_price(criteria: dict) -> float:
     is_enspelled = "enspelled" in item_name_lower
     if scroll_level is not None and scroll_level == scroll_level and not is_enspelled: # NaN check
         return float(SPELL_SCROLL_PRICES.get(int(scroll_level), 75))
+
+    # Enspelled items: use DSA formula (Base_Enspelled[level] + Item_Cost × 5.0)
+    # Extract spell level from item name (e.g., "Enspelled (Level 8) Dagger" -> 8)
+    if is_enspelled:
+        import re
+        level_match = re.search(r'Level (\d+)', criteria.get("name", ""))
+        cantrip_match = re.search(r'Cantrip', criteria.get("name", ""), re.IGNORECASE)
+        
+        if level_match:
+            spell_level = int(level_match.group(1))
+        elif cantrip_match:
+            spell_level = 0
+        else:
+            # Fallback: can't determine level, use rarity-based pricing
+            spell_level = None
+        
+        if spell_level is not None and spell_level in ENSPELLED_BASE_PRICES:
+            # Get base enspelled price
+            base_enspelled_price = ENSPELLED_BASE_PRICES[spell_level]
+            
+            # Get item base cost (mundane item cost)
+            # Check armor first, then weapons
+            item_base_cost = 0.0
+            for armor_name, armor_cost in EXPENSIVE_ARMOR_BASES.items():
+                if armor_name in item_name_lower:
+                    item_base_cost = float(armor_cost)
+                    break
+            
+            # If not armor, check weapons
+            if item_base_cost == 0:
+                for weapon_name, weapon_cost in WEAPON_BASE_COSTS.items():
+                    if weapon_name != "default" and weapon_name in item_name_lower:
+                        item_base_cost = float(weapon_cost)
+                        break
+                else:
+                    # Use default weapon cost if no match found
+                    if any(w in item_name_lower for w in ["sword", "axe", "hammer", "bow", "dagger", "spear", "staff"]):
+                        item_base_cost = float(WEAPON_BASE_COSTS["default"])
+            
+            # Apply DSA formula: Base_Enspelled + Item_Cost × 5.0
+            # DSA does NOT apply attunement modifiers to enspelled items
+            enspelled_price = base_enspelled_price + item_base_cost * 5.0
+            
+            # Apply floor
+            floor = RARITY_FLOORS.get(rarity, 1)
+            return max(floor, enspelled_price)
 
     base = float(RARITY_BASE_PRICES.get(rarity, 750))
 

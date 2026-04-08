@@ -46,28 +46,36 @@ def main():
     blended_count = 0
     skipped_official = 0
     for idx, row in items_with_variants.iterrows():
-        if pd.notna(row.get('variant_price')):
-            # Skip variant adjustment for items with official prices (already authoritative)
-            if pd.notna(row.get('official_price_gp')) and row.get('official_price_gp', 0) > 0:
-                skipped_official += 1
-                continue
+        if not pd.notna(row.get('variant_price')):
+            continue
 
-            # Skip variant adjustment for material armor (mithral/adamantine)
-            # These have their own pricing formula that accounts for base armor cost
-            material = row.get('material', '')
-            if material in ('mithral', 'adamantine'):
-                continue
+        # Skip variant adjustment for items with official prices (already authoritative)
+        if pd.notna(row.get('official_price_gp')) and row.get('official_price_gp', 0) > 0:
+            skipped_official += 1
+            continue
 
-            rule_price = row.get('rule_price', 0)
-            variant_price = row.get('variant_price', rule_price)
+        # Skip variant adjustment for material armor (mithral/adamantine)
+        # These have their own pricing formula that accounts for base armor cost
+        material = row.get('material', '')
+        if material in ('mithral', 'adamantine'):
+            continue
 
-            final_variant_price = 0.5 * rule_price + 0.5 * variant_price
+        # Skip variant adjustment for enspelled items
+        # These have their own DSA-based pricing formula
+        item_name = str(row.get('name', '')).lower()
+        if 'enspelled' in item_name:
+            continue
 
-            if 'variant_adjusted_price' not in items_with_variants.columns:
-                items_with_variants['variant_adjusted_price'] = None
+        rule_price = row.get('rule_price', 0)
+        variant_price = row.get('variant_price', rule_price)
 
-            items_with_variants.loc[idx, 'variant_adjusted_price'] = final_variant_price
-            blended_count += 1
+        final_variant_price = 0.5 * rule_price + 0.5 * variant_price
+
+        if 'variant_adjusted_price' not in items_with_variants.columns:
+            items_with_variants['variant_adjusted_price'] = None
+
+        items_with_variants.loc[idx, 'variant_adjusted_price'] = final_variant_price
+        blended_count += 1
 
     print(f"Blended variant prices for {blended_count} items")
     print(f"Skipped {skipped_official} items with official prices")
