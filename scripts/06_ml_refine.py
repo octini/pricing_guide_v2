@@ -129,13 +129,15 @@ def main():
         df = pd.read_csv(INPUT_FALLBACK_CSV)
         print(f"Loaded {len(df)} items from {INPUT_FALLBACK_CSV} (variant-adjusted not found)")
 
-    # Only train on items with amalgamated ground truth
-    train_mask = df["amalgamated_price"].notna()
+    # Train on items with amalgamated ground truth OR variant_price (scaled from generic parents)
+    train_mask = df["amalgamated_price"].notna() | df["variant_price"].notna()
     train_df = df[train_mask].copy()
-    print(f"Training set: {len(train_df)} items with amalgamated prices")
+    print(f"Training set: {len(train_df)} items with amalgamated or variant prices")
 
     X = build_features(train_df)
-    y = np.log1p(train_df["amalgamated_price"].values)  # log-transform for normality
+    # Use amalgamated_price where available, fall back to variant_price
+    target_prices = train_df["amalgamated_price"].combine_first(train_df["variant_price"])
+    y = np.log1p(target_prices.values) # log-transform for normality
 
     X_train, X_val, y_train, y_val = train_test_split(X, y, test_size=0.2, random_state=42)
 
@@ -181,8 +183,8 @@ def main():
         if pd.notna(row.get("variant_price")):
             return row["rule_price"]
         if pd.notna(row["amalgamated_price"]):
-            # Has ground truth: blend rule and ML
-            return 0.4 * row["rule_price"] + 0.6 * row["ml_price"]
+            # Has ground truth: blend amalgamated with ML (preserve ground truth)
+            return 0.7 * row["amalgamated_price"] + 0.3 * row["ml_price"]
         else:
             # No ground truth: bias toward ML after item_type feature addition
             return 0.35 * row["rule_price"] + 0.65 * row["ml_price"]

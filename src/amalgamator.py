@@ -118,15 +118,11 @@ def amalgamate_prices(
     Returns items_df with added columns:
     dsa_price, msrp_price, dmpg_price, amalgamated_price, price_sources, price_confidence
     """
-    # Trim outliers from each guide
-    dsa_trimmed = trim_outliers(dsa_df.copy(), "price_gp") if len(dsa_df) >= 10 else dsa_df
-    msrp_trimmed = trim_outliers(msrp_df.copy(), "price_gp") if len(msrp_df) >= 10 else msrp_df
-    dmpg_trimmed = trim_outliers(dmpg_df.copy(), "price_gp") if len(dmpg_df) >= 10 else dmpg_df
-
     # Build lookup dicts: normalized_name → price_gp
-    dsa_lookup = dict(zip(dsa_trimmed["normalized_name"], dsa_trimmed["price_gp"])) if len(dsa_trimmed) > 0 else {}
-    msrp_lookup = dict(zip(msrp_trimmed["normalized_name"], msrp_trimmed["price_gp"])) if len(msrp_trimmed) > 0 else {}
-    dmpg_lookup = dict(zip(dmpg_trimmed["normalized_name"], dmpg_trimmed["price_gp"])) if len(dmpg_trimmed) > 0 else {}
+    # Note: outlier trimming should be done BEFORE calling this function
+    dsa_lookup = dict(zip(dsa_df["normalized_name"], dsa_df["price_gp"])) if len(dsa_df) > 0 else {}
+    msrp_lookup = dict(zip(msrp_df["normalized_name"], msrp_df["price_gp"])) if len(msrp_df) > 0 else {}
+    dmpg_lookup = dict(zip(dmpg_df["normalized_name"], dmpg_df["price_gp"])) if len(dmpg_df) > 0 else {}
 
     dsa_names = list(dsa_lookup.keys())
     msrp_names = list(msrp_lookup.keys())

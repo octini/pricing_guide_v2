@@ -28,37 +28,64 @@ def compute_generic_base_prices(
     for generic_name in group_stats['generic_name']:
         variants = mapping_df[mapping_df['generic_name'] == generic_name]
         variant_names = variants['specific_name'].tolist()
-        
-        # Try amalgamated prices first
+
+        # PRIORITY 1: Check if the generic itself has a price in priced_df
+        price_col = 'rule_price' if 'rule_price' in priced_df.columns else 'final_price'
+        generic_row = priced_df[priced_df['name'] == generic_name]
+        if len(generic_row) > 0:
+            generic_price = generic_row.iloc[0].get(price_col)
+            if generic_price is not None and not pd.isna(generic_price) and generic_price > 0:
+                base_prices.append({
+                    'generic_name': generic_name,
+                    'base_price': generic_price,
+                    'price_source': 'generic_rule_price',
+                    'variant_count': len(variants),
+                })
+                continue
+
+        # PRIORITY 2: Check if the generic has an amalgamated_price
+        if amalgamated_df is not None:
+            generic_amal_row = amalgamated_df[amalgamated_df['name'] == generic_name]
+            if len(generic_amal_row) > 0:
+                generic_amal = generic_amal_row.iloc[0].get('amalgamated_price')
+                if generic_amal is not None and not pd.isna(generic_amal):
+                    base_prices.append({
+                        'generic_name': generic_name,
+                        'base_price': generic_amal,
+                        'price_source': 'generic_amalgamated',
+                        'variant_count': len(variants),
+                    })
+                    continue
+
+        # PRIORITY 3: Fall back to median of variant amalgamated prices
         if amalgamated_df is not None:
             variant_amals = amalgamated_df[
                 (amalgamated_df['name'].isin(variant_names)) &
                 (amalgamated_df['amalgamated_price'].notna())
             ]['amalgamated_price']
-            
+
             if len(variant_amals) > 0:
                 median_amal = variant_amals.median()
                 base_prices.append({
                     'generic_name': generic_name,
                     'base_price': median_amal,
-                    'price_source': 'amalgamated_median',
+                    'price_source': 'variant_amalgamated_median',
                     'variant_count': len(variants),
                 })
                 continue
-        
-        # Fall back to rule_price from priced_df
-        price_col = 'rule_price' if 'rule_price' in priced_df.columns else 'final_price'
+
+        # PRIORITY 4: Fall back to median of variant rule prices
         variant_prices = priced_df[
             (priced_df['name'].isin(variant_names)) &
             (priced_df[price_col].notna())
         ][price_col]
-        
+
         if len(variant_prices) > 0:
             median_price = variant_prices.median()
             base_prices.append({
                 'generic_name': generic_name,
                 'base_price': median_price,
-                'price_source': 'final_price_median',
+                'price_source': 'variant_price_median',
                 'variant_count': len(variants),
             })
         else:

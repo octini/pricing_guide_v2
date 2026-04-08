@@ -98,6 +98,21 @@ def main():
 
     rows = extract_items(items)
 
+    # Override rarity for Drow items based on bonus level
+    def override_drow_rarity(row):
+        name = str(row.get("name", "")).lower()
+        if "drow" in name:
+            if "+3" in name:
+                return "legendary"
+            elif "+2" in name:
+                return "very_rare"
+            elif "+1" in name:
+                return "rare"
+        return row.get("rarity", "")
+
+    for row in rows:
+        row["rarity"] = override_drow_rarity(row)
+
     fieldnames = ["name", "source", "page", "rarity", "type", "official_price_gp", "req_attune", "url", "raw_json"]
 
     with open(OUTPUT_CSV, "w", newline="", encoding="utf-8") as f:

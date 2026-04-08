@@ -3,61 +3,55 @@
 ## Overall Statistics
 
 - Total items: 9,422
-- Median price: 3,707 gp
-- Mean price: 11,627 gp
-- Std dev: 20,437 gp
-- CV: 1.76
-- Skewness: 4.23
-- Price range: 0 – 249,114 gp
+- Median price: 4,796 gp
+- Mean price: 13,364 gp
+- Std dev: 22,920 gp
+- CV: 1.72
+- Skewness: 6.35
+- Price range: 0 – 748,384 gp
 
-## Outliers by Rarity
+## Outliers by Rarity & Type
 
-| Rarity | Count | Median | IQR Width | Outliers | Outlier Rate |
-|--------|-------|--------|-----------|----------|--------------|
-| artifact | 78 | 156,010 gp | 16,927 | 3 | 3.8%  |
-| common | 435 | 137 gp | 110 | 29 | 6.7%  |
-| legendary | 1118 | 45,000 gp | 16,719 | 27 | 2.4%  |
-| mundane | 444 | 5 gp | 49 | 76 | 17.1%  |
-| rare | 2571 | 4,066 gp | 2,885 | 17 | 0.7%  |
-| uncommon | 1710 | 793 gp | 1,216 | 39 | 2.3%  |
-| unknown | 115 | 405 gp | 802 | 4 | 3.5%  |
-| unknown_magic | 1209 | 2,156 gp | 2,365 | 145 | 12.0%  |
-| varies | 42 | 750 gp | 150 | 6 | 14.3%  |
-| very_rare | 1700 | 14,916 gp | 5,119 | 236 | 13.9%  |
+| Rarity/Type | Count | Median | IQR Width | Outliers | Outlier Rate |
+|--------------|-------|--------|-----------|----------|--------------|
+| artifact (persistent) | 78 | 156,010 gp | 16,927 | 3 | 3.8%  |
+| common (consumable) | 69 | 90 gp | 22 | 22 | 31.9%  |
+| common (persistent) | 366 | 148 gp | 105 | 12 | 3.3%  |
+| legendary (consumable) | 26 | 25,287 gp | 18,588 | 1 | 3.8%  |
+| legendary (persistent) | 1238 | 47,109 gp | 15,631 | 17 | 1.4%  |
+| mundane (consumable) | 46 | 10 gp | 199 | 6 | 13.0%  |
+| mundane (persistent) | 398 | 5 gp | 39 | 66 | 16.6%  |
+| rare (consumable) | 94 | 2,472 gp | 2,796 | 3 | 3.2%  |
+| rare (persistent) | 2623 | 5,002 gp | 2,123 | 45 | 1.7%  |
+| uncommon (consumable) | 99 | 252 gp | 516 | 8 | 8.1%  |
+| uncommon (persistent) | 1611 | 774 gp | 1,566 | 20 | 1.2%  |
+| unknown (consumable) | 29 | 108 gp | 152 | 0 | 0.0%  |
+| unknown (persistent) | 86 | 405 gp | 899 | 0 | 0.0%  |
+| unknown_magic (consumable) | 8 | 610 gp | 630 | 0 | 0.0%  |
+| unknown_magic (persistent) | 763 | 2,177 gp | 1,510 | 8 | 1.0%  |
+| varies (consumable) | 6 | 675 gp | 459 | 0 | 0.0%  |
+| varies (persistent) | 36 | 750 gp | 94 | 4 | 11.1%  |
+| very_rare (consumable) | 72 | 1,009 gp | 6,791 | 5 | 6.9%  |
+| very_rare (persistent) | 1774 | 15,323 gp | 3,205 | 284 | 16.0%  |
 
 ## Extreme Outliers (> 3× rarity median)
 
-Total: 1003 items
+Total: 977 items
 
 | Name | Source | Rarity | Price | Rarity Median |
 |------|--------|--------|-------|---------------|
-| Cast-Off Breastplate | XDMG | common | 450 gp | - |
-| Cast-Off Chain Mail | XDMG | common | 521 gp | - |
-| Cast-Off Half Plate Armor | XDMG | common | 636 gp | - |
-| Cast-Off Padded Armor | XDMG | common | 468 gp | - |
-| Cast-Off Plate Armor | XDMG | common | 1,043 gp | - |
-| Cast-Off Ring Mail | XDMG | common | 500 gp | - |
-| Cast-Off Scale Mail | XDMG | common | 500 gp | - |
-| Cast-Off Splint Armor | XDMG | common | 532 gp | - |
-| Chain Mail of Gleaming | XDMG | common | 429 gp | - |
-| Earring of Message | CRCotN | common | 1,002 gp | - |
-| Half Plate Armor of Gleaming | XDMG | common | 547 gp | - |
-| Hat of Vermin | XDMG | common | 725 gp | - |
-| Horn of Silent Alarm | XDMG | common | 1,278 gp | - |
-| Imbued Wood Focus | ERLW | common | 464 gp | - |
-| Mask of Changed Appearance | NF | common | 652 gp | - |
-| Medani Dowser | ExploringEberron24 | common | 765 gp | - |
-| Orb of Shielding | ERLW | common | 464 gp | - |
-| Plate Armor of Gleaming | XDMG | common | 943 gp | - |
-| Ring Mail of Gleaming | XDMG | common | 415 gp | - |
-| Scale Mail of Gleaming | XDMG | common | 415 gp | - |
-| Smoldering Half Plate Armor | XDMG | common | 486 gp | - |
-| Smoldering Plate Armor | XDMG | common | 874 gp | - |
+| Cast-Off Plate Armor | XDMG | common | 809 gp | - |
+| Earring of Message | CRCotN | common | 994 gp | - |
+| Mask of Changed Appearance | NF | common | 644 gp | - |
+| Medani Dowser | ExploringEberron24 | common | 673 gp | - |
+| Plate Armor of Gleaming | XDMG | common | 809 gp | - |
+| Smoldering Plate Armor | XDMG | common | 809 gp | - |
+| Wyllow's Staff of Flowers | WDMM | common | 1,749 gp | - |
+| Potion of Climbing | XDMG | common | 543 gp | - |
+| Potion of Healing | XDMG | common | 306 gp | - |
 | Spell Scroll (Cantrip) | XDMG | common | 25 gp | - |
-| Splint Armor of Gleaming | XDMG | common | 436 gp | - |
-| Thurimbar Rod | ExploringEberron24 | common | 510 gp | - |
-| Unbreakable Arrow | XGE | common | 8 gp | - |
-| Walloping Ammunition | XDMG | common | 8 gp | - |
+| Unbreakable Arrow | XGE | common | 28 gp | - |
+| Walloping Ammunition | XDMG | common | 9 gp | - |
 | Walloping Arrow | XDMG | common | 10 gp | - |
 | Walloping Bellows Cannister | XDMG | common | 10 gp | - |
 | Walloping Bolt | XDMG | common | 10 gp | - |
@@ -71,13 +65,28 @@ Total: 1003 items
 | Walloping Shell | XDMG | common | 10 gp | - |
 | Walloping Shot | XDMG | common | 10 gp | - |
 | Walloping Sling Bullet | XDMG | common | 10 gp | - |
-| Wyllow's Staff of Flowers | WDMM | common | 1,753 gp | - |
-| Breastplate of Kamvuul Norek | ExploringEberron24 | legendary | 157,404 gp | - |
-| Hide of the Feral Guardian (Exalted) | EGW | legendary | 192,592 gp | - |
-| Potion of Dragon's Majesty | FTD | legendary | 8,321 gp | - |
-| Potion of Giant Size | SKT | legendary | 8,296 gp | - |
-| Rod of Lordly Might | XDMG | legendary | 142,836 gp | - |
-| Shaarat'doovol, the Blade of Truth | ExploringEberron24 | legendary | 249,114 gp | - |
-| Shield of the Hidden Lord | BGDIA | legendary | 221,734 gp | - |
+| Blackstaff | WDH | legendary | 190,292 gp | - |
+| Breastplate of Kamvuul Norek | ExploringEberron24 | legendary | 748,384 gp | - |
+| Infernal Tack | MTF | legendary | 12,786 gp | - |
+| Monster Hunter's Weapon +3 | MonstersOfDrakkenheim | legendary | 14,366 gp | - |
+| Sovereign Glue | XDMG | legendary | 13,145 gp | - |
+| Universal Solvent | XDMG | legendary | 9,885 gp | - |
+| Spell Scroll (Level 9) | XDMG | legendary | 100,000 gp | - |
 | Acid | XPHB | mundane | 25 gp | - |
 | Adamantine Bar | WDH | mundane | 1,000 gp | - |
+| Aerenal Trinket | ERLW | mundane | 1 gp | - |
+| Airship | XPHB | mundane | 40,000 gp | - |
+| Alchemist's Fire | XPHB | mundane | 50 gp | - |
+| Alchemist's Supplies | XPHB | mundane | 50 gp | - |
+| Ale (gallon) | PHB | mundane | 0 gp | - |
+| Ale (mug) | XPHB | mundane | 0 gp | - |
+| Antitoxin | XPHB | mundane | 50 gp | - |
+| Argonnessen Trinket | ERLW | mundane | 1 gp | - |
+| Artisan's Tools | XPHB | mundane | 1 gp | - |
+| Axe Beak | FRHoF | mundane | 50 gp | - |
+| Bagpipes | XPHB | mundane | 30 gp | - |
+| Ball Bearing | PHB | mundane | 0 gp | - |
+| Ball Bearings | XPHB | mundane | 1 gp | - |
+| Bandore | FRHoF | mundane | 65 gp | - |
+| Barding | PHB | mundane | 1 gp | - |
+| Basic Fishing Equipment | AAG | mundane | 0 gp | - |

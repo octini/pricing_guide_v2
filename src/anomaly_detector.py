@@ -5,7 +5,7 @@ import pandas as pd
 import numpy as np
 
 
-def detect_anomalies(df, price_col='final_price', rarity_col='rarity'):
+def detect_anomalies(df, price_col='final_price', rarity_col='rarity', consumable_col='is_consumable'):
     results = {'overall_stats': {}, 'by_rarity': {}, 'outliers': pd.DataFrame(), 'extreme_outliers': pd.DataFrame()}
 
     prices = df[price_col].dropna()
@@ -23,7 +23,7 @@ def detect_anomalies(df, price_col='final_price', rarity_col='rarity'):
 
     all_outliers, all_extreme = [], []
 
-    for rarity, group in df.groupby(rarity_col):
+    for (rarity, is_consumable), group in df.groupby([rarity_col, consumable_col]):
         gprices = group[price_col].dropna()
         if len(gprices) < 4:
             continue
@@ -42,7 +42,11 @@ def detect_anomalies(df, price_col='final_price', rarity_col='rarity'):
 
         n_outliers = outlier_mask.sum()
 
-        results['by_rarity'][rarity] = {
+        # Create composite key for output
+        consumable_str = 'consumable' if is_consumable else 'persistent'
+        composite_key = f"{rarity} ({consumable_str})"
+        
+        results['by_rarity'][composite_key] = {
             'count': len(group),
             'median': median,
             'mean': gprices.mean(),
@@ -80,12 +84,12 @@ def format_anomaly_report(results, price_col='final_price'):
     lines.append(f"- Skewness: {stats['skewness']:.2f}")
     lines.append(f"- Price range: {stats['min']:,.0f} – {stats['max']:,.0f} gp\n")
 
-    lines.append('## Outliers by Rarity\n')
-    lines.append('| Rarity | Count | Median | IQR Width | Outliers | Outlier Rate |')
-    lines.append('|--------|-------|--------|-----------|----------|--------------|')
-    for rarity, s in sorted(results['by_rarity'].items()):
+    lines.append('## Outliers by Rarity & Type\n')
+    lines.append('| Rarity/Type | Count | Median | IQR Width | Outliers | Outlier Rate |')
+    lines.append('|--------------|-------|--------|-----------|----------|--------------|')
+    for rarity_type, s in sorted(results['by_rarity'].items()):
         flag = '⚠️ zero-width IQR' if s['zero_width_iqr'] else ''
-        lines.append(f"| {rarity} | {s['count']} | {s['median']:,.0f} gp | {s['iqr']:,.0f} | {s['n_outliers']} | {s['outlier_rate']:.1%} {flag} |")
+        lines.append(f"| {rarity_type} | {s['count']} | {s['median']:,.0f} gp | {s['iqr']:,.0f} | {s['n_outliers']} | {s['outlier_rate']:.1%} {flag} |")
 
     lines.append(f"\n## Extreme Outliers (> 3× rarity median)\n")
     extreme = results['extreme_outliers']

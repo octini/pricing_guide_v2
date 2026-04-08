@@ -7,7 +7,7 @@ from pathlib import Path
 
 sys.path.insert(0, str(Path(__file__).parent.parent))
 
-from src.amalgamator import amalgamate_prices
+from src.amalgamator import amalgamate_prices, trim_outliers
 from src.utils import normalize_item_name
 
 ITEMS_CSV = Path("data/processed/items_criteria.csv")
@@ -54,7 +54,12 @@ def main():
     dsa = pd.read_csv(DSA_CSV) if DSA_CSV.exists() else pd.DataFrame()
     msrp = pd.read_csv(MSRP_CSV) if MSRP_CSV.exists() else pd.DataFrame()
     dmpg = pd.read_csv(DMPG_CSV) if DMPG_CSV.exists() else pd.DataFrame()
-    
+
+    # Trim outliers BEFORE normalizing ammo bundles (so we don't delete valid ammo as "too cheap")
+    dsa = trim_outliers(dsa, "price_gp") if len(dsa) >= 10 else dsa
+    msrp = trim_outliers(msrp, "price_gp") if len(msrp) >= 10 else msrp
+    dmpg = trim_outliers(dmpg, "price_gp") if len(dmpg) >= 10 else dmpg
+
     dsa = normalize_ammo_bundles(dsa, "DSA")
     msrp = normalize_ammo_bundles(msrp, "MSRP")
     dmpg = normalize_ammo_bundles(dmpg, "DMPG")

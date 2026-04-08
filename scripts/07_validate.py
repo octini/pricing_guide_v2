@@ -18,6 +18,15 @@ def main():
     df = pd.read_csv(INPUT_CSV)
     print(f'Loaded {len(df)} items')
 
+    # Derive is_consumable for anomaly bucketing
+    # Consumables typically include potions (P), scrolls (SC), ammunition, and poisons.
+    # Note that 'type' can be 'P|XPHB', so we use .str.startswith or just regex/contains
+    is_potion = df['type'].astype(str).str.startswith('P')
+    is_scroll = df['type'].astype(str).str.startswith('SC')
+    is_ammo = df.get('is_ammunition', False) == True
+    is_poison = df.get('is_poison', False) == True
+    df['is_consumable'] = is_potion | is_scroll | is_ammo | is_poison
+
     official = df[df['official_price_gp'].notna() & (df['rarity'] == 'mundane')].copy()
     print(f'\nOfficial-priced mundane items: {len(official)}')
 
