@@ -221,6 +221,13 @@ def calculate_price(criteria: dict) -> float:
         # So we use: base_item_cost * rarity_mult * (1.0 if attunement, 1.1 if no attunement)
         attune_bonus = 1.1 if req_attune == "none" else 1.0
         material_armor_price = base_item_cost * rarity_mult * attune_bonus
+
+        # Add AC bonus for magic variants (e.g., Mithral +1 Plate Armor)
+        # AC bonus is added AFTER the multiplier (same as normal formula)
+        ac_bonus = criteria.get("ac_bonus") or 0
+        if ac_bonus > 0:
+            material_armor_price += AC_BONUS_ADDITIVE.get(min(ac_bonus, 3), 15000)
+
         # Return this price directly, bypassing the normal formula
         floor = RARITY_FLOORS.get(rarity, 1)
         return max(floor, material_armor_price)
