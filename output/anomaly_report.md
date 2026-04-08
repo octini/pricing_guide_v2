@@ -22,10 +22,10 @@
 | mundane (consumable) | 46 | 10 gp | 199 | 6 | 13.0%  |
 | mundane (persistent) | 398 | 5 gp | 39 | 66 | 16.6%  |
 | rare (consumable) | 94 | 2,472 gp | 2,796 | 3 | 3.2%  |
-| rare (persistent) | 2623 | 5,002 gp | 2,123 | 45 | 1.7%  |
-| uncommon (consumable) | 99 | 252 gp | 516 | 8 | 8.1%  |
-| uncommon (persistent) | 1611 | 774 gp | 1,566 | 20 | 1.2%  |
-| unknown (consumable) | 29 | 108 gp | 152 | 0 | 0.0%  |
+| rare (persistent) | 2623 | 5,002 gp | 2,122 | 45 | 1.7%  |
+| uncommon (consumable) | 99 | 250 gp | 516 | 8 | 8.1%  |
+| uncommon (persistent) | 1611 | 769 gp | 1,566 | 27 | 1.7%  |
+| unknown (consumable) | 29 | 106 gp | 150 | 0 | 0.0%  |
 | unknown (persistent) | 86 | 405 gp | 899 | 0 | 0.0%  |
 | unknown_magic (consumable) | 8 | 610 gp | 630 | 0 | 0.0%  |
 | unknown_magic (persistent) | 763 | 2,177 gp | 1,510 | 8 | 1.0%  |
@@ -36,7 +36,7 @@
 
 ## Extreme Outliers (> 3× rarity median)
 
-Total: 977 items
+Total: 995 items
 
 | Name | Source | Rarity | Price | Rarity Median |
 |------|--------|--------|-------|---------------|

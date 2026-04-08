@@ -51,7 +51,13 @@ def main():
             if pd.notna(row.get('official_price_gp')) and row.get('official_price_gp', 0) > 0:
                 skipped_official += 1
                 continue
-            
+
+            # Skip variant adjustment for material armor (mithral/adamantine)
+            # These have their own pricing formula that accounts for base armor cost
+            material = row.get('material', '')
+            if material in ('mithral', 'adamantine'):
+                continue
+
             rule_price = row.get('rule_price', 0)
             variant_price = row.get('variant_price', rule_price)
 
