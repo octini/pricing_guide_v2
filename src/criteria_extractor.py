@@ -166,7 +166,8 @@ def extract_prose_criteria(description: str) -> dict:
         "fly speed" in desc or
         re.search(r'\byou can fly\b', desc) or
         re.search(r'\bgain.*fly\w* speed\b', desc) or
-        re.search(r'\bfly\w* speed of \d+', desc)
+        re.search(r'\bfly\w* speed of \d+', desc) or
+        re.search(r'\baction to fly\b', desc)
     )
     if has_flying:
         limited_keywords = ["minute", "hour", "until you land", "limited", "short rest", "long rest", "until you attack", "concentration", "action to end", "up to"]
