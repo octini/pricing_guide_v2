@@ -17,6 +17,36 @@ DMPG_CSV = Path("data/raw/dmpg_prices.csv")
 OUTPUT_CSV = Path("data/processed/amalgamated_prices.csv")
 
 
+def normalize_ammo_bundles(df: pd.DataFrame, source: str) -> pd.DataFrame:
+    """Normalize ammunition prices that were priced as bundles instead of individually."""
+    if df.empty or 'item_name' not in df.columns:
+        return df
+        
+    for idx, row in df.iterrows():
+        name = str(row['item_name']).lower()
+        price = row['price_gp']
+        
+        # Explicit bundles
+        if '(20)' in name:
+            df.loc[idx, 'price_gp'] = price / 20.0
+            continue
+        if '(10)' in name:
+            df.loc[idx, 'price_gp'] = price / 10.0
+            continue
+        if '(50)' in name:
+            df.loc[idx, 'price_gp'] = price / 50.0
+            continue
+            
+        # Known implicit bundles in DSA
+        if source == "DSA":
+            if name == "adamantine ammunition":
+                df.loc[idx, 'price_gp'] = price / 20.0
+            elif name in ["ammunition, +1", "ammunition, +2", "ammunition, +3", "unbreakable arrow"]:
+                # Appears to be bundles of 10 based on comparison to MSRP/DMPG
+                df.loc[idx, 'price_gp'] = price / 10.0
+                
+    return df
+
 def main():
     items = pd.read_csv(ITEMS_CSV)
     items["normalized_name"] = items["name"].apply(normalize_item_name)
@@ -24,6 +54,10 @@ def main():
     dsa = pd.read_csv(DSA_CSV) if DSA_CSV.exists() else pd.DataFrame()
     msrp = pd.read_csv(MSRP_CSV) if MSRP_CSV.exists() else pd.DataFrame()
     dmpg = pd.read_csv(DMPG_CSV) if DMPG_CSV.exists() else pd.DataFrame()
+    
+    dsa = normalize_ammo_bundles(dsa, "DSA")
+    msrp = normalize_ammo_bundles(msrp, "MSRP")
+    dmpg = normalize_ammo_bundles(dmpg, "DMPG")
     
     print(f"Matching {len(items)} items against {len(dsa)} DSA, {len(msrp)} MSRP, {len(dmpg)} DMPG prices...")
     

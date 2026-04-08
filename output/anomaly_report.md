@@ -3,31 +3,31 @@
 ## Overall Statistics
 
 - Total items: 9,422
-- Median price: 3,701 gp
-- Mean price: 11,720 gp
-- Std dev: 20,726 gp
-- CV: 1.77
-- Skewness: 4.26
-- Price range: 0 – 244,647 gp
+- Median price: 3,707 gp
+- Mean price: 11,627 gp
+- Std dev: 20,437 gp
+- CV: 1.76
+- Skewness: 4.23
+- Price range: 0 – 249,114 gp
 
 ## Outliers by Rarity
 
 | Rarity | Count | Median | IQR Width | Outliers | Outlier Rate |
 |--------|-------|--------|-----------|----------|--------------|
 | artifact | 78 | 156,010 gp | 16,927 | 3 | 3.8%  |
-| common | 435 | 134 gp | 110 | 30 | 6.9%  |
-| legendary | 1118 | 45,000 gp | 18,227 | 17 | 1.5%  |
+| common | 435 | 137 gp | 110 | 29 | 6.7%  |
+| legendary | 1118 | 45,000 gp | 16,719 | 27 | 2.4%  |
 | mundane | 444 | 5 gp | 49 | 76 | 17.1%  |
-| rare | 2571 | 4,066 gp | 2,878 | 20 | 0.8%  |
+| rare | 2571 | 4,066 gp | 2,885 | 17 | 0.7%  |
 | uncommon | 1710 | 793 gp | 1,216 | 39 | 2.3%  |
-| unknown | 115 | 405 gp | 802 | 13 | 11.3%  |
+| unknown | 115 | 405 gp | 802 | 4 | 3.5%  |
 | unknown_magic | 1209 | 2,156 gp | 2,365 | 145 | 12.0%  |
 | varies | 42 | 750 gp | 150 | 6 | 14.3%  |
-| very_rare | 1700 | 14,916 gp | 5,190 | 218 | 12.8%  |
+| very_rare | 1700 | 14,916 gp | 5,119 | 236 | 13.9%  |
 
 ## Extreme Outliers (> 3× rarity median)
 
-Total: 1061 items
+Total: 1003 items
 
 | Name | Source | Rarity | Price | Rarity Median |
 |------|--------|--------|-------|---------------|
@@ -40,25 +40,24 @@ Total: 1061 items
 | Cast-Off Scale Mail | XDMG | common | 500 gp | - |
 | Cast-Off Splint Armor | XDMG | common | 532 gp | - |
 | Chain Mail of Gleaming | XDMG | common | 429 gp | - |
-| Earring of Message | CRCotN | common | 999 gp | - |
+| Earring of Message | CRCotN | common | 1,002 gp | - |
 | Half Plate Armor of Gleaming | XDMG | common | 547 gp | - |
-| Hat of Vermin | XDMG | common | 722 gp | - |
-| Horn of Silent Alarm | XDMG | common | 1,308 gp | - |
-| Imbued Wood Focus | ERLW | common | 457 gp | - |
-| Mask of Changed Appearance | NF | common | 649 gp | - |
-| Medani Dowser | ExploringEberron24 | common | 753 gp | - |
-| Orb of Shielding | ERLW | common | 457 gp | - |
+| Hat of Vermin | XDMG | common | 725 gp | - |
+| Horn of Silent Alarm | XDMG | common | 1,278 gp | - |
+| Imbued Wood Focus | ERLW | common | 464 gp | - |
+| Mask of Changed Appearance | NF | common | 652 gp | - |
+| Medani Dowser | ExploringEberron24 | common | 765 gp | - |
+| Orb of Shielding | ERLW | common | 464 gp | - |
 | Plate Armor of Gleaming | XDMG | common | 943 gp | - |
-| Potion of Climbing | XDMG | common | 423 gp | - |
 | Ring Mail of Gleaming | XDMG | common | 415 gp | - |
 | Scale Mail of Gleaming | XDMG | common | 415 gp | - |
 | Smoldering Half Plate Armor | XDMG | common | 486 gp | - |
 | Smoldering Plate Armor | XDMG | common | 874 gp | - |
 | Spell Scroll (Cantrip) | XDMG | common | 25 gp | - |
 | Splint Armor of Gleaming | XDMG | common | 436 gp | - |
-| Thurimbar Rod | ExploringEberron24 | common | 542 gp | - |
-| Unbreakable Arrow | XGE | common | 19 gp | - |
-| Walloping Ammunition | XDMG | common | 29 gp | - |
+| Thurimbar Rod | ExploringEberron24 | common | 510 gp | - |
+| Unbreakable Arrow | XGE | common | 8 gp | - |
+| Walloping Ammunition | XDMG | common | 8 gp | - |
 | Walloping Arrow | XDMG | common | 10 gp | - |
 | Walloping Bellows Cannister | XDMG | common | 10 gp | - |
 | Walloping Bolt | XDMG | common | 10 gp | - |
@@ -73,11 +72,12 @@ Total: 1061 items
 | Walloping Shot | XDMG | common | 10 gp | - |
 | Walloping Sling Bullet | XDMG | common | 10 gp | - |
 | Wyllow's Staff of Flowers | WDMM | common | 1,753 gp | - |
-| Azuredge | WDH | legendary | 154,702 gp | - |
-| Blackstaff | WDH | legendary | 138,809 gp | - |
-| Breastplate of Kamvuul Norek | ExploringEberron24 | legendary | 135,474 gp | - |
-| Harp of Gilded Plenty | BGG | legendary | 235,561 gp | - |
-| Hide of the Feral Guardian (Exalted) | EGW | legendary | 183,321 gp | - |
-| Ignacious, the Sword of Burning Truth | DungeonsDrakkenheim | legendary | 154,159 gp | - |
-| Potion of Dragon's Majesty | FTD | legendary | 8,746 gp | - |
-| Potion of Giant Size | SKT | legendary | 8,688 gp | - |
+| Breastplate of Kamvuul Norek | ExploringEberron24 | legendary | 157,404 gp | - |
+| Hide of the Feral Guardian (Exalted) | EGW | legendary | 192,592 gp | - |
+| Potion of Dragon's Majesty | FTD | legendary | 8,321 gp | - |
+| Potion of Giant Size | SKT | legendary | 8,296 gp | - |
+| Rod of Lordly Might | XDMG | legendary | 142,836 gp | - |
+| Shaarat'doovol, the Blade of Truth | ExploringEberron24 | legendary | 249,114 gp | - |
+| Shield of the Hidden Lord | BGDIA | legendary | 221,734 gp | - |
+| Acid | XPHB | mundane | 25 gp | - |
+| Adamantine Bar | WDH | mundane | 1,000 gp | - |
