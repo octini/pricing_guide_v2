@@ -175,6 +175,11 @@ def calculate_price(criteria: dict) -> float:
     if official_price is not None and official_price == official_price and rarity in ("mundane", "none"):
         return float(official_price)
 
+    # Byeshk items: use official price directly (includes +400 gp material premium)
+    # Byeshk items have rarity=unknown but official_price_gp already set
+    if item_name_lower.startswith("byeshk") and official_price is not None and official_price == official_price and official_price > 0:
+        return float(official_price)
+
     # Spell scrolls: use level price directly (skip other formula)
     # BUT: Enspelled weapons are NOT scrolls - they're weapons with embedded spells
     # Enspelled items have charges and recharge, scrolls don't
@@ -431,6 +436,16 @@ def calculate_price(criteria: dict) -> float:
     is_ammo = criteria.get("is_ammunition", False)
     if is_ammo:
         consumable_mod = 0.02  # Ammo is single-use, sold in bundles; was 0.10
+
+    # Ammunition of Slaying and similar high-rarity ammunition:
+    # These are priced per piece, not as full magic items
+    # Apply additional discount for very_rare+ ammunition
+    if is_ammo and rarity in ("very_rare", "legendary", "artifact"):
+        # Ammunition is consumed on use, so high-rarity ammo should be much cheaper
+        # than a permanent magic item of the same rarity
+        # Arrow of Slaying: reference ~632 gp (DSA:267, MSRP:750, DMPG:1000)
+        # vs very_rare base 13,500 gp → need ~20x reduction
+        consumable_mod *= 0.05  # Additional 5% for high-rarity ammo
 
     # Potion/oil/elixir discount — rarity-tiered (single-use consumables)
     item_type = criteria.get("item_type_code", "") or ""

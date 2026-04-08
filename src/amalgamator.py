@@ -114,7 +114,7 @@ def amalgamate_prices(
 ) -> pd.DataFrame:
     """
     Match items to each guide and compute weighted amalgamated price.
-    
+
     Returns items_df with added columns:
     dsa_price, msrp_price, dmpg_price, amalgamated_price, price_sources, price_confidence
     """
@@ -122,20 +122,20 @@ def amalgamate_prices(
     dsa_trimmed = trim_outliers(dsa_df.copy(), "price_gp") if len(dsa_df) >= 10 else dsa_df
     msrp_trimmed = trim_outliers(msrp_df.copy(), "price_gp") if len(msrp_df) >= 10 else msrp_df
     dmpg_trimmed = trim_outliers(dmpg_df.copy(), "price_gp") if len(dmpg_df) >= 10 else dmpg_df
-    
+
     # Build lookup dicts: normalized_name → price_gp
     dsa_lookup = dict(zip(dsa_trimmed["normalized_name"], dsa_trimmed["price_gp"])) if len(dsa_trimmed) > 0 else {}
     msrp_lookup = dict(zip(msrp_trimmed["normalized_name"], msrp_trimmed["price_gp"])) if len(msrp_trimmed) > 0 else {}
     dmpg_lookup = dict(zip(dmpg_trimmed["normalized_name"], dmpg_trimmed["price_gp"])) if len(dmpg_trimmed) > 0 else {}
-    
+
     dsa_names = list(dsa_lookup.keys())
     msrp_names = list(msrp_lookup.keys())
     dmpg_names = list(dmpg_lookup.keys())
-    
+
     results = []
     for _, row in items_df.iterrows():
         norm_name = row.get("normalized_name", row["name"].lower())
-        
+
         # Match in each guide
         prices = {}
         for lookup, names, source in [
@@ -148,7 +148,52 @@ def amalgamate_prices(
             matches = fuzzy_match_items(norm_name, names, threshold)
             if matches:
                 prices[source] = lookup[matches[0]]
-        
+
+        # Fallback: generic variant matching for items that didn't match
+        # Build a generic query from item properties and try matching against
+        # each guide's generic entries (e.g., "+3 Weapon", "+1 Ammunition")
+        if not prices:
+            import re
+            item_name = row.get("name", "")
+            item_type = str(row.get("item_type_code", "")).split("|")[0] if pd.notna(row.get("item_type_code")) else ""
+            rarity = row.get("rarity", "")
+
+            # Check for +N bonus items
+            bonus_match = re.search(r'\+(\d+)', item_name)
+            if bonus_match:
+                bonus = bonus_match.group(1)
+                # Determine item category
+                is_ammo = (item_type == "A" or
+                          "ammunition" in item_name.lower() or
+                          any(a in item_name.lower() for a in ["arrow", "bolt", "bullet", "needle"]))
+                is_shield = (item_type == "S" or "shield" in item_name.lower())
+                is_weapon = (item_type in ("M", "R") or
+                            any(w in item_name.lower() for w in ["sword", "axe", "hammer", "dagger", "bow", "crossbow", "spear", "mace", "flail", "rapier", "scimitar", "lance", "halberd", "glaive", "pike", "trident", "whip", "net", "club", "greatclub", "handaxe", "light hammer", "sickle", "javelin", "quarterstaff", "light crossbow", "dart", "shortbow", "sling", "blowgun", "hand crossbow", "heavy crossbow", "longbow"]))
+
+                # Build generic query names for each guide's naming convention
+                generic_queries = []
+                if is_ammo:
+                    generic_queries = [f"ammunition +{bonus}", f"ammunition any +{bonus}", f"ammunition +{bonus} ea"]
+                elif is_shield:
+                    generic_queries = [f"shield +{bonus}"]
+                elif is_weapon:
+                    generic_queries = [f"weapon +{bonus}", f"weapon any +{bonus}"]
+
+                # Try matching generic queries against each guide
+                for query in generic_queries:
+                    for lookup, names, source in [
+                        (dsa_lookup, dsa_names, "DSA"),
+                        (msrp_lookup, msrp_names, "MSRP"),
+                        (dmpg_lookup, dmpg_names, "DMPG"),
+                    ]:
+                        if source in prices:
+                            continue  # Already have a price from this guide
+                        if not names:
+                            continue
+                        matches = fuzzy_match_items(query, names, threshold)
+                        if matches:
+                            prices[source] = lookup[matches[0]]
+
         if prices:
             weights = calculate_weights(prices)
             amalgamated = sum(prices[s] * weights[s] for s in prices)
@@ -158,7 +203,7 @@ def amalgamate_prices(
             amalgamated = None
             sources_str = ""
             confidence = "none"
-        
+
         results.append({
             **row.to_dict(),
             "dsa_price": prices.get("DSA"),
@@ -168,5 +213,5 @@ def amalgamate_prices(
             "price_sources": sources_str,
             "price_confidence": confidence,
         })
-    
+
     return pd.DataFrame(results)

@@ -13,7 +13,8 @@ from sklearn.preprocessing import StandardScaler
 
 sys.path.insert(0, str(Path(__file__).parent.parent))
 
-INPUT_CSV = Path("data/processed/items_priced.csv")
+INPUT_CSV = Path("data/processed/items_variant_adjusted.csv")
+INPUT_FALLBACK_CSV = Path("data/processed/items_priced.csv")
 OUTPUT_CSV = Path("data/processed/items_ml_priced.csv")
 
 # Features for ML: these are the additive criteria values
@@ -71,6 +72,12 @@ def is_spell_scroll(row):
     # NaN check: spell_level == spell_level is False for NaN
     return spell_level is not None and spell_level == spell_level
 
+def is_high_rarity_ammunition(row):
+    """Check if item is very_rare+ ammunition (priced per piece, not as full item)."""
+    is_ammo = row.get("is_ammunition", False)
+    rarity = row.get("rarity", "")
+    return is_ammo and rarity in ("very_rare", "legendary", "artifact")
+
 # Top item type codes (normalized, stripping source suffix after '|')
 # Chosen for density in training set: covers majority of matched items
 ITEM_TYPE_DUMMIES = ["M", "P", "SCF", "MA", "HA", "RG", "SC", "WD", "LA", "RD", "S", "INS", "A"]
@@ -114,8 +121,13 @@ def build_features(df: pd.DataFrame) -> pd.DataFrame:
 
 
 def main():
-    df = pd.read_csv(INPUT_CSV)
-    print(f"Loaded {len(df)} items")
+    import os
+    if INPUT_CSV.exists():
+        df = pd.read_csv(INPUT_CSV)
+        print(f"Loaded {len(df)} items from {INPUT_CSV}")
+    else:
+        df = pd.read_csv(INPUT_FALLBACK_CSV)
+        print(f"Loaded {len(df)} items from {INPUT_FALLBACK_CSV} (variant-adjusted not found)")
 
     # Only train on items with amalgamated ground truth
     train_mask = df["amalgamated_price"].notna()
@@ -161,6 +173,12 @@ def main():
             return row["rule_price"]
         # Don't blend spell scrolls - rule price is authoritative
         if is_spell_scroll(row):
+            return row["rule_price"]
+        # Don't blend high-rarity ammunition - per-piece pricing is already handled in rule
+        if is_high_rarity_ammunition(row):
+            return row["rule_price"]
+        # Don't blend variant-adjusted items - already have calibrated pricing
+        if pd.notna(row.get("variant_price")):
             return row["rule_price"]
         if pd.notna(row["amalgamated_price"]):
             # Has ground truth: blend rule and ML

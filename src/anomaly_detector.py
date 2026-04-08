@@ -60,9 +60,9 @@ def detect_anomalies(df, price_col='final_price', rarity_col='rarity'):
         all_extreme.append(group[extreme_mask])
 
     if all_outliers:
-        results['outliers'] = pd.concat(all_outliers, ignore_index=True)
+        results['outliers'] = pd.concat(all_outliers, ignore_index=False)
     if all_extreme:
-        results['extreme_outliers'] = pd.concat(all_extreme, ignore_index=True)
+        results['extreme_outliers'] = pd.concat(all_extreme, ignore_index=False)
 
     return results
 
