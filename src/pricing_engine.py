@@ -228,12 +228,13 @@ MATERIAL_AMMUNITION_MULTIPLIER = 50
 # These should use a much lower charge valuation (10 gp/charge instead of 500 gp)
 FLAVOR_ITEMS = {
     "staff of flowers",      # Creates flowers
+    "wyllows staff of flowers",  # Creates flowers (same mechanics, normalized name)
     "staff of birdcalls",    # Makes bird sounds
     "wand of smiles",        # Forces smiling
     "wand of scowls",        # Forces scowling
     "wand of conducting",    # Conducts music
     "wand of pyrotechnics",  # Creates fireworks (minor utility)
-    "heward's handy spice pouch",  # Produces seasoning
+    "hewards handy spice pouch",  # Produces seasoning
 "instrument of scribing", # Sends messages (minor utility)
 }
 
@@ -246,7 +247,7 @@ def calculate_price(criteria: dict) -> float:
     rarity = criteria.get("rarity", "unknown")
     official_price = criteria.get("official_price_gp")
     req_attune = criteria.get("req_attune", "none")
-    item_name_lower = str(criteria.get("name", "")).lower()
+    item_name_lower = str(criteria.get("name", "")).lower().replace("'", "")
 
     # Official prices used directly for mundane items
     # NaN check: x == x is False for NaN, so NaN official prices fall through
@@ -383,7 +384,7 @@ def calculate_price(criteria: dict) -> float:
     is_ammunition = criteria.get("is_ammunition", False)
     if is_ammunition and material and material in MATERIAL_COST_PER_LB:
         # Determine ammunition type from item name
-        item_name_lower = str(criteria.get("name", "")).lower()
+        item_name_lower = str(criteria.get("name", "")).lower().replace("'", "")
         weight = 0.05  # Default weight (arrow)
         for ammo_type, ammo_weight in AMMUNITION_WEIGHTS.items():
             if ammo_type in item_name_lower:
@@ -592,7 +593,7 @@ def calculate_price(criteria: dict) -> float:
             charges = None
         if charges and charges > 0:
             # Check if this is a flavor item (no tactical/combat value)
-            item_name_lower = str(criteria.get("name", "")).lower()
+            item_name_lower = str(criteria.get("name", "")).lower().replace("'", "")
             is_flavor_item = item_name_lower in FLAVOR_ITEMS
             
             recharge = str(criteria.get("recharge") or "")
