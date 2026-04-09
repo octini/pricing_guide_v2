@@ -182,6 +182,9 @@ def main():
         # Don't blend variant-adjusted items - already have calibrated pricing
         if pd.notna(row.get("variant_price")):
             return row["rule_price"]
+        # Don't blend solo-outlier items - use rule price instead of outlier amalgamated price
+        if row.get("price_confidence") == "solo-outlier":
+            return row["rule_price"]
         if pd.notna(row["amalgamated_price"]):
             # Has ground truth: blend amalgamated with ML (preserve ground truth)
             return 0.7 * row["amalgamated_price"] + 0.3 * row["ml_price"]
