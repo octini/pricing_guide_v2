@@ -8,7 +8,7 @@ import numpy as np
 from pathlib import Path
 
 sys.path.insert(0, str(Path(__file__).parent.parent))
-from src.pricing_engine import calculate_price
+from src.pricing_engine import calculate_price, calculate_price_with_outlier_check
 
 INPUT_CSV = Path("data/processed/amalgamated_prices.csv")
 OUTPUT_CSV = Path("data/processed/items_priced.csv")
@@ -94,14 +94,17 @@ def main():
         if pd.notna(c.get("official_price_gp")) and c.get("rarity") in ("mundane", "none"):
             price = float(c["official_price_gp"])
             price_source = "official"
-        elif pd.notna(c.get("amalgamated_price")):
-            price = calculate_price(c)
-            price_source = "rule+amalgamated"
         else:
-            price = calculate_price(c)
-            price_source = "rule"
+            # Use outlier check function to handle solo-outlier items
+            price, price_source = calculate_price_with_outlier_check(c)
 
-        prices.append({**c, "rule_price": price, "price_source": price_source})
+        # Flag indicating whether any external reference was used
+        has_reference = (
+            price_source == "official" or 
+            pd.notna(c.get("amalgamated_price"))
+        )
+
+        prices.append({**c, "rule_price": price, "price_source": price_source, "has_reference_source": has_reference})
 
     out = pd.DataFrame(prices)
 

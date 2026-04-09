@@ -5,14 +5,105 @@ import pandas as pd
 from rapidfuzz import fuzz, process
 from typing import Optional
 
+# Rarity median prices (calibrated from actual data)
+# Used for single-source outlier detection
+RARITY_MEDIANS = {
+    "mundane": 1,
+    "common": 132,
+    "uncommon": 852,
+    "rare": 3890,
+    "very_rare": 13450,
+    "legendary": 46500,
+    "artifact": 150000,
+}
+
 
 def trim_outliers(df: pd.DataFrame, price_col: str, pct: float = 0.02) -> pd.DataFrame:
-    """Remove the top pct and bottom pct of items by price."""
+    """Remove only the top pct of items by price (high outliers).
+    
+    We don't trim low-priced items because they are often legitimate (e.g., common items,
+    spell scrolls, potions). Only high-priced outliers are likely to be errors.
+    """
     if len(df) < 10:
         return df
     n_trim = max(1, int(len(df) * pct))
     sorted_df = df.sort_values(price_col)
-    return sorted_df.iloc[n_trim:-n_trim].reset_index(drop=True)
+    # Only trim top outliers, not bottom
+    return sorted_df.iloc[:-n_trim].reset_index(drop=True)
+
+
+def detect_and_exclude_outliers(prices: dict, outlier_threshold: float = 5.0) -> dict:
+    """
+    Detect outlier prices and exclude them from calculation.
+
+    For items with 3 sources, if any price is > outlier_threshold times the median,
+    exclude that source and recalculate using only the remaining sources.
+
+    Returns the filtered prices dict.
+    """
+    sources = list(prices.keys())
+    if len(sources) < 3:
+        return prices  # Can't detect outliers with less than 3 sources
+
+    vals = list(prices.values())
+    median_price = sorted(vals)[1]  # middle value of 3
+
+    # Check for outliers
+    filtered = {}
+    for source, price in prices.items():
+        if price > median_price * outlier_threshold:
+            # Skip this source as it's an outlier
+            continue
+        filtered[source] = price
+
+    return filtered
+
+
+def detect_single_source_outlier(
+    prices: dict,
+    rarity: str,
+    rarity_medians: dict,
+    outlier_threshold: float = 5.0,
+    has_accurate_match: bool = True
+) -> tuple[bool, str]:
+    """
+    Detect if a single-source item is an outlier compared to its rarity median.
+    
+    Args:
+        prices: Dict of source -> price (will have only 1 entry for single-source)
+        rarity: Item rarity (common, uncommon, rare, very_rare, legendary, artifact)
+        rarity_medians: Dict of rarity -> median price for that rarity
+        outlier_threshold: Multiplier above which to flag as outlier (default 5x)
+        has_accurate_match: Whether the fuzzy match was accurate (True if exact match)
+    
+    Returns:
+        (is_outlier: bool, reason: str)
+    
+    Note: Only flags items that:
+    1. Have a single source
+    2. Have an accurate match (not fuzzy)
+    3. Exceed rarity median by > outlier_threshold
+    """
+    if len(prices) != 1:
+        return (False, "multi-source")
+    
+    if not has_accurate_match:
+        return (False, "fuzzy-match")
+    
+    source = list(prices.keys())[0]
+    price = list(prices.values())[0]
+    
+    # Normalize rarity key
+    rarity_key = rarity.lower().replace(" ", "_").replace("-", "_")
+    if rarity_key not in rarity_medians:
+        return (False, f"unknown-rarity-{rarity}")
+    
+    median = rarity_medians[rarity_key]
+    
+    if price > median * outlier_threshold:
+        return (True, f"single-source-{source}-exceeds-{outlier_threshold}x-median")
+    
+    return (False, "within-range")
 
 
 def calculate_weights(prices: dict) -> dict:
@@ -191,10 +282,25 @@ def amalgamate_prices(
                             prices[source] = lookup[matches[0]]
 
         if prices:
-            weights = calculate_weights(prices)
-            amalgamated = sum(prices[s] * weights[s] for s in prices)
-            sources_str = ",".join(prices.keys())
-            confidence = "multi" if len(prices) > 1 else "solo"
+            # Detect and exclude outlier prices before calculating weighted average
+            filtered_prices = detect_and_exclude_outliers(prices)
+            
+            # Check for single-source outliers
+            rarity = row.get("rarity", "unknown")
+            is_outlier, outlier_reason = detect_single_source_outlier(
+                filtered_prices, rarity, RARITY_MEDIANS, outlier_threshold=5.0
+            )
+            
+            if is_outlier:
+                # Flag as outlier but keep the price for now
+                # The pricing engine will handle this
+                confidence = "solo-outlier"
+            else:
+                confidence = "multi" if len(filtered_prices) > 1 else "solo"
+
+            weights = calculate_weights(filtered_prices)
+            amalgamated = sum(filtered_prices[s] * weights[s] for s in filtered_prices)
+            sources_str = ",".join(filtered_prices.keys())
         else:
             amalgamated = None
             sources_str = ""

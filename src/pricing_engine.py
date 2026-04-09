@@ -79,6 +79,45 @@ CONDITION_IMMUNITY_VALUES = {
     "restrained": 400,
 }
 
+# Property item premium multipliers (multipliers applied to base item)
+# These are based on analysis of actual pricing data from the guides
+PROPERTY_PREMIUMS = {
+    # High-value properties
+    "death": 5.0,          # Wounding/Death items are powerful
+    "life": 3.5,            # Healing/positive effects
+    "wounding": 3.0,
+    
+    # Moderate properties  
+    "warning": 2.0,         # Common property - significant premium
+    "giantslayer": 2.5,     # Slaying items
+    "dragonslayer": 2.5,
+    "elemental": 2.0,
+    "vorpal": 3.0,          # Very powerful
+    
+    # Low-moderate properties
+    "finesse": 1.3,
+    "brilliant": 1.5,
+    "ice": 1.5,
+    "flaming": 1.5,
+    "frost": 1.5,
+    "shocking": 1.5,
+    "acid": 1.5,
+    "thundering": 1.3,
+    
+    # Low premium
+    "gleaming": 1.2,
+    "silvered": 1.1,
+    "返回": 1.0,              # Returning
+}
+
+# +N weapon bonuses (calibrated from DSA/MSRP/DMPG)
+# Target prices: +1=725, +2=3400, +3=14950
+WEAPON_BONUS_VALUES = {
+    1: 725,      
+    2: 3400,     
+    3: 14950,    
+}
+
 
 # Base mundane item costs to prevent magic variants from being cheaper than mundane base
 # These are official PHB/XPHB prices in gp
@@ -117,7 +156,7 @@ EXPENSIVE_ARMOR_BASES = {
 # Used for DSA formula: Base_Enspelled + Item_Cost × 5.0
 WEAPON_BASE_COSTS = {
     "dagger": 2,
-    "shortsword": 15,
+    "shortsword": 10,
     "longsword": 15,
     "greatsword": 50,
     "glaive": 20,
@@ -130,6 +169,9 @@ WEAPON_BASE_COSTS = {
     "heavy crossbow": 50,
     "shortbow": 25,
     "longbow": 50,
+    "rapier": 25,
+    "scimitar": 25,
+    "double-bladed scimitar": 100,
     # Default fallback for weapons not listed
     "default": 15,
 }
@@ -210,6 +252,27 @@ def calculate_price(criteria: dict) -> float:
     # NaN check: x == x is False for NaN, so NaN official prices fall through
     if official_price is not None and official_price == official_price and rarity in ("mundane", "none"):
         return float(official_price)
+
+    # Moon-Touched weapons: additive pricing (base weapon + 85 gp)
+    # These are common items that shed light like a torch
+    # MSRP: 95 gp, DMPG: 75 gp → average 85 gp additive
+    if "moon-touched" in item_name_lower and rarity == "common":
+        # Get base weapon cost
+        base_weapon_cost = 0.0
+        for weapon_name, weapon_cost in WEAPON_BASE_COSTS.items():
+            if weapon_name != "default" and weapon_name in item_name_lower:
+                base_weapon_cost = float(weapon_cost)
+                break
+        else:
+            # Use default if no match
+            base_weapon_cost = float(WEAPON_BASE_COSTS["default"])
+        
+        # Additive: base weapon + 85 gp (average of MSRP 95 and DMPG 75)
+        moon_touched_price = base_weapon_cost + 85.0
+        
+        # Apply floor
+        floor = RARITY_FLOORS.get(rarity, 1)
+        return max(floor, moon_touched_price)
 
     # Byeshk items: use official price directly (includes +400 gp material premium)
     # Byeshk items have rarity=unknown but official_price_gp already set
@@ -349,6 +412,64 @@ def calculate_price(criteria: dict) -> float:
         criteria.get("weapon_attack_bonus") or 0,
         criteria.get("weapon_damage_bonus") or 0,
     )
+
+    # Simple +N weapons: use amalgamated prices as primary reference
+    # These items have a bonus (+1/+2/+3) but no other special properties
+    # Amalgamated reference prices (from DSA, MSRP, DMPG):
+    # +1 Weapon: 725 gp (DSA:825, MSRP:625)
+    # +2 Weapon: 3,400 gp (DSA:3,300, MSRP:3,500)
+    # +3 Weapon: 14,950 gp (DSA:9,900, MSRP:20,000)
+    # Use calibrated values from WEAPON_BONUS_VALUES
+    SIMPLE_BONUS_PRICES = WEAPON_BONUS_VALUES.copy()
+
+    # Check if this is a simple +N weapon (no other special properties)
+    is_simple_bonus_item = False
+    if weapon_bonus > 0 and weapon_bonus <= 3:
+        # Check if this is a simple +N item (no other significant properties)
+        has_charges = criteria.get("charges") is not None
+        has_spell_scroll = criteria.get("spell_scroll_level") is not None
+        has_resistances = criteria.get("damage_resistances") or []
+        has_immunities = criteria.get("damage_immunities") or []
+        has_condition_immunities = criteria.get("condition_immunities") or []
+        has_flight = criteria.get("flight_full") or criteria.get("flight_limited")
+        has_teleport = criteria.get("teleportation")
+        has_invisibility = criteria.get("invisibility_atwill")
+        has_healing = criteria.get("healing_daily_hp") or criteria.get("healing_consumable_avg")
+        has_ability_mods = criteria.get("ability_score_mods") and len(criteria.get("ability_score_mods", [])) > 0
+        has_wish = criteria.get("wish_effect")
+        is_sentient = criteria.get("is_sentient")
+
+        # Item is "simple" if it only has the bonus and no other major properties
+        is_simple_bonus_item = not (
+            has_charges or has_spell_scroll or
+            (has_resistances and len(has_resistances) > 0) or
+            (has_immunities and len(has_immunities) > 0) or
+            (has_condition_immunities and len(has_condition_immunities) > 0) or
+            has_flight or has_teleport or has_invisibility or
+            has_healing or has_ability_mods or has_wish or
+            is_sentient or
+            is_enspelled or
+            material in ("mithral", "adamantine")
+        )
+
+    if is_simple_bonus_item:
+        # Use amalgamated price as base, then apply attunement modifier
+        simple_price = SIMPLE_BONUS_PRICES.get(weapon_bonus, 0)
+        if simple_price > 0:
+            # Apply attunement modifier
+            attune_mod = 1.0
+            req_attune = criteria.get("req_attune", "none")
+            if req_attune == "open":
+                attune_mod = 0.90
+            elif req_attune == "class":
+                attune_mod = 0.80
+            
+            simple_price *= attune_mod
+            
+            # Apply floor
+            floor = RARITY_FLOORS.get(rarity, 1)
+            return max(floor, simple_price)
+
     if weapon_bonus > 0:
         additive += WEAPON_BONUS_ADDITIVE.get(min(weapon_bonus, 3), 20000)
 
@@ -551,11 +672,73 @@ def calculate_price(criteria: dict) -> float:
 
     material_mod = 1.0  # mithral/adamantine handled in NLP
 
-    curse_mod = 0.75 if criteria.get("is_cursed") else 1.0   # was 0.70
-    sentient_mod = 1.15 if criteria.get("is_sentient") else 1.0  # was 1.25
+    # Property items (e.g., "Sword of Fire", "Shield of Warning"): apply premium multiplier
+    # Only applies if item has recognized property AND doesn't already have other pricing
+    if " of " in item_name_lower and rarity not in ("mundane", "none", "unknown", "varies"):
+        property_multiplier = 1.0
+        item_name_lower_stripped = item_name_lower.replace("+1 ", "").replace("+2 ", "").replace("+3 ", "")
+        
+        # Check for known property keywords
+        for prop_keyword, prop_mult in PROPERTY_PREMIUMS.items():
+            if prop_keyword in item_name_lower_stripped:
+                property_multiplier = max(property_multiplier, prop_mult)
+                break  # Use the highest match
+        
+        # Apply property multiplier
+        if property_multiplier > 1.0:
+            additive *= property_multiplier
 
-    price = (base + additive) * attune_mod * consumable_mod * material_mod * curse_mod * sentient_mod
-    price = max(price, base_item_cost)  # Never cheaper than mundane base
+    curse_mod = 0.75 if criteria.get("is_cursed") else 1.0 # was 0.70
+    sentient_mod = 1.15 if criteria.get("is_sentient") else 1.0 # was 1.25
+
+    # Flavor items: apply discount (no tactical/combat value)
+    # Staff of Flowers, Wand of Smiles, etc. are priced ~50-60 gp in guides
+    # vs our base of 100 gp, so we need a ~0.5x multiplier
+    flavor_mod = 0.5 if item_name_lower in FLAVOR_ITEMS else 1.0
+
+    price = (base + additive) * attune_mod * consumable_mod * material_mod * curse_mod * sentient_mod * flavor_mod
+    price = max(price, base_item_cost) # Never cheaper than mundane base
 
     floor = RARITY_FLOORS.get(rarity, 1)
     return max(floor, price)
+
+
+# Rarity median prices for single-source outlier detection
+RARITY_MEDIANS = {
+    "mundane": 1,
+    "common": 132,
+    "uncommon": 852,
+    "rare": 3890,
+    "very_rare": 13450,
+    "legendary": 46500,
+    "artifact": 150000,
+}
+
+
+def calculate_price_with_outlier_check(criteria: dict) -> tuple[float, str]:
+    """
+    Calculate price with single-source outlier detection.
+
+    Returns:
+    (price, price_source): The calculated price and its source type
+    """
+    # Get amalgamated price info
+    amalgamated_price = criteria.get("amalgamated_price")
+    price_confidence = criteria.get("price_confidence", "none")
+
+    # Check for single-source outlier flag from amalgamator
+    if price_confidence == "solo-outlier":
+        # Use rule-based price instead of amalgamated price
+        rule_price = calculate_price(criteria)
+        return (rule_price, "rule-outlier-detected")
+
+    # Normal pricing
+    price = calculate_price(criteria)
+
+    # Determine source
+    if amalgamated_price:
+        source = "rule+amalgamated"
+    else:
+        source = "rule"
+
+    return (price, source)

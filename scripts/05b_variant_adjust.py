@@ -2,6 +2,7 @@
 """Phase 5b: Apply variant-adjusted pricing to items with generic parent links."""
 
 import sys
+import re
 import pandas as pd
 from pathlib import Path
 
@@ -54,6 +55,11 @@ def main():
             skipped_official += 1
             continue
 
+        # Skip variant adjustment for sentient items (they have their own pricing formula)
+        # Sentient items like Moonblade have complex abilities that the variant system can't handle
+        if row.get('is_sentient', False):
+            continue
+
         # Skip variant adjustment for material armor (mithral/adamantine)
         # These have their own pricing formula that accounts for base armor cost
         material = row.get('material', '')
@@ -65,6 +71,25 @@ def main():
         item_name = str(row.get('name', '')).lower()
         if 'enspelled' in item_name:
             continue
+
+        # Skip variant adjustment for Moon-Touched items
+        # These use additive pricing (base weapon + 85 gp)
+        if 'moon-touched' in item_name:
+            continue
+
+        # Skip variant adjustment for simple +N weapons/armor
+        # These have their own amalgamated pricing in the pricing engine
+        bonus_match = re.search(r'\+(\d+)\s+(sword|longsword|greatsword|dagger|battleaxe|axe|hammer|bow|spear|staff|plate|chain|leather|scale|breastplate|shield)', item_name)
+        if bonus_match:
+            bonus = int(bonus_match.group(1))
+            # Check if this is a simple +N item (no other modifiers)
+            # Simple items are just "+N Weapon" without additional properties
+            is_simple = True
+            # Check for modifiers that make it non-simple
+            if any(mod in item_name for mod in ['vicious', 'drow', 'mithral', 'adamantine', 'silvered', 'enspelled']):
+                is_simple = False
+            if is_simple and bonus in (1, 2, 3):
+                continue
 
         rule_price = row.get('rule_price', 0)
         variant_price = row.get('variant_price', rule_price)
@@ -84,6 +109,9 @@ def main():
         has_variant = items_with_variants['variant_adjusted_price'].notna()
         items_with_variants.loc[has_variant, 'rule_price'] = items_with_variants.loc[has_variant, 'variant_adjusted_price']
         items_with_variants.loc[has_variant, 'price_source'] = 'rule+variant'
+        # Variant-adjusted items have reference from their generic parent
+        if 'has_reference_source' in items_with_variants.columns:
+            items_with_variants.loc[has_variant, 'has_reference_source'] = True
     
     items_with_variants.to_csv(OUTPUT_CSV, index=False)
     print(f"\nWrote {len(items_with_variants)} rows to {OUTPUT_CSV}")
