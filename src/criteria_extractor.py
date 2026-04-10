@@ -306,8 +306,8 @@ def extract_prose_criteria(description: str) -> dict:
         re.search(r'critical hits?.{0,50}(treated as|normal hit)', desc)
     )
     
-    # Wish effect
-    c["wish_effect"] = bool(re.search(r'\bwish\b', desc))
+    # Wish effect - check for casting the Wish spell or explicitly granting a wish
+    c["wish_effect"] = bool(re.search(r'\bcast\b[^.]{0,40}(?:the\s+)?(?:\*wish\*|\bwish\b\s*spell)|grant(?:s|ed|ing)?[^.]{0,40}\b(?:a|your|one)\s+(?:\*wishes?\*|\bwishes?\b)', desc, re.IGNORECASE))
     
     # Spell absorption
     c["spell_absorption"] = bool(re.search(r'(absorb|negate).{0,30}spell', desc))

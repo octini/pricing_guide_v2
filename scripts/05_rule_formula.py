@@ -24,9 +24,11 @@ def main():
         c = row.to_dict()
 
         # Parse list fields that were stored as strings
+        import ast
         for list_col in [
             "damage_resistances",
             "damage_immunities",
+            "damage_vulnerabilities",
             "condition_immunities",
             "attached_spells",
             "weapon_properties",
@@ -35,8 +37,11 @@ def main():
             val = c.get(list_col, "[]")
             if isinstance(val, str):
                 try:
-                    c[list_col] = json.loads(val.replace("'", '"')) if val and val != "nan" else []
-                except (json.JSONDecodeError, ValueError):
+                    # Use literal_eval instead of json.loads(replace) to safely parse python string representations
+                    parsed = ast.literal_eval(val) if val and val != "nan" else []
+                    # Sometimes it parses to a dict (e.g. attached_spells), sometimes a list
+                    c[list_col] = parsed
+                except (ValueError, SyntaxError):
                     c[list_col] = []
 
         # Parse boolean fields
