@@ -686,10 +686,11 @@ def calculate_price(criteria: dict) -> float:
         additive -= staff_detrimental
 
     # Moonblade properties (d100 table runes — each rune adds extra weapon bonus, damage, or utility)
-    # Each rune beyond the first (+1 base) is worth ~10,000 gp on average
+    # The user requested bringing Moonblade closer to the artifact average.
+    # We increase the modifier per property to 35,000 gp
     moonblade_properties = criteria.get("moonblade_properties") or 0
     if moonblade_properties > 0:
-        additive += 10000 * moonblade_properties
+        additive += 35000 * moonblade_properties
 
     # Charges: rechargeable charges add moderate value; non-rechargeable add less
     # Exception: flavor items (no tactical value) use much lower valuation

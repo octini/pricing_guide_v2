@@ -176,8 +176,9 @@ def extract_entries_criteria(item: dict, prose_text: str = "") -> dict:
     
     # Extract artifact random properties
     # Pattern: "2 {@table Artifact Properties; Minor Beneficial Properties|dmg|minor beneficial} properties"
-    artifact_pattern = r'(\d+)\s*\{@table[^}]*Artifact Properties; (Minor|Major) (Beneficial|Detrimental)'
-    for match in re.finditer(artifact_pattern, combined_text):
+    # Or "1 randomly determined {@table Artifact Properties; Minor Beneficial Properties|dmg|minor beneficial}"
+    artifact_pattern = r'(?<!\d)(\d+)\s*(?:randomly\s+determined\s*)?\{@table[^}]*Artifact Properties; (Minor|Major) (Beneficial|Detrimental)'
+    for match in re.finditer(artifact_pattern, combined_text, re.IGNORECASE):
         count = int(match.group(1))
         size = match.group(2).lower() # "minor" or "major"
         prop_type = match.group(3).lower() # "beneficial" or "detrimental"
