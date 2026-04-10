@@ -224,12 +224,12 @@ MATERIAL_COST_PER_LB = {
 # Ammunition weights (from 5eTools) - used for material cost calculation
 # Order matters: more specific patterns must come before generic ones
 AMMUNITION_WEIGHTS = {
-    "firearm bullet": 0.05, # lb per firearm bullet (check before "bullet")
-    "sling bullet": 0.075, # lb per sling bullet (check before "bullet")
-    "arrow": 0.05, # lb per arrow
-    "bolt": 0.075, # lb per bolt
-    "bullet": 0.075, # lb per generic bullet (fallback)
-    "needle": 0.02, # lb per needle
+ "firearm bullet": 0.2, # lb per firearm bullet (check before "bullet")
+ "sling bullet": 0.075, # lb per sling bullet (check before "bullet")
+ "arrow": 0.05, # lb per arrow
+ "bolt": 0.075, # lb per bolt
+ "bullet": 0.075, # lb per generic bullet (fallback)
+ "needle": 0.02, # lb per needle
 }
 
 # Markup factor for material ammunition
