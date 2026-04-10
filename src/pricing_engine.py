@@ -498,32 +498,41 @@ def calculate_price(criteria: dict) -> float:
     # Check if this is a simple +N weapon (no other special properties)
     is_simple_bonus_item = False
     if weapon_bonus > 0 and weapon_bonus <= 3:
-        # Check if this is a simple +N item (no other significant properties)
-        has_charges = criteria.get("charges") is not None
-        has_spell_scroll = criteria.get("spell_scroll_level") is not None
-        has_resistances = criteria.get("damage_resistances") or []
-        has_immunities = criteria.get("damage_immunities") or []
-        has_condition_immunities = criteria.get("condition_immunities") or []
-        has_flight = criteria.get("flight_full") or criteria.get("flight_limited")
-        has_teleport = criteria.get("teleportation")
-        has_invisibility = criteria.get("invisibility_atwill")
-        has_healing = criteria.get("healing_daily_hp") or criteria.get("healing_consumable_avg")
-        has_ability_mods = criteria.get("ability_score_mods") and len(criteria.get("ability_score_mods", [])) > 0
-        has_wish = criteria.get("wish_effect")
-        is_sentient = criteria.get("is_sentient")
+            # Check if this is a simple +N item (no other significant properties)
+            has_charges = criteria.get("charges") is not None
+            has_spell_scroll = criteria.get("spell_scroll_level") is not None
+            has_resistances = criteria.get("damage_resistances") or []
+            has_immunities = criteria.get("damage_immunities") or []
+            has_condition_immunities = criteria.get("condition_immunities") or []
+            has_flight = criteria.get("flight_full") or criteria.get("flight_limited")
+            has_teleport = criteria.get("teleportation")
+            has_invisibility = criteria.get("invisibility_atwill")
+            has_healing = criteria.get("healing_daily_hp") or criteria.get("healing_consumable_avg")
+            has_ability_mods = criteria.get("ability_score_mods") and len(criteria.get("ability_score_mods", [])) > 0
+            has_wish = criteria.get("wish_effect")
+            is_sentient = criteria.get("is_sentient")
+            has_extra_damage = (criteria.get("extra_damage_avg") or 0) > 0
+            has_artifact_properties = (
+                (criteria.get("minor_beneficial") or 0) > 0 or
+                (criteria.get("major_beneficial") or 0) > 0 or
+                (criteria.get("minor_detrimental") or 0) > 0 or
+                (criteria.get("major_detrimental") or 0) > 0
+            )
 
-        # Item is "simple" if it only has the bonus and no other major properties
-        is_simple_bonus_item = not (
-            has_charges or has_spell_scroll or
-            (has_resistances and len(has_resistances) > 0) or
-            (has_immunities and len(has_immunities) > 0) or
-            (has_condition_immunities and len(has_condition_immunities) > 0) or
-            has_flight or has_teleport or has_invisibility or
-            has_healing or has_ability_mods or has_wish or
-            is_sentient or
-            is_enspelled or
-            material in ("mithral", "adamantine")
-        )
+            # Item is "simple" if it only has the bonus and no other major properties
+            is_simple_bonus_item = not (
+                has_charges or has_spell_scroll or
+                (has_resistances and len(has_resistances) > 0) or
+                (has_immunities and len(has_immunities) > 0) or
+                (has_condition_immunities and len(has_condition_immunities) > 0) or
+                has_flight or has_teleport or has_invisibility or
+                has_healing or has_ability_mods or has_wish or
+                is_sentient or
+                is_enspelled or
+                material in ("mithral", "adamantine") or
+                has_extra_damage or
+                has_artifact_properties
+            )
 
     if is_simple_bonus_item:
         # Use amalgamated price as base, then apply attunement modifier
@@ -646,6 +655,27 @@ def calculate_price(criteria: dict) -> float:
     # Wish effect (ring of three wishes, similar items)
     if criteria.get("wish_effect"):
         additive += 30000 # was 500000
+
+    # Artifact random properties (beneficial/detrimental)
+    # These are randomly determined properties from the DMG tables
+    # Minor beneficial: +40,000 gp each (e.g., "While attuned, you can't be surprised")
+    # Major beneficial: +40,000 gp each (e.g., "You are immune to disease")
+    # Minor detrimental: -10,000 gp each (e.g., "You glow dimly in darkness")
+    # Major detrimental: -10,000 gp each (e.g., "You have vulnerability to fire")
+    # Note: Detrimental properties reduce price but are offset by beneficial ones
+    minor_beneficial = criteria.get("minor_beneficial") or 0
+    major_beneficial = criteria.get("major_beneficial") or 0
+    minor_detrimental = criteria.get("minor_detrimental") or 0
+    major_detrimental = criteria.get("major_detrimental") or 0
+
+    if minor_beneficial > 0:
+        additive += 40000 * minor_beneficial
+    if major_beneficial > 0:
+        additive += 40000 * major_beneficial
+    if minor_detrimental > 0:
+        additive -= 10000 * minor_detrimental
+    if major_detrimental > 0:
+        additive -= 10000 * major_detrimental
 
     # Charges: rechargeable charges add moderate value; non-rechargeable add less
     # Exception: flavor items (no tactical value) use much lower valuation
