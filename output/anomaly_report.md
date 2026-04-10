@@ -4,8 +4,8 @@
 
 - Total items: 4,837
 - Median price: 3,166 gp
-- Mean price: 13,501 gp
-- Std dev: 33,698 gp
+- Mean price: 13,500 gp
+- Std dev: 33,699 gp
 - CV: 2.50
 - Skewness: 7.85
 - Price range: 0 – 745,200 gp
@@ -23,9 +23,9 @@
 | mundane (persistent) | 400 | 5 gp | 40 | 60 | 15.0%  |
 | rare (consumable) | 84 | 1,853 gp | 2,984 | 2 | 2.4%  |
 | rare (persistent) | 1331 | 3,549 gp | 3,590 | 41 | 3.1%  |
-| uncommon (consumable) | 64 | 458 gp | 383 | 11 | 17.2%  |
-| uncommon (persistent) | 813 | 737 gp | 545 | 85 | 10.5%  |
-| unknown (consumable) | 11 | 100 gp | 356 | 2 | 18.2%  |
+| uncommon (consumable) | 64 | 430 gp | 338 | 11 | 17.2%  |
+| uncommon (persistent) | 813 | 736 gp | 549 | 85 | 10.5%  |
+| unknown (consumable) | 11 | 232 gp | 261 | 1 | 9.1%  |
 | unknown (persistent) | 55 | 401 gp | 409 | 2 | 3.6%  |
 | unknown_magic (persistent) | 81 | 647 gp | 232 | 6 | 7.4%  |
 | varies (consumable) | 6 | 675 gp | 459 | 0 | 0.0%  |
@@ -35,7 +35,7 @@
 
 ## Extreme Outliers (> 3× rarity median)
 
-Total: 1223 items
+Total: 1218 items
 
 | Name | Source | Rarity | Price | Rarity Median |
 |------|--------|--------|-------|---------------|
