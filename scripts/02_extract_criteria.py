@@ -8,7 +8,7 @@ from pathlib import Path
 
 sys.path.insert(0, str(Path(__file__).parent.parent))
 
-from src.criteria_extractor import extract_structured_criteria, extract_prose_criteria
+from src.criteria_extractor import extract_structured_criteria, extract_prose_criteria, extract_entries_criteria
 from src.prose_loader import load_prose_descriptions
 
 INPUT_CSV = Path("data/processed/items_master.csv")
@@ -40,6 +40,10 @@ def main():
         # Get prose descriptions from items-sublist.md
         item_name_lower = row["name"].lower()
         prose_text = prose_map.get(item_name_lower, "")
+
+        # Extract entries criteria, passing prose text for items with empty entries
+        entries = extract_entries_criteria(item, prose_text)
+
         prose = extract_prose_criteria(prose_text)
 
         combined = {
@@ -52,6 +56,7 @@ def main():
             "url": row["url"],
         }
         combined.update(struct)
+        combined.update(entries)
         combined.update(prose)
 
         rows.append(combined)
@@ -70,6 +75,15 @@ def main():
     print(f"\nItems with flight_full: {out_df['flight_full'].sum()}")
     print(f"Items with flight_limited: {out_df['flight_limited'].sum()}")
     print(f"Items with teleportation: {out_df['teleportation'].sum()}")
+
+    # Entries-extracted stats
+    print(f"\nItems with extra_damage_avg > 0: {(out_df['extra_damage_avg'] > 0).sum()}")
+    print(f"Items with minor_beneficial > 0: {(out_df['minor_beneficial'] > 0).sum()}")
+    print(f"Items with major_beneficial > 0: {(out_df['major_beneficial'] > 0).sum()}")
+    print(f"Items with minor_detrimental > 0: {(out_df['minor_detrimental'] > 0).sum()}")
+    print(f"Items with major_detrimental > 0: {(out_df['major_detrimental'] > 0).sum()}")
+    print(f"Items with has_fixed_beneficial: {out_df['has_fixed_beneficial'].sum()}")
+    print(f"Items with has_fixed_detrimental: {out_df['has_fixed_detrimental'].sum()}")
 
 
 if __name__ == "__main__":

@@ -94,7 +94,23 @@ def main():
         rule_price = row.get('rule_price', 0)
         variant_price = row.get('variant_price', rule_price)
 
-        final_variant_price = 0.5 * rule_price + 0.5 * variant_price
+        # For ammunition items, use variant_price directly (not blended with weapon price)
+        # Ammunition has its own generic pricing that's much lower than weapon pricing
+        # e.g., +1 Arrow should be ~33gp (generic ammunition price), not 378gp (blended with weapon price)
+        item_type = str(row.get('item_type_code', '')).split('|')[0] if row.get('item_type_code') else ''
+        is_ammunition = (
+            item_type == 'A' or
+            'arrow' in item_name or
+            'bolt' in item_name or
+            'ammunition' in item_name
+        )
+
+        if is_ammunition and pd.notna(row.get('variant_price')):
+            # Use variant price directly for ammunition
+            final_variant_price = variant_price
+        else:
+            # For other items, blend rule price with variant price
+            final_variant_price = 0.5 * rule_price + 0.5 * variant_price
 
         if 'variant_adjusted_price' not in items_with_variants.columns:
             items_with_variants['variant_adjusted_price'] = None

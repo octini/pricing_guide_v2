@@ -207,24 +207,29 @@ MATERIAL_RARITY_MULTIPLIERS = {
 
 # Standard Exchange Rates (per pound) from PHB/WDH/WDMM:
 # - Iron/Steel: 0.1 gp/lb (PHB: 1 sp = 1 lb iron)
+# - Silver: 5 gp/lb (PHB: 50 silver coins = 1 lb, 1 sp = 0.1 gp)
 # - Gold: 50 gp/lb (PHB: 50 coins = 1 lb)
 # - Mithral: 50 gp/lb (WDMM: 1 lb mithral = 50 gp)
 # - Adamantine: 100 gp/lb (WDH: 10 lb adamantine bar = 1,000 gp)
 MATERIAL_COST_PER_LB = {
     "iron": 0.1,
     "steel": 0.1,
+    "silver": 5,
+    "silvered": 5,  # Same as silver (coating uses silver material)
     "gold": 50,
     "mithral": 50,
     "adamantine": 100,
 }
 
 # Ammunition weights (from 5eTools) - used for material cost calculation
+# Order matters: more specific patterns must come before generic ones
 AMMUNITION_WEIGHTS = {
-    "arrow": 0.05,      # lb per arrow
-    "bolt": 0.075,      # lb per bolt
-    "bullet": 0.075,    # lb per sling bullet
-    "firearm bullet": 0.05,  # lb per firearm bullet
-    "needle": 0.02,     # lb per needle
+    "firearm bullet": 0.05, # lb per firearm bullet (check before "bullet")
+    "sling bullet": 0.075, # lb per sling bullet (check before "bullet")
+    "arrow": 0.05, # lb per arrow
+    "bolt": 0.075, # lb per bolt
+    "bullet": 0.075, # lb per generic bullet (fallback)
+    "needle": 0.02, # lb per needle
 }
 
 # Markup factor for material ammunition
@@ -466,13 +471,8 @@ def calculate_price(criteria: dict) -> float:
         material_price = weight * material_cost_per_lb * MATERIAL_AMMUNITION_MULTIPLIER
         
         # Apply minimum floor based on material
-        min_price = 50 if material == "adamantine" else 25 if material == "mithral" else 10
+        min_price = 50 if material == "adamantine" else 25 if material == "mithral" else 10 if material in ("silver", "silvered") else 1
         return max(min_price, material_price)
-    
-    # Silvered ammunition: PHB says silvering costs 100 gp regardless of weapon size
-    # So silvered ammunition is +100 gp per piece (same as weapons)
-    if is_ammunition and material == "silvered":
-        return 100.0
 
     # --- Additive bonuses ---
     additive = 0.0

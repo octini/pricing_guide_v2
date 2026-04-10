@@ -18,7 +18,10 @@ def _parse_bonus(val: Any) -> Optional[int]:
 def extract_structured_criteria(item: dict) -> dict:
     """Extract all objective criteria from JSON fields."""
     c = {}
-    
+
+    # Name (needed for ammunition type detection)
+    c["name"] = item.get("name", "")
+
     # Attunement
     req_attune_raw = item.get("reqAttune", False)
     if req_attune_raw is True:
@@ -130,6 +133,87 @@ def _avg_dice(dice_str: str) -> float:
     for m in re.finditer(r'[+](\d+)(?!d)', dice_str):
         total += int(m.group(1))
     return total
+
+def extract_entries_criteria(item: dict, prose_text: str = "") -> dict:
+    """Extract criteria from the entries field (prose with structured markers).
+    
+    Args:
+        item: The raw item JSON dict
+        prose_text: Optional prose description text (from items-sublist.md)
+    """
+    c = {
+        "extra_damage_avg": 0.0,
+        "extra_damage_dice": None, # Original dice string for reference
+        "minor_beneficial": 0,
+        "major_beneficial": 0,
+        "minor_detrimental": 0,
+        "major_detrimental": 0,
+        "has_fixed_beneficial": False,
+        "has_fixed_detrimental": False,
+        "moonblade_properties": 0, # Average number of Moonblade properties
+        "staff_forgotten_one_beneficial": 0, # Value of Staff of Forgotten One beneficial
+        "staff_forgotten_one_detrimental": 0, # Value of Staff of Forgotten One detrimental
+    }
+
+    entries = item.get("entries", [])
+    entries_str = str(entries)
+    item_name = item.get("name", "")
+    
+    # Combine entries and prose for pattern matching
+    combined_text = entries_str + " " + prose_text
+    
+    # Extract extra/additional damage
+    # Pattern: "additional {@damage XdY}" or "extra {@damage XdY}"
+    damage_matches = re.findall(r'(?:additional|extra) {@damage ([^}]+)}', combined_text)
+    if damage_matches:
+        # Sum all extra damage sources
+        total_avg = 0.0
+        for dmg_str in damage_matches:
+            total_avg += _avg_dice(dmg_str)
+        c["extra_damage_avg"] = total_avg
+        # Store the first (or most significant) dice string
+        c["extra_damage_dice"] = damage_matches[0] if len(damage_matches) == 1 else f"{len(damage_matches)} sources"
+    
+    # Extract artifact random properties
+    # Pattern: "2 {@table Artifact Properties; Minor Beneficial Properties|dmg|minor beneficial} properties"
+    artifact_pattern = r'(\d+)\s*\{@table[^}]*Artifact Properties; (Minor|Major) (Beneficial|Detrimental)'
+    for match in re.finditer(artifact_pattern, combined_text):
+        count = int(match.group(1))
+        size = match.group(2).lower() # "minor" or "major"
+        prop_type = match.group(3).lower() # "beneficial" or "detrimental"
+        key = f"{size}_{prop_type}"
+        c[key] = count
+    
+    # Check for Moonblade's custom property table
+    # Moonblade has 1d6+1 runes, first gives +1, rest give random properties
+    # Average: 4.5 runes - 1 (for +1) = 3.5 random properties
+    # Note: Moonblade variants are named "Moonblade Greatsword", "Moonblade Longsword", etc.
+    if "Moonblade" in item_name:
+        # Check for Moonblade Properties table in prose text
+        if "Moonblade Properties" in prose_text or "Moonblade Properties" in entries_str:
+            # Average number of properties: 1d6+1 - 1 = 3.5
+            c["moonblade_properties"] = 3.5
+    
+    # Check for Staff of the Forgotten One's fixed properties
+    # This item has specific beneficial and detrimental properties that need individual analysis
+    if item_name == "Staff of the Forgotten One":
+        # Beneficial: Expertise (5k), 6 condition immunities (12k), undead non-aggression (2k)
+        c["staff_forgotten_one_beneficial"] = 19000
+        # Detrimental: 50% possession chance on charge use (major detrimental)
+        c["staff_forgotten_one_detrimental"] = 15000
+    
+    # Check for fixed beneficial/detrimental properties (non-random)
+    # These are sections like "Beneficial Properties" or "Detrimental Properties"
+    # that list specific abilities rather than random table references
+    for entry in entries:
+        if isinstance(entry, dict) and entry.get("type") == "entries":
+            name = entry.get("name", "").lower()
+            if name == "beneficial properties":
+                c["has_fixed_beneficial"] = True
+            elif name == "detrimental properties":
+                c["has_fixed_detrimental"] = True
+    
+    return c
 
 def extract_prose_criteria(description: str) -> dict:
     """Extract pricing-relevant criteria from prose item description."""

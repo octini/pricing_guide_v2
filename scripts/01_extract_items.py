@@ -11,7 +11,7 @@ sys.path.insert(0, str(Path(__file__).parent.parent))
 
 from src.utils import parse_value_cp, get_5etools_url
 
-INPUT_JSON = Path("items-sublist-data.json")
+INPUT_JSON = Path("trimmed_5etools_list.json")
 OUTPUT_CSV = Path("data/processed/items_master.csv")
 
 RARITY_NORMALIZE = {
