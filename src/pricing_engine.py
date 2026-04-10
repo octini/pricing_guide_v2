@@ -456,6 +456,8 @@ def calculate_price(criteria: dict) -> float:
     # Material ammunition: use weight-based formula
     # This handles adamantine/mithral/silvered arrows, bolts, bullets, etc.
     # Formula: weight * material_cost_per_lb * markup_multiplier
+    # NOTE: This provides the base price for variant adjustment
+    # The variant adjustment system will then adjust based on ammunition type
     is_ammunition = criteria.get("is_ammunition", False)
     if is_ammunition and material and material in MATERIAL_COST_PER_LB:
         # Determine ammunition type from item name
@@ -465,11 +467,11 @@ def calculate_price(criteria: dict) -> float:
             if ammo_type in item_name_lower:
                 weight = ammo_weight
                 break
-        
+
         # Calculate material cost
         material_cost_per_lb = MATERIAL_COST_PER_LB.get(material, 100)
         material_price = weight * material_cost_per_lb * MATERIAL_AMMUNITION_MULTIPLIER
-        
+
         # Apply minimum floor based on material
         min_price = 50 if material == "adamantine" else 25 if material == "mithral" else 10 if material in ("silver", "silvered") else 1
         return max(min_price, material_price)

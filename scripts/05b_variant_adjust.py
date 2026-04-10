@@ -62,8 +62,11 @@ def main():
 
         # Skip variant adjustment for material armor (mithral/adamantine)
         # These have their own pricing formula that accounts for base armor cost
+        # BUT: material ammunition should use variant adjustment (handled below)
         material = row.get('material', '')
-        if material in ('mithral', 'adamantine'):
+        item_type_code = str(row.get('item_type_code', '')).split('|')[0] if row.get('item_type_code') else ''
+        is_ammunition_type = item_type_code == 'A' or 'arrow' in item_name or 'bolt' in item_name or 'bullet' in item_name or 'needle' in item_name
+        if material in ('mithral', 'adamantine') and not is_ammunition_type:
             continue
 
         # Skip variant adjustment for enspelled items
