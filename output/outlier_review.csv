@@ -1,0 +1,193 @@
+rarity,position,name,price,source,price_source
+mundane,top,Skyship,100000.0,EGW,Official
+mundane,top,Nautiloid,50000.0,AAG,Official
+mundane,top,Bombard,50000.0,AAG,Official
+mundane,top,Rusted Hulk,50000.0,FRAiF,Official
+mundane,top,Nightspider,50000.0,AAG,Official
+mundane,top,Turtle Ship,40000.0,AAG,Official
+mundane,top,Hammerhead Ship,40000.0,AAG,Official
+mundane,top,Airship,40000.0,XPHB,Official
+mundane,top,Star Moth,40000.0,AAG,Official
+mundane,bottom,Flask,0.02,XPHB,Official
+mundane,bottom,Sling Bullet,0.01,XPHB,Official
+mundane,bottom,Chalk (1 piece),0.01,PHB,Official
+mundane,bottom,Whetstone,0.01,PHB,Official
+mundane,bottom,Torch,0.01,XPHB,Official
+mundane,bottom,Wheat,0.01,XDMG,Official
+mundane,bottom,Sack,0.01,XPHB,Official
+mundane,bottom,Ball Bearing,0.01,PHB,Official
+mundane,bottom,Candle,0.01,XPHB,Official
+common,top,Wind Stones,2466.69,ExploringEberron24,Algorithm
+common,top,Cast-Off Plate Armor,1042.86,XDMG,Algorithm
+common,top,Earring of Message,979.19,CRCotN,Algorithm
+common,top,Plate Armor of Gleaming,943.29,XDMG,Single source (DSA)
+common,top,Smoldering Plate Armor,874.46,XDMG,Algorithm
+common,top,Medani Dowser,671.8,ExploringEberron24,Algorithm
+common,top,Cast-Off Half Plate Armor,635.71,XDMG,Algorithm
+common,bottom,Unbreakable Arrow,28.06,XGE,"Amalgamated (DSA,MSRP,DMPG)"
+common,bottom,Spell Scroll (Cantrip),25.0,XDMG,Single source (DSA)
+common,bottom,Walloping Firearm Bullet,11.28,XDMG,Algorithm
+common,bottom,Walloping Sling Bullet,10.0,XDMG,Algorithm
+common,bottom,Walloping Bolt,10.0,XDMG,Algorithm
+common,bottom,Walloping Arrow,9.47,XDMG,Algorithm
+common,bottom,Walloping Needle,8.28,XDMG,Algorithm
+uncommon,top,Prospector's Wand,15661.33,ExploringEberron24,Algorithm
+uncommon,top,Houseward (Uncommon),10126.88,ExploringEberron24,Algorithm
+uncommon,top,Enspelled (Level 1) Plate Armor,8715.0,XDMG,Algorithm
+uncommon,top,Plate Armor of Weightlessness,7963.71,BMT,Algorithm
+uncommon,top,Enspelled (Cantrip) Plate Armor,7905.0,XDMG,Single source (DSA)
+uncommon,top,Splint Armor of Weightlessness,7806.54,BMT,Algorithm
+uncommon,top,Chain Mail of Weightlessness,7649.36,BMT,Algorithm
+uncommon,top,Half Plate Armor of Weightlessness,7492.18,BMT,Algorithm
+uncommon,top,Adamantine Plate Armor,7425.0,XDMG,Algorithm
+uncommon,top,Deck of Wonder,7402.9,BMT,Algorithm
+uncommon,top,Scale Mail of Weightlessness,7335.0,BMT,Algorithm
+uncommon,top,Ring Mail of Weightlessness,7335.0,BMT,Algorithm
+uncommon,top,Spiked Armor of Weightlessness,7335.0,BMT,Algorithm
+uncommon,top,Breastplate of Weightlessness,7155.0,BMT,Algorithm
+uncommon,top,Cloak of Passage,7022.03,ExploringEberron24,Algorithm
+uncommon,top,Chain Shirt of Weightlessness,6997.82,BMT,Algorithm
+uncommon,top,Padded Armor of Weightlessness,6863.46,BMT,Algorithm
+uncommon,top,Studded Leather Armor of Weightlessness,6840.64,BMT,Algorithm
+uncommon,bottom,Potion of Pugilism,276.36,XDMG,Single source (DSA)
+uncommon,bottom,Adamantine Arrow,265.26,XDMG,"Amalgamated (DSA,MSRP)"
+uncommon,bottom,Seeker Dart,261.25,PotA,Single source (DMPG)
+uncommon,bottom,Potion of Animal Friendship,249.62,XDMG,"Amalgamated (DSA,MSRP,DMPG)"
+uncommon,bottom,Adamantine Needle,231.82,XDMG,Algorithm
+uncommon,bottom,Potion of Greater Healing,226.13,XDMG,"Amalgamated (DSA,MSRP)"
+uncommon,bottom,Philter of Love,220.88,XDMG,"Amalgamated (MSRP,DMPG)"
+uncommon,bottom,Spell Scroll (Level 2),150.0,XDMG,"Amalgamated (MSRP,DMPG)"
+uncommon,bottom,Dried Leech Firearm Bullet,56.39,BMT,Algorithm
+uncommon,bottom,Dried Leech Bolt,50.0,BMT,Algorithm
+uncommon,bottom,Dried Leech Sling Bullet,50.0,BMT,Algorithm
+uncommon,bottom,Dried Leech Arrow,47.36,BMT,Algorithm
+uncommon,bottom,Dried Leech Needle,41.39,BMT,Algorithm
+uncommon,bottom,+1 Firearm Bullet,37.08,XDMG,"Amalgamated (DSA,MSRP,DMPG)"
+uncommon,bottom,+1 Sling Bullet,32.88,XDMG,"Amalgamated (DSA,MSRP,DMPG)"
+uncommon,bottom,+1 Bolt,32.88,XDMG,"Amalgamated (DSA,MSRP,DMPG)"
+uncommon,bottom,+1 Arrow,31.14,XDMG,"Amalgamated (DSA,MSRP,DMPG)"
+uncommon,bottom,+1 Needle,27.22,XDMG,"Amalgamated (DSA,MSRP,DMPG)"
+rare,top,Sceptre of Saint Vitruvio,54482.86,DungeonsDrakkenheim,Algorithm
+rare,top,Finding Channeling Wand,49984.07,ExploringEberron24,Algorithm
+rare,top,Scribing Channeling Wand,49984.07,ExploringEberron24,Algorithm
+rare,top,Storm Channeling Wand,49984.07,ExploringEberron24,Algorithm
+rare,top,Handling Channeling Wand,49984.07,ExploringEberron24,Algorithm
+rare,top,Passage Channeling Wand,49984.07,ExploringEberron24,Algorithm
+rare,top,Shadow Channeling Wand,49984.07,ExploringEberron24,Algorithm
+rare,top,Detection Channeling Wand,49984.07,ExploringEberron24,Algorithm
+rare,top,Healing Channeling Wand,49984.07,ExploringEberron24,Algorithm
+rare,top,Saint Vitruvio's Phylactery,45230.36,DungeonsDrakkenheim,Algorithm
+rare,top,The Shield of Sacred Flame,41671.61,DungeonsDrakkenheim,Algorithm
+rare,top,Helm of Patron Saints,35769.99,DungeonsDrakkenheim,Algorithm
+rare,top,Hag-Stitched Troll Leather Hide Armor,29508.75,MonstersOfDrakkenheim,Algorithm
+rare,top,Hag-Stitched Troll Leather Leather Armor,25391.25,MonstersOfDrakkenheim,Algorithm
+rare,top,Daern's Instant Fortress,20584.66,XDMG,"Amalgamated (DSA,MSRP,DMPG)"
+rare,top,Steward's Seal,20034.12,DungeonsDrakkenheim,Algorithm
+rare,top,Helm of Teleportation,17871.02,XDMG,"Amalgamated (DSA,MSRP,DMPG)"
+rare,top,Robe of Eyes,17520.52,XDMG,"Amalgamated (DSA,MSRP,DMPG)"
+rare,top,Staff of the Woodlands,15595.24,XDMG,"Amalgamated (DSA,MSRP,DMPG)"
+rare,top,Netherese Ring of Protection,15454.14,PaBTSO,Algorithm
+rare,top,"Instrument of the Bards, Cli Lyre",13654.66,XDMG,"Amalgamated (DSA,MSRP,DMPG)"
+rare,top,Feywrought Plate Armor,13582.29,BMT,Algorithm
+rare,top,Keeper's Fang,13554.26,ExploringEberron24,Algorithm
+rare,top,Feywrought Splint Armor,13314.21,BMT,Algorithm
+rare,top,Feywrought Chain Mail,13046.14,BMT,Algorithm
+rare,top,Enspelled (Level 3) Plate Armor,12900.0,XDMG,Algorithm
+rare,top,Feywrought Half Plate Armor,12778.07,BMT,Algorithm
+rare,top,Gem of Seeing,12579.3,XDMG,"Amalgamated (DSA,MSRP,DMPG)"
+rare,top,Feywrought Spiked Armor,12510.0,BMT,Algorithm
+rare,bottom,Stirring Dragon's Wrath Shortsword,623.39,FTD,Algorithm
+rare,bottom,Stirring Dragon's Wrath Shortbow,623.39,FTD,Algorithm
+rare,bottom,Stirring Dragon's Wrath Hoopak,623.39,FTD,Algorithm
+rare,bottom,Drow +1 Dart,620.14,MM,"Amalgamated (DSA,MSRP,DMPG)"
+rare,bottom,Berserker Battleaxe,617.04,XDMG,Algorithm
+rare,bottom,Stirring Dragon's Wrath Dagger,615.46,FTD,Algorithm
+rare,bottom,Corpse Slayer Dagger,615.46,EGW,Algorithm
+rare,bottom,Demonglass Dart,611.83,FoEQuickstone,Algorithm
+rare,bottom,Acheron Blade Shortsword,609.97,EGW,Algorithm
+rare,bottom,Corpse Slayer Dart,599.6,EGW,Algorithm
+rare,bottom,Stirring Dragon's Wrath Dart,599.6,FTD,Algorithm
+rare,bottom,Monster Hunter's Weapon +1,599.03,MonstersOfDrakkenheim,"Amalgamated (DSA,MSRP,DMPG)"
+rare,bottom,Injector's Hand Crossbow,589.61,MonstersOfDrakkenheim,Algorithm
+rare,bottom,Elixir of Health,502.75,XDMG,"Amalgamated (DSA,MSRP)"
+rare,bottom,Loadstone,381.43,TftYP,"Amalgamated (MSRP,DMPG)"
+rare,bottom,Scroll of Protection (Giants),312.78,XDMG,"Amalgamated (DSA,MSRP)"
+rare,bottom,Scroll of Protection (Beasts),312.78,XDMG,"Amalgamated (DSA,MSRP)"
+rare,bottom,Scroll of Protection (Fey),312.78,XDMG,"Amalgamated (DSA,MSRP)"
+rare,bottom,Scroll of Protection (Fiends),312.78,XDMG,"Amalgamated (DSA,MSRP)"
+rare,bottom,Scroll of Protection (Oozes),312.78,XDMG,"Amalgamated (DSA,MSRP)"
+rare,bottom,Scroll of Protection (Undead),312.78,XDMG,"Amalgamated (DSA,MSRP)"
+rare,bottom,Scroll of Protection (Plants),312.78,XDMG,"Amalgamated (DSA,MSRP)"
+rare,bottom,Hardened Delerium-tipped Bolt,226.98,DungeonsDrakkenheim,Algorithm
+rare,bottom,Hardened Delerium-tipped Arrow,166.98,DungeonsDrakkenheim,Algorithm
+rare,bottom,+2 Firearm Bullet,140.52,XDMG,"Amalgamated (DSA,MSRP,DMPG)"
+rare,bottom,+2 Sling Bullet,124.6,XDMG,"Amalgamated (DSA,MSRP,DMPG)"
+rare,bottom,+2 Bolt,124.6,XDMG,"Amalgamated (DSA,MSRP,DMPG)"
+rare,bottom,+2 Arrow,118.02,XDMG,"Amalgamated (DSA,MSRP,DMPG)"
+rare,bottom,+2 Needle,103.14,XDMG,"Amalgamated (DSA,MSRP,DMPG)"
+very_rare,top,Musket of Throne's Command,142302.64,BMT,Algorithm
+very_rare,top,Maul of Throne's Command,142302.64,BMT,Algorithm
+very_rare,top,Greataxe of Throne's Command,141065.7,BMT,Algorithm
+very_rare,top,Greatsword of Throne's Command,140531.1,BMT,Algorithm
+very_rare,top,Pike of Throne's Command,139329.19,BMT,Algorithm
+very_rare,top,Heavy Crossbow of Throne's Command,139329.19,BMT,Algorithm
+very_rare,top,Lance of Throne's Command,135519.23,BMT,Algorithm
+very_rare,top,Double-Bladed Scimitar of Throne's Command,135519.23,BMT,Algorithm
+very_rare,top,Halberd of Throne's Command,135519.23,BMT,Algorithm
+very_rare,top,Glaive of Throne's Command,135519.23,BMT,Algorithm
+very_rare,top,Warhammer of Throne's Command,134886.94,BMT,Algorithm
+very_rare,top,Heavy Sentira Lens of Throne's Command,134317.32,BMT,Algorithm
+very_rare,top,Morningstar of Throne's Command,134113.08,BMT,Algorithm
+very_rare,top,Battleaxe of Throne's Command,134113.08,BMT,Algorithm
+very_rare,top,Trident of Throne's Command,134113.08,BMT,Algorithm
+very_rare,top,Longsword of Throne's Command,133115.41,BMT,Algorithm
+very_rare,top,Pistol of Throne's Command,133115.41,BMT,Algorithm
+very_rare,top,Rapier of Throne's Command,131709.26,BMT,Algorithm
+very_rare,bottom,Demon Studded Leather Armor,957.14,XDMG,Algorithm
+very_rare,bottom,Demon Hide Armor,957.14,XDMG,Algorithm
+very_rare,bottom,Bloodseeker Arrow,947.17,BMT,Algorithm
+very_rare,bottom,Demon Leather Armor,935.71,XDMG,Algorithm
+very_rare,bottom,Demon Padded Armor,935.71,XDMG,Algorithm
+very_rare,bottom,Bloodshed Shortsword,934.82,BGG,Algorithm
+very_rare,bottom,Executioner's Handaxe,907.64,XDMG,Algorithm
+very_rare,bottom,Bloodseeker Needle,827.79,BMT,Algorithm
+very_rare,bottom,+3 Firearm Bullet,717.14,XDMG,"Amalgamated (DSA,MSRP,DMPG)"
+very_rare,bottom,Firearm Bullet of Slaying,712.54,XDMG,Algorithm
+very_rare,bottom,+3 Bolt,635.88,XDMG,"Amalgamated (DSA,MSRP,DMPG)"
+very_rare,bottom,+3 Sling Bullet,635.88,XDMG,"Amalgamated (DSA,MSRP,DMPG)"
+very_rare,bottom,Bolt of Slaying,631.8,XDMG,Algorithm
+very_rare,bottom,Sling Bullet of Slaying,631.8,XDMG,Algorithm
+very_rare,bottom,+3 Arrow,602.29,XDMG,"Amalgamated (DSA,MSRP,DMPG)"
+very_rare,bottom,Arrow of Slaying,598.42,XDMG,"Amalgamated (DSA,MSRP,DMPG)"
+very_rare,bottom,+3 Needle,526.38,XDMG,"Amalgamated (DSA,MSRP,DMPG)"
+very_rare,bottom,Needle of Slaying,523.0,XDMG,Algorithm
+legendary,top,Harp of Gilded Plenty,148368.81,BGG,Algorithm
+legendary,top,Breastplate of Kamvuul Norek,147237.89,ExploringEberron24,Algorithm
+legendary,top,Deck of Many More Things,146681.49,BMT,Algorithm
+legendary,top,Rakdos Riteknife,132708.17,GGR,Algorithm
+legendary,top,Shard Solitaire (Black Sapphire),125071.49,KftGV,Algorithm
+legendary,top,Shard Solitaire (Diamond),125071.49,KftGV,Algorithm
+legendary,top,Shard Solitaire (Rainbow Pearl),120346.49,KftGV,Algorithm
+legendary,top,Shard Solitaire (Ruby),120346.49,KftGV,Algorithm
+legendary,top,Shard Solitaire (Jacinth),120346.49,KftGV,Algorithm
+legendary,top,Luck Greatsword,116770.0,XDMG,Algorithm
+legendary,top,Jester's Mask,113359.19,BMT,Algorithm
+legendary,top,Luck Glaive,112733.5,XDMG,Algorithm
+legendary,top,Stormgirdle (Exalted),109868.22,EGW,Algorithm
+legendary,bottom,Holy Avenger Handaxe,11426.46,XDMG,Algorithm
+legendary,bottom,Holy Avenger Light Hammer,11426.46,XDMG,Algorithm
+legendary,bottom,Holy Avenger Hoopak,11426.46,XDMG,Algorithm
+legendary,bottom,Holy Avenger Sickle,11426.46,XDMG,Algorithm
+legendary,bottom,Holy Avenger Shortsword,11426.46,XDMG,Algorithm
+legendary,bottom,Holy Avenger Shortbow,11426.46,XDMG,Algorithm
+legendary,bottom,Holy Avenger Javelin,11426.46,XDMG,Algorithm
+legendary,bottom,Holy Avenger Hooked Shortspear,11426.46,XDMG,Algorithm
+legendary,bottom,Holy Avenger Dagger,11281.07,XDMG,Algorithm
+legendary,bottom,Holy Avenger Light Bayonet,11281.07,XDMG,Algorithm
+legendary,bottom,Holy Avenger Dart,10990.31,XDMG,Algorithm
+legendary,bottom,Universal Solvent,10802.63,XDMG,"Amalgamated (DSA,MSRP,DMPG)"
+legendary,bottom,Scroll of Titan Summoning (Kraken),10101.64,XDMG,Single source (DSA)
+artifact,top,Orrery of the Wanderer,745200.0,AI,Algorithm
+artifact,top,Wand of Orcus,520812.0,XDMG,Algorithm
+artifact,bottom,"Mastix, Whip of Erebos",50000.0,MOT,Algorithm
+artifact,bottom,Adze of Annam,50000.0,BGG,Algorithm
