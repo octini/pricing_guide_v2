@@ -658,10 +658,10 @@ def calculate_price(criteria: dict) -> float:
 
     # Artifact random properties (beneficial/detrimental)
     # These are randomly determined properties from the DMG tables
-    # Minor beneficial: +40,000 gp each (e.g., "While attuned, you can't be surprised")
+    # Minor beneficial: +20,000 gp each (e.g., "While attuned, you can't be surprised")
     # Major beneficial: +40,000 gp each (e.g., "You are immune to disease")
     # Minor detrimental: -10,000 gp each (e.g., "You glow dimly in darkness")
-    # Major detrimental: -10,000 gp each (e.g., "You have vulnerability to fire")
+    # Major detrimental: -20,000 gp each (e.g., "You have vulnerability to fire")
     # Note: Detrimental properties reduce price but are offset by beneficial ones
     minor_beneficial = criteria.get("minor_beneficial") or 0
     major_beneficial = criteria.get("major_beneficial") or 0
@@ -669,13 +669,27 @@ def calculate_price(criteria: dict) -> float:
     major_detrimental = criteria.get("major_detrimental") or 0
 
     if minor_beneficial > 0:
-        additive += 40000 * minor_beneficial
+        additive += 20000 * minor_beneficial
     if major_beneficial > 0:
         additive += 40000 * major_beneficial
     if minor_detrimental > 0:
         additive -= 10000 * minor_detrimental
     if major_detrimental > 0:
-        additive -= 10000 * major_detrimental
+        additive -= 20000 * major_detrimental
+
+    # Staff of the Forgotten One: fixed beneficial/detrimental properties (hardcoded from extractor)
+    staff_beneficial = criteria.get("staff_forgotten_one_beneficial") or 0
+    staff_detrimental = criteria.get("staff_forgotten_one_detrimental") or 0
+    if staff_beneficial > 0:
+        additive += staff_beneficial
+    if staff_detrimental > 0:
+        additive -= staff_detrimental
+
+    # Moonblade properties (d100 table runes — each rune adds extra weapon bonus, damage, or utility)
+    # Each rune beyond the first (+1 base) is worth ~10,000 gp on average
+    moonblade_properties = criteria.get("moonblade_properties") or 0
+    if moonblade_properties > 0:
+        additive += 10000 * moonblade_properties
 
     # Charges: rechargeable charges add moderate value; non-rechargeable add less
     # Exception: flavor items (no tactical value) use much lower valuation

@@ -4,34 +4,34 @@
 
 - Total items: 4,837
 - Median price: 3,166 gp
-- Mean price: 14,068 gp
-- Std dev: 37,714 gp
-- CV: 2.68
-- Skewness: 8.46
-- Price range: 0 – 844,200 gp
+- Mean price: 13,942 gp
+- Std dev: 36,164 gp
+- CV: 2.59
+- Skewness: 8.10
+- Price range: 0 – 799,200 gp
 
 ## Outliers by Rarity & Type
 
 | Rarity/Type | Count | Median | IQR Width | Outliers | Outlier Rate |
 |--------------|-------|--------|-----------|----------|--------------|
-| artifact (persistent) | 80 | 185,239 gp | 92,310 | 7 | 8.8%  |
+| artifact (persistent) | 80 | 180,374 gp | 64,604 | 10 | 12.5%  |
 | common (consumable) | 59 | 90 gp | 14 | 13 | 22.0%  |
 | common (persistent) | 263 | 124 gp | 98 | 39 | 14.8%  |
-| legendary (consumable) | 26 | 21,820 gp | 24,323 | 1 | 3.8%  |
-| legendary (persistent) | 625 | 38,430 gp | 35,922 | 16 | 2.6%  |
+| legendary (consumable) | 26 | 21,830 gp | 24,334 | 1 | 3.8%  |
+| legendary (persistent) | 625 | 38,430 gp | 38,585 | 13 | 2.1%  |
 | mundane (consumable) | 46 | 10 gp | 199 | 6 | 13.0%  |
 | mundane (persistent) | 400 | 5 gp | 40 | 60 | 15.0%  |
-| rare (consumable) | 84 | 1,853 gp | 2,984 | 2 | 2.4%  |
-| rare (persistent) | 1331 | 3,549 gp | 3,484 | 42 | 3.2%  |
+| rare (consumable) | 84 | 1,853 gp | 2,985 | 2 | 2.4%  |
+| rare (persistent) | 1331 | 3,560 gp | 3,489 | 41 | 3.1%  |
 | uncommon (consumable) | 64 | 430 gp | 338 | 11 | 17.2%  |
-| uncommon (persistent) | 813 | 736 gp | 545 | 85 | 10.5%  |
+| uncommon (persistent) | 813 | 736 gp | 545 | 86 | 10.6%  |
 | unknown (consumable) | 11 | 232 gp | 261 | 1 | 9.1%  |
 | unknown (persistent) | 55 | 401 gp | 409 | 2 | 3.6%  |
-| unknown_magic (persistent) | 81 | 647 gp | 234 | 6 | 7.4%  |
+| unknown_magic (persistent) | 81 | 647 gp | 234 | 7 | 8.6%  |
 | varies (consumable) | 6 | 675 gp | 459 | 0 | 0.0%  |
 | varies (persistent) | 35 | 750 gp | 75 | 8 | 22.9%  |
 | very_rare (consumable) | 45 | 3,400 gp | 11,228 | 1 | 2.2%  |
-| very_rare (persistent) | 813 | 13,090 gp | 8,962 | 69 | 8.5%  |
+| very_rare (persistent) | 813 | 13,090 gp | 8,966 | 69 | 8.5%  |
 
 ## Extreme Outliers (> 3× rarity median)
 
@@ -40,9 +40,9 @@ Total: 1215 items
 | Name | Source | Rarity | Price | Rarity Median |
 |------|--------|--------|-------|---------------|
 | Ephixis, Bow of Nylea | MOT | artifact | 50,000 gp | - |
-| Eye and Hand of Vecna | XDMG | artifact | 725,674 gp | - |
-| Orrery of the Wanderer | AI | artifact | 844,200 gp | - |
-| Wand of Orcus | XDMG | artifact | 613,962 gp | - |
+| Eye and Hand of Vecna | XDMG | artifact | 707,674 gp | - |
+| Orrery of the Wanderer | AI | artifact | 799,200 gp | - |
+| Wand of Orcus | XDMG | artifact | 562,212 gp | - |
 | Cast-Off Breastplate | XDMG | common | 450 gp | - |
 | Cast-Off Chain Mail | XDMG | common | 521 gp | - |
 | Cast-Off Half Plate Armor | XDMG | common | 636 gp | - |
@@ -84,8 +84,8 @@ Total: 1215 items
 | Walloping Sling Bullet | XDMG | common | 10 gp | - |
 | Ascendant Dragon's Wrath Dagger | FTD | legendary | 12,691 gp | - |
 | Ascendant Dragon's Wrath Dart | FTD | legendary | 12,364 gp | - |
-| Breastplate of Kamvuul Norek | ExploringEberron24 | legendary | 147,238 gp | - |
-| Deck of Many More Things | BMT | legendary | 146,681 gp | - |
+| Breastplate of Kamvuul Norek | ExploringEberron24 | legendary | 136,315 gp | - |
+| Deck of Many More Things | BMT | legendary | 146,779 gp | - |
 | Defender Club | XDMG | legendary | 12,755 gp | - |
 | Defender Dagger | XDMG | legendary | 12,513 gp | - |
 | Defender Handaxe | XDMG | legendary | 12,755 gp | - |
