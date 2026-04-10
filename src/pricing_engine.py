@@ -4,7 +4,9 @@
 Constants calibrated against external price guides (DSA, MSRP, DMPG) via oracle review.
 """
 
-from typing import Optional
+from typing import Any, Optional
+
+from .spell_data import get_spell_level
 
 RARITY_BASE_PRICES = {
     "mundane": 1,
@@ -77,6 +79,15 @@ CONDITION_IMMUNITY_VALUES = {
     "incapacitated": 400,
     "prone": 400,
     "restrained": 400,
+}
+
+USAGE_MULTIPLIERS = {
+    "will": 3.0,
+    "daily": 1.5,
+    "charges": 1.0,
+    "rest": 0.75,
+    "limited": 0.5,
+    "other": 0.5,
 }
 
 # Property item premium multipliers (multipliers applied to base item)
@@ -227,16 +238,75 @@ MATERIAL_AMMUNITION_MULTIPLIER = 50
 # Flavor items: items with charges that have no tactical/combat value
 # These should use a much lower charge valuation (10 gp/charge instead of 500 gp)
 FLAVOR_ITEMS = {
-    "staff of flowers",      # Creates flowers
-    "wyllows staff of flowers",  # Creates flowers (same mechanics, normalized name)
-    "staff of birdcalls",    # Makes bird sounds
-    "wand of smiles",        # Forces smiling
-    "wand of scowls",        # Forces scowling
-    "wand of conducting",    # Conducts music
-    "wand of pyrotechnics",  # Creates fireworks (minor utility)
-    "hewards handy spice pouch",  # Produces seasoning
-"instrument of scribing", # Sends messages (minor utility)
+    "staff of flowers", # Creates flowers
+    "wyllows staff of flowers", # Creates flowers (same mechanics, normalized name)
+    "staff of birdcalls", # Makes bird sounds
+    "wand of smiles", # Forces smiling
+    "wand of scowls", # Forces scowling
+    "wand of conducting", # Conducts music
+    "wand of pyrotechnics", # Creates fireworks (minor utility)
+    "hewards handy spice pouch", # Produces seasoning
+    "instrument of scribing", # Sends messages (minor utility)
 }
+
+
+def calculate_spell_value(attached_spells: Any) -> float:
+    """Calculate the additive value of attached spells.
+
+    Args:
+        attached_spells: The attached_spells field from criteria
+
+    Returns:
+        Total spell value in gold pieces
+    """
+    if not attached_spells:
+        return 0.0
+
+    total_value = 0.0
+
+    # Handle list format (unlimited use)
+    if isinstance(attached_spells, list):
+        for spell_name in attached_spells:
+            spell_level = get_spell_level(spell_name)
+            if spell_level == 0:
+                continue
+            spell_value = spell_level ** 2 * 500
+            total_value += spell_value * 2.0  # Unlimited multiplier
+        return total_value
+
+    # Handle dict format
+    if isinstance(attached_spells, dict):
+        for usage_type, usage_data in attached_spells.items():
+            # Skip non-usage keys like 'ability', 'choose', etc.
+            if usage_type not in USAGE_MULTIPLIERS:
+                continue
+
+            multiplier = USAGE_MULTIPLIERS.get(usage_type, 0.5)
+
+            if isinstance(usage_data, dict):
+                # {'1': ['spell1'], '3': ['spell2']}
+                for frequency, spells in usage_data.items():
+                    # Skip non-frequency keys
+                    try:
+                        freq = int(str(frequency).replace("e", ""))
+                    except ValueError:
+                        continue
+                    for spell_name in spells:
+                        spell_level = get_spell_level(spell_name)
+                        if spell_level == 0:
+                            continue
+                        spell_value = spell_level ** 2 * 500
+                        total_value += spell_value * multiplier * freq
+            elif isinstance(usage_data, list):
+                # {'will': ['spell1', 'spell2']}
+                for spell_name in usage_data:
+                    spell_level = get_spell_level(spell_name)
+                    if spell_level == 0:
+                        continue
+                    spell_value = spell_level ** 2 * 500
+                    total_value += spell_value * multiplier
+
+    return total_value
 
 
 def calculate_price(criteria: dict) -> float:
@@ -634,6 +704,12 @@ def calculate_price(criteria: dict) -> float:
         # Silvered weapons: add as additive
         if material == "silvered":
             additive += MATERIAL_FLAT_RATES["silvered"]
+
+    # Attached spells: calculate value based on spell levels and usage
+    attached_spells = criteria.get("attached_spells")
+    if attached_spells:
+        spell_value = calculate_spell_value(attached_spells)
+        additive += spell_value
 
     # --- Multiplicative modifiers ---
     attune_mod = 1.0
