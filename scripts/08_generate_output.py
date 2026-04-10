@@ -66,6 +66,13 @@ def main():
     output_rows = []
     for _, row in df.iterrows():
         price = row.get('final_price', row.get('rule_price', 0))
+        # Build notes - flag items without reference sources
+        notes = ''
+        if row.get('is_outlier', False):
+            notes = '⚠️'
+        if not row.get('has_reference_source', True):
+            notes = '🤖' if notes else '🤖'  # Robot emoji for algorithmic items
+        
         output_rows.append({
             'Name': row['name'],
             'Source': row['source'],
@@ -77,6 +84,7 @@ def main():
             'Price Source': determine_price_source_label(row.to_dict()),
             'URL': row.get('url', ''),
             'Is Outlier': row.get('is_outlier', False),
+            'Has Reference': row.get('has_reference_source', True),
         })
 
     out_df = pd.DataFrame(output_rows)
