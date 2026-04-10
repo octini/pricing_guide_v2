@@ -4,8 +4,8 @@
 
 - Total items: 4,837
 - Median price: 3,166 gp
-- Mean price: 13,500 gp
-- Std dev: 33,697 gp
+- Mean price: 13,501 gp
+- Std dev: 33,698 gp
 - CV: 2.50
 - Skewness: 7.85
 - Price range: 0 – 745,200 gp
@@ -17,25 +17,25 @@
 | artifact (persistent) | 80 | 162,144 gp | 40,685 | 16 | 20.0%  |
 | common (consumable) | 59 | 90 gp | 14 | 13 | 22.0%  |
 | common (persistent) | 263 | 124 gp | 98 | 39 | 14.8%  |
-| legendary (consumable) | 26 | 21,824 gp | 24,316 | 1 | 3.8%  |
-| legendary (persistent) | 625 | 38,430 gp | 35,904 | 16 | 2.6%  |
+| legendary (consumable) | 26 | 21,820 gp | 24,323 | 1 | 3.8%  |
+| legendary (persistent) | 625 | 38,430 gp | 35,922 | 16 | 2.6%  |
 | mundane (consumable) | 46 | 10 gp | 199 | 6 | 13.0%  |
 | mundane (persistent) | 400 | 5 gp | 40 | 60 | 15.0%  |
-| rare (consumable) | 84 | 1,853 gp | 2,983 | 2 | 2.4%  |
-| rare (persistent) | 1331 | 3,548 gp | 3,590 | 41 | 3.1%  |
-| uncommon (consumable) | 64 | 430 gp | 361 | 11 | 17.2%  |
+| rare (consumable) | 84 | 1,853 gp | 2,984 | 2 | 2.4%  |
+| rare (persistent) | 1331 | 3,549 gp | 3,590 | 41 | 3.1%  |
+| uncommon (consumable) | 64 | 458 gp | 383 | 11 | 17.2%  |
 | uncommon (persistent) | 813 | 737 gp | 545 | 85 | 10.5%  |
-| unknown (consumable) | 11 | 100 gp | 300 | 1 | 9.1%  |
+| unknown (consumable) | 11 | 100 gp | 356 | 2 | 18.2%  |
 | unknown (persistent) | 55 | 401 gp | 409 | 2 | 3.6%  |
-| unknown_magic (persistent) | 81 | 647 gp | 235 | 6 | 7.4%  |
+| unknown_magic (persistent) | 81 | 647 gp | 232 | 6 | 7.4%  |
 | varies (consumable) | 6 | 675 gp | 459 | 0 | 0.0%  |
 | varies (persistent) | 35 | 750 gp | 75 | 8 | 22.9%  |
-| very_rare (consumable) | 45 | 3,400 gp | 11,228 | 2 | 4.4%  |
-| very_rare (persistent) | 813 | 13,090 gp | 9,149 | 66 | 8.1%  |
+| very_rare (consumable) | 45 | 3,400 gp | 11,228 | 1 | 2.2%  |
+| very_rare (persistent) | 813 | 13,090 gp | 9,147 | 67 | 8.2%  |
 
 ## Extreme Outliers (> 3× rarity median)
 
-Total: 1221 items
+Total: 1223 items
 
 | Name | Source | Rarity | Price | Rarity Median |
 |------|--------|--------|-------|---------------|
@@ -88,4 +88,4 @@ Total: 1221 items
 | Walloping Sling Bullet | XDMG | common | 10 gp | - |
 | Ascendant Dragon's Wrath Dagger | FTD | legendary | 12,691 gp | - |
 | Ascendant Dragon's Wrath Dart | FTD | legendary | 12,364 gp | - |
-| Breastplate of Kamvuul Norek | ExploringEberron24 | legendary | 146,922 gp | - |
+| Breastplate of Kamvuul Norek | ExploringEberron24 | legendary | 147,238 gp | - |
