@@ -604,7 +604,7 @@ def calculate_price(criteria: dict) -> float:
 
     # Movement
     if criteria.get("flight_full"):
-        additive += 3000   # was 15000
+        additive += 10000   # bumped for flight value
     elif criteria.get("flight_limited"):
         additive += 1000   # was 5000
 
@@ -654,7 +654,7 @@ def calculate_price(criteria: dict) -> float:
 
     # Wish effect (ring of three wishes, similar items)
     if criteria.get("wish_effect"):
-        additive += 30000 # was 500000
+        additive += 50000 # bumped for wish effect
 
     # Artifact random properties (beneficial/detrimental)
     # These are randomly determined properties from the DMG tables
@@ -844,7 +844,7 @@ def calculate_price_with_outlier_check(criteria: dict) -> tuple[float, str]:
     Calculate price with single-source outlier detection.
 
     Returns:
-    (price, price_source): The calculated price and its source type
+        (price, price_source): The calculated price and its source type
     """
     # Get amalgamated price info
     amalgamated_price = criteria.get("amalgamated_price")
@@ -866,3 +866,87 @@ def calculate_price_with_outlier_check(criteria: dict) -> tuple[float, str]:
         source = "rule"
 
     return (price, source)
+
+
+def calculate_composite_features(criteria: dict) -> dict:
+    """
+    Calculate composite features for ML model.
+    
+    These features capture interactions and aggregated power levels.
+    
+    Returns:
+        dict with keys: power_score, defensive_score, spell_complexity,
+        interaction_weapon_damage, interaction_flight_invisibility
+    """
+    features = {}
+    
+    # Power score: combines offensive bonuses and damage
+    weapon_bonus = criteria.get("weapon_bonus") or 0
+    spell_attack_bonus = criteria.get("spell_attack_bonus") or 0
+    extra_damage_avg = criteria.get("extra_damage_avg") or 0
+    features["power_score"] = (
+        weapon_bonus + 
+        spell_attack_bonus + 
+        (extra_damage_avg / 1000)  # Scale down to be comparable to bonus levels
+    )
+    
+    # Defensive score: combines AC bonus, resistances, immunities
+    ac_bonus = criteria.get("ac_bonus") or 0
+    resistances = criteria.get("damage_resistances") or []
+    immunities = criteria.get("damage_immunities") or []
+    condition_immunities = criteria.get("condition_immunities") or []
+    
+    if isinstance(resistances, str):
+        resistances = [resistances] if resistances else []
+    if isinstance(immunities, str):
+        immunities = [immunities] if immunities else []
+    if isinstance(condition_immunities, str):
+        condition_immunities = [condition_immunities] if condition_immunities else []
+    
+    features["defensive_score"] = (
+        ac_bonus + 
+        2 * len(resistances) + 
+        3 * len(immunities) + 
+        2 * len(condition_immunities)
+    )
+    
+    # Spell complexity: combines spell count and spellcasting bonuses
+    attached_spells = criteria.get("attached_spells") or []
+    spell_save_dc_bonus = criteria.get("spell_save_dc_bonus") or 0
+    spell_damage_bonus = criteria.get("spell_damage_bonus") or 0
+    
+    # Count spells
+    spell_count = 0
+    if isinstance(attached_spells, list):
+        spell_count = len(attached_spells)
+    elif isinstance(attached_spells, dict):
+        # Count all spells in the dict structure
+        for usage_type, usage_data in attached_spells.items():
+            if usage_type not in ["ability", "choose", "options"]:
+                if isinstance(usage_data, list):
+                    spell_count += len(usage_data)
+                elif isinstance(usage_data, dict):
+                    for freq, spells in usage_data.items():
+                        if isinstance(spells, list):
+                            spell_count += len(spells)
+    
+    features["spell_complexity"] = (
+        spell_count + 
+        spell_attack_bonus + 
+        spell_save_dc_bonus +
+        spell_damage_bonus
+    )
+    
+    # Interaction: weapon bonus + extra damage synergy
+    # High weapon bonus combined with extra damage is particularly valuable
+    features["interaction_weapon_damage"] = weapon_bonus * extra_damage_avg if extra_damage_avg > 0 else 0
+    
+    # Interaction: flight + invisibility synergy
+    # Both together are more powerful than separately
+    flight_full = criteria.get("flight_full") or False
+    flight_limited = criteria.get("flight_limited") or False
+    invisibility_atwill = criteria.get("invisibility_atwill") or False
+    has_flight = flight_full or flight_limited
+    features["interaction_flight_invisibility"] = 1.0 if has_flight and invisibility_atwill else 0.0
+    
+    return features

@@ -8,7 +8,7 @@ import numpy as np
 from pathlib import Path
 
 sys.path.insert(0, str(Path(__file__).parent.parent))
-from src.pricing_engine import calculate_price, calculate_price_with_outlier_check
+from src.pricing_engine import calculate_price, calculate_price_with_outlier_check, calculate_composite_features
 
 INPUT_CSV = Path("data/processed/amalgamated_prices.csv")
 OUTPUT_CSV = Path("data/processed/items_priced.csv")
@@ -70,6 +70,10 @@ def main():
             "stealth_penalty",
         ]:
             c[bool_col] = bool(c.get(bool_col))
+        
+        # Add composite features
+        composite_features = calculate_composite_features(c)
+        c.update(composite_features)
 
         # Handle NaN numeric fields - convert to None
         for num_col in [
