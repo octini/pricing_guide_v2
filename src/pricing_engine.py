@@ -823,6 +823,13 @@ def calculate_price(criteria: dict) -> float:
     price = (base + additive) * attune_mod * consumable_mod * material_mod * curse_mod * sentient_mod * flavor_mod
     price = max(price, base_item_cost) # Never cheaper than mundane base
 
+    # Gleaming: add premium on top of base armor cost
+    # Reference guides: DSA=330, MSRP=95, avg=212.5 gp for generic "Armor of Gleaming"
+    # Premium = gleaming_avg - mundane_base (using 200 as the premium)
+    if "gleaming" in item_name_lower and base_item_cost > 0:
+        price += 200
+
+
     floor = RARITY_FLOORS.get(rarity, 1)
     return max(floor, price)
 

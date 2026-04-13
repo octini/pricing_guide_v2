@@ -19,17 +19,16 @@ RARITY_MEDIANS = {
 
 
 def trim_outliers(df: pd.DataFrame, price_col: str, pct: float = 0.02) -> pd.DataFrame:
-    """Remove only the top pct of items by price (high outliers).
-    
-    We don't trim low-priced items because they are often legitimate (e.g., common items,
-    spell scrolls, potions). Only high-priced outliers are likely to be errors.
+    """Remove items with zero price (likely joke/error items in DSA).
+
+    We don't trim high-priced items anymore - legitimate expensive items like
+    Rod of Resurrection were being incorrectly removed. Instead, we only remove
+    items with 0 price, which are joke items or cursed items that DSA priced at 0.
     """
     if len(df) < 10:
         return df
-    n_trim = max(1, int(len(df) * pct))
-    sorted_df = df.sort_values(price_col)
-    # Only trim top outliers, not bottom
-    return sorted_df.iloc[:-n_trim].reset_index(drop=True)
+    # Only remove items with zero price (not serious prices)
+    return df[df[price_col] > 0].reset_index(drop=True)
 
 
 def detect_and_exclude_outliers(prices: dict, outlier_threshold: float = 5.0) -> dict:
