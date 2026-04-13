@@ -300,6 +300,10 @@ def main():
     # Apply minimum price floor (1 copper piece)
     df["final_price"] = df["final_price"].clip(lower=0.01)
 
+    # Ensure price bounds encompass final_price (ML quantile predictions don't account for blend)
+    df["price_low"] = df[["price_low", "final_price"]].min(axis=1)
+    df["price_high"] = df[["price_high", "final_price"]].max(axis=1)
+
     # Calculate final R² against amalgamated
     matched = df[df["amalgamated_price"].notna()].copy()
     r2_final = r2_score(
