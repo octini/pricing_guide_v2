@@ -314,9 +314,10 @@ def extract_prose_criteria(description: str) -> dict:
     c["spell_absorption"] = bool(re.search(r'(absorb|negate).{0,30}spell', desc))
     
     # Stealth advantage
+    # Must be "advantage" not "disadvantage" - use negative lookbehind
     c["stealth_advantage"] = bool(
-        re.search(r'advantage.{0,30}(stealth|dexterity \(stealth\))', desc) or
-        re.search(r'stealth.{0,30}advantage', desc)
+        re.search(r'(?<!dis)advantage.{0,30}(stealth|dexterity \(stealth\))', desc) or
+        re.search(r'stealth.{0,30}(?<!dis)advantage', desc)
     )
     
     # Legendary resistance

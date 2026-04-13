@@ -80,6 +80,11 @@ def main():
         if 'moon-touched' in item_name:
             continue
 
+        # Skip variant adjustment for Gleaming items
+        # These use additive pricing (base armor + 200 gp premium)
+        if 'gleaming' in item_name:
+            continue
+
         # Skip variant adjustment for simple +N weapons/armor
         # These have their own amalgamated pricing in the pricing engine
         bonus_match = re.search(r'\+(\d+)\s+(sword|longsword|greatsword|dagger|battleaxe|axe|hammer|bow|spear|staff|plate|chain|leather|scale|breastplate|shield)', item_name)
