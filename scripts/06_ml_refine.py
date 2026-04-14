@@ -85,6 +85,11 @@ def is_material_armor(row):
             return True
     return False
 
+def is_gleaming_armor(row):
+    """Check if item is gleaming armor (has its own premium in rule pricing)."""
+    item_name = str(row.get("name", "")).lower()
+    return "gleaming" in item_name
+
 def is_spell_scroll(row):
     """Check if item is a spell scroll (has spell_scroll_level)."""
     spell_level = row.get("spell_scroll_level")
@@ -277,6 +282,8 @@ def main():
         if is_spell_scroll(row):
             return row["rule_price"]
         if is_high_rarity_ammunition(row):
+            return row["rule_price"]
+        if is_gleaming_armor(row):
             return row["rule_price"]
         if pd.notna(row.get("variant_price")):
             return row["rule_price"]

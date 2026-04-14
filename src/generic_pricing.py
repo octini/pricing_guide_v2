@@ -48,7 +48,7 @@ def compute_generic_base_prices(
             generic_amal_row = amalgamated_df[amalgamated_df['name'] == generic_name]
             if len(generic_amal_row) > 0:
                 generic_amal = generic_amal_row.iloc[0].get('amalgamated_price')
-                if generic_amal is not None and not pd.isna(generic_amal):
+                if generic_amal is not None and not pd.isna(generic_amal) and generic_amal > 0:
                     base_prices.append({
                         'generic_name': generic_name,
                         'base_price': generic_amal,
@@ -57,45 +57,39 @@ def compute_generic_base_prices(
                     })
                     continue
 
-        # PRIORITY 3: Fall back to median of variant amalgamated prices
-        if amalgamated_df is not None:
-            variant_amals = amalgamated_df[
-                (amalgamated_df['name'].isin(variant_names)) &
-                (amalgamated_df['amalgamated_price'].notna())
-            ]['amalgamated_price']
-
-            if len(variant_amals) > 0:
-                median_amal = variant_amals.median()
+        # PRIORITY 3: Average of variant prices
+        variant_prices = priced_df[priced_df['name'].isin(variant_names)]
+        if len(variant_prices) > 0:
+            avg_price = variant_prices[price_col].mean()
+            if not pd.isna(avg_price) and avg_price > 0:
                 base_prices.append({
                     'generic_name': generic_name,
-                    'base_price': median_amal,
-                    'price_source': 'variant_amalgamated_median',
+                    'base_price': avg_price,
+                    'price_source': 'variant_average',
                     'variant_count': len(variants),
                 })
                 continue
 
-        # PRIORITY 4: Fall back to median of variant rule prices
-        variant_prices = priced_df[
-            (priced_df['name'].isin(variant_names)) &
-            (priced_df[price_col].notna())
-        ][price_col]
+        # FALLBACK: Use rarity median
+        rarity = variants.iloc[0]['generic_rarity']
+        rarity_medians = {
+            'common': 132,
+            'uncommon': 852,
+            'rare': 3890,
+            'very_rare': 13450,
+            'legendary': 46500,
+            'artifact': 150000,
+            'mundane': 1,
+            'unknown': 1,
+        }
+        median_price = rarity_medians.get(rarity, 750)
+        base_prices.append({
+            'generic_name': generic_name,
+            'base_price': median_price,
+            'price_source': 'rarity_median',
+            'variant_count': len(variants),
+        })
 
-        if len(variant_prices) > 0:
-            median_price = variant_prices.median()
-            base_prices.append({
-                'generic_name': generic_name,
-                'base_price': median_price,
-                'price_source': 'variant_price_median',
-                'variant_count': len(variants),
-            })
-        else:
-            base_prices.append({
-                'generic_name': generic_name,
-                'base_price': None,
-                'price_source': 'no_prices',
-                'variant_count': len(variants),
-            })
-    
     return pd.DataFrame(base_prices)
 
 
@@ -127,32 +121,35 @@ def merge_variant_prices(
     
     for idx, row in items.iterrows():
         item_name = row['name']
-        
+        # Skip gleaming items - they have their own premium in the rule pricing
+        if "gleaming" in item_name.lower():
+            continue
+
         variant_row = mapping_df[mapping_df['specific_name'] == item_name]
         if len(variant_row) == 0:
             continue
-        
+
         variant_row = variant_row.iloc[0]
         generic_name = variant_row['generic_name']
-        
+
         base_price_row = base_prices_df[base_prices_df['generic_name'] == generic_name]
         if len(base_price_row) == 0:
             continue
-        
+
         base_price = base_price_row.iloc[0]['base_price']
         if base_price is None or pd.isna(base_price):
             continue
-        
+
         group_stats_row = group_stats_df[group_stats_df['generic_name'] == generic_name]
         if len(group_stats_row) == 0:
             continue
-        
+
         group_stats = group_stats_row.iloc[0]
-        
+
         category = categorize_generic_variant(generic_name, row.get('item_type_code', ''))
         adjustment_factor = compute_adjustment_factor(variant_row, group_stats, category)
         variant_price = apply_variant_adjustment(base_price, adjustment_factor)
-        
+
         items.loc[idx, 'generic_parent'] = generic_name
         items.loc[idx, 'variant_base_price'] = base_price
         items.loc[idx, 'variant_adjustment'] = adjustment_factor
