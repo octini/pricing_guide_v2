@@ -7,7 +7,7 @@ import pandas as pd
 from pathlib import Path
 
 INPUT_CSV = Path('output/pricing_guide.csv')
-OUTPUT_HTML = Path('pricing_guide.html')
+OUTPUT_HTML = Path('index.html')
 
 # Sourcebook mapping: acronym -> full name (from 5e.tools)
 SOURCEBOOK_NAMES = {
