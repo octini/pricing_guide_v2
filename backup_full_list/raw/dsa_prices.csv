@@ -1,0 +1,532 @@
+item_name,price_gp,normalized_name,source
+Absorbing Tattoo,14580.0,absorbing tattoo,DSA
+Adamantine Ammunition,4950.0,adamantine ammunition,DSA
+Adamantine Arrows (20),4952.0,adamantine arrows 20,DSA
+Adamantine Breastplate,5610.0,adamantine breastplate,DSA
+Adamantine Chain Mail,5074.0,adamantine chain mail,DSA
+Adamantine Chain Shirt,5033.0,adamantine chain shirt,DSA
+Adamantine Half Plate,6188.0,adamantine half plate,DSA
+Adamantine Plate,7425.0,adamantine plate,DSA
+Adamantine Ring Mail,5000.0,adamantine ring mail,DSA
+Adamantine Scale Mail,5033.0,adamantine scale mail,DSA
+Adamantine Splint,5280.0,adamantine splint,DSA
+Adamantine Weapon,5445.0,adamantine weapon,DSA
+Alchemical Compendium,6680.0,alchemical compendium,DSA
+Alchemy Jug,4950.0,alchemy jug,DSA
+"All-Purpose Tool, +1",2580.0,all-purpose tool +1,DSA
+"All-Purpose Tool, +2",9040.0,all-purpose tool +2,DSA
+"All-Purpose Tool, +3",26160.0,all-purpose tool +3,DSA
+Ammunition of Slaying,267.0,ammunition of slaying,DSA
+"Ammunition, +1",297.0,ammunition +1,DSA
+"Ammunition, +2",990.0,ammunition +2,DSA
+"Ammunition, +3",2772.0,ammunition +3,DSA
+Amulet of Health,12600.0,amulet of health,DSA
+Amulet of Proof Against Detect and Location,2700.0,amulet of proof against detect and location,DSA
+"Amulet of the Devout, +1",2640.0,amulet of the devout +1,DSA
+"Amulet of the Devout, +2",9120.0,amulet of the devout +2,DSA
+"Amulet of the Devout, +3",26280.0,amulet of the devout +3,DSA
+Amulet of the Planes,32400.0,amulet of the planes,DSA
+Animated Shield,2700.0,animated shield,DSA
+Apparatus of Kwalish,137500.0,apparatus of kwalish,DSA
+"Arcane Grimoire, +1",2640.0,arcane grimoire +1,DSA
+"Arcane Grimoire, +2",9120.0,arcane grimoire +2,DSA
+"Arcane Grimoire, +3",26280.0,arcane grimoire +3,DSA
+Armor of Gleaming,330.0,armor of gleaming,DSA
+Armor of Invulnerability,69300.0,armor of invulnerability,DSA
+Armor of Resistance,9000.0,armor of resistance,DSA
+"Armor of Resistance, Breastplate",9800.0,armor of resistance breastplate,DSA
+"Armor of Resistance, Chain Shirt",9100.0,armor of resistance chain shirt,DSA
+"Armor of Resistance, Leather",9020.0,armor of resistance leather,DSA
+"Armor of Resistance, Plate",12000.0,armor of resistance plate,DSA
+"Armor, +1",1980.0,armor +1,DSA
+"Armor, +2",8910.0,armor +2,DSA
+"Armor, +3",29700.0,armor +3,DSA
+Arrow of Slaying,267.0,arrow of slaying,DSA
+Arrow-Catching Shield,7200.0,arrow-catching shield,DSA
+Astral Shard,6020.0,astral shard,DSA
+Astromancy Archive,5360.0,astromancy archive,DSA
+Atlas of Endless Horizons,6080.0,atlas of endless horizons,DSA
+Baba Yaga's Dancing Broom,2700.0,baba yagas dancing broom,DSA
+Bag of Holding,1485.0,bag of holding,DSA
+Bag of Tricks,4455.0,bag of tricks,DSA
+"Barrier Tattoo, AC12+Dex",1350.0,barrier tattoo ac12+dex,DSA
+"Barrier Tattoo, AC15+Dex2",3600.0,barrier tattoo ac15+dex2,DSA
+"Barrier Tattoo, AC18",9000.0,barrier tattoo ac18,DSA
+Bead of Force,13933.0,bead of force,DSA
+Bead of Nourishment,99.0,bead of nourishment,DSA
+Bead of Refreshment,99.0,bead of refreshment,DSA
+Bell Branch,1160.0,bell branch,DSA
+Belt of Dwarvenkind,8460.0,belt of dwarvenkind,DSA
+"Belt of Giant Strength, Cloud",113400.0,belt of giant strength cloud,DSA
+"Belt of Giant Strength, Fire",52920.0,belt of giant strength fire,DSA
+"Belt of Giant Strength, Hill",18900.0,belt of giant strength hill,DSA
+"Belt of Giant Strength, Stone/Frost",39690.0,belt of giant strength stone/frost,DSA
+"Belt of Giant Strength, Storm",141750.0,belt of giant strength storm,DSA
+Blood Fury Tattoo,27000.0,blood fury tattoo,DSA
+"Bloodwell Vial, +1",3900.0,bloodwell vial +1,DSA
+"Bloodwell Vial, +2",10800.0,bloodwell vial +2,DSA
+"Bloodwell Vial, +3",28800.0,bloodwell vial +3,DSA
+Boots of Elvenkind,2970.0,boots of elvenkind,DSA
+Boots of False Tracks,330.0,boots of false tracks,DSA
+Boots of Levitation,3600.0,boots of levitation,DSA
+Boots of Speed,1800.0,boots of speed,DSA
+Boots of Striding and Springing,1350.0,boots of striding and springing,DSA
+Boots of the Winterlands,4050.0,boots of the winterlands,DSA
+Bowl of Commanding Water Elementals,7392.0,bowl of commanding water elementals,DSA
+Bracers of Archery,2250.0,bracers of archery,DSA
+Bracers of Defense,5400.0,bracers of defense,DSA
+Brazier of Commanding Fire Elementals,7392.0,brazier of commanding fire elementals,DSA
+Brooch of Shielding,2700.0,brooch of shielding,DSA
+Broom of Flying,4725.0,broom of flying,DSA
+Candle of Invocation,28350.0,candle of invocation,DSA
+Candle of the Deep,330.0,candle of the deep,DSA
+Cap of Water Breathing,4950.0,cap of water breathing,DSA
+Cape of the Mountebank,3960.0,cape of the mountebank,DSA
+"Carpet of Flying, 3x5",14850.0,carpet of flying 3x5,DSA
+"Carpet of Flying, 4x6",29700.0,carpet of flying 4x6,DSA
+"Carpet of Flying, 5x7",44550.0,carpet of flying 5x7,DSA
+"Carpet of Flying, 6x9",59400.0,carpet of flying 6x9,DSA
+Cast-Off Armor,330.0,cast-off armor,DSA
+Cauldron of Rebirth,10860.0,cauldron of rebirth,DSA
+Censer of Controlling Air Elementals,7392.0,censer of controlling air elementals,DSA
+Charlatan's Die,300.0,charlatans die,DSA
+Chime of Opening,4320.0,chime of opening,DSA
+Circlet of Blasting,1188.0,circlet of blasting,DSA
+Cloak of Arachnida,12780.0,cloak of arachnida,DSA
+Cloak of Billowing,330.0,cloak of billowing,DSA
+Cloak of Displacement,6000.0,cloak of displacement,DSA
+Cloak of Elvenkind,9000.0,cloak of elvenkind,DSA
+Cloak of Invisibility,42000.0,cloak of invisibility,DSA
+Cloak of Many Fashions,990.0,cloak of many fashions,DSA
+Cloak of Protection,2700.0,cloak of protection,DSA
+Cloak of the Bat,15600.0,cloak of the bat,DSA
+Cloak of the Manta Ray,9900.0,cloak of the manta ray,DSA
+Clockwork Amulet,792.0,clockwork amulet,DSA
+Clothes of Mending,330.0,clothes of mending,DSA
+Coiling Grasp Tattoo,849.0,coiling grasp tattoo,DSA
+Crystal Ball,18900.0,crystal ball,DSA
+Crystal Ball of Mind Reading,36000.0,crystal ball of mind reading,DSA
+Crystal Ball of Telepathy,33300.0,crystal ball of telepathy,DSA
+Crystal Ball of True Seeing,73500.0,crystal ball of true seeing,DSA
+Crystalline Chronicle,10290.0,crystalline chronicle,DSA
+Cube of Force,15240.0,cube of force,DSA
+Cube of Summoning,7392.0,cube of summoning,DSA
+Cubic Gate,60390.0,cubic gate,DSA
+Daern's Instant Fortress,17640.0,daerns instant fortress,DSA
+Dagger of Venom,2350.0,dagger of venom,DSA
+Dancing Sword,5400.0,dancing sword,DSA
+Dark Shard Amulet,120.0,dark shard amulet,DSA
+Decanter of Endless Water,1570.0,decanter of endless water,DSA
+Deck of Illusions,16200.0,deck of illusions,DSA
+Defender,15000.0,defender,DSA
+Demon Armor,13200.0,demon armor,DSA
+Devotee's Censer,1734.0,devotees censer,DSA
+Dimensional Shackles,9900.0,dimensional shackles,DSA
+Dragon Scale Mail,21900.0,dragon scale mail,DSA
+Dragon Slayer,1886.0,dragon slayer,DSA
+Dread Helm,330.0,dread helm,DSA
+Driftglobe,2475.0,driftglobe,DSA
+Duplicitious Manuscript,4820.0,duplicitious manuscript,DSA
+Dust of Disappearance,2970.0,dust of disappearance,DSA
+Dust of Dryness,156.0,dust of dryness,DSA
+Dwarven Plate,18810.0,dwarven plate,DSA
+Dwarven Thrower,9964.0,dwarven thrower,DSA
+Ear Horn of Hearing,990.0,ear horn of hearing,DSA
+Efreeti Bottle,32670.0,efreeti bottle,DSA
+Efreeti Chain,81750.0,efreeti chain,DSA
+Eldritch Claw Tattoo,1371.0,eldritch claw tattoo,DSA
+"Elemental Essence Shard, Air",3620.0,elemental essence shard air,DSA
+"Elemental Essence Shard, Earth",6020.0,elemental essence shard earth,DSA
+"Elemental Essence Shard, Fire",806.0,elemental essence shard fire,DSA
+"Elemental Essence Shard, Water",1581.0,elemental essence shard water,DSA
+Elemental Gem,1386.0,elemental gem,DSA
+Elixir of Health,396.0,elixir of health,DSA
+Elven Chain,2200.0,elven chain,DSA
+Enduring Spellbook,330.0,enduring spellbook,DSA
+Energy Bow,12570.0,energy bow,DSA
+Enspelled Armor (1st),1215.0,enspelled armor 1st,DSA
+Enspelled Armor (2nd),3240.0,enspelled armor 2nd,DSA
+Enspelled Armor (3rd),5400.0,enspelled armor 3rd,DSA
+Enspelled Armor (4th),12150.0,enspelled armor 4th,DSA
+Enspelled Armor (5th),17010.0,enspelled armor 5th,DSA
+Enspelled Armor (6th),37800.0,enspelled armor 6th,DSA
+Enspelled Armor (7th),48600.0,enspelled armor 7th,DSA
+Enspelled Armor (8th),60750.0,enspelled armor 8th,DSA
+Enspelled Armor (Cantrip),405.0,enspelled armor cantrip,DSA
+Enspelled Glaive (8th),60850.0,enspelled glaive 8th,DSA
+Enspelled Leather Armor (Cantrip),420.0,enspelled leather armor cantrip,DSA
+Enspelled Plate Armor (8th),68250.0,enspelled plate armor 8th,DSA
+Enspelled Shortsword (Cantrip),420.0,enspelled shortsword cantrip,DSA
+Enspelled Staff (1st),1216.0,enspelled staff 1st,DSA
+Enspelled Staff (2nd),3241.0,enspelled staff 2nd,DSA
+Enspelled Staff (3rd),5401.0,enspelled staff 3rd,DSA
+Enspelled Staff (4th),12151.0,enspelled staff 4th,DSA
+Enspelled Staff (5th),17011.0,enspelled staff 5th,DSA
+Enspelled Staff (6th),37801.0,enspelled staff 6th,DSA
+Enspelled Staff (7th),48601.0,enspelled staff 7th,DSA
+Enspelled Staff (8th),60751.0,enspelled staff 8th,DSA
+Enspelled Staff (Cantrip),406.0,enspelled staff cantrip,DSA
+Enspelled Weapon (1st),1215.0,enspelled weapon 1st,DSA
+Enspelled Weapon (2nd),3240.0,enspelled weapon 2nd,DSA
+Enspelled Weapon (3rd),5400.0,enspelled weapon 3rd,DSA
+Enspelled Weapon (4th),12150.0,enspelled weapon 4th,DSA
+Enspelled Weapon (5th),17010.0,enspelled weapon 5th,DSA
+Enspelled Weapon (6th),37800.0,enspelled weapon 6th,DSA
+Enspelled Weapon (7th),48600.0,enspelled weapon 7th,DSA
+Enspelled Weapon (8th),60750.0,enspelled weapon 8th,DSA
+Enspelled Weapon (Cantrip),405.0,enspelled weapon cantrip,DSA
+Ersatz Eye,945.0,ersatz eye,DSA
+Eversmoking Bottle,2970.0,eversmoking bottle,DSA
+Executioner's Axe,3465.0,executioners axe,DSA
+Eyes of Charming,810.0,eyes of charming,DSA
+Eyes of Minute Seeing,4950.0,eyes of minute seeing,DSA
+Eyes of the Eagle,4500.0,eyes of the eagle,DSA
+Far Realm Shard,736.0,far realm shard,DSA
+Feywild Shard,4515.0,feywild shard,DSA
+"Figurine of Wondrous Power, Dog",1584.0,figurine of wondrous power dog,DSA
+"Figurine of Wondrous Power, Elephant",7392.0,figurine of wondrous power elephant,DSA
+"Figurine of Wondrous Power, Fly",1584.0,figurine of wondrous power fly,DSA
+"Figurine of Wondrous Power, Goats",2376.0,figurine of wondrous power goats,DSA
+"Figurine of Wondrous Power, Griffon",3960.0,figurine of wondrous power griffon,DSA
+"Figurine of Wondrous Power, Lions",3300.0,figurine of wondrous power lions,DSA
+"Figurine of Wondrous Power, Owl",1584.0,figurine of wondrous power owl,DSA
+"Figurine of Wondrous Power, Raven",1188.0,figurine of wondrous power raven,DSA
+"Figurine of Wondrous Power, Steed",8316.0,figurine of wondrous power steed,DSA
+Flame Tongue,1600.0,flame tongue,DSA
+Folding Boat,8800.0,folding boat,DSA
+Frost Brand,14143.0,frost brand,DSA
+Fulminating Treatise,5190.0,fulminating treatise,DSA
+Gauntlets of Ogre Power,9450.0,gauntlets of ogre power,DSA
+Gem of Brightness,4851.0,gem of brightness,DSA
+Gem of Seeing,10080.0,gem of seeing,DSA
+Ghost Step Tattoo,3240.0,ghost step tattoo,DSA
+Giant Slayer,1716.0,giant slayer,DSA
+Glamoured Studded Leather,4158.0,glamoured studded leather,DSA
+Gloves of Missile Snaring,2700.0,gloves of missile snaring,DSA
+Gloves of Swimming and Climbing,9000.0,gloves of swimming and climbing,DSA
+Gloves of Thievery,4950.0,gloves of thievery,DSA
+Goggles of Night,2970.0,goggles of night,DSA
+Guardian Emblem,825.0,guardian emblem,DSA
+Hag Eye,6930.0,hag eye,DSA
+Hammer of Thunderbolts,72545.0,hammer of thunderbolts,DSA
+Hat of Disguise,2700.0,hat of disguise,DSA
+Hat of Many Spells,21000.0,hat of many spells,DSA
+Hat of Vermin,594.0,hat of vermin,DSA
+Hat of Wizardy,120.0,hat of wizardy,DSA
+Headband of Intellect,9450.0,headband of intellect,DSA
+Heart Weaver's Primer,5240.0,heart weavers primer,DSA
+Helm of Brilliance,125850.0,helm of brilliance,DSA
+Helm of Comprehending Languages,1485.0,helm of comprehending languages,DSA
+Helm of Telepathy,2430.0,helm of telepathy,DSA
+Helm of Teleportation,12960.0,helm of teleportation,DSA
+Heward's Handy Haversack,2310.0,hewards handy haversack,DSA
+Heward's Handy Spice Pouch,330.0,hewards handy spice pouch,DSA
+Holy Avenger,39464.0,holy avenger,DSA
+Horn of Blasting,2005.0,horn of blasting,DSA
+Horn of Silent Alarm,693.0,horn of silent alarm,DSA
+"Horn of Valhalla, Brass",21780.0,horn of valhalla brass,DSA
+"Horn of Valhalla, Bronze",38115.0,horn of valhalla bronze,DSA
+"Horn of Valhalla, Iron",72600.0,horn of valhalla iron,DSA
+"Horn of Valhalla, Silver",14520.0,horn of valhalla silver,DSA
+Horseshoes of Speed,3960.0,horseshoes of speed,DSA
+Horseshoes of a Zephyr,5940.0,horseshoes of a zephyr,DSA
+Illuminator's Tattoo,660.0,illuminators tattoo,DSA
+Immovable Rod,7425.0,immovable rod,DSA
+Instrument of Illusions,300.0,instrument of illusions,DSA
+Instrument of Scribing,180.0,instrument of scribing,DSA
+"Instrument of the Bards, Anstruth Harp",42840.0,instrument of the bards anstruth harp,DSA
+"Instrument of the Bards, Canaith Mandolin",13200.0,instrument of the bards canaith mandolin,DSA
+"Instrument of the Bards, Cli Lyre",15600.0,instrument of the bards cli lyre,DSA
+"Instrument of the Bards, Doss Lute",7920.0,instrument of the bards doss lute,DSA
+"Instrument of the Bards, Fochlucan Bandore",6300.0,instrument of the bards fochlucan bandore,DSA
+"Instrument of the Bards, Mac-Fuirmidh Cittern",6660.0,instrument of the bards mac-fuirmidh cittern,DSA
+"Instrument of the Bards, Ollamh Harp",72600.0,instrument of the bards ollamh harp,DSA
+"Ioun Stone, Absorption",6750.0,ioun stone absorption,DSA
+"Ioun Stone, Agility",1890.0,ioun stone agility,DSA
+"Ioun Stone, Awareness",1800.0,ioun stone awareness,DSA
+"Ioun Stone, Fortitude",1890.0,ioun stone fortitude,DSA
+"Ioun Stone, Greater Absorption",47250.0,ioun stone greater absorption,DSA
+"Ioun Stone, Insight",1890.0,ioun stone insight,DSA
+"Ioun Stone, Intellect",1890.0,ioun stone intellect,DSA
+"Ioun Stone, Leadership",1890.0,ioun stone leadership,DSA
+"Ioun Stone, Mastery",82500.0,ioun stone mastery,DSA
+"Ioun Stone, Protection",1800.0,ioun stone protection,DSA
+"Ioun Stone, Regeneration",15000.0,ioun stone regeneration,DSA
+"Ioun Stone, Reserve",9000.0,ioun stone reserve,DSA
+"Ioun Stone, Strength",1890.0,ioun stone strength,DSA
+"Ioun Stone, Sustenance",1800.0,ioun stone sustenance,DSA
+Iron Bands of Bilarro,1980.0,iron bands of bilarro,DSA
+Iron Flask,24750.0,iron flask,DSA
+Javelin of Lightning,1683.0,javelin of lightning,DSA
+Keoghtom's Ointment,1391.0,keoghtoms ointment,DSA
+Lantern of Revealing,4950.0,lantern of revealing,DSA
+Libram of Souls and Flesh,5240.0,libram of souls and flesh,DSA
+Lifewell Tattoo,18900.0,lifewell tattoo,DSA
+Lock of Trickery,990.0,lock of trickery,DSA
+Luck Blade,37750.0,luck blade,DSA
+Lute of Thunderous Thumping,11550.0,lute of thunderous thumping,DSA
+Lyre of Building,23160.0,lyre of building,DSA
+Mace of Disruption,1880.0,mace of disruption,DSA
+Mace of Smiting,8140.0,mace of smiting,DSA
+Mace of Terror,4200.0,mace of terror,DSA
+Mantle of Spell Resistance,9000.0,mantle of spell resistance,DSA
+Manual of Bodily Health,43659.0,manual of bodily health,DSA
+Manual of Gainful Exercise,43659.0,manual of gainful exercise,DSA
+"Manual of Golems, Clay",16335.0,manual of golems clay,DSA
+"Manual of Golems, Flesh",6237.0,manual of golems flesh,DSA
+"Manual of Golems, Iron",27225.0,manual of golems iron,DSA
+"Manual of Golems, Stone",21780.0,manual of golems stone,DSA
+Manual of Quickness of Action,43659.0,manual of quickness of action,DSA
+Mariner's Armor,2970.0,mariners armor,DSA
+Masquerade Tattoo,660.0,masquerade tattoo,DSA
+Medallion of Thoughts,1890.0,medallion of thoughts,DSA
+Mirror of Life Trapping,20790.0,mirror of life trapping,DSA
+Mithral Breastplate,2310.0,mithral breastplate,DSA
+Mithral Chain Mail,1774.0,mithral chain mail,DSA
+Mithral Chain Shirt,1733.0,mithral chain shirt,DSA
+Mithral Half Plate,2888.0,mithral half plate,DSA
+Mithral Plate,4125.0,mithral plate,DSA
+Mithral Ring Mail,1700.0,mithral ring mail,DSA
+Mithral Scale Mail,1733.0,mithral scale mail,DSA
+Mithral Splint,1980.0,mithral splint,DSA
+"Moon Sickle, +1",4815.0,moon sickle +1,DSA
+"Moon Sickle, +2",15620.0,moon sickle +2,DSA
+"Moon Sickle, +3",44130.0,moon sickle +3,DSA
+Moon-Touched Sword,660.0,moon-touched sword,DSA
+Mystery Key,99.0,mystery key,DSA
+Nature's Mantle,2700.0,natures mantle,DSA
+Necklace of Adaption,9000.0,necklace of adaption,DSA
+Necklace of Fireballs,5940.0,necklace of fireballs,DSA
+"Necklace of Prayer Beads, Blessing Bead",1440.0,necklace of prayer beads blessing bead,DSA
+"Necklace of Prayer Beads, Curing Bead",2400.0,necklace of prayer beads curing bead,DSA
+"Necklace of Prayer Beads, Favor Bead",6720.0,necklace of prayer beads favor bead,DSA
+"Necklace of Prayer Beads, Smiting Bead",2400.0,necklace of prayer beads smiting bead,DSA
+"Necklace of Prayer Beads, Summons Bead",8640.0,necklace of prayer beads summons bead,DSA
+"Necklace of Prayer Beads, Wind Walking Bead",8640.0,necklace of prayer beads wind walking bead,DSA
+Nine Lives Stealer,40950.0,nine lives stealer,DSA
+Nolzur's Marvelous Pigments,14850.0,nolzurs marvelous pigments,DSA
+Oathbow,6471.0,oathbow,DSA
+Oil of Etherealness,2376.0,oil of etherealness,DSA
+Oil of Sharpness,2772.0,oil of sharpness,DSA
+Oil of Slipperiness,743.0,oil of slipperiness,DSA
+Orb of Direction,330.0,orb of direction,DSA
+Orb of Time,330.0,orb of time,DSA
+"Outer Essence Shard, Chaotic",6020.0,outer essence shard chaotic,DSA
+"Outer Essence Shard, Evil",734.0,outer essence shard evil,DSA
+"Outer Essence Shard, Good",3620.0,outer essence shard good,DSA
+"Outer Essence Shard, Lawful",12620.0,outer essence shard lawful,DSA
+Pearl of Power,2700.0,pearl of power,DSA
+Perfume of Bewitching,198.0,perfume of bewitching,DSA
+Periapt of Health,2970.0,periapt of health,DSA
+Periapt of Proof against Poison,6300.0,periapt of proof against poison,DSA
+Periapt of Wound Closure,2700.0,periapt of wound closure,DSA
+Philter of Love,1040.0,philter of love,DSA
+Pipe of Smoke Monsters,330.0,pipe of smoke monsters,DSA
+Pipes of Haunting,2970.0,pipes of haunting,DSA
+Pipes of the Sewers,1620.0,pipes of the sewers,DSA
+Planecaller's Codex,5240.0,planecallers codex,DSA
+Plate Armor of Etherealness,24300.0,plate armor of etherealness,DSA
+Pole of Angling,330.0,pole of angling,DSA
+Pole of Collapsing,330.0,pole of collapsing,DSA
+Portable Hole,3960.0,portable hole,DSA
+Pot of Awakening,198.0,pot of awakening,DSA
+Potion of Animal Friendship,149.0,potion of animal friendship,DSA
+Potion of Clairvoyance,990.0,potion of clairvoyance,DSA
+Potion of Climbing,693.0,potion of climbing,DSA
+Potion of Diminution,660.0,potion of diminution,DSA
+Potion of Fire Breath,297.0,potion of fire breath,DSA
+Potion of Flying,1485.0,potion of flying,DSA
+Potion of Gaseous Form,990.0,potion of gaseous form,DSA
+"Potion of Giant Strength, Cloud",37422.0,potion of giant strength cloud,DSA
+"Potion of Giant Strength, Fire",11643.0,potion of giant strength fire,DSA
+"Potion of Giant Strength, Frost/Stone",8732.0,potion of giant strength frost/stone,DSA
+"Potion of Giant Strength, Hill",3119.0,potion of giant strength hill,DSA
+"Potion of Giant Strength, Storm",77963.0,potion of giant strength storm,DSA
+Potion of Greater Healing,165.0,potion of greater healing,DSA
+Potion of Greater Invisibility,3564.0,potion of greater invisibility,DSA
+Potion of Growth,495.0,potion of growth,DSA
+Potion of Healing,55.0,potion of healing,DSA
+Potion of Heroism,792.0,potion of heroism,DSA
+Potion of Invisibility,825.0,potion of invisibility,DSA
+Potion of Invulnerability,3630.0,potion of invulnerability,DSA
+Potion of Longevity,5445.0,potion of longevity,DSA
+Potion of Mind Reading,660.0,potion of mind reading,DSA
+Potion of Poison,2430.5,potion of poison,DSA
+Potion of Pugilism,248.0,potion of pugilism,DSA
+Potion of Resistance,743.0,potion of resistance,DSA
+Potion of Speed,1485.0,potion of speed,DSA
+Potion of Superior Healing,440.0,potion of superior healing,DSA
+Potion of Supreme Healing,1061.0,potion of supreme healing,DSA
+Potion of Vitality,2772.0,potion of vitality,DSA
+Potion of Water Breathing,297.0,potion of water breathing,DSA
+Prosthetic Limb,330.0,prosthetic limb,DSA
+Protective Verses,5240.0,protective verses,DSA
+"Quaal's Feather Token, Anchor",2376.0,quaals feather token anchor,DSA
+"Quaal's Feather Token, Bird",3630.0,quaals feather token bird,DSA
+"Quaal's Feather Token, Fan",660.0,quaals feather token fan,DSA
+"Quaal's Feather Token, Swan Boat",660.0,quaals feather token swan boat,DSA
+"Quaal's Feather Token, Tree",660.0,quaals feather token tree,DSA
+"Quaal's Feather Token, Whip",660.0,quaals feather token whip,DSA
+Quarterstaff of the Acrobat,12420.0,quarterstaff of the acrobat,DSA
+Quiver of Ehlonna,495.0,quiver of ehlonna,DSA
+Reveler's Concertina,12120.0,revelers concertina,DSA
+"Rhythm-Maker's Drum, +1",2640.0,rhythm-makers drum +1,DSA
+"Rhythm-Maker's Drum, +2",9120.0,rhythm-makers drum +2,DSA
+"Rhythm-Maker's Drum, +3",26280.0,rhythm-makers drum +3,DSA
+Ring of Air Elemental Command,67050.0,ring of air elemental command,DSA
+Ring of Animal Influence,4290.0,ring of animal influence,DSA
+Ring of Djinni Summoning,33000.0,ring of djinni summoning,DSA
+Ring of Earth Elemental Command,67650.0,ring of earth elemental command,DSA
+Ring of Evasion,7560.0,ring of evasion,DSA
+Ring of Feather Falling,1800.0,ring of feather falling,DSA
+Ring of Fire Elemental Command,104400.0,ring of fire elemental command,DSA
+Ring of Free Action,9000.0,ring of free action,DSA
+Ring of Invisibility,23250.0,ring of invisibility,DSA
+Ring of Jumping,1350.0,ring of jumping,DSA
+Ring of Mind Shielding,12600.0,ring of mind shielding,DSA
+Ring of Protection,3600.0,ring of protection,DSA
+Ring of Regeneration,32400.0,ring of regeneration,DSA
+Ring of Resistance,9450.0,ring of resistance,DSA
+Ring of Shooting Stars,5276.0,ring of shooting stars,DSA
+Ring of Spell Storing,12600.0,ring of spell storing,DSA
+Ring of Spell Turning,31500.0,ring of spell turning,DSA
+Ring of Swimming,4950.0,ring of swimming,DSA
+Ring of Telekinesis,18900.0,ring of telekinesis,DSA
+Ring of Three Wishes,27225.0,ring of three wishes,DSA
+Ring of Warmth,6750.0,ring of warmth,DSA
+Ring of Water Elemental Command,72450.0,ring of water elemental command,DSA
+Ring of Water Walking,7425.0,ring of water walking,DSA
+Ring of X-Ray Vision,3600.0,ring of x-ray vision,DSA
+Ring of the Ram,708.0,ring of the ram,DSA
+Rival Coin,132.0,rival coin,DSA
+Robe of Eyes,20400.0,robe of eyes,DSA
+Robe of Scintillating Colors,6750.0,robe of scintillating colors,DSA
+Robe of Stars,19710.0,robe of stars,DSA
+Robe of the Archmagi,43500.0,robe of the archmagi,DSA
+Rod of Absorption,43650.0,rod of absorption,DSA
+Rod of Alertness,16200.0,rod of alertness,DSA
+Rod of Lordly Might,24893.0,rod of lordly might,DSA
+Rod of Resurrection,27150.0,rod of resurrection,DSA
+Rod of Rulership,6720.0,rod of rulership,DSA
+Rod of Security,22275.0,rod of security,DSA
+"Rod of the Pact Keeper, +1",2640.0,rod of the pact keeper +1,DSA
+"Rod of the Pact Keeper, +2",9120.0,rod of the pact keeper +2,DSA
+"Rod of the Pact Keeper, +3",26280.0,rod of the pact keeper +3,DSA
+Rope of Climbing,495.0,rope of climbing,DSA
+Rope of Entanglement,198.0,rope of entanglement,DSA
+Rope of Mending,330.0,rope of mending,DSA
+Ruby of the War Mage,300.0,ruby of the war mage,DSA
+Saddle of the Cavalier,4950.0,saddle of the cavalier,DSA
+Scarab of Protection,60300.0,scarab of protection,DSA
+Scimitar of Speed,9900.0,scimitar of speed,DSA
+Scroll of Protection,198.0,scroll of protection,DSA
+Scroll of Titan Summoning,10890.0,scroll of titan summoning,DSA
+Sending Stones,1188.0,sending stones,DSA
+Sentinel Shield,2970.0,sentinel shield,DSA
+Shadowfell Brand Tattoo,6480.0,shadowfell brand tattoo,DSA
+Shadowfell Shard,6020.0,shadowfell shard,DSA
+Shield of Expression,341.0,shield of expression,DSA
+Shield of Missile Attraction,6000.0,shield of missile attraction,DSA
+Shield of the Cavalier,15518.0,shield of the cavalier,DSA
+"Shield, +1",1518.0,shield +1,DSA
+"Shield, +2",5984.0,shield +2,DSA
+"Shield, +3",17886.0,shield +3,DSA
+"Shortsword, +1",842.0,shortsword +1,DSA
+Silvered Greataxe,269.0,silvered greataxe,DSA
+Silvered Shortsword,129.0,silvered shortsword,DSA
+Silvered Weapon,488.0,silvered weapon,DSA
+Slippers of Spider Climbing,4500.0,slippers of spider climbing,DSA
+Smoldering Armor,330.0,smoldering armor,DSA
+Sovereign Glue,17325.0,sovereign glue,DSA
+"Spell Scroll, 1st",99.0,spell scroll 1st,DSA
+"Spell Scroll, 2nd",297.0,spell scroll 2nd,DSA
+"Spell Scroll, 3rd",495.0,spell scroll 3rd,DSA
+"Spell Scroll, 4th",990.0,spell scroll 4th,DSA
+"Spell Scroll, 5th",1386.0,spell scroll 5th,DSA
+"Spell Scroll, 6th",2772.0,spell scroll 6th,DSA
+"Spell Scroll, 7th",3564.0,spell scroll 7th,DSA
+"Spell Scroll, 8th",4455.0,spell scroll 8th,DSA
+"Spell Scroll, 9th",9075.0,spell scroll 9th,DSA
+"Spell Scroll, Cantrip",33.0,spell scroll cantrip,DSA
+Spellguard Shield,25200.0,spellguard shield,DSA
+"Spellwrought Tattoo, Cantrip",99.0,spellwrought tattoo cantrip,DSA
+"Spellwrought Tattoo, Lv1",198.0,spellwrought tattoo lv1,DSA
+"Spellwrought Tattoo, Lv2",495.0,spellwrought tattoo lv2,DSA
+"Spellwrought Tattoo, Lv3",743.0,spellwrought tattoo lv3,DSA
+"Spellwrought Tattoo, Lv4",1386.0,spellwrought tattoo lv4,DSA
+"Spellwrought Tattoo, Lv5",1848.0,spellwrought tattoo lv5,DSA
+Sphere of Annihilation,46200.0,sphere of annihilation,DSA
+Spirit Board,13167.0,spirit board,DSA
+Staff of Adornment,330.0,staff of adornment,DSA
+Staff of Birdcalls,330.0,staff of birdcalls,DSA
+Staff of Charming,7020.0,staff of charming,DSA
+Staff of Fire,20970.0,staff of fire,DSA
+Staff of Flowers,330.0,staff of flowers,DSA
+Staff of Frost,27540.0,staff of frost,DSA
+Staff of Healing,6780.0,staff of healing,DSA
+Staff of Power,39060.0,staff of power,DSA
+Staff of Striking,9429.0,staff of striking,DSA
+Staff of Swarming Insects,6840.0,staff of swarming insects,DSA
+Staff of Thunder and Lightning,12630.0,staff of thunder and lightning,DSA
+Staff of Withering,12960.0,staff of withering,DSA
+Staff of the Adder,282.0,staff of the adder,DSA
+Staff of the Magi,104250.0,staff of the magi,DSA
+Staff of the Python,4500.0,staff of the python,DSA
+Staff of the Woodlands,20400.0,staff of the woodlands,DSA
+Stone of Controlling Earth Elementals,7392.0,stone of controlling earth elementals,DSA
+Stone of Good Luck,2100.0,stone of good luck,DSA
+Sun Blade,3886.0,sun blade,DSA
+Sword of Answering,30000.0,sword of answering,DSA
+Sword of Life Stealing,857.0,sword of life stealing,DSA
+Sword of Sharpness,2785.0,sword of sharpness,DSA
+Sword of Vengeance,750.0,sword of vengeance,DSA
+Sword of Wounding,1715.0,sword of wounding,DSA
+Sylvan Talon,420.0,sylvan talon,DSA
+Talisman of Pure Good,65250.0,talisman of pure good,DSA
+Talisman of Ultimate Evil,57000.0,talisman of ultimate evil,DSA
+Talisman of the Sphere,15000.0,talisman of the sphere,DSA
+Talking Doll,900.0,talking doll,DSA
+Tankard of Sobriety,330.0,tankard of sobriety,DSA
+Tentacle Rod,3228.0,tentacle rod,DSA
+Thunderous Greatclub,42257.0,thunderous greatclub,DSA
+Tome of Clear Thought,43659.0,tome of clear thought,DSA
+Tome of Leadership and Influence,43659.0,tome of leadership and influence,DSA
+Tome of Understanding,43659.0,tome of understanding,DSA
+Tome of the Stilled Tongue,33000.0,tome of the stilled tongue,DSA
+Trident of Fish Command,4050.0,trident of fish command,DSA
+Unbreakable Arrow,330.0,unbreakable arrow,DSA
+Universal Solvent,4620.0,universal solvent,DSA
+Veteran's Cane,99.0,veterans cane,DSA
+Vicious Weapon,1155.0,vicious weapon,DSA
+Vorpal Sword,51587.5,vorpal sword,DSA
+Walloping Ammunition,33.0,walloping ammunition,DSA
+Wand of Binding,9300.0,wand of binding,DSA
+Wand of Conducting,198.0,wand of conducting,DSA
+Wand of Enemy Detection,9000.0,wand of enemy detection,DSA
+Wand of Fear,4320.0,wand of fear,DSA
+Wand of Fireballs,6000.0,wand of fireballs,DSA
+Wand of Lightning Bolts,6000.0,wand of lightning bolts,DSA
+Wand of Magic Detection,891.0,wand of magic detection,DSA
+Wand of Magic Missiles,1485.0,wand of magic missiles,DSA
+Wand of Paralysis,16800.0,wand of paralysis,DSA
+Wand of Polymorph,13500.0,wand of polymorph,DSA
+Wand of Pyrotechnics,198.0,wand of pyrotechnics,DSA
+Wand of Scowls,198.0,wand of scowls,DSA
+Wand of Secrets,1782.0,wand of secrets,DSA
+Wand of Smiles,198.0,wand of smiles,DSA
+"Wand of War Mage, +1",900.0,wand of war mage +1,DSA
+"Wand of War Mage, +2",3200.0,wand of war mage +2,DSA
+"Wand of War Mage, +3",9300.0,wand of war mage +3,DSA
+Wand of Web,2700.0,wand of web,DSA
+Wand of Wonder,20400.0,wand of wonder,DSA
+Weapon of Warning,14850.0,weapon of warning,DSA
+"Weapon, +1",825.0,weapon +1,DSA
+"Weapon, +2",3300.0,weapon +2,DSA
+"Weapon, +3",9900.0,weapon +3,DSA
+Well of Many Worlds,47520.0,well of many worlds,DSA
+Wind Fan,1188.0,wind fan,DSA
+Winged Boots,5737.5,winged boots,DSA
+Wings of Flying,6300.0,wings of flying,DSA
+"Wraps of Unarmed Power, +1",1320.0,wraps of unarmed power +1,DSA
+"Wraps of Unarmed Power, +2",3960.0,wraps of unarmed power +2,DSA
+"Wraps of Unarmed Power, +3",10890.0,wraps of unarmed power +3,DSA

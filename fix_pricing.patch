@@ -1,0 +1,20 @@
+--- src/pricing_engine.py
++++ src/pricing_engine.py
+@@ -604,7 +604,7 @@
+     
+     # Movement
+     if criteria.get("flight_full"):
+-        additive += 3000   # was 15000
++        additive += 10000   # bumped for flight value
+     elif criteria.get("flight_limited"):
+         additive += 1000   # was 5000
+ 
+@@ -654,7 +654,7 @@
+ 
+     # Wish effect (ring of three wishes, similar items)
+     if criteria.get("wish_effect"):
+-        additive += 30000 # was 500000
++        additive += 50000 # bumped for wish effect
+ 
+     # Artifact random properties (beneficial/detrimental)
+     # These are randomly determined properties from the DMG tables

@@ -1,0 +1,638 @@
+item_name,price_gp,normalized_name,source
+Perfume of Bewitching,75.0,perfume of bewitching,DMPG
+Potion of Climbing,30.0,potion of climbing,DMPG
+Potion of Healing (Common),50.0,potion of healing common,DMPG
+Bottled Breath,350.0,bottled breath,DMPG
+Oil of Slipperiness,250.0,oil of slipperiness,DMPG
+Philter of Love,150.0,philter of love,DMPG
+Potion of Animal Friendship,200.0,potion of animal friendship,DMPG
+Potion of Fire Breath,350.0,potion of fire breath,DMPG
+Potion of Giant Strength (Hill),125.0,potion of giant strength hill,DMPG
+Potion of Growth,300.0,potion of growth,DMPG
+Potion of Healing (Uncommon),300.0,potion of healing uncommon,DMPG
+Potion of Poison,500.0,potion of poison,DMPG
+Potion of Resistance,500.0,potion of resistance,DMPG
+Potion of Waterbreathing,400.0,potion of waterbreathing,DMPG
+Elixir of Health,2000.0,elixir of health,DMPG
+Oil of Etherealness,2000.0,oil of etherealness,DMPG
+Potion of Aqueous Form,1000.0,potion of aqueous form,DMPG
+Potion of Clairvoyance,900.0,potion of clairvoyance,DMPG
+Potion of Diminution,500.0,potion of diminution,DMPG
+Potion of Gaseous Form,1500.0,potion of gaseous form,DMPG
+Potion of Giant Strength (Frost/Stone),650.0,potion of giant strength frost/stone,DMPG
+Potion of Giant Strength (Fire),1200.0,potion of giant strength fire,DMPG
+Potion of Healing (Rare),750.0,potion of healing rare,DMPG
+Potion of Heroism,800.0,potion of heroism,DMPG
+Potion of Invulnerability,1500.0,potion of invulnerability,DMPG
+Potion of Maximum Power,2000.0,potion of maximum power,DMPG
+Potion of Mind Control (beast),1600.0,potion of mind control beast,DMPG
+Potion of Mind Control (humanoid),2500.0,potion of mind control humanoid,DMPG
+Potion of Mind Reading,1100.0,potion of mind reading,DMPG
+Oil of Sharpness,2200.0,oil of sharpness,DMPG
+Potion of Flying,2500.0,potion of flying,DMPG
+Potion of Giant Strength (Cloud),1800.0,potion of giant strength cloud,DMPG
+Potion of Healing (Very Rare),1500.0,potion of healing very rare,DMPG
+Potion of Invisibility,2000.0,potion of invisibility,DMPG
+Potion of Longevity,3000.0,potion of longevity,DMPG
+Potion of Mind Control (monster),6000.0,potion of mind control monster,DMPG
+Potion of Possibility,1900.0,potion of possibility,DMPG
+Potion of Speed,2000.0,potion of speed,DMPG
+Potion of Vitality,1800.0,potion of vitality,DMPG
+Potion of Giant Size,11000.0,potion of giant size,DMPG
+Potion of Giant Strength (Storm),8000.0,potion of giant strength storm,DMPG
+Spell Scroll or Tattoo (Cantrip),15.0,spell scroll or tattoo cantrip,DMPG
+Spell Scroll or Tattoo (1st Level),25.0,spell scroll or tattoo 1st level,DMPG
+Spell Scroll or Tattoo (2nd Level),150.0,spell scroll or tattoo 2nd level,DMPG
+Spell Scroll or Tattoo (3rd Level),400.0,spell scroll or tattoo 3rd level,DMPG
+Spell Scroll or Tattoo (4th Level),800.0,spell scroll or tattoo 4th level,DMPG
+Spell Scroll or Tattoo (5th Level),1500.0,spell scroll or tattoo 5th level,DMPG
+Scroll of Protection,3500.0,scroll of protection,DMPG
+Spell Scroll (6th Level),2000.0,spell scroll 6th level,DMPG
+Spell Scroll (7th Level),3500.0,spell scroll 7th level,DMPG
+Spell Scroll (8th Level),5000.0,spell scroll 8th level,DMPG
+Spell Scroll (9th Level),20000.0,spell scroll 9th level,DMPG
+Scroll of Tarrasque Summoning,150000.0,scroll of tarrasque summoning,DMPG
+Scroll of the Comet,250000.0,scroll of the comet,DMPG
+Spell Gem (Cantrip),150.0,spell gem cantrip,DMPG
+Spell Gem (1st Level),350.0,spell gem 1st level,DMPG
+Spell Gem (2nd Level),1500.0,spell gem 2nd level,DMPG
+Spell Gem (3rd Level),4000.0,spell gem 3rd level,DMPG
+Spell Gem (4th Level),8000.0,spell gem 4th level,DMPG
+Spell Gem (5th Level),15000.0,spell gem 5th level,DMPG
+Spell Gem (6th Level),20000.0,spell gem 6th level,DMPG
+Spell Gem (7th Level),35000.0,spell gem 7th level,DMPG
+Spell Gem (8th Level),51000.0,spell gem 8th level,DMPG
+Spell Gem (9th Level),78000.0,spell gem 9th level,DMPG
+Armblade (any one-handed melee weapon),100.0,armblade any one-handed melee weapon,DMPG
+Veteran's Cane,50.0,veterans cane,DMPG
++1 Weapon (any),500.0,weapon any +1,DMPG
+Blood Spear,375.0,blood spear,DMPG
+Hellfire Weapon (any weapon),500.0,hellfire weapon any weapon,DMPG
+Ild Rune Weapon (any weapon),400.0,ild rune weapon any weapon,DMPG
+Javelin of Lightning,350.0,javelin of lightning,DMPG
++1 Moon Sickle,1500.0,moon sickle +1,DMPG
+Seeker Dart,100.0,seeker dart,DMPG
+Shatterspike (longsword),550.0,shatterspike longsword,DMPG
+Storm Boomerang,150.0,storm boomerang,DMPG
+Sword of Vengeance (any sword),400.0,sword of vengeance any sword,DMPG
+Trident of Fish Command,300.0,trident of fish command,DMPG
+Weapon of Warning,400.0,weapon of warning,DMPG
++2 Weapon (any),2500.0,weapon any +2,DMPG
+Acheron Blade (any sword),900.0,acheron blade any sword,DMPG
+Berserker Axe (cursed),2000.0,berserker axe cursed,DMPG
+Corpse Slayer (any weapon),1300.0,corpse slayer any weapon,DMPG
+Dagger of Venom,1500.0,dagger of venom,DMPG
+Devotee's Censer,4500.0,devotees censer,DMPG
+Dragon Slayer (any sword),4800.0,dragon slayer any sword,DMPG
+Dragontooth Dagger,5000.0,dragontooth dagger,DMPG
+Flame Tongue (any sword),5000.0,flame tongue any sword,DMPG
+Giant Slayer (any axe or sword),4600.0,giant slayer any axe or sword,DMPG
+Mace of Disruption,1750.0,mace of disruption,DMPG
+Mace of Smiting,2000.0,mace of smiting,DMPG
+Mace of Terror,3500.0,mace of terror,DMPG
++2 Moon Sickle,4000.0,moon sickle +2,DMPG
+Needle of Mending (dagger),1400.0,needle of mending dagger,DMPG
+Sun Blade (longsword),2000.0,sun blade longsword,DMPG
+Sunforger (warhammer),4600.0,sunforger warhammer,DMPG
+Sword of Life Stealing (any sword),2200.0,sword of life stealing any sword,DMPG
+Sword of Wounding (any sword),1200.0,sword of wounding any sword,DMPG
+Two-Birds Sling,4000.0,two-birds sling,DMPG
+Vicious Weapon (any weapon),4000.0,vicious weapon any weapon,DMPG
+Weapon of Certain Death (any weapon),1500.0,weapon of certain death any weapon,DMPG
++3 Weapon (any),15000.0,weapon any +3,DMPG
+Bloodaxe (greataxe),27000.0,bloodaxe greataxe,DMPG
+Dancing Sword (any sword),10000.0,dancing sword any sword,DMPG
+Duskcrusher (warhammer),8500.0,duskcrusher warhammer,DMPG
+Dwarven Thrower (warhammer),25000.0,dwarven thrower warhammer,DMPG
+Dyrrn's Tentacle Whip,17000.0,dyrrns tentacle whip,DMPG
+Frost Brand (any sword),11000.0,frost brand any sword,DMPG
++3 Moon Sickle,16500.0,moon sickle +3,DMPG
+Nine Lives Stealer (any sword),36000.0,nine lives stealer any sword,DMPG
+Oathbow (longbow),13000.0,oathbow longbow,DMPG
+Scimitar of Speed,7500.0,scimitar of speed,DMPG
+Spear of Backbiting (spear or javelin),6500.0,spear of backbiting spear or javelin,DMPG
+Sword of the Paruns (longsword),16000.0,sword of the paruns longsword,DMPG
+Sword of Sharpness (slashing swords),42000.0,sword of sharpness slashing swords,DMPG
+Azuredge (battleaxe),53000.0,azuredge battleaxe,DMPG
+Bookmark (dagger),30000.0,bookmark dagger,DMPG
+Dawnbringer (longsword),57000.0,dawnbringer longsword,DMPG
+Defender (any sword),55000.0,defender any sword,DMPG
+Drown (trident),66000.0,drown trident,DMPG
+Fane-Eater,55000.0,fane-eater,DMPG
+Gurt's Greataxe,67000.0,gurts greataxe,DMPG
+Hammer of Thunderbolts (maul),51000.0,hammer of thunderbolts maul,DMPG
+Hazirawn (greatsword),66000.0,hazirawn greatsword,DMPG
+Holy Avenger (any sword),65000.0,holy avenger any sword,DMPG
+Ironfang (war pick),76000.0,ironfang war pick,DMPG
+Korolnor Scepter,63000.0,korolnor scepter,DMPG
+Luck Blade (any sword),100000.0,luck blade any sword,DMPG
+Matalotok (warhammer),70000.0,matalotok warhammer,DMPG
+Orcsplitter (greataxe),60000.0,orcsplitter greataxe,DMPG
+Rakdos Riteknife (dagger),60000.0,rakdos riteknife dagger,DMPG
+Sunsword (longsword),55000.0,sunsword longsword,DMPG
+Sword of Answering (longsword),51000.0,sword of answering longsword,DMPG
+Tinderstrike (dagger),71000.0,tinderstrike dagger,DMPG
+Vorpal Sword (slashing swords),75000.0,vorpal sword slashing swords,DMPG
+Waythe (greatsword),62000.0,waythe greatsword,DMPG
+Windvane (spear),68000.0,windvane spear,DMPG
+Unbreakable Arrow (arrow),25.0,unbreakable arrow arrow,DMPG
+Walloping Ammunition (any),30.0,walloping ammunition any,DMPG
++1 Ammunition (any),50.0,ammunition any +1,DMPG
++2 Ammunition (any),250.0,ammunition any +2,DMPG
++3 Ammunition (any),1250.0,ammunition any +3,DMPG
+Arrow of Slaying (any),1000.0,arrow of slaying any,DMPG
+Sling Bullets of Althemone,5500.0,sling bullets of althemone,DMPG
+Shield of Expression,50.0,shield of expression,DMPG
++1 Shield,450.0,shield +1,DMPG
+Sentinel Shield,300.0,sentinel shield,DMPG
++2 Shield,4000.0,shield +2,DMPG
+Arrow-Catching Shield,4500.0,arrow-catching shield,DMPG
+Battering Shield,850.0,battering shield,DMPG
+Pariah's Shield,1500.0,pariahs shield,DMPG
+Shield of Missile Attraction,1000.0,shield of missile attraction,DMPG
+Skold Rune Shield,2600.0,skold rune shield,DMPG
+Stein Rune Shield,4600.0,stein rune shield,DMPG
++3 Shield,22000.0,shield +3,DMPG
+Animated Shield,6000.0,animated shield,DMPG
+Spellguard Shield,36000.0,spellguard shield,DMPG
+Shield of the Hidden Lord,86000.0,shield of the hidden lord,DMPG
+"Vind Rune Armor (light, medium, or heavy)",300.0,vind rune armor light medium or heavy,DMPG
+"Ild Rune Armor (light, medium, or heavy)",3000.0,ild rune armor light medium or heavy,DMPG
+Scorpion Armor (plate),2100.0,scorpion armor plate,DMPG
+Hunter's Coat (leather),5000.0,hunters coat leather,DMPG
+Last Stand Armor (any armor),6500.0,last stand armor any armor,DMPG
+Living Armor,9500.0,living armor,DMPG
+Obsidian Flint Dragon Plate,27000.0,obsidian flint dragon plate,DMPG
+Immovable Rod,500.0,immovable rod,DMPG
+Rod of the Pact Keeper (+1),400.0,rod of the pact keeper +1,DMPG
+Rod of Retribution,250.0,rod of retribution,DMPG
+Rod of Rulership,3600.0,rod of rulership,DMPG
+Rod of the Pact Keeper (+2),4000.0,rod of the pact keeper +2,DMPG
+Rod of the Vonindod,3400.0,rod of the vonindod,DMPG
+Tentacle Rod,2000.0,tentacle rod,DMPG
+Rod of Absorption,48000.0,rod of absorption,DMPG
+Rod of Alertness,11000.0,rod of alertness,DMPG
+Rod of Security,45000.0,rod of security,DMPG
+Rod of the Pact Keeper (+3),14000.0,rod of the pact keeper +3,DMPG
+Rod of Lordly Might,70000.0,rod of lordly might,DMPG
+Rod of Resurrection,125000.0,rod of resurrection,DMPG
+Imbued Wood Focus,75.0,imbued wood focus,DMPG
+Wand of Conducting,90.0,wand of conducting,DMPG
+Wand of Pyrotechnics,65.0,wand of pyrotechnics,DMPG
+Wand of Scowls,60.0,wand of scowls,DMPG
+Wand of Smiles,60.0,wand of smiles,DMPG
++1 Wand of the War Mage,400.0,wand of the war mage +1,DMPG
+Wand of Entangle,300.0,wand of entangle,DMPG
+Wand of Magic Detection,150.0,wand of magic detection,DMPG
+Wand of Magic Missiles,300.0,wand of magic missiles,DMPG
+Wand of Secrets,125.0,wand of secrets,DMPG
+Wand of Web,250.0,wand of web,DMPG
++2 Wand of the War Mage,4000.0,wand of the war mage +2,DMPG
+Wand of Binding,2500.0,wand of binding,DMPG
+Wand of Enemy Detection,3750.0,wand of enemy detection,DMPG
+Wand of Fear,3250.0,wand of fear,DMPG
+Wand of Fireballs,4800.0,wand of fireballs,DMPG
+Wand of Lightning Bolts,4800.0,wand of lightning bolts,DMPG
+Wand of Paralysis,4250.0,wand of paralysis,DMPG
+Wand of Viscid Globs,900.0,wand of viscid globs,DMPG
+Wand of Winter,4100.0,wand of winter,DMPG
+Wand of Wonder,2250.0,wand of wonder,DMPG
++3 Wand of the War Mage,14000.0,wand of the war mage +3,DMPG
+Wand of Polymorph,21000.0,wand of polymorph,DMPG
+Staff of Adornment,50.0,staff of adornment,DMPG
+Staff of Birdcalls,70.0,staff of birdcalls,DMPG
+Staff of Flowers,50.0,staff of flowers,DMPG
+Skyblinder Staff,375.0,skyblinder staff,DMPG
+Staff of the Adder,350.0,staff of the adder,DMPG
+Staff of the Python,250.0,staff of the python,DMPG
+Gulthias Staff,2200.0,gulthias staff,DMPG
+Spider Staff,1750.0,spider staff,DMPG
+Staff of Charming,3750.0,staff of charming,DMPG
+Staff of Defense,3400.0,staff of defense,DMPG
+Staff of Healing,4800.0,staff of healing,DMPG
+Staff of Swarming Insects,4500.0,staff of swarming insects,DMPG
+Staff of the Ivory Claw,1000.0,staff of the ivory claw,DMPG
+Staff of the Woodlands,4500.0,staff of the woodlands,DMPG
+Staff of Withering,2100.0,staff of withering,DMPG
+Staff of Dunamancy,27000.0,staff of dunamancy,DMPG
+Staff of Fire,18000.0,staff of fire,DMPG
+Staff of Frost,18000.0,staff of frost,DMPG
+Staff of Power,46000.0,staff of power,DMPG
+Staff of Striking,36000.0,staff of striking,DMPG
+Staff of Thunder and Lightning,30000.0,staff of thunder and lightning,DMPG
+Voyager Staff,10500.0,voyager staff,DMPG
+Blackstaff,72000.0,blackstaff,DMPG
+Dragonstaff of Anghairon,50500.0,dragonstaff of anghairon,DMPG
+Staff of the Magi,98000.0,staff of the magi,DMPG
+Guild Signet,350.0,guild signet,DMPG
+Ring of Jumping,250.0,ring of jumping,DMPG
+Ring of Mind Shielding,450.0,ring of mind shielding,DMPG
+Ring of Obscuring,150.0,ring of obscuring,DMPG
+Ring of Swimming,300.0,ring of swimming,DMPG
+Ring of Truth Telling,150.0,ring of truth telling,DMPG
+Ring of Warmth,480.0,ring of warmth,DMPG
+Ring of Water Walking,500.0,ring of water walking,DMPG
+Ring of Animal Influence,1000.0,ring of animal influence,DMPG
+Ring of Evasion,4900.0,ring of evasion,DMPG
+Ring of Feather Falling,2200.0,ring of feather falling,DMPG
+Ring of Free Action,4500.0,ring of free action,DMPG
+Ring of Protection,3000.0,ring of protection,DMPG
+Ring of Resistance,3500.0,ring of resistance,DMPG
+Ring of Spell Storing,3600.0,ring of spell storing,DMPG
+Ring of Temporal Salvation,2250.0,ring of temporal salvation,DMPG
+Ring of the Ram,4000.0,ring of the ram,DMPG
+Ring of X-Ray Vision,3500.0,ring of x-ray vision,DMPG
+Ring of Elemental Command,200000.0,ring of elemental command,DMPG
+Ring of Invisibility,75000.0,ring of invisibility,DMPG
+Ring of Spell Turning,66000.0,ring of spell turning,DMPG
+Ring of Three Wishes,97950.0,ring of three wishes,DMPG
+Ring of Regeneration,40000.0,ring of regeneration,DMPG
+Ring of Shooting Stars,20000.0,ring of shooting stars,DMPG
+Ring of Telekinesis,25000.0,ring of telekinesis,DMPG
+Ring of Djinni Summoning,125000.0,ring of djinni summoning,DMPG
+Breathing Bubble,50.0,breathing bubble,DMPG
+Dread Helm,55.0,dread helm,DMPG
+Hat of Vermin,65.0,hat of vermin,DMPG
+Hat of Wizardry,75.0,hat of wizardry,DMPG
+Cap of Water Breathing,450.0,cap of water breathing,DMPG
+Circlet of Blasting,350.0,circlet of blasting,DMPG
+Hat of Disguise,475.0,hat of disguise,DMPG
+Headband of Intellect,450.0,headband of intellect,DMPG
+Helm of Comprehending Languages,200.0,helm of comprehending languages,DMPG
+Helm of Telepathy,300.0,helm of telepathy,DMPG
+Helm of Underwater Action,500.0,helm of underwater action,DMPG
+Spies' Murmur,475.0,spies murmur,DMPG
+Helm of Teleportation,4250.0,helm of teleportation,DMPG
+Helm of the Gods,1200.0,helm of the gods,DMPG
+Ioun Stone: Awareness,4000.0,ioun stone: awareness,DMPG
+Ioun Stone: Protection,3600.0,ioun stone: protection,DMPG
+Ioun Stone: Reserve,4500.0,ioun stone: reserve,DMPG
+Ioun Stone: Sustenance,3000.0,ioun stone: sustenance,DMPG
+Knave's Eye Patch,2000.0,knaves eye patch,DMPG
+Helm of Brilliance,32000.0,helm of brilliance,DMPG
+Helm of Devil Command,21500.0,helm of devil command,DMPG
+Ioun Stone: Absorption,20000.0,ioun stone: absorption,DMPG
+Ioun Stone: Agility,8000.0,ioun stone: agility,DMPG
+Ioun Stone: Fortitude,8000.0,ioun stone: fortitude,DMPG
+Ioun Stone: Insight,8000.0,ioun stone: insight,DMPG
+Ioun Stone: Intellect,8000.0,ioun stone: intellect,DMPG
+Ioun Stone: Leadership,8000.0,ioun stone: leadership,DMPG
+Peregrine Mask,6000.0,peregrine mask,DMPG
+Ioun Stone: Strength,8000.0,ioun stone: strength,DMPG
+Belashyrra's Beholder Crown,51000.0,belashyrras beholder crown,DMPG
+Ioun Stone: Greater Absorption,60000.0,ioun stone: greater absorption,DMPG
+Ioun Stone: Mastery,60000.0,ioun stone: mastery,DMPG
+Ioun Stone: Regeneration,55000.0,ioun stone: regeneration,DMPG
+Lost Crown of Besilmer,23000.0,lost crown of besilmer,DMPG
+Ersatz Eye,75.0,ersatz eye,DMPG
+Eyes of Charming,300.0,eyes of charming,DMPG
+Eyes of Minute Seeing,150.0,eyes of minute seeing,DMPG
+Eyes of the Eagle,400.0,eyes of the eagle,DMPG
+Finder's Goggles,500.0,finders goggles,DMPG
+Goggles of Night,300.0,goggles of night,DMPG
+Goggles of Object Reading,350.0,goggles of object reading,DMPG
+Mast of the Beast,200.0,mast of the beast,DMPG
+Black Dragon Mask,95000.0,black dragon mask,DMPG
+Clockwork Amulet,100.0,clockwork amulet,DMPG
+Dark Shard Amulet,75.0,dark shard amulet,DMPG
+Amulet of Proof Against Detection and Location,400.0,amulet of proof against detection and location,DMPG
++1 Amulet of the Devout,425.0,amulet of the devout +1,DMPG
+Amulet of the Drunkard,500.0,amulet of the drunkard,DMPG
+Brooch of Shielding,375.0,brooch of shielding,DMPG
+Medallion of Thoughts,300.0,medallion of thoughts,DMPG
+Necklace of Adaptation,450.0,necklace of adaptation,DMPG
+Periapt of Health,250.0,periapt of health,DMPG
+Periapt of Wound Closure,375.0,periapt of wound closure,DMPG
+Amulet of Health,4000.0,amulet of health,DMPG
+Amulet of Protection from Turning,3600.0,amulet of protection from turning,DMPG
++2 Amulet of the Devout,4250.0,amulet of the devout +2,DMPG
+Charm of Plant Command,1500.0,charm of plant command,DMPG
+Necklace of Fireballs,4350.0,necklace of fireballs,DMPG
+Necklace of Prayer Beads,5000.0,necklace of prayer beads,DMPG
+Periapt of Proof Against Poison,4700.0,periapt of proof against poison,DMPG
+Amulet of the Black Skull,6400.0,amulet of the black skull,DMPG
++3 Amulet of the Devout,14500.0,amulet of the devout +3,DMPG
+Amulet of the Planes,43000.0,amulet of the planes,DMPG
+Holy Symbol of Ravenkind,51000.0,holy symbol of ravenkind,DMPG
+Scarab of Protection,58000.0,scarab of protection,DMPG
+Cloak of Billowing,100.0,cloak of billowing,DMPG
+Cloak of Many Fashions,90.0,cloak of many fashions,DMPG
+Cloak of Elvenkind,250.0,cloak of elvenkind,DMPG
+Cloak of Protection,400.0,cloak of protection,DMPG
+Cloak of the Manta Ray,350.0,cloak of the manta ray,DMPG
+Nature's Mantle,325.0,natures mantle,DMPG
+Piwafwi (Cloak of Elvenkind),200.0,piwafwi cloak of elvenkind,DMPG
+Cape of the Mountebank,3900.0,cape of the mountebank,DMPG
+Cloak of Displacement,3600.0,cloak of displacement,DMPG
+Cloak of the Bat,4600.0,cloak of the bat,DMPG
+Hell Hound Cloak,1700.0,hell hound cloak,DMPG
+Ise Rune Cloak,1200.0,ise rune cloak,DMPG
+Mantle of Spell Resistance,4200.0,mantle of spell resistance,DMPG
+Piwafwi of Fire Resistance,1400.0,piwafwi of fire resistance,DMPG
+Vind Rune Cloak,650.0,vind rune cloak,DMPG
+Wings of Flying,3600.0,wings of flying,DMPG
+Cloak of Arachnida,14000.0,cloak of arachnida,DMPG
+Cloak of Invisibility,54000.0,cloak of invisibility,DMPG
+Prosthetic Limb,100.0,prosthetic limb,DMPG
+Wand Sheath,75.0,wand sheath,DMPG
+Bracers of Archery,350.0,bracers of archery,DMPG
+Bracer of Flying Daggers,1000.0,bracer of flying daggers,DMPG
+Bracers of Defense,4000.0,bracers of defense,DMPG
+Arcane Propulsion Arm,5100.0,arcane propulsion arm,DMPG
+Bracelet of Rock Magic,9000.0,bracelet of rock magic,DMPG
+Illusionist's Bracers,13500.0,illusionists bracers,DMPG
+Prosthetic Limb,100.0,prosthetic limb,DMPG
+Gauntlets of Ogre Power,450.0,gauntlets of ogre power,DMPG
+Gloves of Missile Snaring,325.0,gloves of missile snaring,DMPG
+Gloves of Swimming and Climbing,250.0,gloves of swimming and climbing,DMPG
+Gloves of Thievery,300.0,gloves of thievery,DMPG
+Living Gloves,500.0,living gloves,DMPG
+Claws of the Umber Hulk,4300.0,claws of the umber hulk,DMPG
+Gauntlets of Flaming Fury,2000.0,gauntlets of flaming fury,DMPG
+Arcane Propulsion Arm,5100.0,arcane propulsion arm,DMPG
+Belt of Dwarvenkind,5000.0,belt of dwarvenkind,DMPG
+Belt of Giant Strength (Hill),4000.0,belt of giant strength hill,DMPG
+Belt of Giant Strength (Stone/Frost),12000.0,belt of giant strength stone/frost,DMPG
+Belt of Giant Strength (Fire),36000.0,belt of giant strength fire,DMPG
+Belt of Giant Strength (Cloud),66000.0,belt of giant strength cloud,DMPG
+Belt of Giant Strength (Storm),100000.0,belt of giant strength storm,DMPG
+Clothes of Mending,50.0,clothes of mending,DMPG
+Glamerweave (common),50.0,glamerweave common,DMPG
+Shiftweave,100.0,shiftweave,DMPG
+Glamerweave (uncommon),150.0,glamerweave uncommon,DMPG
+Mizzium Apparatus,500.0,mizzium apparatus,DMPG
+Robe of Serpents,375.0,robe of serpents,DMPG
+Robe of Useful Items,400.0,robe of useful items,DMPG
+Wingwear,300.0,wingwear,DMPG
+Butcher's Bib,2750.0,butchers bib,DMPG
+Lord's Ensemble,5000.0,lords ensemble,DMPG
+Robe of Eyes,5000.0,robe of eyes,DMPG
+Robe of Summer,2900.0,robe of summer,DMPG
+Robe of Scintillating Colors,27000.0,robe of scintillating colors,DMPG
+Robe of Stars,45000.0,robe of stars,DMPG
+Robe of the Archmagi,75000.0,robe of the archmagi,DMPG
+Boots of False Tracks,60.0,boots of false tracks,DMPG
+Prosthetic Limb,100.0,prosthetic limb,DMPG
+Boots of Elvenkind,400.0,boots of elvenkind,DMPG
+Boots of Striding and Springing,200.0,boots of striding and springing,DMPG
+Boots of the Winterlands,300.0,boots of the winterlands,DMPG
+Slippers of Spider Climbing,500.0,slippers of spider climbing,DMPG
+Stein Rune Boots,350.0,stein rune boots,DMPG
+Winged Boots,5000.0,winged boots,DMPG
+Boots of Levitation,4500.0,boots of levitation,DMPG
+Boots of Speed,3000.0,boots of speed,DMPG
+Ise Rune Boots,2650.0,ise rune boots,DMPG
+Vind Rune Boots,650.0,vind rune boots,DMPG
+Bead of Nourishment,25.0,bead of nourishment,DMPG
+Bead of Refreshment,25.0,bead of refreshment,DMPG
+Candle of the Deep,50.0,candle of the deep,DMPG
+Charlatan's Die,80.0,charlatans die,DMPG
+Cleansing Stone,50.0,cleansing stone,DMPG
+Coin of Delving,50.0,coin of delving,DMPG
+Ear Horn of Hearing,75.0,ear horn of hearing,DMPG
+Enduring Spellbook,100.0,enduring spellbook,DMPG
+Everbright Lantern,100.0,everbright lantern,DMPG
+Feather Token,25.0,feather token,DMPG
+Heward's Handy Spice Pouch,100.0,hewards handy spice pouch,DMPG
+Horn of Silent Alarm,85.0,horn of silent alarm,DMPG
+Instrument of Illusions,100.0,instrument of illusions,DMPG
+Instrument of Scribing,80.0,instrument of scribing,DMPG
+Keycharm,50.0,keycharm,DMPG
+Lantern of Tracking,75.0,lantern of tracking,DMPG
+Lock of Trickery,50.0,lock of trickery,DMPG
+Moodmark Paint,50.0,moodmark paint,DMPG
+Mystery Key,50.0,mystery key,DMPG
+Orb of Direction,50.0,orb of direction,DMPG
+Orb of Shielding,80.0,orb of shielding,DMPG
+Orb of Time,50.0,orb of time,DMPG
+Pipe of Remembrance,50.0,pipe of remembrance,DMPG
+Pipe of Smoke Monsters,50.0,pipe of smoke monsters,DMPG
+Pole of Angling,50.0,pole of angling,DMPG
+Pole of Collapsing,55.0,pole of collapsing,DMPG
+Pot of Awakening,85.0,pot of awakening,DMPG
+Pressure Capsule,25.0,pressure capsule,DMPG
+Rope of Mending,50.0,rope of mending,DMPG
+Ruby of the War Mage,100.0,ruby of the war mage,DMPG
+Scribe's Pen,60.0,scribes pen,DMPG
+Sekolahian Worshipping Statuette,50.0,sekolahian worshipping statuette,DMPG
+Spellshard,100.0,spellshard,DMPG
+Talking Doll,75.0,talking doll,DMPG
+Tankard of Sobriety,80.0,tankard of sobriety,DMPG
+Thermal Cube,50.0,thermal cube,DMPG
+Vox Seeker,100.0,vox seeker,DMPG
+Alchemy Jug,100.0,alchemy jug,DMPG
++1 All-Purpose Tool,1500.0,all-purpose tool +1,DMPG
++1 Arcane Grimoire,425.0,arcane grimoire +1,DMPG
+Bag of Holding,500.0,bag of holding,DMPG
+Bag of Tricks,350.0,bag of tricks,DMPG
+Balance of Harmony,200.0,balance of harmony,DMPG
+Balloon Pack,275.0,balloon pack,DMPG
++1 Bloodwell Vial,425.0,bloodwell vial +1,DMPG
+Brooch of Living Essence,250.0,brooch of living essence,DMPG
+Broom of Flying,4500.0,broom of flying,DMPG
+Cursed Luckstone,250.0,cursed luckstone,DMPG
+Decanter of Endless Water,300.0,decanter of endless water,DMPG
+Deck of Illusions,450.0,deck of illusions,DMPG
+Driftglobe,100.0,driftglobe,DMPG
+Dust of Deliciousness,150.0,dust of deliciousness,DMPG
+Dust of Disappearance,200.0,dust of disappearance,DMPG
+Dust of Dryness,350.0,dust of dryness,DMPG
+Dust of Sneezing and Choking,150.0,dust of sneezing and choking,DMPG
+Earworm,225.0,earworm,DMPG
+Elemental Gem,250.0,elemental gem,DMPG
+Eversmoking Bottle,270.0,eversmoking bottle,DMPG
+Feywild Shard,250.0,feywild shard,DMPG
+Figurine of Wondrous Power (Silver Raven),380.0,figurine of wondrous power silver raven,DMPG
+Gem of Brightness,250.0,gem of brightness,DMPG
+Guardian Emblem,300.0,guardian emblem,DMPG
+Guild Charms,450.0,guild charms,DMPG
+Infernal Puzzle Box,3500.0,infernal puzzle box,DMPG
+Insignia of Claws,450.0,insignia of claws,DMPG
+Instrument of the Bards (Doss Lute),250.0,instrument of the bards doss lute,DMPG
+Instrument of the Bards (Fochlucan Bandore),350.0,instrument of the bards fochlucan bandore,DMPG
+Instrument of the Bards (Mac-Fuimidh Cittern),450.0,instrument of the bards mac-fuimidh cittern,DMPG
+Keoghtom's Ointment,400.0,keoghtoms ointment,DMPG
+Lantern of Revealing,500.0,lantern of revealing,DMPG
+Night Caller,350.0,night caller,DMPG
+Paper Bird,350.0,paper bird,DMPG
+Pearl of Power,400.0,pearl of power,DMPG
+Pipes of Haunting,300.0,pipes of haunting,DMPG
+Pipes of the Sewers,150.0,pipes of the sewers,DMPG
+Psi Crystal,500.0,psi crystal,DMPG
+Pyroconverger,250.0,pyroconverger,DMPG
+Quiver of Ehlonna,250.0,quiver of ehlonna,DMPG
+Rakdos Keyrune,400.0,rakdos keyrune,DMPG
++1 Rhythm-Maker's Drum,425.0,rhythm-makers drum +1,DMPG
+Rope of Climbing,350.0,rope of climbing,DMPG
+Saddle of the Cavalier,250.0,saddle of the cavalier,DMPG
+Sending Stones,500.0,sending stones,DMPG
+Simic Keyrune,500.0,simic keyrune,DMPG
+Smokepowder,325.0,smokepowder,DMPG
+Soul Coin,250.0,soul coin,DMPG
+Stone of Good Luck,400.0,stone of good luck,DMPG
+Stone of Ill Luck,400.0,stone of ill luck,DMPG
+Wheel of Wind and Water,350.0,wheel of wind and water,DMPG
+Wind Fan,150.0,wind fan,DMPG
+Alchemical Compendium,3000.0,alchemical compendium,DMPG
++2 All-Purpose Tool,4500.0,all-purpose tool +2,DMPG
+Astral Shard,4200.0,astral shard,DMPG
++2 Arcane Grimoire,4250.0,arcane grimoire +2,DMPG
+Astromancy Archive,3300.0,astromancy archive,DMPG
+Atlas of Endless Horizons,3750.0,atlas of endless horizons,DMPG
+Azorius Keyrune,1000.0,azorius keyrune,DMPG
+Badge of the Watch,3250.0,badge of the watch,DMPG
+Bag of Beans,4200.0,bag of beans,DMPG
+Banner of the Krig Rune,4400.0,banner of the krig rune,DMPG
+Bead of Force,3000.0,bead of force,DMPG
+Bell Branch,750.0,bell branch,DMPG
+Blod Stone,6500.0,blod stone,DMPG
++2 Bloodwell Vial,4250.0,bloodwell vial +2,DMPG
+Boros Keyrune,3500.0,boros keyrune,DMPG
+Bowl of Commanding Water Elementals,4700.0,bowl of commanding water elementals,DMPG
+Brazier of Commanding Fire Elementals,4700.0,brazier of commanding fire elementals,DMPG
+Cauldron of Plenty,3500.0,cauldron of plenty,DMPG
+Censer of Controlling Air Elementals,4700.0,censer of controlling air elementals,DMPG
+Chime of Opening,3000.0,chime of opening,DMPG
+Claw of the Wyrm Rune,4400.0,claw of the wyrm rune,DMPG
+Cube of Force,5000.0,cube of force,DMPG
+Daern's Instant Fortress,5000.0,daerns instant fortress,DMPG
+Dimensional Shackles,2800.0,dimensional shackles,DMPG
+Docent,4500.0,docent,DMPG
+Duplicitous Manuscript,3000.0,duplicitous manuscript,DMPG
+Eagle Whistle,600.0,eagle whistle,DMPG
+Elemental Essence Shard,3500.0,elemental essence shard,DMPG
+Far Realm Shard,2500.0,far realm shard,DMPG
+Feather of Diatryma Summoning,600.0,feather of diatryma summoning,DMPG
+Figurine of Wondrous Power (Bronze Griffon),3600.0,figurine of wondrous power bronze griffon,DMPG
+Figurine of Wondrous Power (Ebony Fly),3600.0,figurine of wondrous power ebony fly,DMPG
+Figurine of Wondrous Power (Golden Lions),5000.0,figurine of wondrous power golden lions,DMPG
+Figurine of Wondrous Power (Ivory Goats),5000.0,figurine of wondrous power ivory goats,DMPG
+Figurine of Wondrous Power (Marble Elephant),5000.0,figurine of wondrous power marble elephant,DMPG
+Figurine of Wondrous Power (Onyx Dog),3200.0,figurine of wondrous power onyx dog,DMPG
+Figurine of Wondrous Power (Serpentine Owl),3000.0,figurine of wondrous power serpentine owl,DMPG
+Flying Chariot,4750.0,flying chariot,DMPG
+Folding Boat,4750.0,folding boat,DMPG
+Fulminating Treatise,4000.0,fulminating treatise,DMPG
+Gavel of the Venn Rune,2800.0,gavel of the venn rune,DMPG
+Gem of Seeing,5000.0,gem of seeing,DMPG
+Ghost Lantern,1750.0,ghost lantern,DMPG
+Gruul Keyrune,2800.0,gruul keyrune,DMPG
+Heart Weaver's Primer,3000.0,heart weavers primer,DMPG
+Heward's Handy Haversack,2000.0,hewards handy haversack,DMPG
+Hook of Fisher's Delight,550.0,hook of fishers delight,DMPG
+Horn of Blasting,2500.0,horn of blasting,DMPG
+Horn of Valhalla (Silver/Brass),5000.0,horn of valhalla silver/brass,DMPG
+Horseshoes of Speed,3000.0,horseshoes of speed,DMPG
+Instrument of the Bards (Canaith Mandolin),3750.0,instrument of the bards canaith mandolin,DMPG
+Instrument of the Bards (Cli Lyre),4250.0,instrument of the bards cli lyre,DMPG
+Iron Bands of Bilarro,2600.0,iron bands of bilarro,DMPG
+Izzet Keyrune,1850.0,izzet keyrune,DMPG
+Libram of Souls and Flesh,4200.0,libram of souls and flesh,DMPG
+Loadstone,150.0,loadstone,DMPG
+Lyre of Building,4750.0,lyre of building,DMPG
+Mirror of the Past,3800.0,mirror of the past,DMPG
+Mizzium Mortar,2100.0,mizzium mortar,DMPG
+Opal of the Ild Rune,3500.0,opal of the ild rune,DMPG
+Orb of the Stein Rune,2700.0,orb of the stein rune,DMPG
+Orzhov Keyrune,1100.0,orzhov keyrune,DMPG
+Outer Essence Shard,2000.0,outer essence shard,DMPG
+Planecaller's Codex,3500.0,planecallers codex,DMPG
+Portable Hole,5000.0,portable hole,DMPG
+Professor Orb,4000.0,professor orb,DMPG
+Protective Verses,3500.0,protective verses,DMPG
+Quaal's Feather Token,1000.0,quaals feather token,DMPG
+Reveler's Concertina,4250.0,revelers concertina,DMPG
++2 Rhythm-Maker's Drum,4250.0,rhythm-makers drum +2,DMPG
+Rope of Entanglement,1000.0,rope of entanglement,DMPG
+Selesnya Keyrune,1500.0,selesnya keyrune,DMPG
+Shadowfell Shard,600.0,shadowfell shard,DMPG
+Siren Song Lyre,650.0,siren song lyre,DMPG
+Stone of Controlling Earth Elementals,4700.0,stone of controlling earth elementals,DMPG
+Stonespeaker Crystal,4600.0,stonespeaker crystal,DMPG
+Ventilating Lungs,1000.0,ventilating lungs,DMPG
+Weird Tank,2200.0,weird tank,DMPG
+Abracadadabrus,2500.0,abracadadabrus,DMPG
++3 All-Purpose Tool,16000.0,all-purpose tool +3,DMPG
+Arcane Cannon,6500.0,arcane cannon,DMPG
++3 Arcane Grimoire,14500.0,arcane grimoire +3,DMPG
+Bag of Devouring,12000.0,bag of devouring,DMPG
+Battle Standard of Infernal Power,6000.0,battle standard of infernal power,DMPG
++3 Bloodwell Vial,14500.0,bloodwell vial +3,DMPG
+Candle of Invocation,8400.0,candle of invocation,DMPG
+Carpet of Flying,44000.0,carpet of flying,DMPG
+Cauldron of Rebirth,10000.0,cauldron of rebirth,DMPG
+Chronolometer,12500.0,chronolometer,DMPG
+Conch of Teleportation,1850.0,conch of teleportation,DMPG
+Crystal Ball,42000.0,crystal ball,DMPG
+Crystalline Chronicle,6500.0,crystalline chronicle,DMPG
+Devastation Orb (Air),8000.0,devastation orb air,DMPG
+Devastation Orb (Earth),11000.0,devastation orb earth,DMPG
+Devastation Orb (Fire),9500.0,devastation orb fire,DMPG
+Devastation Orb (Water),9500.0,devastation orb water,DMPG
+Dimensional Loop,6000.0,dimensional loop,DMPG
+Dimir Keyrune,26000.0,dimir keyrune,DMPG
+Dispelling Stone,7000.0,dispelling stone,DMPG
+Efreeti Bottle,45000.0,efreeti bottle,DMPG
+Far Gear,7500.0,far gear,DMPG
+Figurine of Wondrous Power (Obsidian Steed),28500.0,figurine of wondrous power obsidian steed,DMPG
+Golgari Keyrune,7500.0,golgari keyrune,DMPG
+Horn of Valhalla (Bronze),20000.0,horn of valhalla bronze,DMPG
+Horseshoes of a Zephyr,6000.0,horseshoes of a zephyr,DMPG
+Ingot of the Skold Rune,15000.0,ingot of the skold rune,DMPG
+Instrument of the Bards (Anstruth Harp),17500.0,instrument of the bards anstruth harp,DMPG
+Kyrzin's Ooze,21000.0,kyrzins ooze,DMPG
+Manual of Bodily Health,36000.0,manual of bodily health,DMPG
+Manual of Gainful Exercise,36000.0,manual of gainful exercise,DMPG
+Manual of Golems,22000.0,manual of golems,DMPG
+Manual of Quickness of Action,36000.0,manual of quickness of action,DMPG
+Mirror of Life Trapping,50000.0,mirror of life trapping,DMPG
+Navigation Orb,27000.0,navigation orb,DMPG
+Nolzur's Marvelous Pigments,16000.0,nolzurs marvelous pigments,DMPG
+Orb of the Veil,31000.0,orb of the veil,DMPG
+Pennant of the Vind Rune,13000.0,pennant of the vind rune,DMPG
+Reincarnation Dust,3500.0,reincarnation dust,DMPG
++3 Rhythm-Maker's Drum,14500.0,rhythm-makers drum +3,DMPG
+Rotor of Return,2500.0,rotor of return,DMPG
+Shard of the Ise Rune,9000.0,shard of the ise rune,DMPG
+Speaking Stone,5000.0,speaking stone,DMPG
+Timepiece of Travel,8000.0,timepiece of travel,DMPG
+Tome of Clear Thought,36000.0,tome of clear thought,DMPG
+Tome of Leadership and Influence,36000.0,tome of leadership and influence,DMPG
+Wheel of Stars,6500.0,wheel of stars,DMPG
+Tome of Understanding,36000.0,tome of understanding,DMPG
+Apparatus of Kwalish,90000.0,apparatus of kwalish,DMPG
+Crystal Ball of Mind Reading,51000.0,crystal ball of mind reading,DMPG
+Crystal Ball of Telepathy,70000.0,crystal ball of telepathy,DMPG
+Crystal Ball of True Seeing,80000.0,crystal ball of true seeing,DMPG
+Cubic Gate,164000.0,cubic gate,DMPG
+Deck of Many Things,200000.0,deck of many things,DMPG
+Horn of Valhalla (Iron),50000.0,horn of valhalla iron,DMPG
+Icon of Ravenloft,50500.0,icon of ravenloft,DMPG
+Infernal Tack,8000.0,infernal tack,DMPG
+Instrument of the Bards (Ollamh Harp),51000.0,instrument of the bards ollamh harp,DMPG
+Iron Flask,170000.0,iron flask,DMPG
+Luxon Beacon,35000.0,luxon beacon,DMPG
+Nightfall Pearl,51000.0,nightfall pearl,DMPG
+Pyxis of Pandemonium,25000.0,pyxis of pandemonium,DMPG
+Sovereign Glue,5000.0,sovereign glue,DMPG
+Spell Bottle,75000.0,spell bottle,DMPG
+Sphere of Annihilation,200000.0,sphere of annihilation,DMPG
+Talisman of Pure Good,125000.0,talisman of pure good,DMPG
+Talisman of the Sphere,75000.0,talisman of the sphere,DMPG
+Talisman of Ultimate Evil,125000.0,talisman of ultimate evil,DMPG
+Tome of the Stilled Tongue,60000.0,tome of the stilled tongue,DMPG
+Universal Solvent,5000.0,universal solvent,DMPG
+Well of Many Worlds,90000.0,well of many worlds,DMPG
+Ythryn Mythallar,200000.0,ythryn mythallar,DMPG
+Illuminator's Tattoo,65.0,illuminators tattoo,DMPG
+Masquerade Tattoo,75.0,masquerade tattoo,DMPG
+Barrier Tattoo (Uncommon),200.0,barrier tattoo uncommon,DMPG
+Coiling Grasp Tattoo,500.0,coiling grasp tattoo,DMPG
+Eldritch Claw Tattoo,500.0,eldritch claw tattoo,DMPG
+Barrier Tattoo (Rare),1500.0,barrier tattoo rare,DMPG
+Shadowfell Brand Tattoo,1100.0,shadowfell brand tattoo,DMPG
+Absorbing Tattoo,8000.0,absorbing tattoo,DMPG
+Barrier Tattoo (Very Rare),6000.0,barrier tattoo very rare,DMPG
+Ghost Step Tattoo,9000.0,ghost step tattoo,DMPG
+Lifewell Tattoo,5100.0,lifewell tattoo,DMPG
+Blood Fury Tattoo,32000.0,blood fury tattoo,DMPG

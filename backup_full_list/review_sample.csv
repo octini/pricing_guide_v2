@@ -1,0 +1,81 @@
+name,source,rarity,type,final_price,price_source,amalgamated_price,rule_price,official_price_gp,weapon_bonus,ac_bonus,attached_spells,charges
+Dried Leech Paper Cartridge Bullet,BMT,uncommon,A|XPHB,49.339657778541195,rule+variant,,49.339657778541195,,,,[],
+Lamannian Flint Orb,ERLW,common,SCF|XPHB,90.0,rule+variant,,90.0,,,,[],
+Lute,XPHB,mundane,INS|XPHB,35.0,official,,35.0,35.0,,,[],
+Longsword,XPHB,mundane,M|XPHB,15.0,official,,15.0,15.0,,,[],
+Imbued Wood (Xorian Wenge),ERLW,common,GV|DMG,79.77556038286129,rule,,90.0,,,,[],
+Lantern of Tracking,IDRotF,common,,89.00398032020658,rule+amalgamated,75.0,100.0,,,,[],
+Hand Drum,SCAG,mundane,INS,1.0,rule,,1.0,,,,[],
+Cloves,XDMG,mundane,TG|XDMG,3.0,official,,3.0,3.0,,,[],
+Pipe of Smoke Monsters,XDMG,common,,75.87898032020658,rule+amalgamated,56.25,100.0,,,,[],
+Genie Robe,FRHoF,mundane,G|XPHB,50.0,official,,50.0,50.0,,,[],
+Pitcher,PHB,mundane,G,0.02,official,,0.02,0.02,,,[],
+Bedroll,XPHB,mundane,G|XPHB,1.0,official,,1.0,1.0,,,[],
+Camel,XPHB,mundane,MNT|XPHB,50.0,official,,50.0,50.0,,,[],
+Crossbow Bolt Case,XPHB,mundane,G|XPHB,1.0,official,,1.0,1.0,,,[],
+Shovel Armblade,ERLW,common,M,82.32111684340725,rule+variant,,82.32111684340725,,,,[],
+"Clothing, cold weather",IDRotF,mundane,G,10.0,official,,10.0,10.0,,,[],
+Adamantine Needle,XGE,unknown,A|XPHB,100.0,rule,,100.0,,,,[],
+Trident,XPHB,mundane,M|XPHB,5.0,official,,5.0,5.0,,,[],
+Xen'drik Trinket,ERLW,mundane,G,1.0,rule,,1.0,,,,[],
+Sledgehammer,PHB,mundane,G,2.0,official,,2.0,2.0,,,[],
+Hellfire Hand Crossbow,BGDIA,uncommon,R|XPHB,729.9753054193453,rule+variant,,729.9753054193453,,,,[],
+Lunar Lance,ObojimaTallGrass,uncommon,M,712.5,rule+variant,,712.5,,,,[],
+Champion's Heavy Tommybow (3),MonstersOfDrakkenheim,uncommon,R,763.541627266392,rule+variant,,763.541627266392,,,,[],
+Bloodseeker Shell,BMT,very_rare,A|XPHB,1000.0,rule+variant,,1000.0,,,,[],
+Splinter Shortbow,ObojimaTallGrass,uncommon,R,649.6875,rule+variant,,649.6875,,,,[],
+Balance of Harmony,TftYP,uncommon,,387.27741953813336,rule+amalgamated,225.0,750.0,,,,{'ritual': ['detect evil and good']},
+"Drow +1 Fighting Chain, Hook",MM,rare,M|XPHB,705.6427952387005,rule+variant,615.0,705.6427952387005,,1.0,,[],
+Acheron Blade Scimitar,EGW,rare,M|XPHB,628.03125,rule+variant,,628.03125,,1.0,,[],
+Stirring Dragon's Wrath Submachine Gun,FTD,rare,R|XPHB,656.3776257733263,rule+variant,,656.3776257733263,,1.0,,[],
++1 Dart,XDMG,uncommon,R|XPHB,685.7796729437822,rule+variant,615.0,685.7796729437822,,1.0,,[],
+Giant Slayer Sling,XDMG,rare,R|XPHB,706.875,rule+variant,,706.875,,1.0,,[],
+Pipes of Pestilence,WttHC,uncommon,,785.1022108147519,rule,,675.0,,,,[],
+"Byeshk Fighting Chain, Hook",ExploringEberron24,unknown,M|XPHB,900.0,rule,,900.0,900.0,,,[],
+Drow +1 Double-Bladed Scimitar,MM,rare,M,729.3084730814736,rule+variant,615.0,729.3084730814736,,1.0,,[],
+Drow +1 Umbrella,MM,rare,M,702.4017064721015,rule+variant,615.0,702.4017064721015,,1.0,,[],
+Stirring Dragon's Wrath Warhammer,FTD,rare,M|XPHB,655.0659757594649,rule+variant,,655.0659757594649,,1.0,,[],
+Drow +1 Light Crossbow,MM,rare,R|XPHB,727.8510841771833,rule+variant,615.0,727.8510841771833,,1.0,,[],
+Drow +1 Fan,MM,rare,M,696.8610286293285,rule+variant,615.0,696.8610286293285,,1.0,,[],
+Flame of Hope Greataxe,TLotRR,unknown_magic,M,794.6144029692123,rule+variant,,794.6144029692123,,,,[],
+Dragon Slayer Sling,XDMG,rare,R|XPHB,706.875,rule+variant,,706.875,,1.0,,[],
++2 Lance,XDMG,rare,M|XPHB,3420.2052530717383,rule+variant,3220.0,3420.2052530717383,,2.0,,[],
+Ruidium Punching Dagger,CRCotN,very_rare,M|XPHB,2941.234134628614,rule+variant,,2941.234134628614,,2.0,,[],
+Wakened Dragon's Wrath Cavalry Hammer,FTD,very_rare,M|XPHB,3054.799246110929,rule+variant,,3054.799246110929,,2.0,,[],
++2 True Name Dagger,IllriggerRevised,very_rare,M|XPHB,2787.2122209614085,rule+variant,3220.0,2787.2122209614085,,2.0,,[],
+Monster Hunter's Mace +1,MonstersOfDrakkenheim,rare,M|XPHB,4296.47791860062,rule+variant,615.0,4296.47791860062,,,,[],
+Enspelled (Level 1) Leather Armor,XDMG,uncommon,LA|XPHB,1265.0,rule,,1265.0,,,,[],6
+Plate Armor of the Fallen,BMT,uncommon,HA|XPHB,1155.0,rule+variant,,1155.0,,,,[],
+Ruidium Shortbow,CRCotN,very_rare,R|XPHB,2964.61961628225,rule+variant,,2964.61961628225,,2.0,,[],
+Gloomwrought Breastplate,BMT,rare,MA|XPHB,4950.0,rule+variant,,4950.0,,,,{'charges': {'1': ['calm emotions']}},3
+Greatsword of Grass,BookOfEbonTides,uncommon,M|XPHB,5179.186112039441,rule+variant,,5179.186112039441,,,,[],7
+Starcrossed Hand Crossbow,DungeonsDrakkenheim,rare,R|XPHB,7824.791295522304,rule+variant,,7824.791295522304,,2.0,,[],3
+Skymetal Staff,DungeonsDrakkenheim,rare,M,2986.297556500699,rule,,3600.0,,,,[],
+Enspelled (Level 3) Bellow Flute,XDMG,rare,M,5400.0,rule,,5400.0,,,,[],6
+Vertebrae Sword of Certain Death,EGW,rare,M,3944.750502782502,rule+variant,,3944.750502782502,,,,[],
+Enspelled (Level 1) Yklwa,XDMG,uncommon,M,1215.0,rule,,1215.0,,,,[],6
+Wakened Dragon's Wrath Punching Dagger,FTD,very_rare,M|XPHB,2941.234134628614,rule+variant,,2941.234134628614,,2.0,,[],
+Enspelled Armor (Level 1),XDMG,uncommon,GV|XDMG,1215.0,rule,,1215.0,,,,[],6
+Enspelled (Level 3) Half Plate Armor,XDMG,rare,MA|XPHB,9150.0,rule,,9150.0,,,,[],6
+Enspelled (Level 1) Sniper Rifle,XDMG,uncommon,R|XPHB,1215.0,rule,,1215.0,,,,[],6
+Mizzium Scale Armour,GGR,rare,MA,6200.0,rule+variant,,6200.0,,,,[],
+Enspelled (Level 7) Splint Armor,XDMG,legendary,HA|XPHB,49600.0,rule,,49600.0,,,,[],6
+Sage's Signet (Hart),BMT,very_rare,RG|DMG,10787.86538866828,rule,,10800.0,,,,"{'daily': {'1e': ['augury', 'aura of vitality', 'mass cure wounds']}, 'ability': 'int'}",
+Enspelled (Level 6) Nakudama Bubble Rod,XDMG,legendary,R,37800.0,rule,,37800.0,,,,[],6
+Enspelled (Level 8) Hoopak,XDMG,legendary,M,60750.0,rule,,60750.0,,,,[],6
+Pike of Agonizing Paralysis,CoA,very_rare,M|XPHB,14080.562877662782,rule+variant,,14080.562877662782,,3.0,,[],
+"Ephixis, Bow of Nylea",MOT,artifact,R,50000.0,rule,,50000.0,,3.0,,"{'daily': {'1e': ['awaken', 'ice storm', 'wall of thorns']}}",
+Longbow of Throne's Command,BMT,very_rare,R|XPHB,15598.824791596704,rule+variant,,15598.824791596704,,1.0,,"{'charges': {'1': ['command'], '2': ['zone of truth'], '4': ['banishment', 'compulsion'], '5': ['dominate person']}}",5
+Bloodrage Greataxe,BMT,uncommon,M,19033.58418829512,rule+amalgamated,27000.0,3400.0,,2.0,,[],
+Drow +3 Wrath Maul,MM,legendary,M|XPHB,15563.627405874486,rule+variant,14460.0,15563.627405874486,,3.0,,[],
+Enspelled (Level 8) Punch Knife,XDMG,legendary,M|XPHB,60750.0,rule,,60750.0,,,,[],6
+Longsword of Agonizing Paralysis,CoA,very_rare,M|XPHB,13455.0,rule+variant,,13455.0,,3.0,,[],
+Ruidium Ring-Mail,CRCotN,very_rare,HA,14641.2,rule+variant,,14641.2,,,1.0,[],
+Enspelled (Level 5) Warhammer,XDMG,very_rare,M|XPHB,17085.0,rule,,17085.0,,,,[],6
+Sword of Throne's Command,BMT,very_rare,M,15205.074791596702,rule+variant,,15205.074791596702,,1.0,,"{'charges': {'1': ['command'], '2': ['zone of truth'], '4': ['banishment', 'compulsion'], '5': ['dominate person']}}",5
+Enspelled (Level 5) Chain Shirt,XDMG,very_rare,MA|XPHB,17260.0,rule,,17260.0,,,,[],6
++3 Master Glassblower's Tools,ExploringEberron24,very_rare,AT|XPHB,18800.0,rule+variant,,18800.0,,,,[],
+Glaive of Agonizing Paralysis,CoA,very_rare,M|XPHB,13697.000755325564,rule+variant,,13697.000755325564,,3.0,,[],
+Monster Hunter's Gatling Gun +3,MonstersOfDrakkenheim,legendary,R|XPHB,48963.42756214218,rule+variant,14460.0,48963.42756214218,,,,[],
+Enspelled (Level 5) Greatsword,XDMG,very_rare,M|XPHB,17260.0,rule,,17260.0,,,,[],6
+Sword Between Worlds,MonstersOfDrakkenheim,very_rare,M,14197.574672427489,rule+variant,,14197.574672427489,,2.0,,['dimension door|xphb'],

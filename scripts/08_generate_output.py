@@ -13,6 +13,135 @@ INPUT_CSV = Path('data/processed/items_validated.csv')
 OUTPUT_XLSX = Path('output/pricing_guide.xlsx')
 OUTPUT_CSV = Path('output/pricing_guide.csv')
 
+# Sourcebook mapping: acronym -> full name (from 5e.tools)
+SOURCEBOOK_NAMES = {
+    # Core Books
+    "PHB": "Player's Handbook",
+    "XPHB": "Player's Handbook (2024)",
+    "DMG": "Dungeon Master's Guide",
+    "XDMG": "Dungeon Master's Guide (2024)",
+    "MM": "Monster Manual",
+    "XMM": "Monster Manual (2024)",
+    
+    # Expansion Books
+    "XGE": "Xanathar's Guide to Everything",
+    "VGM": "Volo's Guide to Monsters",
+    "VRGR": "Van Richten's Guide to Ravenloft",
+    "TCE": "Tasha's Cauldron of Everything",
+    "MTF": "Mordenkainen's Tome of Foes",
+    "SCAG": "Sword Coast Adventurer's Guide",
+    "GGR": "Guildmasters' Guide to Ravnica",
+    "ERLW": "Eberron: Rising from the Last War",
+    "EGW": "Explorer's Guide to Wildemount",
+    "MOT": "Mythic Odysseys of Theros",
+    "FTD": "Fizban's Treasury of Dragons",
+    "SCC": "Strixhaven: A Curriculum of Chaos",
+    "CRCotN": "Critical Role: Call of the Netherdeep",
+    
+    # Adventures
+    "SKT": "Storm King's Thunder",
+    "CoS": "Curse of Strahd",
+    "ToA": "Tomb of Annihilation",
+    "HotDQ": "Hoard of the Dragon Queen",
+    "LMoP": "Lost Mine of Phandelver",
+    "WDH": "Waterdeep: Dragon Heist",
+    "WDMM": "Waterdeep: Dungeon of the Mad Mage",
+    "BGDIA": "Baldur's Gate: Descent Into Avernus",
+    "OotA": "Out of the Abyss",
+    "PotA": "Princes of the Apocalypse",
+    "IDRotF": "Icewind Dale: Rime of the Frostmaiden",
+    "GoS": "Ghosts of Saltmarsh",
+    "TftYP": "Tales from the Yawning Portal",
+    "KftGV": "Keys from the Golden Vault",
+    "JttRC": "Journeys through the Radiant Citadel",
+    "DSotDQ": "Dragonlance: Shadow of the Dragon Queen",
+    "DitLCoT": "Descent into the Lost Caverns of Tsojcanth",
+    "LoX": "Light of Xaryxis",
+    "PaBTSO": "Phandelver and Below: The Shattered Obelisk",
+    "VEoR": "Vecna: Eve of Ruin",
+    "WBtW": "The Wild Beyond the Witchlight",
+    "QftIS": "Quests from the Infinite Staircase",
+    
+    # Other Supplements
+    "BAM": "Boo's Astral Menagerie",
+    "AI": "Acquisitions Incorporated",
+    "BGG": "Bigby Presents: Glory of the Giants",
+    "BMT": "The Book of Many Things",
+    "CM": "Candlekeep Mysteries",
+    "AAG": "Astral Adventurer's Guide",
+    "SAT": "Sigil and the Outlands",
+    "SDW": "Sleeping Dragon's Wake",
+    "HotB": "Heroes of the Borderlands",
+    "LFL": "Lorwyn: First Light",
+    "RoT": "The Rise of Tiamat",
+    "RoTOS": "The Rise of Tiamat Online Supplement",
+    "RMBRE": "The Lost Dungeon of Rickedness",
+    "WttHC": "Stranger Things: Welcome to the Hellfire Club",
+    
+    # Eberron
+    "EET": "Elemental Evil: Trinkets",
+    "EFA": "Eberron: Forge of the Artificer",
+    "FRAiF": "Forgotten Realms: Adventures in Faerûn",
+    "FRHoF": "Forgotten Realms: Heroes of Faerûn",
+    "NF": "Netheril's Fall",
+    "ExploringEberron24": "Exploring Eberron (2024)",
+    "ChroniclesOfEberron": "Chronicles of Eberron",
+    
+# Third Party / Other
+    'DC': 'Divine Contention',
+    'FoEQuickstone': 'Frontiers of Eberron: Quickstone',
+    'HftT': 'Hunt for the Thessalhydra',
+    'MonstersOfDrakkenheim': 'Monsters of Drakkenheim',
+    'DungeonsDrakkenheim': 'Dungeons of Drakkenheim',
+}
+
+
+# Item type mapping: 5e.tools code -> common name
+TYPE_NAMES = {
+    # Standard types
+    "M": "Melee Weapon",
+    "R": "Ranged Weapon",
+    "A": "Ammunition",
+    "G": "Adventuring Gear",
+    "P": "Potion",
+    "S": "Shield",
+    "W": "Wondrous Item",
+    "OTH": "Other",
+    
+    # Armor types
+    "MA": "Medium Armor",
+    "LA": "Light Armor",
+    "HA": "Heavy Armor",
+    
+    # Specific item types
+    "SCF": "Spellcasting Focus",
+    "AT": "Artisan's Tools",
+    "INS": "Musical Instrument",
+    "T": "Tool",
+    "TG": "Trade Goods",
+    "FD": "Food & Drink",
+    "GS": "Gaming Set",
+    "EXP": "Explosive",
+    "MNT": "Mount or Vehicle (Land)",
+    
+    # Magic item categories
+    "RG": "Ring",
+    "WD": "Wand",
+    "RD": "Rod",
+    "SC": "Scroll",
+    
+    # Vehicles
+    "SHP": "Ship/Vehicle (Water)",
+    "VEH": "Vehicle (Land)",
+    "AIR": "Vehicle (Air)",
+    
+    # Special
+    "SPC": "Species Item",  # From Astral Adventurer's Guide
+    "Dele": "Delerium",  # From Monsters of Drakkenheim
+    "EM": "Eldritch Machine",  # From Exploring Eberron
+    "TAH": "Tack & Harness",
+}
+
 RARITY_COLORS = {
     'mundane': 'F5F5F5',
     'common': 'FFFFFF',
@@ -52,6 +181,38 @@ def determine_price_source_label(row):
     else:
         return 'Algorithm'
 
+
+def translate_source(source_code):
+    """Translate sourcebook acronym to full name"""
+    if pd.isna(source_code):
+        return 'Unknown'
+    # Handle pipe-separated sources (multiple sources)
+    sources = str(source_code).split('|')
+    translated = []
+    for s in sources:
+        s = s.strip()
+        translated.append(SOURCEBOOK_NAMES.get(s, s))
+    return ', '.join(translated)
+
+
+def translate_type(type_code):
+    """Translate 5e.tools type code to common name"""
+    if pd.isna(type_code):
+        return 'Unknown'
+    # Type codes can be pipe-separated (e.g., 'M|XPHB')
+    types = str(type_code).split('|')
+    translated = []
+    for t in types:
+        t = t.strip()
+        # Check if the full code exists first (e.g., 'Dele|MonstersOfDrakkenheim')
+        if t in TYPE_NAMES:
+            translated.append(TYPE_NAMES[t])
+        else:
+            # Try just the base code before the pipe
+            base = t.split('|')[0]
+            translated.append(TYPE_NAMES.get(base, base))
+    return ', '.join(translated)
+
 def main():
     df = pd.read_csv(INPUT_CSV)
     print(f'Loaded {len(df)} items')
@@ -78,10 +239,11 @@ def main():
         
         output_rows.append({
             'Name': row['name'],
-            'Source': row['source'],
-            'Type': row.get('type', ''),
+            'Source': translate_source(row.get('source', '')),
+            'Type Code': row.get('type', ''),  # Keep original for reference
+            'Type': translate_type(row.get('type', '')),
             'Rarity': row['rarity'].replace('_', ' ').title(),
-            'Attunement': row.get('req_attune', 'none').replace('none', 'No'),
+            'Attunement': 'Yes' if row.get('req_attune') in ('open', 'class') else 'No',
             'Price (gp)': round(float(price), 2) if pd.notna(price) else 0,
             'Price Formatted': format_price(float(price)) if pd.notna(price) else '0 gp',
             'Price Low': format_price(float(price_low)) if pd.notna(price_low) and price_low > 0 else '',
@@ -109,7 +271,9 @@ def main():
     ws_main.title = 'Pricing Guide'
 
     headers = ['Name', 'Source', 'Type', 'Rarity', 'Attunement', 'Price (gp)', 'Price Low', 'Price High', 'Confidence', 'Price Source', 'Notes']
-    for col_idx, header in enumerate(headers, 1):
+    # Note: 'Type Code' is hidden in Excel but available in CSV
+    excel_headers = ['Name', 'Source', 'Type', 'Rarity', 'Attunement', 'Price (gp)', 'Price Low', 'Price High', 'Confidence', 'Price Source', 'Notes']
+    for col_idx, header in enumerate(excel_headers, 1):
         cell = ws_main.cell(row=1, column=col_idx, value=header)
         cell.fill = PatternFill(start_color='2F4F4F', end_color='2F4F4F', fill_type='solid')
         cell.font = Font(bold=True, color='FFFFFF')
@@ -186,7 +350,7 @@ def main():
             row['name'],
             row.get('source', ''),
             row.get('type', ''),
-            row.get('req_attune', 'none').replace('none', 'No'),
+            'Yes' if row.get('req_attune') in ('open', 'class') else 'No',
             price_formatted,
             confidence,
             '⚠️' if row.get('is_outlier', False) else ''
