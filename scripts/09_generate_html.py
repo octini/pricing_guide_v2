@@ -584,10 +584,10 @@ def main():
 </body>
 </html>'''
     
-with open(OUTPUT_HTML, 'w', encoding='utf-8') as f:
+    with open(OUTPUT_HTML, "w", encoding="utf-8") as f:
         f.write(html)
-    
-    print(f'Saved HTML interface to {OUTPUT_HTML}')
+
+    print(f"Saved HTML interface to {OUTPUT_HTML}")
 
 
 if __name__ == '__main__':
