@@ -224,6 +224,26 @@ def main():
         df = df[~df['is_generic_variant'].fillna(False)]
         print(f'Excluded {before - len(df)} generic variants')
 
+    # Copy prices from alias (original item) to reskin items that duplicate another item.
+    # e.g. "Cloak of Shadows" (ExploringEberron24) is an alias of "Cloak of Elvenkind".
+    # Reskin items should be priced identically to their original since they have identical mechanics.
+    if 'alias' in df.columns:
+        name_to_price = dict(zip(df['name'], df['final_price']))
+        alias_copies = 0
+        for idx, row in df.iterrows():
+            alias = row.get('alias', '')
+            if not alias or pd.isna(alias) or str(alias).strip() == '':
+                continue
+            alias_price = name_to_price.get(str(alias).strip())
+            if alias_price and pd.notna(alias_price) and alias_price > 0:
+                # Always copy the alias price — reskins have identical mechanics to their original
+                df.loc[idx, 'final_price'] = alias_price
+                df.loc[idx, 'price_low'] = round(alias_price * 0.8, 2)
+                df.loc[idx, 'price_high'] = round(alias_price * 1.2, 2)
+                alias_copies += 1
+        if alias_copies:
+            print(f'Copied prices from alias originals to {alias_copies} reskin items')
+
     output_rows = []
     for _, row in df.iterrows():
         price = row.get('final_price', row.get('rule_price', 0))

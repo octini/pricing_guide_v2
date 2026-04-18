@@ -114,6 +114,7 @@ def main():
             "official_price_gp": row["official_price_gp"],
             "req_attune": row["req_attune"],
             "url": row["url"],
+            "alias": row.get("alias", ""),
         }
         combined.update(struct)
         combined.update(entries)

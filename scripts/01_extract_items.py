@@ -59,6 +59,15 @@ def extract_items(data: list) -> list[dict]:
 
         url = get_5etools_url(name, source)
 
+        # Fix source data error: Sling Bullets (20) is listed at 4cp total in 5e.tools,
+        # but should be 20cp (20 × 1cp each), consistent with other ammo bundles.
+        if name == "Sling Bullets (20)" and official_price and official_price < 0.10:
+            official_price = 0.20
+
+        # Extract alias field (used for reskin items that duplicate another item)
+        alias_list = item.get("alias", [])
+        alias = alias_list[0] if alias_list else ""
+
         rows.append({
             "name": name,
             "source": source,
@@ -68,6 +77,7 @@ def extract_items(data: list) -> list[dict]:
             "official_price_gp": official_price if official_price else "",
             "req_attune": req_attune,
             "url": url,
+            "alias": alias,
             "raw_json": json.dumps(item, ensure_ascii=False),
         })
 
@@ -113,7 +123,7 @@ def main():
     for row in rows:
         row["rarity"] = override_drow_rarity(row)
 
-    fieldnames = ["name", "source", "page", "rarity", "type", "official_price_gp", "req_attune", "url", "raw_json"]
+    fieldnames = ["name", "source", "page", "rarity", "type", "official_price_gp", "req_attune", "url", "alias", "raw_json"]
 
     with open(OUTPUT_CSV, "w", newline="", encoding="utf-8") as f:
         writer = csv.DictWriter(f, fieldnames=fieldnames)

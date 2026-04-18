@@ -207,8 +207,56 @@ def main():
                     'is_flavor': is_flavor_item(name),
                 })
     
-    # Re-calculate Price Low/High based on new final_price
-    for idx in df.index:
+    # Enforce armor tier ordering: Plate Armor >= Half Plate Armor >= Breastplate
+    # for the same enhancement bonus (+1, +2, +3), to prevent ML adjustments from
+    # inverting the natural price relationship that reflects the higher mundane cost.
+    import re as _re
+    bonus_pattern = _re.compile(r'\+(\d)\s+(.+)')
+    armor_tiers = ['Breastplate', 'Half Plate Armor', 'Plate Armor']
+    tier_order = {name: i for i, name in enumerate(armor_tiers)}
+
+    # Group by bonus level
+    bonus_groups = {}
+    for idx, row in df.iterrows():
+        name = row['name']
+        m = bonus_pattern.match(name)
+        if m:
+            bonus, base = m.group(1), m.group(2).strip()
+            if base in tier_order:
+                key = bonus
+                if key not in bonus_groups:
+                    bonus_groups[key] = {}
+                bonus_groups[key][base] = idx
+
+    # For each bonus level, enforce plate >= half plate >= breastplate
+    tier_ordering_adjustments = []
+    for bonus, bases in bonus_groups.items():
+        # Walk up the tier chain and ensure each is >= the previous
+        prev_price = None
+        prev_name = None
+        for tier_name in armor_tiers:
+            if tier_name not in bases:
+                continue
+            idx = bases[tier_name]
+            price = df.loc[idx, 'final_price']
+            if pd.notna(price) and prev_price is not None and price < prev_price:
+                old = price
+                df.loc[idx, 'final_price'] = round(prev_price + 1, 2)
+                tier_ordering_adjustments.append(
+                    f"+{bonus} {tier_name}: {old:.2f} -> {prev_price + 1:.2f} gp "
+                    f"(must be >= +{bonus} {prev_name} at {prev_price:.2f} gp)"
+                )
+                prev_price = prev_price + 1
+            else:
+                prev_price = float(price) if pd.notna(price) else prev_price
+            prev_name = tier_name
+
+    if tier_ordering_adjustments:
+        print(f'\n=== ARMOR TIER ORDERING FIXES ===')
+        for msg in tier_ordering_adjustments:
+            print(f'  {msg}')
+
+    # Re-calculate Price Low/High based on new final_price    for idx in df.index:
         final = df.loc[idx, 'final_price']
         if pd.notna(final) and final > 0:
             df.loc[idx, 'price_low'] = round(final * 0.8, 2)
