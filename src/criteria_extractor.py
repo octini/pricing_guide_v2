@@ -318,11 +318,11 @@ def extract_prose_criteria(description: str) -> dict:
         c["healing_consumable_avg"] = _avg_dice(heal_match.group(1))
     
     # Healing: daily
-    daily_heal = re.search(r'(?:at dawn|each dawn|per day|once per day).{0,100}regain\s+(\d+)\s+hit points', desc)
+    daily_heal = re.search(r'(?:at dawn|each dawn|per day|once per day|next dawn).{0,100}regain\s+(\d+d?\d*[+\d]*)\s+hit points', desc)
     if not daily_heal:
-        daily_heal = re.search(r'regain\s+(\d+)\s+hit points.{0,50}(?:at dawn|each dawn|per day)', desc)
+        daily_heal = re.search(r'regain\s+(\d+d?\d*[+\d]*)\s+hit points.{0,50}(?:at dawn|each dawn|per day|next dawn|until the next dawn)', desc)
     if daily_heal:
-        c["healing_daily_hp"] = int(daily_heal.group(1))
+        c["healing_daily_hp"] = int(_avg_dice(daily_heal.group(1)))
     
     # Tome/Manual permanent boost
     c["tome_manual_boost"] = bool(
@@ -383,12 +383,25 @@ def extract_prose_criteria(description: str) -> dict:
     if us_dmg:
         c["unarmed_strike_damage"] = f"{us_dmg.group(1)} {us_dmg.group(2)}"
     
-    # Spell casting abilities: "cast Speak with Dead or Animate Dead"
-    spell_match = re.findall(r'\bcast\s+((?:[\w\s]+?)(?:\s+or\s+[\w\s]+?)*?)(?:\s+(?:once|at will|per day|at-will|spell))', desc)
+    # Spell casting abilities: "cast *Speak with Dead* or *Animate Dead* once per dawn"
+    # Spell names in 5e.tools prose are wrapped in asterisks (markdown italics)
+    # Pattern: cast [*spell name*] or [*spell name*] [frequency]
+    spell_match = re.findall(
+        r'\bcast\s+(?:either\s+)?'           # "cast" or "cast either"
+        r'\*([^*]+)\*'                        # *spell name*
+        r'(?:\s+or\s+\*([^*]+)\*)?'           # optional " or *spell2*"
+        r'(?:\s+(?:once|at will|per day|at-will))?',  # optional frequency
+        desc
+    )
     if spell_match:
         for m in spell_match:
-            spells = [s.strip() for s in m.replace(' or ', ',').split(',')]
-            c["spell_casting_abilities"].extend(spells)
+            # m is a tuple: (spell1, spell2_or_empty)
+            for spell_text in m:
+                if spell_text:
+                    spell_name = spell_text.strip()
+                    # Filter out non-spell words
+                    if spell_name and len(spell_name) > 2 and spell_name.lower() not in ('a', 'an', 'the', 'either', 'spell', 'spells'):
+                        c["spell_casting_abilities"].append(spell_name)
     
     # Curse effects: look for curse-related text
     if re.search(r'curse|cursed|disadvantage against|disadvantage on.*saving throw', desc):
@@ -397,8 +410,18 @@ def extract_prose_criteria(description: str) -> dict:
             curse_parts.append("disadvantage_vs_demons")
         if re.search(r'armor.*destroyed', desc):
             curse_parts.append("armor_destroyed_on_death")
-        if re.search(r'you die while attuned', desc):
+        if re.search(r'you die.*attuned', desc):
             curse_parts.append("death_while_attuned")
         c["curse_effects"] = curse_parts
+    
+    # Also check for curse-like effects even without the 'curse' keyword
+    # Some items have curse-like effects but aren't flagged as cursed in JSON
+    if not c["curse_effects"]:
+        curse_parts = []
+        if re.search(r'armor.*destroyed', desc) and re.search(r'you die.*attuned', desc):
+            curse_parts.append("armor_destroyed_on_death")
+            curse_parts.append("death_while_attuned")
+        if curse_parts:
+            c["curse_effects"] = curse_parts
     
     return c

@@ -92,6 +92,23 @@ def main():
         if 'demon' in item_name and 'armor' in item_name:
             continue
 
+        # Skip variant adjustment for Mind Carapace armor variants
+        # The rule formula correctly values save advantage and condition immunity properties.
+        # Variant system pulls prices down by averaging with underpriced siblings.
+        if 'mind carapace' in item_name:
+            continue
+
+        # Skip variant adjustment for Mariner's armor variants
+        # The rule formula correctly values swim speed and daily healing properties.
+        if "mariner's" in item_name and 'armor' in item_name:
+            continue
+
+        # Skip variant adjustment for Armor of the Fallen variants
+        # The rule formula correctly values spell casting (Speak with Dead, Animate Dead)
+        # and curse effects (armor destroyed on death).
+        if 'of the fallen' in item_name and 'armor' in item_name:
+            continue
+
         # Skip variant adjustment for simple +N weapons/armor
         # These have their own amalgamated pricing in the pricing engine
         bonus_match = re.search(r'\+(\d+)\s+(sword|longsword|greatsword|dagger|battleaxe|axe|hammer|bow|spear|staff|plate|chain|leather|scale|breastplate|shield)', item_name)

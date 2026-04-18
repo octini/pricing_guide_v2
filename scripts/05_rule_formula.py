@@ -33,6 +33,12 @@ def main():
             "attached_spells",
             "weapon_properties",
             "ability_score_mods",
+            "save_advantage",
+            "condition_immunity_prose",
+            "language_known",
+            "unarmed_strike_damage",
+            "spell_casting_abilities",
+            "curse_effects",
         ]:
             val = c.get(list_col, "[]")
             if isinstance(val, str):

@@ -632,8 +632,12 @@ def calculate_price(criteria: dict) -> float:
     # Unarmed strike damage (e.g., Demon Armor: "1d8 slashing damage")
     unarmed_dmg = criteria.get("unarmed_strike_damage")
     if unarmed_dmg:
-        from .criteria_extractor import _avg_dice
-        additive += _avg_dice(unarmed_dmg) * 50  # Scale damage to gp
+        # Handle list format (from CSV) or string format
+        if isinstance(unarmed_dmg, list):
+            unarmed_dmg = unarmed_dmg[0] if unarmed_dmg else None
+        if unarmed_dmg and isinstance(unarmed_dmg, str):
+            from .criteria_extractor import _avg_dice
+            additive += _avg_dice(unarmed_dmg) * 50  # Scale damage to gp
     
     # Spell casting abilities (e.g., Armor of the Fallen: "cast Speak with Dead or Animate Dead")
     spell_abilities = criteria.get("spell_casting_abilities") or []
@@ -656,7 +660,7 @@ def calculate_price(criteria: dict) -> float:
         additive += 1000   # was 5000
 
     if criteria.get("swim_speed"):
-        additive += 300    # was 2000
+        additive += 800    # Permanent swim speed is a significant utility
     if criteria.get("climb_speed"):
         additive += 300    # was 2000
     if criteria.get("burrow_speed"):
@@ -689,7 +693,7 @@ def calculate_price(criteria: dict) -> float:
     # Healing
     healing_daily = criteria.get("healing_daily_hp") or 0
     if healing_daily > 0:
-        additive += 30 * healing_daily  # was 150
+        additive += 200 * healing_daily  # Daily emergency healing is valuable
 
     healing_consumable = criteria.get("healing_consumable_avg") or 0.0
     if healing_consumable > 0:
@@ -876,8 +880,7 @@ def calculate_price(criteria: dict) -> float:
     # vs our base of 100 gp, so we need a ~0.5x multiplier
     flavor_mod = 0.5 if item_name_lower in FLAVOR_ITEMS else 1.0
 
-    price = (base + additive) * attune_mod * consumable_mod * material_mod * curse_mod * sentient_mod * flavor_mod
-    price = max(price, base_item_cost) # Never cheaper than mundane base
+    price = (base + base_item_cost + additive) * attune_mod * consumable_mod * material_mod * curse_mod * sentient_mod * flavor_mod
 
     # Gleaming: add premium on top of base armor cost
     # Reference guides: DSA=330, MSRP=95, avg=212.5 gp for generic "Armor of Gleaming"
