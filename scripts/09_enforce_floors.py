@@ -1,9 +1,15 @@
 #!/usr/bin/env python3
 """Phase 9: Enforce minimum floor prices for magic item variants
 
-Ensures no magic item variant is priced below its mundane base counterpart.
-This prevents situations where a magic armor (e.g., Demon Plate) costs less
-than the mundane armor it's based on.
+Ensures no magic item variant is priced below its mundane base counterpart,
+and that magic variants carry appropriate premiums based on their rarity tier.
+
+Approach:
+1. For items with a mundane base counterpart (armor, weapons, shields):
+   - Apply rarity-based minimum multiplier to mundane base price
+   - Only adjust if current price is below this floor
+2. For purely flavor items (Gleaming, Smoldering): small premium over mundane
+3. Does NOT override prices that are already above the floor
 """
 
 import re
@@ -14,10 +20,6 @@ INPUT_CSV = Path('data/processed/items_validated.csv')
 OUTPUT_CSV = Path('data/processed/items_validated.csv')
 
 # Base item types that can have magic variants
-# Format: {pattern: base_mundane_name}
-# Patterns are matched against the magic item's name.
-# The base_mundane_name must match a mundane item's name exactly.
-
 ARMOR_BASES = {
     r'^(?:.*\s)?Breastplate$': 'Breastplate',
     r'^(?:.*\s)?Chain Mail$': 'Chain Mail',
@@ -92,15 +94,12 @@ SHIELD_BASE = {
     r'^(?:.*\s)?Shield$': 'Shield',
 }
 
-# Combined pattern map
 ALL_BASES = {**ARMOR_BASES, **WEAPON_BASES, **SHIELD_BASE}
 
 # Items that should NOT be matched as variants of mundane items
-# These are different item categories that happen to contain similar words
 EXCLUDE_PATTERNS = [
-    # Crystal trade goods vs spellcasting focus / Delerium
-    r'Crystal$',  # "Crystal" as standalone mundane is a spellcasting focus (10gp)
-    r'Crystal\b.*Delerium',  # Delerium crystals
+    r'Crystal$',
+    r'Crystal\b.*Delerium',
     r'Fernian.*Crystal',
     r'Irian.*Crystal',
     r'Kythrian.*Crystal',
@@ -111,55 +110,56 @@ EXCLUDE_PATTERNS = [
     r'Xorian.*Crystal',
     r'Mind Crystal',
     r'Psi Crystal',
-    # Shard (Delerium) vs mundane "Shard"
     r'Sentira Shard',
     r'Dark Shard',
-    # Backpack Parachute is a different item category
     r'Backpack Parachute',
 ]
+
+# Purely flavor items: no real mechanical benefit beyond appearance
+FLAVOR_KEYWORDS = [
+    'gleaming', 'smoldering', 'cast-off',
+]
+
+# Rarity-based minimum multipliers for magic items with mundane counterparts
+# These ensure magic items are never priced at mundane levels
+# The multiplier is applied to the mundane base price
+RARITY_MINIMUMS = {
+    'common': 1.5,       # 1.5x mundane base (e.g., Plate 1500 → 2250 min)
+    'uncommon': 2.0,     # 2.0x mundane base (e.g., Plate 1500 → 3000 min)
+    'rare': 3.0,         # 3.0x mundane base (e.g., Plate 1500 → 4500 min)
+    'very_rare': 5.0,    # 5.0x mundane base (e.g., Plate 1500 → 7500 min)
+    'legendary': 10.0,   # 10.0x mundane base (e.g., Plate 1500 → 15000 min)
+    'artifact': 20.0,    # 20.0x mundane base
+    'unknown': 1.5,
+    'unknown_magic': 1.5,
+    'varies': 1.5,
+}
 
 
 def find_mundane_prices(df):
     """Build a lookup of mundane item names to their prices."""
     mundane = df[df['rarity'] == 'mundane'].copy()
-    # Some mundane items appear multiple times (e.g., Crystal from different sources)
-    # Take the highest price to be conservative
     return mundane.groupby('name')['official_price_gp'].max().to_dict()
 
 
-# Rarity-based premium multipliers
-# Magic items should always cost MORE than their mundane counterparts.
-# Higher rarity = higher minimum premium.
-RARITY_PREMIUM = {
-    'common': 0.10,       # 10% minimum premium for common magic items
-    'uncommon': 0.15,     # 15% minimum premium
-    'rare': 0.20,         # 20% minimum premium
-    'very_rare': 0.25,    # 25% minimum premium
-    'legendary': 0.30,    # 30% minimum premium
-    'artifact': 0.50,     # 50% minimum premium
-    'unknown': 0.10,      # 10% minimum for unknown rarity
-    'unknown_magic': 0.10,
-    'varies': 0.10,
-}
-
-
 def find_base_item(magic_name, mundane_prices):
-    """Find the mundane base item for a magic item variant.
-    
-    Returns (base_name, base_price) or (None, None) if no match.
-    """
-    # Check exclusion patterns first
+    """Find the mundane base item for a magic item variant."""
     for pattern in EXCLUDE_PATTERNS:
         if re.search(pattern, magic_name, re.IGNORECASE):
             return None, None
     
-    # Try to match against known base patterns
     for pattern, base_name in ALL_BASES.items():
         if re.search(pattern, magic_name, re.IGNORECASE):
             if base_name in mundane_prices:
                 return base_name, mundane_prices[base_name]
     
     return None, None
+
+
+def is_flavor_item(name):
+    """Check if an item is purely cosmetic/flavor."""
+    name_lower = name.lower()
+    return any(kw in name_lower for kw in FLAVOR_KEYWORDS)
 
 
 def main():
@@ -185,12 +185,17 @@ def main():
         base_name, base_price = find_base_item(name, mundane_prices)
         
         if base_name is not None and base_price is not None:
-            # Calculate minimum price with rarity-based premium
             rarity_key = row['rarity'].lower().replace(' ', '_')
-            premium = RARITY_PREMIUM.get(rarity_key, 0.10)
-            min_price = base_price * (1 + premium)
+            rarity_mult = RARITY_MINIMUMS.get(rarity_key, 1.5)
             
-            if current_price < min_price - 0.01:  # Small tolerance for floating point
+            if is_flavor_item(name):
+                # Purely flavor items: small premium over mundane
+                min_price = base_price * 1.10  # 10% premium for flavor
+            else:
+                # Items with mechanical benefits: rarity-based minimum
+                min_price = base_price * rarity_mult
+            
+            if current_price < min_price - 0.01:
                 old_price = current_price
                 df.loc[idx, 'final_price'] = round(min_price, 2)
                 adjustments.append({
@@ -199,11 +204,10 @@ def main():
                     'old_price': old_price,
                     'new_price': round(min_price, 2),
                     'rarity': row['rarity'],
-                    'premium': premium,
+                    'is_flavor': is_flavor_item(name),
                 })
     
     # Re-calculate Price Low/High based on new final_price
-    # Price Low = final_price * 0.8, Price High = final_price * 1.2
     for idx in df.index:
         final = df.loc[idx, 'final_price']
         if pd.notna(final) and final > 0:
@@ -217,7 +221,6 @@ def main():
     print(f'Total adjustments: {len(adjustments)}')
     
     if adjustments:
-        # Group by base item
         by_base = {}
         for adj in adjustments:
             base = adj['base']
@@ -226,11 +229,10 @@ def main():
             by_base[base].append(adj)
         
         for base, items in sorted(by_base.items()):
-            base_price = items[0]['new_price']
-            premium = items[0].get('premium', 0)
-            print(f'\n  {base} (floor: {base_price:.2f} gp, +{premium:.0%} premium):')
+            print(f'\n  {base}:')
             for item in sorted(items, key=lambda x: x['old_price']):
-                print(f"    {item['name']:45s} | {item['rarity']:15s} | {item['old_price']:>10.2f} -> {item['new_price']:>10.2f} gp")
+                flavor_tag = ' [flavor]' if item['is_flavor'] else ''
+                print(f"    {item['name']:45s} | {item['rarity']:15s} | {item['old_price']:>10.2f} -> {item['new_price']:>10.2f} gp{flavor_tag}")
     
     # Verify no remaining violations
     violations = 0
@@ -242,11 +244,16 @@ def main():
         base_name, base_price = find_base_item(name, mundane_prices)
         if base_name is not None and base_price is not None:
             rarity_key = row['rarity'].lower().replace(' ', '_')
-            premium = RARITY_PREMIUM.get(rarity_key, 0.10)
-            min_price = base_price * (1 + premium)
-            if price < min_price - 0.01:  # Small tolerance for floating point
+            rarity_mult = RARITY_MINIMUMS.get(rarity_key, 1.5)
+            
+            if is_flavor_item(name):
+                min_price = base_price * 1.10
+            else:
+                min_price = base_price * rarity_mult
+            
+            if price < min_price - 0.01:
                 violations += 1
-                print(f"  REMAINING VIOLATION: {name} ({price:.2f} gp) < {base_name} floor ({min_price:.2f} gp)")
+                print(f"  REMAINING VIOLATION: {name} ({price:.2f} gp) < floor ({min_price:.2f} gp)")
     
     if violations == 0:
         print(f'\nNo remaining violations found.')

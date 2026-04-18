@@ -85,6 +85,13 @@ def main():
         if 'gleaming' in item_name:
             continue
 
+        # Skip variant adjustment for Demon Armor variants
+        # The generic "Demon Armor" base price is computed from its own underpriced variants
+        # (circular logic), resulting in ~1000gp for a Very Rare item. The rule formula
+        # correctly prices these at ~10,000gp using AC bonuses, curse, and attunement.
+        if 'demon' in item_name and 'armor' in item_name:
+            continue
+
         # Skip variant adjustment for simple +N weapons/armor
         # These have their own amalgamated pricing in the pricing engine
         bonus_match = re.search(r'\+(\d+)\s+(sword|longsword|greatsword|dagger|battleaxe|axe|hammer|bow|spear|staff|plate|chain|leather|scale|breastplate|shield)', item_name)

@@ -35,7 +35,14 @@ def extract_structured_criteria(item: dict) -> dict:
         c["req_attune_class"] = None
     
     # Bonuses
-    c["weapon_bonus"] = _parse_bonus(item.get("bonusWeapon"))
+    # Note: bonusWeapon is used for items that grant weapon bonuses (e.g., Demon Armor's
+    # unarmed strike bonus), not for the item being a +N weapon. Don't extract it for armor.
+    item_type = item.get("type", "")
+    is_armor = any(armor in item_type for armor in ["HA", "MA", "LA"])
+    if not is_armor:
+        c["weapon_bonus"] = _parse_bonus(item.get("bonusWeapon"))
+    else:
+        c["weapon_bonus"] = None
     c["weapon_attack_bonus"] = _parse_bonus(item.get("bonusWeaponAttack"))
     c["weapon_damage_bonus"] = _parse_bonus(item.get("bonusWeaponDamage"))
     c["ac_bonus"] = _parse_bonus(item.get("bonusAc"))
