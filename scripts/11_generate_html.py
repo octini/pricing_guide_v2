@@ -340,8 +340,8 @@ def main():
                     <div class="dropdown">
                         <button class="dropdown-btn" id="source-btn" type="button">All <span class="filter-count">0</span></button>
                         <div class="dropdown-content">
-                            <div class="checkbox-list" onclick="event.stopPropagation();">
-                                {''.join(f'<div class="checkbox-item"><input type="checkbox" id="src_{i}" value="{s}" data-filter="source"><span>{s}</span></div>' for i, s in enumerate(sources))}
+                             <div class="checkbox-list">
+                                 {''.join(f'<label class="checkbox-item"><input type="checkbox" id="src_{i}" value="{s}" data-filter="source"><span>{s}</span></label>' for i, s in enumerate(sources))}
                             </div>
                         </div>
                     </div>
@@ -350,9 +350,9 @@ def main():
                     <label>Item Type</label>
                     <div class="dropdown">
                         <button class="dropdown-btn" id="type-btn" type="button">All <span class="filter-count">0</span></button>
-                        <div class="dropdown-content">
-                            <div class="checkbox-list" onclick="event.stopPropagation();">
-                                {''.join(f'<div class="checkbox-item"><input type="checkbox" id="type_{i}" value="{t}" data-filter="type"><span>{t}</span></div>' for i, t in enumerate(types))}
+                         <div class="dropdown-content">
+                             <div class="checkbox-list">
+                                 {''.join(f'<label class="checkbox-item"><input type="checkbox" id="type_{i}" value="{t}" data-filter="type"><span>{t}</span></label>' for i, t in enumerate(types))}
                             </div>
                         </div>
                     </div>
@@ -361,9 +361,9 @@ def main():
                     <label>Rarity</label>
                     <div class="dropdown">
                         <button class="dropdown-btn" id="rarity-btn" type="button">All <span class="filter-count">0</span></button>
-                        <div class="dropdown-content">
-                            <div class="checkbox-list" onclick="event.stopPropagation();">
-                                {''.join(f'<div class="checkbox-item"><input type="checkbox" id="rar_{i}" value="{r}" data-filter="rarity"><span>{r}</span></div>' for i, r in enumerate(rarities))}
+                         <div class="dropdown-content">
+                             <div class="checkbox-list">
+                                 {''.join(f'<label class="checkbox-item"><input type="checkbox" id="rar_{i}" value="{r}" data-filter="rarity"><span>{r}</span></label>' for i, r in enumerate(rarities))}
                             </div>
                         </div>
                     </div>
@@ -553,9 +553,18 @@ def main():
         
         // Add click handlers for dropdowns to toggle on click
         document.querySelectorAll('.dropdown').forEach(dropdown => {{
-            dropdown.addEventListener('click', function(e) {{
-                // Toggle the open class
-                this.classList.toggle('open');
+            dropdown.querySelector('.dropdown-btn').addEventListener('click', function(e) {{
+                e.stopPropagation();
+                const isOpen = dropdown.classList.contains('open');
+                // Close all dropdowns first
+                document.querySelectorAll('.dropdown').forEach(d => d.classList.remove('open'));
+                // Toggle this one
+                if (!isOpen) {{
+                    dropdown.classList.add('open');
+                }}
+            }});
+            // Keep dropdown open when clicking inside the content area (checkboxes)
+            dropdown.querySelector('.dropdown-content').addEventListener('click', function(e) {{
                 e.stopPropagation();
             }});
         }});
@@ -563,16 +572,7 @@ def main():
         // Close dropdowns when clicking outside
         document.addEventListener('click', function(e) {{
             document.querySelectorAll('.dropdown').forEach(dropdown => {{
-                if (!dropdown.contains(e.target)) {{
-                    dropdown.classList.remove('open');
-                }}
-            }});
-        }});
-        
-        // Prevent checkbox clicks from closing dropdown
-        document.querySelectorAll('.checkbox-item').forEach(item => {{
-            item.addEventListener('click', function(e) {{
-                e.stopPropagation();
+                dropdown.classList.remove('open');
             }});
         }});
         
