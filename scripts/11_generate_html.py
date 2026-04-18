@@ -337,7 +337,7 @@ def main():
             <div class="filter-row">
                 <div class="filter-group">
                     <label>Sourcebook</label>
-                    <div class="dropdown" onclick="this.classList.toggle('open'); event.stopPropagation();">
+                    <div class="dropdown">
                         <button class="dropdown-btn" id="source-btn" type="button">All <span class="filter-count">0</span></button>
                         <div class="dropdown-content">
                             <div class="checkbox-list" onclick="event.stopPropagation();">
@@ -348,7 +348,7 @@ def main():
                 </div>
                 <div class="filter-group">
                     <label>Item Type</label>
-                    <div class="dropdown" onclick="this.classList.toggle('open'); event.stopPropagation();">
+                    <div class="dropdown">
                         <button class="dropdown-btn" id="type-btn" type="button">All <span class="filter-count">0</span></button>
                         <div class="dropdown-content">
                             <div class="checkbox-list" onclick="event.stopPropagation();">
@@ -359,7 +359,7 @@ def main():
                 </div>
                 <div class="filter-group">
                     <label>Rarity</label>
-                    <div class="dropdown" onclick="this.classList.toggle('open'); event.stopPropagation();">
+                    <div class="dropdown">
                         <button class="dropdown-btn" id="rarity-btn" type="button">All <span class="filter-count">0</span></button>
                         <div class="dropdown-content">
                             <div class="checkbox-list" onclick="event.stopPropagation();">
