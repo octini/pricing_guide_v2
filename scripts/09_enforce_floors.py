@@ -127,6 +127,22 @@ def find_mundane_prices(df):
     return mundane.groupby('name')['official_price_gp'].max().to_dict()
 
 
+# Rarity-based premium multipliers
+# Magic items should always cost MORE than their mundane counterparts.
+# Higher rarity = higher minimum premium.
+RARITY_PREMIUM = {
+    'common': 0.10,       # 10% minimum premium for common magic items
+    'uncommon': 0.15,     # 15% minimum premium
+    'rare': 0.20,         # 20% minimum premium
+    'very_rare': 0.25,    # 25% minimum premium
+    'legendary': 0.30,    # 30% minimum premium
+    'artifact': 0.50,     # 50% minimum premium
+    'unknown': 0.10,      # 10% minimum for unknown rarity
+    'unknown_magic': 0.10,
+    'varies': 0.10,
+}
+
+
 def find_base_item(magic_name, mundane_prices):
     """Find the mundane base item for a magic item variant.
     
@@ -169,15 +185,21 @@ def main():
         base_name, base_price = find_base_item(name, mundane_prices)
         
         if base_name is not None and base_price is not None:
-            if current_price < base_price:
+            # Calculate minimum price with rarity-based premium
+            rarity_key = row['rarity'].lower().replace(' ', '_')
+            premium = RARITY_PREMIUM.get(rarity_key, 0.10)
+            min_price = base_price * (1 + premium)
+            
+            if current_price < min_price - 0.01:  # Small tolerance for floating point
                 old_price = current_price
-                df.loc[idx, 'final_price'] = base_price
+                df.loc[idx, 'final_price'] = round(min_price, 2)
                 adjustments.append({
                     'name': name,
                     'base': base_name,
                     'old_price': old_price,
-                    'new_price': base_price,
+                    'new_price': round(min_price, 2),
                     'rarity': row['rarity'],
+                    'premium': premium,
                 })
     
     # Re-calculate Price Low/High based on new final_price
@@ -205,7 +227,8 @@ def main():
         
         for base, items in sorted(by_base.items()):
             base_price = items[0]['new_price']
-            print(f'\n  {base} (floor: {base_price:.2f} gp):')
+            premium = items[0].get('premium', 0)
+            print(f'\n  {base} (floor: {base_price:.2f} gp, +{premium:.0%} premium):')
             for item in sorted(items, key=lambda x: x['old_price']):
                 print(f"    {item['name']:45s} | {item['rarity']:15s} | {item['old_price']:>10.2f} -> {item['new_price']:>10.2f} gp")
     
@@ -218,9 +241,12 @@ def main():
             continue
         base_name, base_price = find_base_item(name, mundane_prices)
         if base_name is not None and base_price is not None:
-            if price < base_price:
+            rarity_key = row['rarity'].lower().replace(' ', '_')
+            premium = RARITY_PREMIUM.get(rarity_key, 0.10)
+            min_price = base_price * (1 + premium)
+            if price < min_price - 0.01:  # Small tolerance for floating point
                 violations += 1
-                print(f"  REMAINING VIOLATION: {name} ({price:.2f} gp) < {base_name} ({base_price:.2f} gp)")
+                print(f"  REMAINING VIOLATION: {name} ({price:.2f} gp) < {base_name} floor ({min_price:.2f} gp)")
     
     if violations == 0:
         print(f'\nNo remaining violations found.')

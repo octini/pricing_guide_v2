@@ -328,8 +328,6 @@ def main():
 </head>
 <body>
     <div class="container">
-        <h1>⚔️ D&D 5e Magic Item Pricing Guide</h1>
-        <p class="subtitle">{len(df):,} items · Search, filter, and explore magic item values</p>
         
         <div class="filters">
             <div class="search-row">
@@ -437,7 +435,7 @@ def main():
         }}
         
         // Add checkbox listeners
-        document.querySelectorAll('.checkbox-item input').forEach checkbox => {{
+        document.querySelectorAll('.checkbox-item input').forEach(checkbox => {{
             checkbox.addEventListener('change', function() {{
                 const filterName = this.dataset.filter;
                 if (this.checked) {{
