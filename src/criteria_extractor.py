@@ -3,6 +3,22 @@ import re
 import json
 from typing import Any, Optional
 
+# Condition immunity values (shared with pricing_engine.py)
+CONDITION_IMMUNITY_VALUES = {
+    "frightened": 400,
+    "charmed": 400,
+    "poisoned": 400,
+    "exhaustion": 400,
+    "petrified": 400,
+    "paralyzed": 400,
+    "blinded": 400,
+    "deafened": 400,
+    "stunned": 400,
+    "incapacitated": 400,
+    "prone": 400,
+    "restrained": 400,
+}
+
 def _parse_bonus(val: Any) -> Optional[int]:
     """Parse bonus value which may be '+2', '2', 2, or None."""
     if val is None:
@@ -247,6 +263,13 @@ def extract_prose_criteria(description: str) -> dict:
         "swim_speed": False,
         "climb_speed": False,
         "burrow_speed": False,
+        "save_advantage": [],
+        "condition_immunity_prose": [],
+        "language_known": [],
+        "unarmed_strike_bonus": None,
+        "unarmed_strike_damage": None,
+        "spell_casting_abilities": [],
+        "curse_effects": [],
     }
     
     desc = description.lower()
@@ -334,5 +357,48 @@ def extract_prose_criteria(description: str) -> dict:
     c["swim_speed"] = bool(re.search(r'\bswim(?:ming)? speed\b', desc))
     c["climb_speed"] = bool(re.search(r'\bclimb(?:ing)? speed\b', desc))
     c["burrow_speed"] = bool(re.search(r'\bburrow(?:ing)? speed\b', desc))
+    
+    # Saving throw advantage: "advantage on Intelligence, Wisdom, and Charisma saving throws"
+    save_match = re.search(r'advantage on ([\w,\s]+?) saving throws', desc)
+    if save_match:
+        abilities = [a.strip().lower() for a in save_match.group(1).replace(' and ', ',').split(',')]
+        c["save_advantage"] = [a for a in abilities if a in ('intelligence', 'wisdom', 'charisma', 'strength', 'dexterity', 'constitution')]
+    
+    # Condition immunity from prose (in addition to structured conditionImmune field)
+    ci_match = re.search(r'immune to the ([\w\s]+?) condition', desc)
+    if ci_match:
+        conditions = [cond.strip().lower() for cond in ci_match.group(1).replace(' and ', ',').split(',')]
+        c["condition_immunity_prose"] = [cond for cond in conditions if cond in CONDITION_IMMUNITY_VALUES]
+    
+    # Language known: "you know Abyssal"
+    lang_match = re.search(r'you know (\w+)', desc)
+    if lang_match:
+        c["language_known"] = [lang_match.group(1)]
+    
+    # Unarmed strike bonus: "Unarmed Strike deals 1d8 slashing damage and you have a +1 bonus"
+    us_bonus = re.search(r'unarmed strike.*?\+([-\d]+)\s*bonus', desc)
+    if us_bonus:
+        c["unarmed_strike_bonus"] = int(us_bonus.group(1))
+    us_dmg = re.search(r'unarmed strike.*?(\d+d\d+)\s+(\w+)\s+damage', desc)
+    if us_dmg:
+        c["unarmed_strike_damage"] = f"{us_dmg.group(1)} {us_dmg.group(2)}"
+    
+    # Spell casting abilities: "cast Speak with Dead or Animate Dead"
+    spell_match = re.findall(r'\bcast\s+((?:[\w\s]+?)(?:\s+or\s+[\w\s]+?)*?)(?:\s+(?:once|at will|per day|at-will|spell))', desc)
+    if spell_match:
+        for m in spell_match:
+            spells = [s.strip() for s in m.replace(' or ', ',').split(',')]
+            c["spell_casting_abilities"].extend(spells)
+    
+    # Curse effects: look for curse-related text
+    if re.search(r'curse|cursed|disadvantage against|disadvantage on.*saving throw', desc):
+        curse_parts = []
+        if re.search(r'disadvantage on.*saving throw.*demon', desc) or re.search(r'disadvantage against.*demon', desc):
+            curse_parts.append("disadvantage_vs_demons")
+        if re.search(r'armor.*destroyed', desc):
+            curse_parts.append("armor_destroyed_on_death")
+        if re.search(r'you die while attuned', desc):
+            curse_parts.append("death_while_attuned")
+        c["curse_effects"] = curse_parts
     
     return c

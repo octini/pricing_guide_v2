@@ -601,6 +601,53 @@ def calculate_price(criteria: dict) -> float:
         cond_immune = [cond_immune] if cond_immune else []
     for cond in cond_immune:
         additive += CONDITION_IMMUNITY_VALUES.get(str(cond).lower(), 400)
+    
+    # Condition immunity from prose (e.g., Mind Carapace: "immune to the frightened condition")
+    cond_immune_prose = criteria.get("condition_immunity_prose") or []
+    if isinstance(cond_immune_prose, str):
+        cond_immune_prose = [cond_immune_prose] if cond_immune_prose else []
+    for cond in cond_immune_prose:
+        additive += CONDITION_IMMUNITY_VALUES.get(str(cond).lower(), 400)
+    
+    # Saving throw advantage (e.g., Mind Carapace: "advantage on Intelligence, Wisdom, and Charisma saving throws")
+    save_advantage = criteria.get("save_advantage") or []
+    if isinstance(save_advantage, str):
+        save_advantage = [save_advantage] if save_advantage else []
+    if save_advantage:
+        # Each ability save advantage is worth ~400gp (similar to condition immunity)
+        additive += 400 * len(save_advantage)
+    
+    # Language known (e.g., Demon Armor: "you know Abyssal")
+    language_known = criteria.get("language_known") or []
+    if isinstance(language_known, str):
+        language_known = [language_known] if language_known else []
+    if language_known:
+        additive += 100 * len(language_known)  # Minor utility
+    
+    # Unarmed strike bonus (e.g., Demon Armor: "+1 bonus to unarmed strikes")
+    unarmed_bonus = criteria.get("unarmed_strike_bonus")
+    if unarmed_bonus and unarmed_bonus > 0:
+        additive += 500 * unarmed_bonus  # Similar to weapon bonus but less valuable
+    
+    # Unarmed strike damage (e.g., Demon Armor: "1d8 slashing damage")
+    unarmed_dmg = criteria.get("unarmed_strike_damage")
+    if unarmed_dmg:
+        from .criteria_extractor import _avg_dice
+        additive += _avg_dice(unarmed_dmg) * 50  # Scale damage to gp
+    
+    # Spell casting abilities (e.g., Armor of the Fallen: "cast Speak with Dead or Animate Dead")
+    spell_abilities = criteria.get("spell_casting_abilities") or []
+    if isinstance(spell_abilities, str):
+        spell_abilities = [spell_abilities] if spell_abilities else []
+    if spell_abilities:
+        for spell_name in spell_abilities:
+            spell_level = get_spell_level(spell_name)
+            if spell_level > 0:
+                # Once-per-day spell casting is worth spell_level^2 * 200
+                additive += spell_level ** 2 * 200
+            else:
+                # Unknown spell, give minor value
+                additive += 200
 
     # Movement
     if criteria.get("flight_full"):
@@ -813,6 +860,15 @@ def calculate_price(criteria: dict) -> float:
             additive *= property_multiplier
 
     curse_mod = 0.75 if criteria.get("is_cursed") else 1.0 # was 0.70
+    
+    # Specific curse effects from prose (e.g., Demon Armor: "disadvantage vs demons")
+    # These provide additional curse penalties beyond the generic curse flag
+    curse_effects = criteria.get("curse_effects") or []
+    if isinstance(curse_effects, str):
+        curse_effects = [curse_effects] if curse_effects else []
+    if curse_effects:
+        # Each curse effect adds an additional 5% price reduction
+        curse_mod *= max(0.5, 1.0 - 0.05 * len(curse_effects))
     sentient_mod = 1.15 if criteria.get("is_sentient") else 1.0 # was 1.25
 
     # Flavor items: apply discount (no tactical/combat value)
