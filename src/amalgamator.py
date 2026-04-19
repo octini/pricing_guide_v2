@@ -258,6 +258,12 @@ def amalgamate_prices(
                           "ammunition" in item_name.lower() or
                           any(a in item_name.lower() for a in ["arrow", "bolt", "bullet", "needle"]))
                 is_shield = (item_type == "S" or "shield" in item_name.lower())
+                is_armor = (item_type in ("LA", "MA", "HA") or
+                           any(a in item_name.lower() for a in ["plate armor", "half plate", "breastplate", "chain mail", "chain shirt", "scale mail", "splint", "ring mail", "studded leather", "hide"]))
+                # Exclude shields from armor detection
+                if is_shield:
+                    is_armor = False
+
                 is_weapon = (item_type in ("M", "R") or
                             any(w in item_name.lower() for w in ["sword", "axe", "hammer", "dagger", "bow", "crossbow", "spear", "mace", "flail", "rapier", "scimitar", "lance", "halberd", "glaive", "pike", "trident", "whip", "net", "club", "greatclub", "handaxe", "light hammer", "sickle", "javelin", "quarterstaff", "light crossbow", "dart", "shortbow", "sling", "blowgun", "hand crossbow", "heavy crossbow", "longbow"]))
 
@@ -267,6 +273,9 @@ def amalgamate_prices(
                     generic_queries = [f"ammunition +{bonus}", f"ammunition any +{bonus}", f"ammunition +{bonus} ea"]
                 elif is_shield:
                     generic_queries = [f"shield +{bonus}"]
+                elif is_armor:
+                    # DSA uses "Armor, +N", MSRP uses "Armor, +N"
+                    generic_queries = [f"armor, +{bonus}", f"armor +{bonus}"]
                 elif is_weapon:
                     generic_queries = [f"weapon +{bonus}", f"weapon any +{bonus}"]
 
