@@ -102,6 +102,14 @@ def is_high_rarity_ammunition(row):
     rarity = row.get("rarity", "")
     return is_ammo and rarity in ("very_rare", "legendary", "artifact")
 
+def is_ammunition_item(row):
+    """Check if item is any ammunition (any rarity)."""
+    is_ammo = row.get("is_ammunition", False)
+    item_type = str(row.get("item_type_code", "")).split("|")[0]
+    item_name = str(row.get("name", "")).lower()
+    return (is_ammo or item_type == "A" or
+            any(a in item_name for a in ["arrow", "bolt", "bullet", "needle"]))
+
 # Top item type codes (normalized, stripping source suffix after '|')
 # Chosen for density in training set: covers majority of matched items
 ITEM_TYPE_DUMMIES = ["M", "P", "SCF", "MA", "HA", "RG", "SC", "WD", "LA", "RD", "S", "INS", "A"]
@@ -286,6 +294,13 @@ def main():
         if is_gleaming_armor(row):
             return row["rule_price"]
         if pd.notna(row.get("variant_price")):
+            # Exception: ammunition with amalgamated price should use amalgamated
+            # The variant system prices ammo at weapon-level (rule formula), but
+            # the actual reference prices (DSA/MSRP/DMPG) are 10-22x lower.
+            if is_ammunition_item(row) and pd.notna(row.get("amalgamated_price")):
+                confidence = row.get("price_confidence", "none")
+                w_amalg, _ = CONFIDENCE_WEIGHTS.get(confidence, (0.85, 0.15))
+                return w_amalg * row["amalgamated_price"] + (1 - w_amalg) * row["ml_price"]
             return row["rule_price"]
         if row.get("price_confidence") == "solo-outlier":
             return row["rule_price"]
