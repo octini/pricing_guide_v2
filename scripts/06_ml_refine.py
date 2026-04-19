@@ -289,18 +289,19 @@ def main():
             return row["rule_price"]
         if is_spell_scroll(row):
             return row["rule_price"]
+        # Exception: ammunition with amalgamated price should use amalgamated
+        # The variant system prices ammo at weapon-level (rule formula), but
+        # the actual reference prices (DSA/MSRP/DMPG) are 10-22x lower.
+        # This check must come BEFORE is_high_rarity_ammunition to catch very_rare+ ammo.
+        if is_ammunition_item(row) and pd.notna(row.get("amalgamated_price")):
+            confidence = row.get("price_confidence", "none")
+            w_amalg, _ = CONFIDENCE_WEIGHTS.get(confidence, (0.85, 0.15))
+            return w_amalg * row["amalgamated_price"] + (1 - w_amalg) * row["ml_price"]
         if is_high_rarity_ammunition(row):
             return row["rule_price"]
         if is_gleaming_armor(row):
             return row["rule_price"]
         if pd.notna(row.get("variant_price")):
-            # Exception: ammunition with amalgamated price should use amalgamated
-            # The variant system prices ammo at weapon-level (rule formula), but
-            # the actual reference prices (DSA/MSRP/DMPG) are 10-22x lower.
-            if is_ammunition_item(row) and pd.notna(row.get("amalgamated_price")):
-                confidence = row.get("price_confidence", "none")
-                w_amalg, _ = CONFIDENCE_WEIGHTS.get(confidence, (0.85, 0.15))
-                return w_amalg * row["amalgamated_price"] + (1 - w_amalg) * row["ml_price"]
             return row["rule_price"]
         if row.get("price_confidence") == "solo-outlier":
             return row["rule_price"]

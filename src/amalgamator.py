@@ -259,9 +259,13 @@ def amalgamate_prices(
                           any(a in item_name.lower() for a in ["arrow", "bolt", "bullet", "needle"]))
                 is_shield = (item_type == "S" or "shield" in item_name.lower())
                 is_armor = (item_type in ("LA", "MA", "HA") or
-                           any(a in item_name.lower() for a in ["plate armor", "half plate", "breastplate", "chain mail", "chain shirt", "scale mail", "splint", "ring mail", "studded leather", "hide"]))
+                           "armor" in item_name.lower() or
+                           any(a in item_name.lower() for a in ["plate armor", "half plate", "breastplate", "chain mail", "chain shirt", "scale mail", "splint", "ring mail", "studded leather", "hide armor"]))
                 # Exclude shields from armor detection
                 if is_shield:
+                    is_armor = False
+                # Exclude non-armor items (e.g., leatherworker's tools)
+                if "leatherworker" in item_name.lower() or "tool" in item_name.lower():
                     is_armor = False
 
                 is_weapon = (item_type in ("M", "R") or
