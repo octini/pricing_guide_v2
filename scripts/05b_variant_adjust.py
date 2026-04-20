@@ -55,6 +55,16 @@ def main():
             skipped_official += 1
             continue
 
+        # Skip items with amalgamated reference prices - trust the sources
+        if (pd.notna(row.get('amalgamated_price')) and 
+            row.get('price_confidence') in ('multi', 'solo')):
+            continue
+
+        # Skip all ammunition - generic parent mapping treats ammo like weapons
+        item_name_lower = str(row.get('name', '')).lower()
+        if row.get('is_ammunition') or any(t in item_name_lower for t in ('arrow', 'bolt', 'bullet', 'needle', 'ammunition')):
+            continue
+
         # Skip variant adjustment for sentient items (they have their own pricing formula)
         # Sentient items like Moonblade have complex abilities that the variant system can't handle
         if row.get('is_sentient', False):
@@ -65,13 +75,13 @@ def main():
         # BUT: material ammunition should use variant adjustment (handled below)
         material = row.get('material', '')
         item_type_code = str(row.get('item_type_code', '')).split('|')[0] if row.get('item_type_code') else ''
-        is_ammunition_type = item_type_code == 'A' or 'arrow' in item_name or 'bolt' in item_name or 'bullet' in item_name or 'needle' in item_name
+        is_ammunition_type = item_type_code == 'A' or 'arrow' in item_name_lower or 'bolt' in item_name_lower or 'bullet' in item_name_lower or 'needle' in item_name_lower
         if material in ('mithral', 'adamantine') and not is_ammunition_type:
             continue
 
         # Skip variant adjustment for enspelled items
         # These have their own DSA-based pricing formula
-        item_name = str(row.get('name', '')).lower()
+        item_name = item_name_lower
         if 'enspelled' in item_name:
             continue
 
