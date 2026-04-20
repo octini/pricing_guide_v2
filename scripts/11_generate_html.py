@@ -424,7 +424,7 @@ def main():
         /* Hide tooltips when any dropdown is open */
         body.dropdown-open .item-tooltip {{ visibility: hidden !important; }}
         /* Disable item link interaction when dropdown is open */
-        body.dropdown-open .item-link {{ pointer-events: none; cursor: default; }}
+        body.dropdown-open .item-link {{ pointer-events: none; cursor: default; opacity: 0; }}
         
         a {{ color: #64b5f6; text-decoration: none; }}
         
