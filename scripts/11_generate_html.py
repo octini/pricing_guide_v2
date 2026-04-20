@@ -399,9 +399,9 @@ def main():
         }}
         .item-link:hover {{ text-decoration: underline; }}
         .item-tooltip {{
-            display: none;
-            position: absolute;
-            bottom: 100%;
+            visibility: hidden;
+            position: fixed;
+            top: 0;
             left: 0;
             background: #1f2937;
             color: #e0e0e0;
@@ -414,17 +414,17 @@ def main():
             min-width: 250px;
             max-height: 400px;
             overflow-y: auto;
-            z-index: 1000;
+            z-index: 10000;
             white-space: normal;
             box-shadow: 0 4px 12px rgba(0,0,0,0.5);
             border: 1px solid rgba(255,255,255,0.15);
-            margin-bottom: 6px;
             line-height: 1.5;
             pointer-events: none;
         }}
-        .item-link:hover .item-tooltip {{ display: block; }}
         /* Hide tooltips when any dropdown is open */
-        body.dropdown-open .item-tooltip {{ display: none !important; }}
+        body.dropdown-open .item-tooltip {{ visibility: hidden !important; }}
+        /* Disable item link interaction when dropdown is open */
+        body.dropdown-open .item-link {{ pointer-events: none; cursor: default; }}
         
         a {{ color: #64b5f6; text-decoration: none; }}
         
@@ -695,6 +695,53 @@ def main():
             }});
             document.body.classList.remove('dropdown-open');
         }});
+        
+        // Tooltip positioning with fixed positioning
+        function setupTooltips() {{
+            document.querySelectorAll('.item-link').forEach(link => {{
+                link.addEventListener('mouseenter', function(e) {{
+                    if (document.body.classList.contains('dropdown-open')) return;
+                    const tooltip = this.querySelector('.item-tooltip');
+                    if (!tooltip) return;
+                    
+                    // Make visible off-screen first to measure
+                    tooltip.style.top = '-9999px';
+                    tooltip.style.left = '-9999px';
+                    tooltip.style.visibility = 'visible';
+                    
+                    const rect = this.getBoundingClientRect();
+                    const tooltipRect = tooltip.getBoundingClientRect();
+                    
+                    // Position above the link
+                    let top = rect.top - tooltipRect.height - 8;
+                    let left = rect.left;
+                    
+                    // Flip below if not enough space above
+                    if (top < 10) {{
+                        top = rect.bottom + 8;
+                    }}
+                    // Keep within viewport horizontally
+                    if (left < 10) left = 10;
+                    if (left + tooltipRect.width > window.innerWidth - 10) {{
+                        left = window.innerWidth - tooltipRect.width - 10;
+                    }}
+                    
+                    tooltip.style.top = top + 'px';
+                    tooltip.style.left = left + 'px';
+                }});
+                link.addEventListener('mouseleave', function() {{
+                    const tooltip = this.querySelector('.item-tooltip');
+                    if (tooltip) tooltip.style.visibility = 'hidden';
+                }});
+            }});
+        }}
+        
+        // Re-setup tooltips after each render
+        const origRender = renderTable;
+        renderTable = function() {{
+            origRender();
+            setupTooltips();
+        }};
         
         // Initial render
         renderTable();
