@@ -251,7 +251,7 @@ def main():
     types = sorted(df['Type Display'].unique())
     
     # Sort rarities in increasing order (not alphabetically)
-    RARITY_ORDER = {'Mundane': 0, 'Common': 1, 'Uncommon': 2, 'Rare': 3, 'Very Rare': 4, 'Legendary': 5, 'Artifact': 6}
+    RARITY_ORDER = {'Mundane': 0, 'Unknown': 1, 'Unknown Magic': 2, 'Common': 3, 'Uncommon': 4, 'Rare': 5, 'Very Rare': 6, 'Legendary': 7, 'Artifact': 8}
     rarities = sorted(df['Rarity'].unique(), key=lambda r: RARITY_ORDER.get(r, 99))
     
     # Convert data to JSON
@@ -391,6 +391,9 @@ def main():
         .rarity-legendary {{ color: #ff8000; }}
         .rarity-artifact {{ color: #e6cc80; }}
         .rarity-mundane {{ color: #999; }}
+        .rarity-unknown {{ color: #b0b0b0; }}
+        .rarity-unknown.magic {{ color: #7ba7c9; }}
+        [class="rarity-unknown magic"] {{ color: #7ba7c9; }}
         
         .price {{ font-family: 'Courier New', monospace; font-weight: bold; }}
         
@@ -585,7 +588,7 @@ def main():
         }}
         
         // Rarity sort order (increasing rarity)
-        const RARITY_ORDER = {{ 'Mundane': 0, 'Common': 1, 'Uncommon': 2, 'Rare': 3, 'Very Rare': 4, 'Legendary': 5, 'Artifact': 6 }};
+        const RARITY_ORDER = {{ 'Mundane': 0, 'Unknown': 1, 'Unknown Magic': 2, 'Common': 3, 'Uncommon': 4, 'Rare': 5, 'Very Rare': 6, 'Legendary': 7, 'Artifact': 8 }};
         
         function sortFilteredItems(filtered) {{
             return filtered.sort((a, b) => {{

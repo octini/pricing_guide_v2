@@ -105,6 +105,9 @@
         .rarity-legendary { color: #ff8000; }
         .rarity-artifact { color: #e6cc80; }
         .rarity-mundane { color: #999; }
+        .rarity-unknown { color: #b0b0b0; }
+        .rarity-unknown.magic { color: #7ba7c9; }
+        [class="rarity-unknown magic"] { color: #7ba7c9; }
         
         .price { font-family: 'Courier New', monospace; font-weight: bold; }
         
@@ -194,7 +197,7 @@
                         <button class="dropdown-btn" id="rarity-btn" type="button">All <span class="filter-count">0</span></button>
                          <div class="dropdown-content">
                              <div class="checkbox-list">
-                                 <label class="checkbox-item"><input type="checkbox" id="rar_0" value="Mundane" data-filter="rarity"><span>Mundane</span></label><label class="checkbox-item"><input type="checkbox" id="rar_1" value="Common" data-filter="rarity"><span>Common</span></label><label class="checkbox-item"><input type="checkbox" id="rar_2" value="Uncommon" data-filter="rarity"><span>Uncommon</span></label><label class="checkbox-item"><input type="checkbox" id="rar_3" value="Rare" data-filter="rarity"><span>Rare</span></label><label class="checkbox-item"><input type="checkbox" id="rar_4" value="Very Rare" data-filter="rarity"><span>Very Rare</span></label><label class="checkbox-item"><input type="checkbox" id="rar_5" value="Legendary" data-filter="rarity"><span>Legendary</span></label><label class="checkbox-item"><input type="checkbox" id="rar_6" value="Artifact" data-filter="rarity"><span>Artifact</span></label><label class="checkbox-item"><input type="checkbox" id="rar_7" value="Unknown" data-filter="rarity"><span>Unknown</span></label><label class="checkbox-item"><input type="checkbox" id="rar_8" value="Unknown Magic" data-filter="rarity"><span>Unknown Magic</span></label><label class="checkbox-item"><input type="checkbox" id="rar_9" value="Varies" data-filter="rarity"><span>Varies</span></label>
+                                 <label class="checkbox-item"><input type="checkbox" id="rar_0" value="Mundane" data-filter="rarity"><span>Mundane</span></label><label class="checkbox-item"><input type="checkbox" id="rar_1" value="Unknown" data-filter="rarity"><span>Unknown</span></label><label class="checkbox-item"><input type="checkbox" id="rar_2" value="Unknown Magic" data-filter="rarity"><span>Unknown Magic</span></label><label class="checkbox-item"><input type="checkbox" id="rar_3" value="Common" data-filter="rarity"><span>Common</span></label><label class="checkbox-item"><input type="checkbox" id="rar_4" value="Uncommon" data-filter="rarity"><span>Uncommon</span></label><label class="checkbox-item"><input type="checkbox" id="rar_5" value="Rare" data-filter="rarity"><span>Rare</span></label><label class="checkbox-item"><input type="checkbox" id="rar_6" value="Very Rare" data-filter="rarity"><span>Very Rare</span></label><label class="checkbox-item"><input type="checkbox" id="rar_7" value="Legendary" data-filter="rarity"><span>Legendary</span></label><label class="checkbox-item"><input type="checkbox" id="rar_8" value="Artifact" data-filter="rarity"><span>Artifact</span></label><label class="checkbox-item"><input type="checkbox" id="rar_9" value="Varies" data-filter="rarity"><span>Varies</span></label>
                             </div>
                         </div>
                     </div>
@@ -299,7 +302,7 @@
         }
         
         // Rarity sort order (increasing rarity)
-        const RARITY_ORDER = { 'Mundane': 0, 'Common': 1, 'Uncommon': 2, 'Rare': 3, 'Very Rare': 4, 'Legendary': 5, 'Artifact': 6 };
+        const RARITY_ORDER = { 'Mundane': 0, 'Unknown': 1, 'Unknown Magic': 2, 'Common': 3, 'Uncommon': 4, 'Rare': 5, 'Very Rare': 6, 'Legendary': 7, 'Artifact': 8 };
         
         function sortFilteredItems(filtered) {
             return filtered.sort((a, b) => {
