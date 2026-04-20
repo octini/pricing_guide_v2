@@ -8,7 +8,6 @@ import pandas as pd
 from pathlib import Path
 from sklearn.model_selection import train_test_split
 from sklearn.metrics import r2_score
-from sklearn.preprocessing import StandardScaler
 from xgboost import XGBRegressor
 
 sys.path.insert(0, str(Path(__file__).parent.parent))
@@ -191,10 +190,6 @@ def main():
     y_train = y[train_idx]
     y_val = y[val_idx]
 
-    scaler = StandardScaler()
-    X_train_s = scaler.fit_transform(X_train)
-    X_val_s = scaler.transform(X_val)
-
     # Train main XGBoost model
     print("\nTraining XGBoost model...")
     model = XGBRegressor(
@@ -206,9 +201,9 @@ def main():
         random_state=42,
         n_jobs=-1
     )
-    model.fit(X_train_s, y_train)
+    model.fit(X_train, y_train)
 
-    y_pred_val = model.predict(X_val_s)
+    y_pred_val = model.predict(X_val)
     r2_val = r2_score(y_val, y_pred_val)
     print(f"Validation R² (log-space): {r2_val:.4f}")
 
@@ -225,7 +220,7 @@ def main():
         objective='reg:quantileerror',
         quantile_alpha=0.1
     )
-    model_lower.fit(X_train_s, y_train)
+    model_lower.fit(X_train, y_train)
 
     model_upper = XGBRegressor(
         n_estimators=100,
@@ -238,7 +233,7 @@ def main():
         objective='reg:quantileerror',
         quantile_alpha=0.9
     )
-    model_upper.fit(X_train_s, y_train)
+    model_upper.fit(X_train, y_train)
 
     # Feature importance (main model)
     feature_importance = pd.Series(model.feature_importances_, index=X.columns)
@@ -247,18 +242,17 @@ def main():
 
     # Apply ML models to all items
     X_all = build_features(df)
-    X_all_s = scaler.transform(X_all)
 
-    ml_prices = np.expm1(model.predict(X_all_s))
+    ml_prices = np.expm1(model.predict(X_all))
     ml_prices = np.maximum(ml_prices, 1)  # No negative prices
 
-    price_low = np.expm1(model_lower.predict(X_all_s))
+    price_low = np.expm1(model_lower.predict(X_all))
     price_low = np.maximum(price_low, 0.01)
 
-    price_high = np.expm1(model_upper.predict(X_all_s))
+    price_high = np.expm1(model_upper.predict(X_all))
     price_high = np.maximum(price_high, 0.01)
 
-# Ensure price_low <= price_high (quantile models can sometimes cross)
+    # Ensure price_low <= price_high (quantile models can sometimes cross)
     price_high = np.maximum(price_high, price_low)
 
     df["ml_price"] = ml_prices
