@@ -3,11 +3,13 @@
 
 import json
 import csv
+import re
 import pandas as pd
 from pathlib import Path
 
 INPUT_CSV = Path('output/pricing_guide.csv')
 OUTPUT_HTML = Path('index.html')
+ITEMS_JSON = Path('items-sublist-data.json')
 
 # Sourcebook mapping: acronym -> full name (from 5e.tools)
 SOURCEBOOK_NAMES = {
@@ -172,9 +174,73 @@ def format_price(price_gp):
         return f"{int(price_gp):,} gp"
 
 
+def strip_5e_tags(text):
+    """Remove 5e.tools {@tag ...} markup, keeping the display text."""
+    # {@tag text|extra|extra} -> text
+    # {@tag text} -> text
+    return re.sub(r'\{@\w+\s+([^|}]+)[^}]*\}', r'\1', str(text))
+
+
+def extract_description(entries, max_len=200):
+    """Extract a short plain-text description from 5e.tools entries."""
+    parts = []
+    for entry in (entries or []):
+        if isinstance(entry, str):
+            parts.append(strip_5e_tags(entry))
+        elif isinstance(entry, dict) and entry.get('type') == 'entries':
+            # Recurse into nested entries
+            for sub in entry.get('entries', []):
+                if isinstance(sub, str):
+                    parts.append(strip_5e_tags(sub))
+        if len(' '.join(parts)) >= max_len:
+            break
+    desc = ' '.join(parts).strip()
+    if len(desc) > max_len:
+        desc = desc[:max_len].rsplit(' ', 1)[0] + '…'
+    return desc
+
+
+def build_5etools_url(name, source):
+    """Build a 5e.tools item URL from name and source."""
+    slug = name.lower().replace(' ', '%20')
+    src = source.lower() if source else 'dmg'
+    return f"https://5e.tools/items.html#{slug}_{src}"
+
+
+def load_item_metadata():
+    """Load descriptions and source info from the 5e.tools JSON."""
+    if not ITEMS_JSON.exists():
+        print(f"Warning: {ITEMS_JSON} not found, skipping descriptions/links")
+        return {}
+    
+    data = json.loads(ITEMS_JSON.read_text(encoding='utf-8'))
+    lookup = {}
+    for item in data:
+        name = item.get('name', '')
+        source = item.get('source', '')
+        desc = extract_description(item.get('entries', []))
+        # Also check inherits.entries as fallback
+        if not desc and item.get('inherits', {}).get('entries'):
+            desc = extract_description(item['inherits']['entries'])
+        lookup[name.lower()] = {
+            'url': build_5etools_url(name, source),
+            'description': desc,
+        }
+    return lookup
+
+
+def escape_html_attr(text):
+    """Escape text for use in HTML attributes."""
+    return text.replace('&', '&amp;').replace('"', '&quot;').replace('<', '&lt;').replace('>', '&gt;')
+
+
 def main():
     df = pd.read_csv(INPUT_CSV)
     print(f'Loaded {len(df)} items')
+    
+    # Load item metadata (descriptions, URLs)
+    item_meta = load_item_metadata()
+    print(f'Loaded metadata for {len(item_meta)} items from JSON')
     
     # Translate source and type for the UI
     df['Source Display'] = df['Source'].apply(translate_source)
@@ -187,18 +253,32 @@ def main():
     
     # Convert data to JSON
     items_data = []
+    linked_count = 0
     for _, row in df.iterrows():
+        name = row['Name']
+        meta = item_meta.get(name.lower(), {})
+        url = meta.get('url', '')
+        desc = meta.get('description', '')
+        if url:
+            linked_count += 1
+        # Fallback: construct URL from name and source code if not in JSON
+        if not url:
+            source_code = str(row['Source']).split('|')[0].strip() if pd.notna(row['Source']) else 'dmg'
+            url = build_5etools_url(name, source_code)
         items_data.append({
-            'name': row['Name'],
+            'name': name,
             'source': row['Source Display'],
-            'sourceCode': row['Type'],  # Keep original Type for filtering
+            'sourceCode': row['Type'],
             'type': row['Type Display'],
-            'typeCode': row['Type'],  # Actually we need this too
+            'typeCode': row['Type'],
             'rarity': row['Rarity'],
             'attunement': row['Attunement'],
             'price': row['Price (gp)'],
             'priceFormatted': row['Price Formatted'],
+            'url': url,
+            'desc': desc,
         })
+    print(f'Linked {linked_count}/{len(df)} items to JSON metadata')
     
     # Generate HTML with dropdown checkboxes
     html = f'''<!DOCTYPE html>
@@ -310,6 +390,36 @@ def main():
         .rarity-mundane {{ color: #999; }}
         
         .price {{ font-family: 'Courier New', monospace; font-weight: bold; }}
+        
+        .item-link {{
+            color: #64b5f6;
+            text-decoration: none;
+            position: relative;
+            cursor: pointer;
+        }}
+        .item-link:hover {{ text-decoration: underline; }}
+        .item-tooltip {{
+            display: none;
+            position: absolute;
+            bottom: 100%;
+            left: 0;
+            background: #1f2937;
+            color: #e0e0e0;
+            padding: 8px 12px;
+            border-radius: 6px;
+            font-size: 13px;
+            font-weight: normal;
+            max-width: 350px;
+            min-width: 200px;
+            z-index: 1000;
+            white-space: normal;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.5);
+            border: 1px solid rgba(255,255,255,0.15);
+            margin-bottom: 6px;
+            line-height: 1.4;
+            pointer-events: none;
+        }}
+        .item-link:hover .item-tooltip {{ display: block; }}
         
         a {{ color: #64b5f6; text-decoration: none; }}
         
@@ -489,16 +599,21 @@ def main():
                 `Showing ${{start + 1}}-${{end}} of ${{filtered.length}} items`;
             
             const tbody = document.getElementById('results-body');
-            tbody.innerHTML = pageItems.map(item => `
+            tbody.innerHTML = pageItems.map(item => {{
+                const tooltip = item.desc ? `<span class="item-tooltip">${{item.desc}}</span>` : '';
+                const nameCell = item.url 
+                    ? `<a href="${{item.url}}" class="item-link" target="_blank" rel="noopener"><strong>${{item.name}}</strong>${{tooltip}}</a>`
+                    : `<strong>${{item.name}}</strong>`;
+                return `
                 <tr>
-                    <td><strong>${{item.name}}</strong></td>
+                    <td>${{nameCell}}</td>
                     <td>${{item.source}}</td>
                     <td>${{item.type}}</td>
                     <td class="rarity-${{item.rarity.toLowerCase()}}">${{item.rarity}}</td>
                     <td>${{item.attunement}}</td>
                     <td class="price">${{item.priceFormatted}}</td>
-                </tr>
-            `).join('');
+                </tr>`;
+            }}).join('');
             
             // Render pagination
             const pagination = document.getElementById('pagination');
