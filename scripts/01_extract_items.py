@@ -29,6 +29,50 @@ RARITY_NORMALIZE = {
 }
 
 
+def override_known_rarity(item: dict, rarity: str) -> str:
+    """Reassign obvious unknown/unknown_magic items to proper rarities."""
+    name_lower = str(item.get("name", "")).lower()
+    source = str(item.get("source", ""))
+    raw_text = json.dumps(item, ensure_ascii=False)
+
+    # Drow +N weapons
+    if "drow +1" in name_lower:
+        return "rare"
+    if "drow +2" in name_lower:
+        return "very_rare"
+    if "drow +3" in name_lower:
+        return "legendary"
+
+    # Ammunition/material families
+    generic_variant_name = item.get("genericVariant", {}).get("name", "")
+    if generic_variant_name == "Silvered Ammunition":
+        return "common"
+    if generic_variant_name == "Adamantine Ammunition":
+        return "uncommon"
+    if generic_variant_name == "Byeshk Weapon":
+        return "common"
+
+    # unknown_magic items with clear magical properties
+    if rarity == "unknown_magic":
+        if any(token in raw_text for token in ('"bonusWeapon"', '"bonusAc"', '"attachedSpells"', '"charges"', '"sentient"')):
+            return "uncommon"
+        if source in {"ToA", "BGDIA", "WDMM", "SKT", "PotA", "CoS"}:
+            return "uncommon"
+
+    # unknown items: magical ones → uncommon, adventure herbs/plants → mundane
+    if rarity == "unknown":
+        if any(token in raw_text for token in ('"bonusWeapon"', '"bonusAc"', '"attachedSpells"', '"charges"', '"sentient"')):
+            return "uncommon"
+        # ToA herbs, berries, roots are mundane consumables
+        if source == "ToA" and any(w in name_lower for w in ("leaves", "berries", "root", "nut")):
+            return "mundane"
+        # Adventure source simple gear
+        if source in {"BGDIA", "WDMM"}:
+            return "common"
+
+    return rarity
+
+
 def extract_items(data: list) -> list[dict]:
     rows = []
     for item in data:
@@ -42,6 +86,8 @@ def extract_items(data: list) -> list[dict]:
             rarity = RARITY_NORMALIZE.get(rarity_raw.lower(), rarity_raw.lower())
         else:
             rarity = "unknown"
+
+        rarity = override_known_rarity(item, rarity)
 
         item_type = item.get("type", "")
 
@@ -107,21 +153,6 @@ def main():
     print(f"Loaded {len(items)} items from {INPUT_JSON}")
 
     rows = extract_items(items)
-
-    # Override rarity for Drow items based on bonus level
-    def override_drow_rarity(row):
-        name = str(row.get("name", "")).lower()
-        if "drow" in name:
-            if "+3" in name:
-                return "legendary"
-            elif "+2" in name:
-                return "very_rare"
-            elif "+1" in name:
-                return "rare"
-        return row.get("rarity", "")
-
-    for row in rows:
-        row["rarity"] = override_drow_rarity(row)
 
     fieldnames = ["name", "source", "page", "rarity", "type", "official_price_gp", "req_attune", "url", "alias", "raw_json"]
 
