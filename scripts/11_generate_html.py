@@ -132,7 +132,7 @@ TYPE_NAMES = {
     "AIR": "Vehicle (Air)",
     
     # Special
-    "SPC": "Species Item",  # From Astral Adventurer's Guide
+    "SPC": "Vehicle (Space)",  # From Astral Adventurer's Guide
     "Dele": "Delerium",  # From Monsters of Drakkenheim
     "EM": "Eldritch Machine",  # From Exploring Eberron
     "TAH": "Tack & Harness",
@@ -158,7 +158,7 @@ def translate_type(type_code):
     The second part is a sourcebook identifier, not a type — we ignore it.
     """
     if pd.isna(type_code):
-        return 'Unknown'
+        return 'Wondrous Item'
     base_type = str(type_code).split('|')[0].strip()
     return TYPE_NAMES.get(base_type, base_type)
 
