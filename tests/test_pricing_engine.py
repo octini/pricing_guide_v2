@@ -91,17 +91,17 @@ def test_rare_with_class_attunement():
 
 
 def test_weapon_bonus_plus1():
-    """Rare weapon +1 bonus: 4000 + 1500 = 5500."""
+    """Rare weapon +1 (simple bonus path): 725 * (4000/4000) = 725."""
     c = make_criteria(rarity="rare", weapon_bonus=1)
     price = calculate_price(c)
-    assert price == pytest.approx(5500, rel=0.01)
+    assert price == pytest.approx(725, rel=0.01)
 
 
 def test_weapon_bonus_plus3():
-    """Rare weapon +3 bonus: 4000 + 20000 = 24000."""
+    """Rare weapon +3 (simple bonus path): 14950 * (4000/4000) = 14950."""
     c = make_criteria(rarity="rare", weapon_bonus=3)
     price = calculate_price(c)
-    assert price == pytest.approx(24000, rel=0.01)
+    assert price == pytest.approx(14950, rel=0.01)
 
 
 def test_ac_bonus_plus2():
@@ -147,10 +147,10 @@ def test_official_price_used_directly():
 
 
 def test_flight_full_bonus():
-    """Flight (full) adds 3000 gp to rare base of 4000 = 7000."""
+    """Flight (full) adds 10000 gp to rare base of 4000 = 14000."""
     c = make_criteria(rarity="rare", flight_full=True)
     price = calculate_price(c)
-    assert price == pytest.approx(4000 + 3000, rel=0.01)
+    assert price == pytest.approx(4000 + 10000, rel=0.01)
 
 
 def test_teleportation_bonus():
@@ -172,3 +172,27 @@ def test_potion_consumable_discount():
     c = make_criteria(rarity="rare", item_type_code="P")
     price = calculate_price(c)
     assert price == pytest.approx(4000 * 0.15, rel=0.01)
+
+
+# --- Rarity-scaled additive bonus tests ---
+
+
+def test_common_weapon_bonus_scales_by_rarity():
+    """Common +1 weapon (simple path): uses amalgamated price 725."""
+    c = make_criteria(rarity="common", weapon_bonus=1)
+    price = calculate_price(c)
+    assert price == pytest.approx(725, rel=0.01)
+
+
+def test_legendary_weapon_bonus_scales_by_rarity():
+    """Legendary +1 weapon (simple path): 725 floored to legendary floor 8000."""
+    c = make_criteria(rarity="legendary", weapon_bonus=1)
+    price = calculate_price(c)
+    assert price == pytest.approx(8000, rel=0.01)
+
+
+def test_rare_ac_bonus_keeps_existing_anchor():
+    """Rare +2 AC: 4000 + 4000*(4000/4000) = 8000 (unchanged)."""
+    c = make_criteria(rarity="rare", ac_bonus=2)
+    price = calculate_price(c)
+    assert price == pytest.approx(8000, rel=0.01)

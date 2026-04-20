@@ -301,6 +301,21 @@ def calculate_spell_value(attached_spells: Any) -> float:
     return total_value
 
 
+RARITY_SCALING_BASE = float(RARITY_BASE_PRICES["rare"])
+
+
+def get_scaled_bonus_additive(additive_table: dict, bonus: int, rarity: str) -> float:
+    """Scale calibrated rare-tier adders to the current item's rarity base."""
+    if bonus <= 0:
+        return 0.0
+
+    capped_bonus = min(int(bonus), 3)
+    fallback_bonus = additive_table[max(additive_table)]
+    anchored_additive = float(additive_table.get(capped_bonus, fallback_bonus))
+    rarity_base = float(RARITY_BASE_PRICES.get(rarity, RARITY_BASE_PRICES["uncommon"]))
+    return anchored_additive * (rarity_base / RARITY_SCALING_BASE)
+
+
 def calculate_price(criteria: dict) -> float:
     """Calculate item price based on criteria dict.
 
@@ -433,7 +448,7 @@ def calculate_price(criteria: dict) -> float:
         # AC bonus is added AFTER the multiplier (same as normal formula)
         ac_bonus = criteria.get("ac_bonus") or 0
         if ac_bonus > 0:
-            material_armor_price += AC_BONUS_ADDITIVE.get(min(ac_bonus, 3), 15000)
+            material_armor_price += get_scaled_bonus_additive(AC_BONUS_ADDITIVE, ac_bonus, rarity)
 
         # Return this price directly, bypassing the normal formula
         floor = RARITY_FLOORS.get(rarity, 1)
@@ -544,12 +559,12 @@ def calculate_price(criteria: dict) -> float:
             return max(floor, simple_price)
 
     if weapon_bonus > 0:
-        additive += WEAPON_BONUS_ADDITIVE.get(min(weapon_bonus, 3), 20000)
+        additive += get_scaled_bonus_additive(WEAPON_BONUS_ADDITIVE, weapon_bonus, rarity)
 
     # AC bonus
     ac_bonus = criteria.get("ac_bonus") or 0
     if ac_bonus > 0:
-        additive += AC_BONUS_ADDITIVE.get(min(ac_bonus, 3), 15000)
+        additive += get_scaled_bonus_additive(AC_BONUS_ADDITIVE, ac_bonus, rarity)
 
     # Spell attack / save DC bonus (take higher)
     spell_bonus = max(
