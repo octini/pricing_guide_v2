@@ -6,7 +6,7 @@ import json
 import numpy as np
 import pandas as pd
 from pathlib import Path
-from sklearn.model_selection import train_test_split
+from sklearn.model_selection import KFold
 from sklearn.metrics import r2_score
 from xgboost import XGBRegressor
 
@@ -126,6 +126,38 @@ def is_enhancement_armor(row):
 ITEM_TYPE_DUMMIES = ["M", "P", "SCF", "MA", "HA", "RG", "SC", "WD", "LA", "RD", "S", "INS", "A"]
 
 
+def make_xgb_regressor(**kwargs):
+    """Factory for XGBRegressor with standard hyperparameters."""
+    return XGBRegressor(
+        n_estimators=100,
+        max_depth=6,
+        learning_rate=0.1,
+        subsample=0.8,
+        colsample_bytree=0.8,
+        random_state=42,
+        n_jobs=-1,
+        **kwargs,
+    )
+
+
+def run_cross_validation(X: pd.DataFrame, y: np.ndarray, n_splits: int = 5) -> list[float]:
+    """Run k-fold cross-validation and report per-fold R² scores."""
+    kfold = KFold(n_splits=n_splits, shuffle=True, random_state=42)
+    scores: list[float] = []
+
+    for fold_idx, (train_idx, val_idx) in enumerate(kfold.split(X), start=1):
+        model = make_xgb_regressor()
+        model.fit(X.iloc[train_idx], y[train_idx])
+        y_pred = model.predict(X.iloc[val_idx])
+        score = r2_score(y[val_idx], y_pred)
+        print(f"Fold {fold_idx} R² (log-space): {score:.4f}")
+        scores.append(score)
+
+    print(f"Cross-validation mean R² (log-space): {np.mean(scores):.4f}")
+    print(f"Cross-validation std. dev.: {np.std(scores):.4f}")
+    return scores
+
+
 def build_features(df: pd.DataFrame) -> pd.DataFrame:
     """Build ML feature matrix from criteria columns."""
     X = pd.DataFrame()
@@ -182,58 +214,22 @@ def main():
     target_prices = train_df["amalgamated_price"].combine_first(train_df["variant_price"])
     y = np.log1p(target_prices.values)  # log-transform for normality
 
-    # Split with indices to maintain ability to reference original DataFrames
-    indices = np.arange(len(train_df))
-    train_idx, val_idx = train_test_split(indices, test_size=0.2, random_state=42)
-    X_train = X.iloc[train_idx]
-    X_val = X.iloc[val_idx]
-    y_train = y[train_idx]
-    y_val = y[val_idx]
+    # Cross-validation for generalization confidence
+    print("\nRunning 5-fold cross-validation...")
+    cv_scores = run_cross_validation(X, y, n_splits=5)
 
-    # Train main XGBoost model
-    print("\nTraining XGBoost model...")
-    model = XGBRegressor(
-        n_estimators=100,
-        max_depth=6,
-        learning_rate=0.1,
-        subsample=0.8,
-        colsample_bytree=0.8,
-        random_state=42,
-        n_jobs=-1
-    )
-    model.fit(X_train, y_train)
-
-    y_pred_val = model.predict(X_val)
-    r2_val = r2_score(y_val, y_pred_val)
-    print(f"Validation R² (log-space): {r2_val:.4f}")
+    # Train final models on full training set
+    print("\nTraining final XGBoost model on full training set...")
+    model = make_xgb_regressor()
+    model.fit(X, y)
 
     # Train quantile models for price bands
     print("\nTraining quantile models for price bounds...")
-    model_lower = XGBRegressor(
-        n_estimators=100,
-        max_depth=6,
-        learning_rate=0.1,
-        subsample=0.8,
-        colsample_bytree=0.8,
-        random_state=42,
-        n_jobs=-1,
-        objective='reg:quantileerror',
-        quantile_alpha=0.1
-    )
-    model_lower.fit(X_train, y_train)
+    model_lower = make_xgb_regressor(objective='reg:quantileerror', quantile_alpha=0.1)
+    model_lower.fit(X, y)
 
-    model_upper = XGBRegressor(
-        n_estimators=100,
-        max_depth=6,
-        learning_rate=0.1,
-        subsample=0.8,
-        colsample_bytree=0.8,
-        random_state=42,
-        n_jobs=-1,
-        objective='reg:quantileerror',
-        quantile_alpha=0.9
-    )
-    model_upper.fit(X_train, y_train)
+    model_upper = make_xgb_regressor(objective='reg:quantileerror', quantile_alpha=0.9)
+    model_upper.fit(X, y)
 
     # Feature importance (main model)
     feature_importance = pd.Series(model.feature_importances_, index=X.columns)
