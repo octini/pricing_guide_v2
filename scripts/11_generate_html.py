@@ -424,7 +424,9 @@ def main():
         /* Hide tooltips when any dropdown is open */
         body.dropdown-open .item-tooltip {{ visibility: hidden !important; }}
         /* Disable item link interaction when dropdown is open */
-        body.dropdown-open .item-link {{ pointer-events: none; cursor: default; opacity: 0; }}
+        body.dropdown-open .item-link {{ pointer-events: none; cursor: default; }}
+        /* Only hide items actually underneath an open dropdown */
+        .item-link.under-dropdown {{ opacity: 0; pointer-events: none; }}
         
         a {{ color: #64b5f6; text-decoration: none; }}
         
@@ -633,6 +635,7 @@ def main():
             paginationHTML += `<button onclick="goToPage(currentPage + 1)" ${{currentPage === totalPages ? 'disabled' : ''}}>»</button>`;
             paginationHTML += `<button onclick="goToPage(${{totalPages}})" ${{currentPage === totalPages ? 'disabled' : ''}}>»»</button>`;
             pagination.innerHTML = paginationHTML;
+            updateDropdownOverlaps();
         }}
         
         function goToPage(page) {{
@@ -681,6 +684,7 @@ def main():
                 }}
                 // Toggle body class for tooltip suppression
                 document.body.classList.toggle('dropdown-open', !isOpen);
+                updateDropdownOverlaps();
             }});
             // Keep dropdown open when clicking inside the content area (checkboxes)
             dropdown.querySelector('.dropdown-content').addEventListener('click', function(e) {{
@@ -694,7 +698,27 @@ def main():
                 dropdown.classList.remove('open');
             }});
             document.body.classList.remove('dropdown-open');
+            updateDropdownOverlaps();
         }});
+        
+        // Detect which item links are underneath an open dropdown and hide only those
+        function updateDropdownOverlaps() {{
+            document.querySelectorAll('.item-link.under-dropdown').forEach(link => {{
+                link.classList.remove('under-dropdown');
+            }});
+            document.querySelectorAll('.dropdown.open .dropdown-content').forEach(content => {{
+                const dRect = content.getBoundingClientRect();
+                document.querySelectorAll('.item-link').forEach(link => {{
+                    const lRect = link.getBoundingClientRect();
+                    // Check if rectangles overlap
+                    if (lRect.right > dRect.left && lRect.left < dRect.right &&
+                        lRect.bottom > dRect.top && lRect.top < dRect.bottom) {{
+                        link.classList.add('under-dropdown');
+                    }}
+                }});
+            }});
+        }}
+        window.addEventListener('scroll', updateDropdownOverlaps);
         
         // Tooltip positioning with fixed positioning
         function setupTooltips() {{
