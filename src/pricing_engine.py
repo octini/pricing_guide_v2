@@ -118,7 +118,7 @@ PROPERTY_PREMIUMS = {
     # Low premium
     "gleaming": 1.2,
     "silvered": 1.1,
-    "返回": 1.0,              # Returning
+    "returning": 1.1,
 }
 
 # +N weapon bonuses (calibrated from DSA/MSRP/DMPG)
@@ -538,6 +538,11 @@ def calculate_price(criteria: dict) -> float:
         # Use amalgamated price as base, then apply attunement modifier
         simple_price = SIMPLE_BONUS_PRICES.get(weapon_bonus, 0)
         if simple_price > 0:
+            # Apply property premium for named variants (e.g., Returning weapons)
+            for prop_keyword, prop_mult in PROPERTY_PREMIUMS.items():
+                if prop_keyword in item_name_lower:
+                    simple_price *= prop_mult
+                    break
             # Apply attunement modifier
             attune_mod = 1.0
             req_attune = criteria.get("req_attune", "none")
