@@ -249,7 +249,10 @@ def main():
     # Build unique filter options
     sources = sorted(df['Source Display'].unique())
     types = sorted(df['Type Display'].unique())
-    rarities = sorted(df['Rarity'].unique())
+    
+    # Sort rarities in increasing order (not alphabetically)
+    RARITY_ORDER = {'Mundane': 0, 'Common': 1, 'Uncommon': 2, 'Rare': 3, 'Very Rare': 4, 'Legendary': 5, 'Artifact': 6}
+    rarities = sorted(df['Rarity'].unique(), key=lambda r: RARITY_ORDER.get(r, 99))
     
     # Convert data to JSON
     items_data = []
@@ -581,10 +584,24 @@ def main():
             }});
         }}
         
+        // Rarity sort order (increasing rarity)
+        const RARITY_ORDER = {{ 'Mundane': 0, 'Common': 1, 'Uncommon': 2, 'Rare': 3, 'Very Rare': 4, 'Legendary': 5, 'Artifact': 6 }};
+        
         function sortFilteredItems(filtered) {{
             return filtered.sort((a, b) => {{
                 let aVal = a[sortColumn];
                 let bVal = b[sortColumn];
+                
+                // Special handling for rarity column
+                if (sortColumn === 'rarity') {{
+                    const aOrder = RARITY_ORDER[aVal] ?? 99;
+                    const bOrder = RARITY_ORDER[bVal] ?? 99;
+                    if (aOrder < bOrder) return sortAsc ? -1 : 1;
+                    if (aOrder > bOrder) return sortAsc ? 1 : -1;
+                    return 0;
+                }}
+                
+                // Default sort for other columns
                 if (typeof aVal === 'string') {{
                     aVal = aVal.toLowerCase();
                     bVal = bVal.toLowerCase();

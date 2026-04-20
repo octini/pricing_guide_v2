@@ -194,7 +194,7 @@
                         <button class="dropdown-btn" id="rarity-btn" type="button">All <span class="filter-count">0</span></button>
                          <div class="dropdown-content">
                              <div class="checkbox-list">
-                                 <label class="checkbox-item"><input type="checkbox" id="rar_0" value="Artifact" data-filter="rarity"><span>Artifact</span></label><label class="checkbox-item"><input type="checkbox" id="rar_1" value="Common" data-filter="rarity"><span>Common</span></label><label class="checkbox-item"><input type="checkbox" id="rar_2" value="Legendary" data-filter="rarity"><span>Legendary</span></label><label class="checkbox-item"><input type="checkbox" id="rar_3" value="Mundane" data-filter="rarity"><span>Mundane</span></label><label class="checkbox-item"><input type="checkbox" id="rar_4" value="Rare" data-filter="rarity"><span>Rare</span></label><label class="checkbox-item"><input type="checkbox" id="rar_5" value="Uncommon" data-filter="rarity"><span>Uncommon</span></label><label class="checkbox-item"><input type="checkbox" id="rar_6" value="Unknown" data-filter="rarity"><span>Unknown</span></label><label class="checkbox-item"><input type="checkbox" id="rar_7" value="Unknown Magic" data-filter="rarity"><span>Unknown Magic</span></label><label class="checkbox-item"><input type="checkbox" id="rar_8" value="Varies" data-filter="rarity"><span>Varies</span></label><label class="checkbox-item"><input type="checkbox" id="rar_9" value="Very Rare" data-filter="rarity"><span>Very Rare</span></label>
+                                 <label class="checkbox-item"><input type="checkbox" id="rar_0" value="Mundane" data-filter="rarity"><span>Mundane</span></label><label class="checkbox-item"><input type="checkbox" id="rar_1" value="Common" data-filter="rarity"><span>Common</span></label><label class="checkbox-item"><input type="checkbox" id="rar_2" value="Uncommon" data-filter="rarity"><span>Uncommon</span></label><label class="checkbox-item"><input type="checkbox" id="rar_3" value="Rare" data-filter="rarity"><span>Rare</span></label><label class="checkbox-item"><input type="checkbox" id="rar_4" value="Very Rare" data-filter="rarity"><span>Very Rare</span></label><label class="checkbox-item"><input type="checkbox" id="rar_5" value="Legendary" data-filter="rarity"><span>Legendary</span></label><label class="checkbox-item"><input type="checkbox" id="rar_6" value="Artifact" data-filter="rarity"><span>Artifact</span></label><label class="checkbox-item"><input type="checkbox" id="rar_7" value="Unknown" data-filter="rarity"><span>Unknown</span></label><label class="checkbox-item"><input type="checkbox" id="rar_8" value="Unknown Magic" data-filter="rarity"><span>Unknown Magic</span></label><label class="checkbox-item"><input type="checkbox" id="rar_9" value="Varies" data-filter="rarity"><span>Varies</span></label>
                             </div>
                         </div>
                     </div>
@@ -298,10 +298,24 @@
             });
         }
         
+        // Rarity sort order (increasing rarity)
+        const RARITY_ORDER = { 'Mundane': 0, 'Common': 1, 'Uncommon': 2, 'Rare': 3, 'Very Rare': 4, 'Legendary': 5, 'Artifact': 6 };
+        
         function sortFilteredItems(filtered) {
             return filtered.sort((a, b) => {
                 let aVal = a[sortColumn];
                 let bVal = b[sortColumn];
+                
+                // Special handling for rarity column
+                if (sortColumn === 'rarity') {
+                    const aOrder = RARITY_ORDER[aVal] ?? 99;
+                    const bOrder = RARITY_ORDER[bVal] ?? 99;
+                    if (aOrder < bOrder) return sortAsc ? -1 : 1;
+                    if (aOrder > bOrder) return sortAsc ? 1 : -1;
+                    return 0;
+                }
+                
+                // Default sort for other columns
                 if (typeof aVal === 'string') {
                     aVal = aVal.toLowerCase();
                     bVal = bVal.toLowerCase();
