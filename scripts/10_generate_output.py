@@ -255,7 +255,7 @@ def main():
         if row.get('is_outlier', False):
             notes = '⚠️'
         if not row.get('has_reference_source', True):
-            notes = '🤖' if notes else '🤖'  # Robot emoji for algorithmic items
+            notes = notes + ' 🤖' if notes else '🤖'  # Robot emoji for algorithmic items
         
         output_rows.append({
             'Name': row['name'],
@@ -271,6 +271,7 @@ def main():
             'Confidence': confidence,
             'Price Source': determine_price_source_label(row.to_dict()),
             'URL': row.get('url', ''),
+            'Notes': notes,
             'Is Outlier': row.get('is_outlier', False),
             'Has Reference': row.get('has_reference_source', True),
         })
@@ -333,7 +334,7 @@ def main():
             price_high_val,
             confidence_val,
             row['Price Source'],
-            '⚠️' if row['Is Outlier'] else ''
+            row.get('Notes', '⚠️' if row['Is Outlier'] else '')
         ]
 
         for col_offset, val in enumerate(values, 2):
@@ -387,9 +388,10 @@ def main():
 
     # Sheet 3: High Confidence (for review)
     ws_high = wb.create_sheet(title='High Confidence')
+    confidence_headers = ['Name', 'Source', 'Type', 'Rarity', 'Attunement', 'Price (gp)', 'Confidence', 'Price Source']
     high_confidence = df[df.get('confidence', '') == 'High'].sort_values('final_price', ascending=False)
     if len(high_confidence) > 0:
-        for col_idx, header in enumerate(headers, 1):
+        for col_idx, header in enumerate(confidence_headers, 1):
             cell = ws_high.cell(row=1, column=col_idx, value=header)
             cell.fill = PatternFill(start_color='2F4F4F', end_color='2F4F4F', fill_type='solid')
             cell.font = Font(bold=True, color='FFFFFF')
@@ -430,7 +432,7 @@ def main():
     ws_low = wb.create_sheet(title='Low Confidence')
     low_confidence = df[df.get('confidence', '') == 'Low'].sort_values('final_price', ascending=False)
     if len(low_confidence) > 0:
-        for col_idx, header in enumerate(headers, 1):
+        for col_idx, header in enumerate(confidence_headers, 1):
             cell = ws_low.cell(row=1, column=col_idx, value=header)
             cell.fill = PatternFill(start_color='2F4F4F', end_color='2F4F4F', fill_type='solid')
             cell.font = Font(bold=True, color='FFFFFF')
