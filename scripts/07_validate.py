@@ -55,6 +55,12 @@ def main():
     df.to_csv(OUTPUT_VALIDATED_CSV, index=False)
     print(f'\nValidated data written to {OUTPUT_VALIDATED_CSV}')
 
+    # Run variant consistency audit
+    import importlib
+    vc_mod = importlib.import_module('scripts.07b_variant_consistency')
+    print('\n=== VARIANT CONSISTENCY AUDIT ===')
+    vc_mod.main()
+
 
 if __name__ == '__main__':
     main()
