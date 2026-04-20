@@ -883,11 +883,6 @@ def calculate_price(criteria: dict) -> float:
     return max(floor, price)
 
 
-# Rarity median prices imported from constants
-# (kept as comment for reference: used in single-source outlier detection)
-}
-
-
 def calculate_price_with_outlier_check(criteria: dict) -> tuple[float, str]:
     """
     Calculate price with single-source outlier detection.

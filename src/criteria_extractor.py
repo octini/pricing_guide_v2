@@ -3,21 +3,7 @@ import re
 import json
 from typing import Any, Optional
 
-# Condition immunity values (shared with pricing_engine.py)
-CONDITION_IMMUNITY_VALUES = {
-    "frightened": 400,
-    "charmed": 400,
-    "poisoned": 400,
-    "exhaustion": 400,
-    "petrified": 400,
-    "paralyzed": 400,
-    "blinded": 400,
-    "deafened": 400,
-    "stunned": 400,
-    "incapacitated": 400,
-    "prone": 400,
-    "restrained": 400,
-}
+from src.constants import CONDITION_IMMUNITY_VALUES
 
 def _parse_bonus(val: Any) -> Optional[int]:
     """Parse bonus value which may be '+2', '2', 2, or None."""

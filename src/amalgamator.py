@@ -5,17 +5,7 @@ import pandas as pd
 from rapidfuzz import fuzz, process
 from typing import Optional
 
-# Rarity median prices (calibrated from actual data)
-# Used for single-source outlier detection
-RARITY_MEDIANS = {
-    "mundane": 1,
-    "common": 132,
-    "uncommon": 852,
-    "rare": 3890,
-    "very_rare": 13450,
-    "legendary": 46500,
-    "artifact": 150000,
-}
+from src.constants import RARITY_MEDIANS
 
 
 def trim_outliers(df: pd.DataFrame, price_col: str, pct: float = 0.02) -> pd.DataFrame:
@@ -81,7 +71,7 @@ def detect_single_source_outlier(
     Note: Only flags items that:
     1. Have a single source
     2. Have an accurate match (not fuzzy)
-    3. Exceed rarity median by > outlier_threshold
+    3. Exceed rarity median by > outlier_threshold or fall below median / outlier_threshold
     """
     if len(prices) != 1:
         return (False, "multi-source")
@@ -100,7 +90,10 @@ def detect_single_source_outlier(
     median = rarity_medians[rarity_key]
     
     if price > median * outlier_threshold:
-        return (True, f"single-source-{source}-exceeds-{outlier_threshold}x-median")
+        return (True, f"single-source-{source}-exceeds-{outlier_threshold}x-median-high")
+    
+    if price < median / outlier_threshold:
+        return (True, f"single-source-{source}-below-{outlier_threshold}x-median-low")
     
     return (False, "within-range")
 
