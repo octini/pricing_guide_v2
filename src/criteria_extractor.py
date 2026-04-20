@@ -75,6 +75,14 @@ def extract_structured_criteria(item: dict) -> dict:
     c["damage_vulnerabilities"] = item.get("vulnerable", []) or []
     c["condition_immunities"] = item.get("conditionImmune", []) or []
     
+    # Dragon's Wrath weapons (Stirring+) grant resistance to one damage type
+    # but the raw data lacks the resist field. Inject a placeholder resistance.
+    item_name = item.get("name", "")
+    if ("Dragon's Wrath" in item_name or "Dragon\u2019s Wrath" in item_name):
+        if any(tier in item_name for tier in ["Stirring", "Wakened", "Ascendant"]):
+            if not c["damage_resistances"]:
+                c["damage_resistances"] = ["fire"]  # Placeholder; actual type varies by dragon
+    
     # Spells
     c["spell_scroll_level"] = item.get("spellScrollLevel")
     c["attached_spells"] = item.get("attachedSpells", []) or []
@@ -225,6 +233,27 @@ def extract_entries_criteria(item: dict, prose_text: str = "") -> dict:
         c["staff_forgotten_one_beneficial"] = 19000
         # Detrimental: 50% possession chance on charge use (major detrimental)
         c["staff_forgotten_one_detrimental"] = 15000
+    
+    # Dragon's Wrath Weapon overrides
+    # Source data lacks entries for specific variants; properties come from Fizban's generic templates.
+    # Slumbering (Uncommon): no bonus, 1d6 extra on crit only (~0.175 avg per attack)
+    # Stirring (Rare): +1, 1d6 extra fire/etc on every hit, resistance to one damage type
+    # Wakened (Very Rare): +2, 2d6 extra on every hit, resistance, breath weapon (30ft cone)
+    # Ascendant (Legendary): +3, 3d6 extra on every hit, resistance, breath weapon, blindsight 30ft
+    if "Dragon's Wrath" in item_name or "Dragon\u2019s Wrath" in item_name:
+        if "Slumbering" in item_name:
+            # Crit-only 1d6: avg 3.5 * 0.05 crit chance = 0.175 effective per attack
+            c["extra_damage_avg"] = 0.175
+            c["extra_damage_dice"] = "1d6 (crit only)"
+        elif "Stirring" in item_name:
+            c["extra_damage_avg"] = 3.5  # 1d6 on every hit
+            c["extra_damage_dice"] = "1d6"
+        elif "Wakened" in item_name:
+            c["extra_damage_avg"] = 7.0  # 2d6 on every hit
+            c["extra_damage_dice"] = "2d6"
+        elif "Ascendant" in item_name:
+            c["extra_damage_avg"] = 10.5  # 3d6 on every hit
+            c["extra_damage_dice"] = "3d6"
     
     # Check for fixed beneficial/detrimental properties (non-random)
     # These are sections like "Beneficial Properties" or "Detrimental Properties"

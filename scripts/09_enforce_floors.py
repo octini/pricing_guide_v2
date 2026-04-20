@@ -12,9 +12,14 @@ Approach:
 3. Does NOT override prices that are already above the floor
 """
 
+import sys
 import re
 import pandas as pd
 from pathlib import Path
+
+sys.path.insert(0, str(Path(__file__).parent.parent))
+
+from src.variant_pricing import apply_variant_spacing
 
 INPUT_CSV = Path('data/processed/items_validated.csv')
 OUTPUT_CSV = Path('data/processed/items_validated.csv')
@@ -260,7 +265,16 @@ def main():
         for msg in tier_ordering_adjustments:
             print(f'  {msg}')
 
-    # Re-calculate Price Low/High based on new final_price    for idx in df.index:
+    # Apply mundane-cost-based variant spacing for +N armor/weapons
+    df, variant_adjustments = apply_variant_spacing(df)
+    if variant_adjustments:
+        print(f'\n=== VARIANT SPACING ADJUSTMENTS ===')
+        print(f'Total: {len(variant_adjustments)} items adjusted')
+        for adj in sorted(variant_adjustments, key=lambda x: x['name']):
+            print(f"  {adj['name']:45s} | {adj['old_price']:>10.2f} -> {adj['new_price']:>10.2f} gp (x{adj['multiplier']:.3f})")
+
+    # Re-calculate Price Low/High based on new final_price
+    for idx in df.index:
         final = df.loc[idx, 'final_price']
         if pd.notna(final) and final > 0:
             df.loc[idx, 'price_low'] = round(final * 0.8, 2)

@@ -240,10 +240,12 @@ def amalgamate_prices(
             if matches:
                 prices[source] = lookup[matches[0]]
 
-        # Fallback: generic variant matching for items that didn't match
+        # Fallback: generic variant matching for sources that didn't match
         # Build a generic query from item properties and try matching against
         # each guide's generic entries (e.g., "+3 Weapon", "+1 Ammunition")
-        if not prices:
+        # Runs even if some sources already matched, to fill in missing ones
+        missing_sources = [s for s in ("DSA", "MSRP", "DMPG") if s not in prices]
+        if missing_sources:
             import re
             item_name = row.get("name", "")
             item_type = str(row.get("item_type_code", "")).split("|")[0] if pd.notna(row.get("item_type_code")) else ""
@@ -283,14 +285,14 @@ def amalgamate_prices(
                 elif is_weapon:
                     generic_queries = [f"weapon +{bonus}", f"weapon any +{bonus}"]
 
-                # Try matching generic queries against each guide
+                # Try matching generic queries against guides missing prices
                 for query in generic_queries:
                     for lookup, names, source in [
                         (dsa_lookup, dsa_names, "DSA"),
                         (msrp_lookup, msrp_names, "MSRP"),
                         (dmpg_lookup, dmpg_names, "DMPG"),
                     ]:
-                        if source in prices:
+                        if source not in missing_sources:
                             continue  # Already have a price from this guide
                         if not names:
                             continue
