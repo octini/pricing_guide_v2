@@ -273,7 +273,10 @@ def main():
         for adj in sorted(variant_adjustments, key=lambda x: x['name']):
             print(f"  {adj['name']:45s} | {adj['old_price']:>10.2f} -> {adj['new_price']:>10.2f} gp (x{adj['multiplier']:.3f})")
 
-    # Re-calculate Price Low/High based on new final_price
+    # Override ML quantile-based price bands with flat ±20% range.
+    # Rationale: ML quantile bounds were too wide for common items (>50% range)
+    # and too narrow for legendary items (<10% range). Flat ±20% provides
+    # consistent uncertainty bands across all rarities for the HTML UI.
     for idx in df.index:
         final = df.loc[idx, 'final_price']
         if pd.notna(final) and final > 0:
