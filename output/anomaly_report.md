@@ -3,11 +3,11 @@
 ## Overall Statistics
 
 - Total items: 4,837
-- Median price: 3,365 gp
-- Mean price: 14,889 gp
-- Std dev: 38,442 gp
-- CV: 2.58
-- Skewness: 7.53
+- Median price: 3,336 gp
+- Mean price: 14,645 gp
+- Std dev: 38,309 gp
+- CV: 2.62
+- Skewness: 7.62
 - Price range: 0 – 799,200 gp
 
 ## Outliers by Rarity & Type
@@ -18,11 +18,11 @@
 | common (consumable) | 59 | 90 gp | 11 | 13 | 22.0%  |
 | common (persistent) | 263 | 121 gp | 111 | 29 | 11.0%  |
 | legendary (consumable) | 26 | 47,900 gp | 14,817 | 8 | 30.8%  |
-| legendary (persistent) | 625 | 45,257 gp | 45,685 | 20 | 3.2%  |
+| legendary (persistent) | 625 | 43,447 gp | 38,501 | 27 | 4.3%  |
 | mundane (consumable) | 46 | 10 gp | 199 | 6 | 13.0%  |
 | mundane (persistent) | 400 | 5 gp | 39 | 67 | 16.8%  |
 | rare (consumable) | 84 | 2,016 gp | 3,150 | 2 | 2.4%  |
-| rare (persistent) | 1331 | 3,815 gp | 2,633 | 60 | 4.5%  |
+| rare (persistent) | 1331 | 3,773 gp | 3,429 | 54 | 4.1%  |
 | uncommon (consumable) | 64 | 430 gp | 464 | 6 | 9.4%  |
 | uncommon (persistent) | 813 | 745 gp | 584 | 108 | 13.3%  |
 | unknown (consumable) | 11 | 348 gp | 398 | 1 | 9.1%  |
@@ -31,11 +31,11 @@
 | varies (consumable) | 6 | 675 gp | 459 | 0 | 0.0%  |
 | varies (persistent) | 35 | 750 gp | 1,088 | 6 | 17.1%  |
 | very_rare (consumable) | 45 | 3,347 gp | 11,443 | 2 | 4.4%  |
-| very_rare (persistent) | 813 | 14,283 gp | 7,460 | 82 | 10.1%  |
+| very_rare (persistent) | 813 | 13,934 gp | 8,701 | 78 | 9.6%  |
 
 ## Extreme Outliers (> 3× rarity median)
 
-Total: 1363 items
+Total: 1353 items
 
 | Name | Source | Rarity | Price | Rarity Median |
 |------|--------|--------|-------|---------------|

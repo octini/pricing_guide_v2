@@ -182,6 +182,10 @@ def main():
         if pd.isna(current_price) or current_price <= 0:
             continue
         
+        # Skip items with amalgamated reference prices - trust the sources
+        if pd.notna(row.get('amalgamated_price')) and row.get('price_confidence') in ('multi', 'solo'):
+            continue
+        
         base_name, base_price = find_base_item(name, mundane_prices)
         
         if base_name is not None and base_price is not None:

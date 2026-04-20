@@ -110,6 +110,18 @@ def is_ammunition_item(row):
     return (is_ammo or item_type == "A" or
             any(a in item_name for a in ["arrow", "bolt", "bullet", "needle"]))
 
+def is_enhancement_armor(row):
+    """Check if item is +N armor (has ac_bonus > 0).
+    
+    These items have direct reference prices in DSA/MSRP and should use
+    amalgamated prices instead of variant-adjusted prices.
+    """
+    ac_bonus = row.get("ac_bonus")
+    if ac_bonus is None or ac_bonus != ac_bonus:  # NaN check
+        return False
+    item_type = str(row.get("item_type_code", "")).split("|")[0]
+    return item_type in ("LA", "MA", "HA") and ac_bonus > 0  # Light, Medium, Heavy armor
+
 # Top item type codes (normalized, stripping source suffix after '|')
 # Chosen for density in training set: covers majority of matched items
 ITEM_TYPE_DUMMIES = ["M", "P", "SCF", "MA", "HA", "RG", "SC", "WD", "LA", "RD", "S", "INS", "A"]
@@ -301,6 +313,13 @@ def main():
             return row["rule_price"]
         if is_gleaming_armor(row):
             return row["rule_price"]
+        # Exception: +N armor with amalgamated price should use amalgamated
+        # The variant system treats +N armor as generic variants, but DSA/MSRP
+        # have direct reference prices for +N armor that should be used instead.
+        if is_enhancement_armor(row) and pd.notna(row.get("amalgamated_price")):
+            confidence = row.get("price_confidence", "none")
+            w_amalg, _ = CONFIDENCE_WEIGHTS.get(confidence, (0.85, 0.15))
+            return w_amalg * row["amalgamated_price"] + (1 - w_amalg) * row["ml_price"]
         if pd.notna(row.get("variant_price")):
             return row["rule_price"]
         if row.get("price_confidence") == "solo-outlier":
