@@ -330,7 +330,7 @@ def main():
 
         if pd.notna(row["amalgamated_price"]):
             # Has amalgamated price: use confidence-based weights
-            w_amalg, _ = CONFIDENCE_WEIGHTS.get(confidence, (0.7, 0.35))
+            w_amalg, _ = CONFIDENCE_WEIGHTS.get(confidence, (0.85, 0.15))
             return w_amalg * row["amalgamated_price"] + (1 - w_amalg) * row["ml_price"]
         else:
             # No amalgamated price: use rule + ML blend
