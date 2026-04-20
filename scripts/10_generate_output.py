@@ -70,6 +70,7 @@ SOURCEBOOK_NAMES = {
     "CM": "Candlekeep Mysteries",
     "AAG": "Astral Adventurer's Guide",
     "SAT": "Sigil and the Outlands",
+    "SatO": "Sigil and the Outlands",
     "SDW": "Sleeping Dragon's Wake",
     "HotB": "Heroes of the Borderlands",
     "LFL": "Lorwyn: First Light",
