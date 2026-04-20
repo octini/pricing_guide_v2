@@ -51,6 +51,14 @@ def main():
                     c[list_col] = []
 
         # Parse boolean fields
+        def parse_bool(val):
+            """Parse boolean from CSV, handling string 'False' correctly."""
+            if isinstance(val, bool):
+                return val
+            if isinstance(val, str):
+                return val.lower() in ('true', '1', 'yes')
+            return bool(val)
+
         for bool_col in [
             "is_sentient",
             "is_cursed",
@@ -75,7 +83,7 @@ def main():
             "burrow_speed",
             "stealth_penalty",
         ]:
-            c[bool_col] = bool(c.get(bool_col))
+            c[bool_col] = parse_bool(c.get(bool_col))
         
         # Add composite features
         composite_features = calculate_composite_features(c)
