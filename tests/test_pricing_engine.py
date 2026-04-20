@@ -168,10 +168,24 @@ def test_damage_resistance():
 
 
 def test_potion_consumable_discount():
-    """Potions (type 'P') get rarity-tiered discount. Rare potion: 4000 * 0.15 = 600."""
+    """Potions (type 'P') get flat 0.50 discount. Rare potion: 4000 * 0.50 = 2000."""
     c = make_criteria(rarity="rare", item_type_code="P")
     price = calculate_price(c)
-    assert price == pytest.approx(4000 * 0.15, rel=0.01)
+    assert price == pytest.approx(4000 * 0.50, rel=0.01)
+
+
+def test_scroll_consumable_discount():
+    """Scrolls (type 'SC') get 0.70 discount. Very rare scroll: 13500 * 0.70 = 9450."""
+    c = make_criteria(rarity="very_rare", item_type_code="SC")
+    price = calculate_price(c)
+    assert price == pytest.approx(13500 * 0.70, rel=0.01)
+
+
+def test_poison_consumable_discount():
+    """Poisons get 0.60 discount. Rare poison: 4000 * 0.60 = 2400."""
+    c = make_criteria(rarity="rare", is_poison=True)
+    price = calculate_price(c)
+    assert price == pytest.approx(4000 * 0.60, rel=0.01)
 
 
 # --- Rarity-scaled additive bonus tests ---

@@ -301,6 +301,29 @@ def calculate_spell_value(attached_spells: Any) -> float:
     return total_value
 
 
+def get_consumable_modifier(criteria: dict) -> float:
+    """Return the explicit consumable multiplier for the current item."""
+    rarity = criteria.get("rarity", "unknown")
+    item_type = str(criteria.get("item_type_code", "") or "").split("|")[0]
+    item_name_lower = str(criteria.get("name", "")).lower()
+
+    if criteria.get("is_ammunition", False):
+        modifier = 0.02
+        if rarity in ("very_rare", "legendary", "artifact"):
+            modifier *= 0.05
+        return modifier
+
+    if item_type == "P" or any(token in item_name_lower for token in ("potion", "elixir")):
+        return 0.50
+    if item_type == "SC":
+        return 0.70
+    if criteria.get("is_poison", False):
+        return 0.60
+    if item_type == "G" and any(token in item_name_lower for token in ("oil", "ointment")):
+        return 0.50
+    return 1.0
+
+
 RARITY_SCALING_BASE = float(RARITY_BASE_PRICES["rare"])
 
 
@@ -822,33 +845,7 @@ def calculate_price(criteria: dict) -> float:
     elif req_attune == "class":
         attune_mod = 0.80   # was 0.75
 
-    consumable_mod = 1.0
-    is_ammo = criteria.get("is_ammunition", False)
-    if is_ammo:
-        consumable_mod = 0.02  # Ammo is single-use, sold in bundles; was 0.10
-
-    # Ammunition of Slaying and similar high-rarity ammunition:
-    # These are priced per piece, not as full magic items
-    # Apply additional discount for very_rare+ ammunition
-    if is_ammo and rarity in ("very_rare", "legendary", "artifact"):
-        # Ammunition is consumed on use, so high-rarity ammo should be much cheaper
-        # than a permanent magic item of the same rarity
-        # Arrow of Slaying: reference ~632 gp (DSA:267, MSRP:750, DMPG:1000)
-        # vs very_rare base 13,500 gp → need ~20x reduction
-        consumable_mod *= 0.05  # Additional 5% for high-rarity ammo
-
-    # Potion/oil/elixir discount — rarity-tiered (single-use consumables)
-    item_type = criteria.get("item_type_code", "") or ""
-    if item_type in ("P", "G"):  # Potion, Oil/Ointment
-        potion_discounts = {
-            "common": 0.50,
-            "uncommon": 0.30,
-            "rare": 0.15,
-            "very_rare": 0.10,
-            "legendary": 0.08,
-            "artifact": 0.08,
-        }
-        consumable_mod *= potion_discounts.get(rarity, 0.25)
+    consumable_mod = get_consumable_modifier(criteria)
 
     material_mod = 1.0  # mithral/adamantine handled in NLP
 
