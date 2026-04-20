@@ -181,7 +181,7 @@ def strip_5e_tags(text):
     return re.sub(r'\{@\w+\s+([^|}]+)[^}]*\}', r'\1', str(text))
 
 
-def extract_description(entries, max_len=200):
+def extract_description(entries, max_len=400):
     """Extract a short plain-text description from 5e.tools entries."""
     parts = []
     for entry in (entries or []):
@@ -334,7 +334,7 @@ def main():
             overflow-y: auto;
             border: 1px solid rgba(255,255,255,0.2);
             border-radius: 6px;
-            z-index: 1000;
+            z-index: 1100;
             margin-top: 5px;
             box-shadow: 0 4px 12px rgba(0,0,0,0.5);
         }}
@@ -405,21 +405,26 @@ def main():
             left: 0;
             background: #1f2937;
             color: #e0e0e0;
-            padding: 8px 12px;
+            padding: 12px 16px;
             border-radius: 6px;
-            font-size: 13px;
+            font-size: 14px;
             font-weight: normal;
-            max-width: 350px;
-            min-width: 200px;
+            width: max-content;
+            max-width: min(400px, 90vw);
+            min-width: 250px;
+            max-height: 400px;
+            overflow-y: auto;
             z-index: 1000;
             white-space: normal;
             box-shadow: 0 4px 12px rgba(0,0,0,0.5);
             border: 1px solid rgba(255,255,255,0.15);
             margin-bottom: 6px;
-            line-height: 1.4;
+            line-height: 1.5;
             pointer-events: none;
         }}
         .item-link:hover .item-tooltip {{ display: block; }}
+        /* Hide tooltips when any dropdown is open */
+        body.dropdown-open .item-tooltip {{ display: none !important; }}
         
         a {{ color: #64b5f6; text-decoration: none; }}
         
@@ -674,6 +679,8 @@ def main():
                 if (!isOpen) {{
                     dropdown.classList.add('open');
                 }}
+                // Toggle body class for tooltip suppression
+                document.body.classList.toggle('dropdown-open', !isOpen);
             }});
             // Keep dropdown open when clicking inside the content area (checkboxes)
             dropdown.querySelector('.dropdown-content').addEventListener('click', function(e) {{
@@ -686,6 +693,7 @@ def main():
             document.querySelectorAll('.dropdown').forEach(dropdown => {{
                 dropdown.classList.remove('open');
             }});
+            document.body.classList.remove('dropdown-open');
         }});
         
         // Initial render
