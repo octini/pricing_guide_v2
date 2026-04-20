@@ -44,12 +44,12 @@ def main():
 
     df['is_outlier'] = False
     for idx in results['outliers'].index:
-        if idx < len(df):
+        if idx in df.index:
             df.loc[idx, 'is_outlier'] = True
 
     df['is_extreme_outlier'] = False
     for idx in results['extreme_outliers'].index:
-        if idx < len(df):
+        if idx in df.index:
             df.loc[idx, 'is_extreme_outlier'] = True
 
     df.to_csv(OUTPUT_VALIDATED_CSV, index=False)
