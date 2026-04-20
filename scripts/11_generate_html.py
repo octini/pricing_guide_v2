@@ -152,19 +152,15 @@ def translate_source(source_code):
 
 
 def translate_type(type_code):
-    """Translate 5e.tools type code to common name"""
+    """Translate 5e.tools type code to common name.
+    
+    Type codes are pipe-separated as 'TYPE|SOURCE' (e.g., 'M|XPHB').
+    The second part is a sourcebook identifier, not a type — we ignore it.
+    """
     if pd.isna(type_code):
         return 'Unknown'
-    types = str(type_code).split('|')
-    translated = []
-    for t in types:
-        t = t.strip()
-        if t in TYPE_NAMES:
-            translated.append(TYPE_NAMES[t])
-        else:
-            base = t.split('|')[0]
-            translated.append(TYPE_NAMES.get(base, base))
-    return ', '.join(translated)
+    base_type = str(type_code).split('|')[0].strip()
+    return TYPE_NAMES.get(base_type, base_type)
 
 
 def format_price(price_gp):

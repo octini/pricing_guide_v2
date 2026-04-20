@@ -197,22 +197,16 @@ def translate_source(source_code):
 
 
 def translate_type(type_code):
-    """Translate 5e.tools type code to common name"""
+    """Translate 5e.tools type code to common name.
+    
+    Type codes are pipe-separated as 'TYPE|SOURCE' (e.g., 'M|XPHB').
+    The second part is a sourcebook identifier, not a type — we ignore it.
+    """
     if pd.isna(type_code):
         return 'Unknown'
-    # Type codes can be pipe-separated (e.g., 'M|XPHB')
-    types = str(type_code).split('|')
-    translated = []
-    for t in types:
-        t = t.strip()
-        # Check if the full code exists first (e.g., 'Dele|MonstersOfDrakkenheim')
-        if t in TYPE_NAMES:
-            translated.append(TYPE_NAMES[t])
-        else:
-            # Try just the base code before the pipe
-            base = t.split('|')[0]
-            translated.append(TYPE_NAMES.get(base, base))
-    return ', '.join(translated)
+    # Split on pipe — first part is type code, rest is source info
+    base_type = str(type_code).split('|')[0].strip()
+    return TYPE_NAMES.get(base_type, base_type)
 
 def main():
     df = pd.read_csv(INPUT_CSV)
