@@ -4,9 +4,11 @@
 Constants calibrated against external price guides (DSA, MSRP, DMPG) via oracle review.
 """
 
+import re
 from typing import Any, Optional
 
 from .spell_data import get_spell_level
+from .constants import RARITY_MEDIANS, CONDITION_IMMUNITY_VALUES
 
 RARITY_BASE_PRICES = {
     "mundane": 1,
@@ -65,21 +67,6 @@ ENSPELLED_BASE_PRICES = {
 WEAPON_BONUS_ADDITIVE = {1: 1500, 2: 4000, 3: 20000}   # Calibrated: was 10k/50k/200k
 AC_BONUS_ADDITIVE = {1: 1500, 2: 4000, 3: 15000}        # Calibrated: was 15k/40k/150k
 SPELL_ATTACK_ADDITIVE = {1: 1000, 2: 3000, 3: 10000}    # Calibrated: was 8k/25k/80k
-
-CONDITION_IMMUNITY_VALUES = {
-    "frightened": 400,
-    "charmed": 400,
-    "poisoned": 400,
-    "exhaustion": 400,
-    "petrified": 400,
-    "paralyzed": 400,
-    "blinded": 400,
-    "deafened": 400,
-    "stunned": 400,
-    "incapacitated": 400,
-    "prone": 400,
-    "restrained": 400,
-}
 
 USAGE_MULTIPLIERS = {
     "will": 3.0,
@@ -366,7 +353,6 @@ def calculate_price(criteria: dict) -> float:
     # Enspelled items: use DSA formula (Base_Enspelled[level] + Item_Cost × 5.0)
     # Extract spell level from item name (e.g., "Enspelled (Level 8) Dagger" -> 8)
     if is_enspelled:
-        import re
         level_match = re.search(r'Level (\d+)', criteria.get("name", ""))
         cantrip_match = re.search(r'Cantrip', criteria.get("name", ""), re.IGNORECASE)
         
@@ -754,7 +740,6 @@ def calculate_price(criteria: dict) -> float:
     if charges and charges == charges: # not None, not NaN
         # Handle dice strings like "{@dice 1d3}" by extracting the numeric part
         if isinstance(charges, str):
-            import re
             m = re.search(r'(\d+)', charges)
             if m:
                 charges = int(m.group(1))
@@ -898,15 +883,8 @@ def calculate_price(criteria: dict) -> float:
     return max(floor, price)
 
 
-# Rarity median prices for single-source outlier detection
-RARITY_MEDIANS = {
-    "mundane": 1,
-    "common": 132,
-    "uncommon": 852,
-    "rare": 3890,
-    "very_rare": 13450,
-    "legendary": 46500,
-    "artifact": 150000,
+# Rarity median prices imported from constants
+# (kept as comment for reference: used in single-source outlier detection)
 }
 
 
@@ -931,10 +909,8 @@ def calculate_price_with_outlier_check(criteria: dict) -> tuple[float, str]:
     price = calculate_price(criteria)
 
     # Determine source
-    if amalgamated_price:
-        source = "rule+amalgamated"
-    else:
-        source = "rule"
+    # Note: amalgamated price is used for R² comparison only, not blended into final price
+    source = "rule"
 
     return (price, source)
 
