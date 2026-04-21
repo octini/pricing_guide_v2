@@ -52,6 +52,17 @@ FEATURE_COLS = [
     "spell_complexity",
     "interaction_weapon_damage",
     "interaction_flight_invisibility",
+    # Property-based features
+    "extra_damage_avg",
+    "minor_beneficial",
+    "major_beneficial",
+    "minor_detrimental",
+    "major_detrimental",
+    "charges",
+    "attached_spells_count",
+    "material_adamantine",
+    "material_mithral",
+    "material_silvered",
 ]
 
 RARITY_DUMMIES = ["common", "uncommon", "rare", "very_rare", "legendary", "artifact"]
@@ -161,6 +172,20 @@ def run_cross_validation(X: pd.DataFrame, y: np.ndarray, n_splits: int = 5) -> l
 def build_features(df: pd.DataFrame) -> pd.DataFrame:
     """Build ML feature matrix from criteria columns."""
     X = pd.DataFrame()
+
+    # Derive property-based features before the generic loop picks them up
+    if "attached_spells" in df.columns:
+        df = df.copy()
+        df["attached_spells_count"] = df["attached_spells"].apply(
+            lambda x: len(str(x).split(",")) if pd.notna(x) and str(x).strip() not in ("", "[]") else 0
+        )
+    if "material" in df.columns:
+        mat = df["material"].fillna("")
+        df = df if "attached_spells_count" in df.columns else df.copy()
+        df["material_adamantine"] = (mat == "adamantine").astype(float)
+        df["material_mithral"] = (mat == "mithral").astype(float)
+        df["material_silvered"] = mat.str.contains("silvered", case=False, na=False).astype(float)
+
     for col in FEATURE_COLS:
         if col in df.columns:
             X[col] = pd.to_numeric(df[col], errors="coerce").fillna(0)
