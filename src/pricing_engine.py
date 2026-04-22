@@ -5,6 +5,7 @@ Constants calibrated against external price guides (DSA, MSRP, DMPG) via oracle 
 """
 
 import re
+import pandas as pd
 from typing import Any, Optional
 
 from .spell_data import get_spell_level
@@ -335,7 +336,9 @@ def get_scaled_bonus_additive(additive_table: dict, bonus: int, rarity: str) -> 
     capped_bonus = min(int(bonus), 3)
     fallback_bonus = additive_table[max(additive_table)]
     anchored_additive = float(additive_table.get(capped_bonus, fallback_bonus))
-    rarity_base = float(RARITY_BASE_PRICES.get(rarity, RARITY_BASE_PRICES["uncommon"]))
+    # Cap artifact scaling at legendary level to prevent massive inflation
+    scaling_rarity = 'legendary' if rarity == 'artifact' else rarity
+    rarity_base = float(RARITY_BASE_PRICES.get(scaling_rarity, RARITY_BASE_PRICES["uncommon"]))
     return anchored_additive * (rarity_base / RARITY_SCALING_BASE)
 
 
@@ -536,6 +539,7 @@ def calculate_price(criteria: dict) -> float:
             has_wish = criteria.get("wish_effect")
             is_sentient = criteria.get("is_sentient")
             has_extra_damage = (criteria.get("extra_damage_avg") or 0) > 0
+            has_legendary_resistance = criteria.get("legendary_resistance")
             has_artifact_properties = (
                 (criteria.get("minor_beneficial") or 0) > 0 or
                 (criteria.get("major_beneficial") or 0) > 0 or
@@ -555,12 +559,27 @@ def calculate_price(criteria: dict) -> float:
                 is_enspelled or
                 material in ("mithral", "adamantine") or
                 has_extra_damage or
+                has_legendary_resistance or
                 has_artifact_properties
             )
 
     if is_simple_bonus_item:
-        # Use amalgamated price as base, then apply attunement modifier
-        simple_price = SIMPLE_BONUS_PRICES.get(weapon_bonus, 0)
+        # Use amalgamated price if available, otherwise use simple bonus base
+        amalgamated_price = criteria.get("amalgamated_price")
+        if pd.notna(amalgamated_price) and amalgamated_price > 0:
+            simple_price = amalgamated_price
+        else:
+            simple_price = SIMPLE_BONUS_PRICES.get(weapon_bonus, 0)
+            # Apply rarity scaling for items without amalgamated prices (not artifacts)
+            if simple_price > 0 and rarity != 'artifact':
+                rarity_multipliers = {
+                    "uncommon": 0.5,
+                    "rare": 1.0,
+                    "very_rare": 1.0,
+                    "legendary": 10.0,
+                }
+                simple_price *= rarity_multipliers.get(rarity, 1.0)
+        
         if simple_price > 0:
             # Apply property premium for named variants (e.g., Returning weapons)
             for prop_keyword, prop_mult in PROPERTY_PREMIUMS.items():

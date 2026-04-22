@@ -162,6 +162,12 @@ def fuzzy_match_items(
         defender_matches = [c for c in candidates if re.match(r'^defender(\s+any\s+sword)?$', c.lower())]
         if defender_matches:
             return defender_matches
+    
+    # SPECIAL CASE: Vorpal weapons match "Vorpal Sword" entries
+    if query.lower().startswith('vorpal '):
+        vorpal_matches = [c for c in candidates if 'vorpal sword' in c.lower()]
+        if vorpal_matches:
+            return vorpal_matches
 
     # Extract bonus number from query (e.g., "+3 Shortsword" → "3")
     query_bonus_match = re.search(r'\+(\d+)', query)

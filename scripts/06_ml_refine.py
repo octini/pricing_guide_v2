@@ -335,6 +335,12 @@ def main():
             confidence = row.get("price_confidence", "none")
             w_amalg, _ = CONFIDENCE_WEIGHTS.get(confidence, (0.85, 0.15))
             return w_amalg * row["amalgamated_price"] + (1 - w_amalg) * row["ml_price"]
+        # Exception: Any item with amalgamated price should use it (not variant_price)
+        # This catches named items like Vorpal weapons that matched reference entries
+        if pd.notna(row.get("amalgamated_price")) and row.get("price_confidence") in ("multi", "solo"):
+            confidence = row.get("price_confidence", "none")
+            w_amalg, _ = CONFIDENCE_WEIGHTS.get(confidence, (0.85, 0.15))
+            return w_amalg * row["amalgamated_price"] + (1 - w_amalg) * row["ml_price"]
         if pd.notna(row.get("variant_price")):
             return row["rule_price"]
         if row.get("price_confidence") == "solo-outlier":
