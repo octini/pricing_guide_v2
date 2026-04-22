@@ -191,6 +191,14 @@ def extract_entries_criteria(item: dict, prose_text: str = "") -> dict:
         # Store the first (or most significant) dice string
         c["extra_damage_dice"] = damage_matches[0] if len(damage_matches) == 1 else f"{len(damage_matches)} sources"
     
+    # FALLBACK: Plain text "extra XdY [type] damage" (for prose without {@damage} markup)
+    if not c.get('extra_damage_avg'):
+        plain_matches = re.findall(r'(?:additional|extra)\s+(\d+d\d+)\s+(\w+)\s+damage', combined_text, re.IGNORECASE)
+        if plain_matches:
+            total_avg = sum(_avg_dice(d[0]) for d in plain_matches)
+            c['extra_damage_avg'] = total_avg
+            c['extra_damage_dice'] = plain_matches[0][0]
+    
     # Extract artifact random properties
     # Pattern: "2 {@table Artifact Properties; Minor Beneficial Properties|dmg|minor beneficial} properties"
     # Or "1 randomly determined {@table Artifact Properties; Minor Beneficial Properties|dmg|minor beneficial}"

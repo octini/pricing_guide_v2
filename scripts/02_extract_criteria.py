@@ -14,6 +14,7 @@ from src.prose_loader import load_prose_descriptions
 INPUT_CSV = Path("data/processed/items_master.csv")
 OUTPUT_CSV = Path("data/processed/items_criteria.csv")
 MD_PATH = Path("items-sublist.md")
+SUBLIST_DATA_PATH = Path("items-sublist-data.json")
 
 
 def build_generic_parent_lookup(df: pd.DataFrame) -> dict:
@@ -75,7 +76,22 @@ def main():
     # Build generic parent lookup (first pass)
     print("Building generic parent lookup...")
     parent_lookup = build_generic_parent_lookup(df)
-    print(f"Found {len(parent_lookup)} generic parent items")
+    print(f"Found {len(parent_lookup)} generic parent items from items_master.csv")
+
+    # Supplement with parents from items-sublist-data.json (contains generic parents
+    # like Holy Avenger that aren't in items_master.csv because only variants are listed)
+    if SUBLIST_DATA_PATH.exists():
+        with open(SUBLIST_DATA_PATH, encoding="utf-8") as f:
+            sublist_items = json.load(f)
+        added = 0
+        for item in sublist_items:
+            if "variants" in item and "entries" in item:
+                name = item.get("name", "").lower()
+                if name and name not in parent_lookup:
+                    parent_lookup[name] = list(item["entries"])
+                    added += 1
+        print(f"Added {added} generic parents from items-sublist-data.json")
+    print(f"Total generic parent items: {len(parent_lookup)}")
 
     rows = []
     variants_with_parent_entries = 0
