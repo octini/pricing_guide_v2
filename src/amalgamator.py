@@ -157,6 +157,12 @@ def fuzzy_match_items(
     """
     import re
 
+    # SPECIAL CASE: Defender weapons match "Defender (any sword)" entries
+    if query.lower().startswith('defender '):
+        defender_matches = [c for c in candidates if re.match(r'^defender(\s+any\s+sword)?$', c.lower())]
+        if defender_matches:
+            return defender_matches
+
     # Extract bonus number from query (e.g., "+3 Shortsword" → "3")
     query_bonus_match = re.search(r'\+(\d+)', query)
     query_bonus = query_bonus_match.group(1) if query_bonus_match else None
