@@ -243,6 +243,224 @@ FLAVOR_ITEMS = {
     "instrument of scribing", # Sends messages (minor utility)
 }
 
+# ─── Artifact Tier-Based Pricing System ───────────────────────────────────────
+# Artifacts are assigned to tiers (S/A/B/C/D) based on practical usability:
+#   S-tier (700k-1M): Game-changing, campaign-defining power
+#   A-tier (500k-700k): Extremely powerful, broadly useful
+#   B-tier (350k-500k): Strong artifacts with good utility
+#   C-tier (250k-350k): Moderate artifacts, niche or limited use
+#   D-tier (250k floor): Weakest artifacts, significant drawbacks or very niche
+#
+# Within each tier, items are ranked by a sub-score (0.0-1.0) that determines
+# where they fall in the tier's price range. Sub-scores reflect relative power
+# within the tier based on: drawbacks/curses, attunement restrictions,
+# limited vs unlimited uses, conditional vs always-on powers, corruption.
+#
+# Dormant/Awakened/Exalted variants of Vestiges of Divergence are placed in
+# progressively higher tiers to reflect their growth.
+
+ARTIFACT_TIER_PRICES = {
+    "S": (700000, 1000000),
+    "A": (500000, 700000),
+    "B": (350000, 500000),
+    "C": (250000, 350000),
+    "D": (250000, 275000),  # Narrow range near floor
+}
+
+# Format: "artifact name fragment" -> (tier, sub_score)
+# sub_score 0.0 = bottom of tier, 1.0 = top of tier
+# Names are lowercased, apostrophes removed for matching
+ARTIFACT_TIERS = {
+    # ── S-TIER: Game-changing artifacts ──────────────────────────────────────
+    # Wand of Orcus: summon undead army, +3, 12d6 necrotic, legendary resistance
+    "wand of orcus": ("S", 0.95),
+    # Sword of Kas: +3 vorpal, +2d10 damage, advantage on all saves, legendary
+    "sword of kas": ("S", 0.90),
+    # Rod of Seven Parts: wish-level power when assembled, massive spell list
+    "rod of seven parts": ("S", 0.85),
+    # Eye of Vecna: truesight, X-ray vision, dominate monster, disintegrate
+    "eye of vecna": ("S", 0.75),
+    # Hand of Vecna: cold damage, teleport, finger of death, multiple immunities
+    "hand of vecna": ("S", 0.70),
+    # Book of Vile Darkness: permanent stat boost, dominate, summon nightwalker
+    "book of vile darkness": ("S", 0.60),
+    # Blade of Avernus: +3, vorpal vs fiends, fly 60ft, 6d6 radiant
+    "blade of avernus": ("S", 0.55),
+    # Daoud's Wondrous Lanthorn: plane shift, prismatic spray, wall of force at will
+    "daouds wondrous lanthorn": ("S", 0.50),
+    # Book of Exalted Deeds: permanent WIS boost, halo, spell enhancements
+    "book of exalted deeds": ("S", 0.40),
+    # Axe of the Dwarvish Lords: +3, conjure earth elemental, plane shift, many bonuses
+    "axe of the dwarvish lords": ("S", 0.30),
+
+    # ── A-TIER: Extremely powerful, broadly useful ──────────────────────────
+    # Ring of Winter: immunity to cold, wall of ice, control weather, sleet storm
+    "ring of winter": ("A", 0.95),
+    # Teeth of Dahlver-Nar: implant teeth for powerful boons (22 options)
+    "teeth of dahlver-nar": ("A", 0.90),
+    # Adze of Annam: +3, giant-themed powers, enlarge, earthquake, plane shift
+    "adze of annam": ("A", 0.85),
+    # Demonomicon of Iggwilv: summon/bind demons, massive spell list
+    "demonomicon of iggwilv": ("A", 0.80),
+    # Orrery of the Wanderer: multiple powerful components, plane shift
+    "orrery of the wanderer": ("A", 0.75),
+    # Crook of Rao: banish fiends en masse, protection from evil
+    "crook of rao": ("A", 0.70),
+    # Dekella, Bident of Thassa: +3, control water, wall of water, water breathing
+    "dekella": ("A", 0.65),
+    # Blackrazor: +3, devour souls, haste, legendary sentient sword
+    "blackrazor": ("A", 0.55),
+    # Helm of Perfect Potential: powerful mental stat boosts, psychic abilities
+    "helm of perfect potential": ("A", 0.45),
+    # Orlassk's Reach: petrification, earth control, powerful utility
+    "orlassks reach": ("A", 0.35),
+    # Grovelthrash (Exalted): fully powered vestige, earthquake, powerful
+    "grovelthrash (exalted)": ("A", 0.25),
+    # Blade of Broken Mirrors (Exalted): fully powered, shapechange, +3
+    "blade of broken mirrors (exalted)": ("A", 0.20),
+    # Book of Vile Darkness (Variant): slightly weaker variant
+    "book of vile darkness (variant)": ("A", 0.15),
+
+    # ── B-TIER: Strong artifacts with good utility ──────────────────────────
+    # Baba Yaga's Mortar and Pestle: fly, plane shift, force cage
+    "baba yagas mortar and pestle": ("B", 0.95),
+    # Akmon, Hammer of Purphoros: +3, create magic items, fire damage
+    "akmon": ("B", 0.90),
+    # Khrusor, Spear of Heliod: +3, radiant damage, searing light, sunburst
+    "khrusor": ("B", 0.85),
+    # Ephixis, Bow of Nylea: +3, seeking arrows, conjure volley
+    "ephixis": ("B", 0.80),
+    # Sword of Zariel: +3, radiant damage, fly, truesight
+    "sword of zariel": ("B", 0.75),
+    # Silken Spite (Exalted): fully powered vestige, +3, poison, web
+    "silken spite (exalted)": ("B", 0.72),
+    # The Bloody End (Exalted): fully powered vestige, +3, brutal
+    "the bloody end (exalted)": ("B", 0.68),
+    # Mace of the Black Crown (Exalted): fully powered, +3, fire, animate dead
+    "mace of the black crown (exalted)": ("B", 0.65),
+    # Wave: +3 trident, cube of force, water breathing, dominate
+    "wave": ("B", 0.60),
+    # Whelm: +3 warhammer, detect gems/evil, shatter, stun giants
+    "whelm": ("B", 0.55),
+    # Bigby's Beneficent Bracelet: Bigby's Hand at will, powerful utility
+    "bigbys beneficent bracelet": ("B", 0.50),
+    # Mastix, Whip of Erebos: +3, drain life, animate dead
+    "mastix": ("B", 0.45),
+    # Ruin's Wake (Exalted): fully powered vestige, +3, brutal attacks
+    "ruins wake (exalted)": ("B", 0.42),
+    # Will of the Talon (Exalted): fully powered vestige
+    "will of the talon (exalted)": ("B", 0.38),
+    # Lash of Shadows (Exalted): fully powered vestige
+    "lash of shadows (exalted)": ("B", 0.35),
+    # Calimemnon Crystal: fire/ice control, powerful AoE
+    "calimemnon crystal": ("B", 0.30),
+    # Orb of Dragonkind: dominate dragons, detect dragons
+    "orb of dragonkind": ("B", 0.25),
+    # Crown of Horns: powerful necromancy, undead control
+    "crown of horns": ("B", 0.20),
+    # Baba Yaga's Pestle: +3 weapon component of mortar set
+    "baba yagas pestle": ("B", 0.15),
+    # Kharash's Promise: powerful oath-bound weapon
+    "kharashs promise": ("B", 0.10),
+    # Blade of Broken Mirrors (Awakened): mid-power vestige
+    "blade of broken mirrors (awakened)": ("B", 0.05),
+
+    # ── C-TIER: Moderate artifacts, niche or limited ────────────────────────
+    # Silken Spite (Awakened): mid-power vestige
+    "silken spite (awakened)": ("C", 0.95),
+    # The Bloody End (Awakened): mid-power vestige
+    "the bloody end (awakened)": ("C", 0.90),
+    # Mace of the Black Crown (Awakened): mid-power vestige
+    "mace of the black crown (awakened)": ("C", 0.85),
+    # Grovelthrash (Awakened): mid-power vestige
+    "grovelthrash (awakened)": ("C", 0.80),
+    # Ruin's Wake (Awakened): mid-power vestige
+    "ruins wake (awakened)": ("C", 0.75),
+    # Will of the Talon (Awakened): mid-power vestige
+    "will of the talon (awakened)": ("C", 0.70),
+    # Lash of Shadows (Awakened): mid-power vestige
+    "lash of shadows (awakened)": ("C", 0.65),
+    # Crown of Lies: deception, disguise, niche utility
+    "crown of lies": ("C", 0.60),
+    # Orb of Damara: regional effects, niche
+    "orb of damara": ("C", 0.55),
+    # Wyrmskull Throne: dwarven throne, situational
+    "wyrmskull throne": ("C", 0.50),
+    # Stone of Golorr: information gathering, niche
+    "stone of golorr": ("C", 0.45),
+    # Luba's Tarokka of Souls: divination, niche
+    "lubas tarokka of souls": ("C", 0.40),
+    # Staff of the Forgotten One: powerful but heavy drawbacks
+    "staff of the forgotten one": ("C", 0.35),
+    # Iggwilv's Cauldron: summoning, niche utility
+    "iggwilvs cauldron": ("C", 0.30),
+    # Ghaal'duur, the Mighty Dirge: bardic artifact, niche
+    "ghaalduur": ("C", 0.25),
+    # Grovelthrash (Dormant): low-power vestige
+    "grovelthrash (dormant)": ("C", 0.15),
+    # Mace of the Black Crown (Dormant): low-power vestige
+    "mace of the black crown (dormant)": ("C", 0.10),
+    # Ruin's Wake (Dormant): low-power vestige
+    "ruins wake (dormant)": ("C", 0.05),
+
+    # ── D-TIER: Weakest artifacts, significant drawbacks or very niche ──────
+    # The Bloody End (Dormant): low-power vestige
+    "the bloody end (dormant)": ("D", 0.95),
+    # Silken Spite (Dormant): low-power vestige
+    "silken spite (dormant)": ("D", 0.85),
+    # Blade of Broken Mirrors (Dormant): low-power vestige, shapechange limited
+    "blade of broken mirrors (dormant)": ("D", 0.75),
+    # Will of the Talon (Dormant): low-power vestige
+    "will of the talon (dormant)": ("D", 0.65),
+    # Lash of Shadows (Dormant): low-power vestige
+    "lash of shadows (dormant)": ("D", 0.55),
+    # Mask of the Dragon Queen: powerful but extreme drawbacks, corruption
+    "mask of the dragon queen": ("D", 0.45),
+    # Mighty Servant of Leuk-o: vehicle, very niche, hard to use
+    "mighty servant of leuk-o": ("D", 0.35),
+    # Draakhorn: single-use alarm, very niche
+    "draakhorn": ("D", 0.25),
+    # Ruinstone: self-destructive, extreme drawbacks
+    "ruinstone": ("D", 0.15),
+
+    # ── Base Vestiges of Divergence (no Dormant/Awakened/Exalted suffix) ────
+    # These are generic entries; price at Dormant-equivalent (D-tier, low)
+    # NOTE: These patterns must NOT match the suffixed versions, so we use
+    # exact-match logic in calculate_artifact_tier_price() for these.
+}
+
+
+def calculate_artifact_tier_price(name: str) -> Optional[float]:
+    """Calculate artifact price based on tier assignment.
+    
+    Returns None if the artifact is not in the tier system.
+    Uses the tier's price range and the artifact's sub-score to interpolate.
+    """
+    # Normalize name for matching
+    name_lower = name.lower().replace("'", "").replace("\u2019", "")
+    
+    # Try longest (most specific) patterns first to avoid partial matches
+    # e.g., "grovelthrash (exalted)" must match before "grovelthrash"
+    sorted_patterns = sorted(ARTIFACT_TIERS.keys(), key=len, reverse=True)
+    
+    for pattern in sorted_patterns:
+        if pattern in name_lower:
+            tier, sub_score = ARTIFACT_TIERS[pattern]
+            low, high = ARTIFACT_TIER_PRICES[tier]
+            price = low + (high - low) * sub_score
+            return round(price, 2)
+    
+    # Base Vestiges of Divergence (exact name, no suffix) → D-tier floor
+    base_vestiges = {
+        "blade of broken mirrors", "grovelthrash", "lash of shadows",
+        "mace of the black crown", "ruins wake", "silken spite",
+        "the bloody end", "will of the talon",
+    }
+    if name_lower in base_vestiges:
+        return 250000.0
+    
+    return None
+
 
 def calculate_spell_value(attached_spells: Any) -> float:
     """Calculate the additive value of attached spells.
@@ -371,6 +589,16 @@ def calculate_price(criteria: dict) -> float:
     official_price = criteria.get("official_price_gp")
     req_attune = criteria.get("req_attune", "none")
     item_name_lower = str(criteria.get("name", "")).lower().replace("'", "")
+
+    # Artifact tier-based pricing: overrides all other pricing for artifacts
+    # This ensures all artifacts fall within the 250k-1M GP range with
+    # tier-appropriate pricing based on practical usability assessment.
+    if rarity == "artifact":
+        tier_price = calculate_artifact_tier_price(criteria.get("name", ""))
+        if tier_price is not None:
+            return tier_price
+        # Artifacts not in tier system: use algorithmic price but clamp to range
+        # (fall through to normal formula, then clamp at the end)
 
     # Named item pricing overrides: iconic items whose full power isn't captured
     # by the generic formula due to unique abilities (auras, plane shift, etc.)
@@ -1068,7 +1296,13 @@ def calculate_price(criteria: dict) -> float:
 
 
     floor = RARITY_FLOORS.get(rarity, 1)
-    return max(floor, price)
+    price = max(floor, price)
+
+    # Clamp any artifact not handled by tier system to 250k-1M range
+    if rarity == "artifact":
+        price = max(250000, min(1000000, price))
+
+    return price
 
 
 def calculate_price_with_outlier_check(criteria: dict) -> tuple[float, str]:

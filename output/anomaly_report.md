@@ -4,17 +4,17 @@
 
 - Total items: 4,837
 - Median price: 3,911 gp
-- Mean price: 20,720 gp
-- Std dev: 57,322 gp
-- CV: 2.77
-- Skewness: 6.13
-- Price range: 0 – 791,730 gp
+- Mean price: 22,331 gp
+- Std dev: 70,260 gp
+- CV: 3.15
+- Skewness: 7.63
+- Price range: 0 – 985,000 gp
 
 ## Outliers by Rarity & Type
 
 | Rarity/Type | Count | Median | IQR Width | Outliers | Outlier Rate |
 |--------------|-------|--------|-----------|----------|--------------|
-| artifact (persistent) | 80 | 352,834 gp | 134,101 | 5 | 6.2%  |
+| artifact (persistent) | 80 | 391,250 gp | 300,312 | 0 | 0.0%  |
 | common (consumable) | 64 | 90 gp | 7 | 19 | 29.7%  |
 | common (persistent) | 292 | 153 gp | 175 | 8 | 2.7%  |
 | legendary (consumable) | 26 | 35,999 gp | 24,519 | 4 | 15.4%  |
