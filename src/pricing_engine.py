@@ -4,6 +4,7 @@
 Constants calibrated against external price guides (DSA, MSRP, DMPG) via oracle review.
 """
 
+import math
 import re
 import pandas as pd
 from typing import Any, Optional
@@ -887,14 +888,44 @@ def calculate_price(criteria: dict) -> float:
             item_name_lower = str(criteria.get("name", "")).lower().replace("'", "")
             is_flavor_item = item_name_lower in FLAVOR_ITEMS
             
+            # Check if this item has attached spells (charges used to cast spells)
+            # Items WITH spells: charges enable spell-casting (Staff of Power, Staff of the Magi)
+            #   → flat rate per charge is appropriate (spell value calculated separately)
+            # Items WITHOUT spells: charges power non-spell effects (healing, creating objects)
+            #   → diminishing returns (sqrt) since high charge counts typically mean weak per-charge effects
+            #   e.g., Hag-Stitched Troll Leather (50 charges, 1 HP each) vs Staff of Power (20 charges, spells)
+            attached_spells = criteria.get("attached_spells")
+            has_spell_charges = False
+            if attached_spells:
+                # Handle string representation from CSV
+                if isinstance(attached_spells, str):
+                    try:
+                        import ast
+                        attached_spells = ast.literal_eval(attached_spells)
+                    except (ValueError, SyntaxError):
+                        pass
+                if isinstance(attached_spells, dict) and "charges" in attached_spells:
+                    has_spell_charges = True
+                elif isinstance(attached_spells, list) and len(attached_spells) > 0:
+                    has_spell_charges = True
+            
             recharge = str(criteria.get("recharge") or "")
             if is_flavor_item:
                 # Flavor items: minimal charge value (just the novelty)
                 additive += 10 * charges
             elif recharge in ("dawn", "restLong", "dusk"):
-                additive += 500 * charges # Daily recharge: significant value (Staff of Power has 20)
+                if has_spell_charges:
+                    additive += 500 * charges # Spell-casting charges: flat rate (Staff of Power has 20)
+                else:
+                    # Non-spell charges: diminishing returns via sqrt
+                    # sqrt(50) * 500 ≈ 3,535 vs 50 * 500 = 25,000
+                    # sqrt(20) * 500 ≈ 2,236 vs 20 * 500 = 10,000
+                    additive += int(500 * math.sqrt(charges))
             elif recharge in ("restShort",):
-                additive += 750 * charges # Short rest recharge: higher value
+                if has_spell_charges:
+                    additive += 750 * charges # Short rest recharge: higher value
+                else:
+                    additive += int(750 * math.sqrt(charges))
             else:
                 additive += 100 * charges # Non-rechargeable: lower value per charge
 

@@ -157,6 +157,30 @@ def fuzzy_match_items(
     """
     import re
 
+    # BLOCKLIST: Prevent known false fuzzy matches between distinct items
+    # Maps normalized query → set of candidate substrings to reject
+    _FUZZY_BLOCKLIST = {
+        'bloodrage greataxe': {'bloodaxe'},  # Bloodrage Greataxe (Uncommon) ≠ Bloodaxe (Very Rare)
+    }
+    blocked = _FUZZY_BLOCKLIST.get(query.lower(), set())
+
+    # SPECIAL CASE: Belt of Giant Strength variants
+    # Reference sources use combined "Stone/Frost" entries and different naming
+    # e.g., "belt of giant strength stone/frost" vs our "belt of stone giant strength"
+    _BELT_GIANT_MAP = {
+        'belt of hill giant strength': 'belt of giant strength hill',
+        'belt of stone giant strength': 'belt of giant strength stone/frost',
+        'belt of frost giant strength': 'belt of giant strength stone/frost',
+        'belt of fire giant strength': 'belt of giant strength fire',
+        'belt of cloud giant strength': 'belt of giant strength cloud',
+        'belt of storm giant strength': 'belt of giant strength storm',
+    }
+    if query.lower() in _BELT_GIANT_MAP:
+        target = _BELT_GIANT_MAP[query.lower()]
+        belt_matches = [c for c in candidates if c.lower() == target]
+        if belt_matches:
+            return belt_matches
+
     # SPECIAL CASE: Defender weapons match "Defender (any sword)" entries
     if query.lower().startswith('defender '):
         defender_matches = [c for c in candidates if re.match(r'^defender(\s+any\s+sword)?$', c.lower())]
@@ -168,6 +192,20 @@ def fuzzy_match_items(
         vorpal_matches = [c for c in candidates if 'vorpal sword' in c.lower()]
         if vorpal_matches:
             return vorpal_matches
+
+    # SPECIAL CASE: "of Wounding" weapons match "Sword of Wounding" entries
+    # Reference sources list as "Sword of Wounding" or "Sword of Wounding (any sword)"
+    if query.lower().endswith(' of wounding'):
+        wounding_matches = [c for c in candidates if 'sword of wounding' in c.lower()]
+        if wounding_matches:
+            return wounding_matches
+
+    # SPECIAL CASE: Dragon Slayer weapons match "Dragon Slayer" entries
+    # Reference sources list as "Dragon Slayer" or "Dragon Slayer (any sword)"
+    if query.lower().startswith('dragon slayer '):
+        dragon_slayer_matches = [c for c in candidates if re.match(r'^dragon slayer(\s*\(?any\s+sword\)?)?$', c.lower())]
+        if dragon_slayer_matches:
+            return dragon_slayer_matches
 
     # Extract bonus number from query (e.g., "+3 Shortsword" → "3")
     query_bonus_match = re.search(r'\+(\d+)', query)
@@ -192,6 +230,11 @@ def fuzzy_match_items(
 
         if score < threshold:
             continue
+
+        # Check blocklist: reject candidates containing blocked substrings
+        if blocked and any(b in candidate.lower() for b in blocked):
+            if candidate.lower().replace(' ', '') != query.lower().replace(' ', ''):
+                continue
 
         # Check bonus number matches
         if query_bonus:
