@@ -100,6 +100,27 @@ def is_gleaming_armor(row):
     item_name = str(row.get("name", "")).lower()
     return "gleaming" in item_name
 
+def has_named_item_override(row):
+    """Check if item has a named item pricing override in the pricing engine.
+    
+    These items have prices calibrated to specific target ranges that should
+    not be overridden by ML blending or amalgamated price averaging.
+    """
+    item_name = str(row.get("name", "")).lower()
+    item_type = str(row.get("item_type_code", "")).split("|")[0] if row.get("item_type_code") else ""
+    is_weapon = item_type in ("M", "R")
+    
+    # Must match the NAMED_ITEM_OVERRIDES in pricing_engine.py
+    if "holy avenger" in item_name:
+        return True
+    if "greater silver sword" in item_name:
+        return True
+    if "of the planes" in item_name and is_weapon:
+        return True
+    if "defender" in item_name and is_weapon:
+        return True
+    return False
+
 def is_spell_scroll(row):
     """Check if item is a spell scroll (has spell_scroll_level)."""
     spell_level = row.get("spell_scroll_level")
@@ -327,6 +348,10 @@ def main():
         if is_high_rarity_ammunition(row):
             return row["rule_price"]
         if is_gleaming_armor(row):
+            return row["rule_price"]
+        # Named item overrides: items with calibrated target prices should use
+        # rule_price directly, bypassing amalgamated blending
+        if has_named_item_override(row):
             return row["rule_price"]
         # Exception: +N armor with amalgamated price should use amalgamated
         # The variant system treats +N armor as generic variants, but DSA/MSRP

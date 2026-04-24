@@ -278,6 +278,10 @@ def calculate_spell_value(attached_spells: Any) -> float:
 
             if isinstance(usage_data, dict):
                 # {'1': ['spell1'], '3': ['spell2']}
+                # For charge-based spells, freq = charges consumed per cast
+                # Higher charge cost means fewer casts per day → LESS valuable
+                # For daily/rest-based, freq = times per day → MORE valuable
+                is_charge_based = usage_type == "charges"
                 for frequency, spells in usage_data.items():
                     # Skip non-frequency keys
                     try:
@@ -289,7 +293,13 @@ def calculate_spell_value(attached_spells: Any) -> float:
                         if spell_level == 0:
                             continue
                         spell_value = spell_level ** 2 * 500
-                        total_value += spell_value * multiplier * freq
+                        if is_charge_based:
+                            # Charge cost: higher cost = fewer uses = less value
+                            # Use sqrt to dampen the penalty (spending 4 charges
+                            # doesn't make it 4x less valuable, more like 2x)
+                            total_value += spell_value * multiplier / (freq ** 0.5)
+                        else:
+                            total_value += spell_value * multiplier * freq
             elif isinstance(usage_data, list):
                 # {'will': ['spell1', 'spell2']}
                 for spell_name in usage_data:
@@ -328,18 +338,27 @@ def get_consumable_modifier(criteria: dict) -> float:
 RARITY_SCALING_BASE = float(RARITY_BASE_PRICES["rare"])
 
 
-def get_scaled_bonus_additive(additive_table: dict, bonus: int, rarity: str) -> float:
-    """Scale calibrated rare-tier adders to the current item's rarity base."""
+def get_scaled_bonus_additive(additive_table: dict, bonus: int, rarity: str, use_scaling: bool = True) -> float:
+    """Scale calibrated rare-tier adders to the current item's rarity base.
+    
+    For legendary and artifact items, use flat adders to prevent massive inflation
+    from rarity scaling. Scaling is only appropriate for common-uncommon-rare items.
+    """
     if bonus <= 0:
         return 0.0
 
     capped_bonus = min(int(bonus), 3)
     fallback_bonus = additive_table[max(additive_table)]
     anchored_additive = float(additive_table.get(capped_bonus, fallback_bonus))
-    # Cap artifact scaling at legendary level to prevent massive inflation
-    scaling_rarity = 'legendary' if rarity == 'artifact' else rarity
-    rarity_base = float(RARITY_BASE_PRICES.get(scaling_rarity, RARITY_BASE_PRICES["uncommon"]))
-    return anchored_additive * (rarity_base / RARITY_SCALING_BASE)
+    
+    # Only apply rarity scaling for common through very_rare items
+    # Legendary and artifact items use flat adders to prevent inflation
+    if use_scaling and rarity in ("common", "uncommon", "rare", "very_rare"):
+        rarity_base = float(RARITY_BASE_PRICES.get(rarity, RARITY_BASE_PRICES["uncommon"]))
+        return anchored_additive * (rarity_base / RARITY_SCALING_BASE)
+    else:
+        # Flat additive for legendary/artifact (and mundane/unknown as fallback)
+        return anchored_additive
 
 
 def calculate_price(criteria: dict) -> float:
@@ -351,6 +370,42 @@ def calculate_price(criteria: dict) -> float:
     official_price = criteria.get("official_price_gp")
     req_attune = criteria.get("req_attune", "none")
     item_name_lower = str(criteria.get("name", "")).lower().replace("'", "")
+
+    # Named item pricing overrides: iconic items whose full power isn't captured
+    # by the generic formula due to unique abilities (auras, plane shift, etc.)
+    # These prices are calibrated to match user-specified target ranges.
+    # Format: (name_pattern, override_price, require_weapon)
+    NAMED_ITEM_OVERRIDES = [
+        # Holy Avenger: +3, 2d10 radiant vs fiends/undead, +2 save bonus aura,
+        # advantage on saves vs spells for allies within 10ft. Target: 200k-225k
+        ("holy avenger", 225000, False),
+        # Greater Silver Sword: +3, advantage on INT/WIS/CHA saves, severs astral
+        # cords (instant kill in astral plane), psychic damage. Target: 250k-300k
+        ("greater silver sword", 275000, False),
+        # "Of the Planes" weapons: +3, can cast Plane Shift (7th level spell),
+        # bonus damage to creatures not on their home plane. Target: 125k-150k
+        # NOTE: Only matches weapon variants, not "Amulet of the Planes" (wondrous item)
+        ("of the planes", 137500, True),
+        # Defender: +3, can transfer attack bonus to AC (unique defensive ability).
+        # Amalgamated price is 31.5k from DSA/MSRP/DMPG - let amalgamation determine price.
+        # Removed override: amalgamated price flows through naturally.
+    ]
+    
+    item_type_code = str(criteria.get("item_type_code", "") or "").split("|")[0]
+    is_weapon_type = item_type_code in ("M", "R")
+    
+    for override_key, override_price, require_weapon in NAMED_ITEM_OVERRIDES:
+        if override_key in item_name_lower:
+            if require_weapon and not is_weapon_type:
+                continue  # Skip non-weapon items for weapon-only overrides
+            # Apply attunement modifier (these are all attunement items)
+            # But use a lighter discount since the override already accounts for power
+            attune_mod = 1.0
+            if req_attune == "class":
+                attune_mod = 0.95  # Light discount for class restriction
+            
+            floor = RARITY_FLOORS.get(rarity, 1)
+            return max(floor, override_price * attune_mod)
 
     # Official prices used directly for mundane items
     # NaN check: x == x is False for NaN, so NaN official prices fall through
@@ -539,6 +594,9 @@ def calculate_price(criteria: dict) -> float:
             has_wish = criteria.get("wish_effect")
             is_sentient = criteria.get("is_sentient")
             has_extra_damage = (criteria.get("extra_damage_avg") or 0) > 0
+            has_ac_bonus = (criteria.get("ac_bonus") or 0) > 0
+            has_save_advantage = bool(criteria.get("save_advantage"))
+            has_save_bonus = (criteria.get("saving_throw_bonus") or 0) > 0
             has_legendary_resistance = criteria.get("legendary_resistance")
             has_artifact_properties = (
                 (criteria.get("minor_beneficial") or 0) > 0 or
@@ -559,6 +617,9 @@ def calculate_price(criteria: dict) -> float:
                 is_enspelled or
                 material in ("mithral", "adamantine") or
                 has_extra_damage or
+                has_ac_bonus or
+                has_save_advantage or
+                has_save_bonus or
                 has_legendary_resistance or
                 has_artifact_properties
             )
@@ -568,17 +629,28 @@ def calculate_price(criteria: dict) -> float:
         amalgamated_price = criteria.get("amalgamated_price")
         if pd.notna(amalgamated_price) and amalgamated_price > 0:
             simple_price = amalgamated_price
+            # Do NOT apply attunement modifier to amalgamated prices -
+            # guide prices already factor in attunement requirements
         else:
             simple_price = SIMPLE_BONUS_PRICES.get(weapon_bonus, 0)
-            # Apply rarity scaling for items without amalgamated prices (not artifacts)
+            # Apply modest rarity scaling for items without amalgamated prices
+            # Scaling is conservative to prevent massive inflation
             if simple_price > 0 and rarity != 'artifact':
                 rarity_multipliers = {
                     "uncommon": 0.5,
                     "rare": 1.0,
-                    "very_rare": 1.0,
-                    "legendary": 10.0,
+                    "very_rare": 2.0,
+                    "legendary": 3.0,  # Reduced from 10.0 to prevent overpricing
                 }
                 simple_price *= rarity_multipliers.get(rarity, 1.0)
+            # Apply attunement modifier only for non-amalgamated prices
+            attune_mod = 1.0
+            req_attune = criteria.get("req_attune", "none")
+            if req_attune == "open":
+                attune_mod = 0.90
+            elif req_attune == "class":
+                attune_mod = 0.80
+            simple_price *= attune_mod
         
         if simple_price > 0:
             # Apply property premium for named variants (e.g., Returning weapons)
@@ -586,19 +658,23 @@ def calculate_price(criteria: dict) -> float:
                 if prop_keyword in item_name_lower:
                     simple_price *= prop_mult
                     break
-            # Apply attunement modifier
-            attune_mod = 1.0
-            req_attune = criteria.get("req_attune", "none")
-            if req_attune == "open":
-                attune_mod = 0.90
-            elif req_attune == "class":
-                attune_mod = 0.80
-            
-            simple_price *= attune_mod
             
             # Apply floor
             floor = RARITY_FLOORS.get(rarity, 1)
             return max(floor, simple_price)
+
+    # Amalgamated price priority: items with multi-source amalgamated prices
+    # should use that as the primary reference, with minimal rule-based adjustment.
+    # This ensures items like Vorpal Sword, Defender, etc. stay close to guide prices.
+    # NOTE: Do NOT apply attunement modifier here - guide prices already factor in attunement.
+    amalgamated_price = criteria.get("amalgamated_price")
+    price_confidence = criteria.get("price_confidence", "none")
+    if pd.notna(amalgamated_price) and amalgamated_price > 0 and price_confidence in ("multi", "solo"):
+        amalg_price = float(amalgamated_price)
+        
+        # Apply floor
+        floor = RARITY_FLOORS.get(rarity, 1)
+        return max(floor, amalg_price)
 
     if weapon_bonus > 0:
         additive += get_scaled_bonus_additive(WEAPON_BONUS_ADDITIVE, weapon_bonus, rarity)
@@ -822,6 +898,20 @@ def calculate_price(criteria: dict) -> float:
             else:
                 additive += 100 * charges # Non-rechargeable: lower value per charge
 
+    # Extra damage (e.g., Holy Avenger 2d10 radiant, Dragonlance 3d6, etc.)
+    # This is damage dealt on every hit (or conditionally), extracted from prose
+    # NOTE: Skip for Moonblade items - their extra damage is already captured
+    # in moonblade_properties (the random rune abilities include damage bonuses)
+    extra_damage_avg = criteria.get("extra_damage_avg") or 0
+    has_moonblade_props = (criteria.get("moonblade_properties") or 0) > 0
+    if extra_damage_avg > 0 and not has_moonblade_props:
+        # Scale: 3000 gp per point of average damage for legendary/artifact,
+        # 1500 gp per point for lower rarities
+        if rarity in ("legendary", "artifact"):
+            additive += 3000 * extra_damage_avg
+        else:
+            additive += 1500 * extra_damage_avg
+
     # Ability score mods: items that set a stat to a fixed value (like Gauntlets of Ogre Power)
     # Format: dict with {"static": {"str": 19}} or list of dicts with {type: "ability", amount: N, stat: "str"}
     ability_mods = criteria.get("ability_score_mods")
@@ -901,7 +991,43 @@ def calculate_price(criteria: dict) -> float:
     # vs our base of 100 gp, so we need a ~0.5x multiplier
     flavor_mod = 0.5 if item_name_lower in FLAVOR_ITEMS else 1.0
 
-    price = (base + base_item_cost + additive) * attune_mod * consumable_mod * material_mod * curse_mod * sentient_mod * flavor_mod
+    # Legendary/artifact power scaling: items with significant properties at these
+    # tiers should be priced substantially higher than the base + additive formula
+    # produces. This reflects that legendary items are meant to be rare, powerful,
+    # and expensive. The multiplier scales with the number of significant properties.
+    # NOTE: Properties already valued in the additive (moonblade_properties, artifact
+    # properties) are NOT counted here to avoid double-counting.
+    legendary_power_mult = 1.0
+    if rarity == "legendary" and additive > 5000:
+        # Count significant properties to determine scaling
+        sig_props = 0
+        if (criteria.get("extra_damage_avg") or 0) > 0 and not has_moonblade_props:
+            sig_props += 1
+        if (criteria.get("saving_throw_bonus") or 0) > 0:
+            sig_props += 1
+        if criteria.get("save_advantage"):
+            save_adv = criteria.get("save_advantage")
+            if isinstance(save_adv, list):
+                sig_props += len(save_adv)
+            else:
+                sig_props += 1
+        if criteria.get("teleportation"):
+            sig_props += 2  # Teleportation/plane shift is very powerful at legendary tier
+        if criteria.get("flight_full"):
+            sig_props += 1
+        if criteria.get("spell_absorption"):
+            sig_props += 1
+        if criteria.get("legendary_resistance"):
+            sig_props += 1
+        if criteria.get("invisibility_atwill"):
+            sig_props += 1
+        # Do NOT count moonblade_properties here - already valued at 35k each in additive
+        # Scale: 1.0 base + 0.5 per significant property, capped at 4.0
+        legendary_power_mult = min(4.0, 1.0 + 0.5 * sig_props)
+    elif rarity == "artifact" and additive > 10000:
+        legendary_power_mult = 1.9  # Artifact boost calibrated to target ~800k max
+
+    price = (base + base_item_cost + additive) * attune_mod * consumable_mod * material_mod * curse_mod * sentient_mod * flavor_mod * legendary_power_mult
 
     # Gleaming: add premium on top of base armor cost
     # Reference guides: DSA=330, MSRP=95, avg=212.5 gp for generic "Armor of Gleaming"
