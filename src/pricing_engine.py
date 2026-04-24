@@ -538,7 +538,7 @@ def get_consumable_modifier(criteria: dict) -> float:
     item_name_lower = str(criteria.get("name", "")).lower()
 
     if criteria.get("is_ammunition", False):
-        modifier = 0.02
+        modifier = 0.25
         if rarity in ("very_rare", "legendary", "artifact"):
             modifier *= 0.05
         return modifier
@@ -764,24 +764,47 @@ def calculate_price(criteria: dict) -> float:
         floor = RARITY_FLOORS.get(rarity, 1)
         return max(floor, material_armor_price)
 
-    # Material ammunition: use weight-based formula
+    # Material ammunition: use ratio-based formula relative to arrow baseline
     # This handles adamantine/mithral/silvered arrows, bolts, bullets, etc.
-    # Formula: weight * material_cost_per_lb * markup_multiplier
-    # NOTE: This provides the base price for variant adjustment
-    # The variant adjustment system will then adjust based on ammunition type
+    # For expensive materials (adamantine, mithral), use custom ratios instead of
+    # weight-based scaling to avoid overpricing heavier ammo types.
     is_ammunition = criteria.get("is_ammunition", False)
     if is_ammunition and material and material in MATERIAL_COST_PER_LB:
         # Determine ammunition type from item name
         item_name_lower = str(criteria.get("name", "")).lower().replace("'", "")
-        weight = 0.05  # Default weight (arrow)
-        for ammo_type, ammo_weight in AMMUNITION_WEIGHTS.items():
-            if ammo_type in item_name_lower:
-                weight = ammo_weight
-                break
 
-        # Calculate material cost
-        material_cost_per_lb = MATERIAL_COST_PER_LB.get(material, 100)
-        material_price = weight * material_cost_per_lb * MATERIAL_AMMUNITION_MULTIPLIER
+        # Check if this is an expensive material that needs ratio-based pricing
+        expensive_materials = {"adamantine", "mithral"}
+        if material in expensive_materials:
+            # Custom ratios relative to arrow baseline (arrow = 1.0x)
+            MATERIAL_AMMO_RATIOS = {
+                "firearm bullet": 2.0,
+                "sling bullet": 1.25,
+                "arrow": 1.0,
+                "bolt": 1.25,
+                "bullet": 1.25,  # fallback (same as sling bullet)
+                "needle": 0.5,
+            }
+            ratio = 1.0  # default (arrow)
+            for ammo_type, ammo_ratio in MATERIAL_AMMO_RATIOS.items():
+                if ammo_type in item_name_lower:
+                    ratio = ammo_ratio
+                    break
+
+            # Arrow baseline: weight(0.05) * cost_per_lb * multiplier
+            arrow_weight = 0.05
+            material_cost_per_lb = MATERIAL_COST_PER_LB.get(material, 100)
+            arrow_base = arrow_weight * material_cost_per_lb * MATERIAL_AMMUNITION_MULTIPLIER
+            material_price = arrow_base * ratio
+        else:
+            # For cheaper materials (silver, etc.), weight-based is fine
+            weight = 0.05  # Default weight (arrow)
+            for ammo_type, ammo_weight in AMMUNITION_WEIGHTS.items():
+                if ammo_type in item_name_lower:
+                    weight = ammo_weight
+                    break
+            material_cost_per_lb = MATERIAL_COST_PER_LB.get(material, 100)
+            material_price = weight * material_cost_per_lb * MATERIAL_AMMUNITION_MULTIPLIER
 
         # Apply minimum floor based on material
         min_price = 50 if material == "adamantine" else 25 if material == "mithral" else 10 if material in ("silver", "silvered") else 1
@@ -1297,6 +1320,17 @@ def calculate_price(criteria: dict) -> float:
 
     floor = RARITY_FLOORS.get(rarity, 1)
     price = max(floor, price)
+
+    # Cap algorithm-only ammunition (slaying, bloodseeker, etc.) at 1.2× the +3 ammo price
+    # +3 ammo amalgamated price is ~644 gp, so cap = 773 gp
+    # This only applies to algorithm-priced ammo (no amalgamated price), not amalgamated items
+    is_ammunition = criteria.get("is_ammunition", False)
+    if is_ammunition and price > 773:
+        amalgamated_price = criteria.get("amalgamated_price")
+        price_confidence = criteria.get("price_confidence", "none")
+        has_amalgamated = pd.notna(amalgamated_price) and amalgamated_price > 0 and price_confidence in ("multi", "solo")
+        if not has_amalgamated:
+            price = min(price, 773)
 
     # Clamp any artifact not handled by tier system to 250k-1M range
     if rarity == "artifact":

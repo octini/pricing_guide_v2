@@ -161,6 +161,7 @@ def fuzzy_match_items(
     # Maps normalized query → set of candidate substrings to reject
     _FUZZY_BLOCKLIST = {
         'bloodrage greataxe': {'bloodaxe'},  # Bloodrage Greataxe (Uncommon) ≠ Bloodaxe (Very Rare)
+        'winged bolt': {'winged boots'},  # Winged Bolt (ammo) ≠ Winged Boots (wondrous item)
     }
     blocked = _FUZZY_BLOCKLIST.get(query.lower(), set())
 
