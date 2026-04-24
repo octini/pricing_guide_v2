@@ -19,7 +19,6 @@ from pathlib import Path
 
 sys.path.insert(0, str(Path(__file__).parent.parent))
 
-from src.variant_pricing import apply_variant_spacing
 
 INPUT_CSV = Path('data/processed/items_validated.csv')
 OUTPUT_CSV = Path('data/processed/items_validated.csv')
@@ -187,9 +186,7 @@ def main():
         if pd.isna(current_price) or current_price <= 0:
             continue
         
-        # Skip items with amalgamated reference prices - trust the sources
-        if pd.notna(row.get('amalgamated_price')) and row.get('price_confidence') in ('multi', 'solo'):
-            continue
+        has_amalgamated = pd.notna(row.get('amalgamated_price')) and row.get('price_confidence') in ('multi', 'solo')
         
         base_name, base_price = find_base_item(name, mundane_prices)
         
@@ -200,6 +197,10 @@ def main():
             if is_flavor_item(name):
                 # Purely flavor items: small premium over mundane
                 min_price = base_price * 1.10  # 10% premium for flavor
+            elif has_amalgamated:
+                # Items with amalgamated prices: only enforce mundane floor (1.1x)
+                # Don't apply full rarity multiplier — trust the reference sources
+                min_price = base_price * 1.10
             else:
                 # Items with mechanical benefits: rarity-based minimum
                 min_price = base_price * rarity_mult
@@ -216,6 +217,67 @@ def main():
                     'is_flavor': is_flavor_item(name),
                 })
     
+    # --- Fix: Use official_price_gp as floor for items with unknown/non-magic rarity ---
+    # Items like Spiked Armor have official_price_gp=75 but rule_price=1 because
+    # the pricing engine doesn't handle "unknown" rarity well.
+    official_fixes = []
+    for idx, row in df.iterrows():
+        final = row.get('final_price', 0)
+        official = row.get('official_price_gp', 0)
+        if pd.notna(official) and official > 0 and pd.notna(final) and final < official * 0.5:
+            # If final price is less than half the official price, use official price
+            old_price = final
+            df.loc[idx, 'final_price'] = official
+            official_fixes.append(f"  {row['name']}: {old_price:.2f} -> {official:.2f} gp (official price floor)")
+    
+    if official_fixes:
+        print(f'\n=== OFFICIAL PRICE FLOOR FIXES ===')
+        for msg in official_fixes:
+            print(msg)
+
+    # --- Fix: Apply variant spacing to +N weapons ---
+    # Script 05b computes variant_adjustment factors but skips simple +N weapons
+    # because they use amalgamated pricing. However, the amalgamated price is flat
+    # (e.g., "+1 Weapon" = 615 GP for all weapon types). We need to apply the
+    # variant adjustment AFTER amalgamation to differentiate weapon types.
+    # IDEMPOTENT: Always compute from amalgamated_price * (1 + adj), not from final_price.
+    variant_spacing_adjustments = []
+    if 'variant_adjustment' in df.columns:
+        for idx, row in df.iterrows():
+            adj = row.get('variant_adjustment', 0)
+            if pd.isna(adj) or adj == 0:
+                continue
+            name = str(row.get('name', ''))
+            # Only apply to simple +N weapons (not Drow, Vicious, etc.)
+            if not re.match(r'^\+\d\s+\w', name):
+                continue
+            # Check it's a weapon type
+            item_type = str(row.get('item_type_code', '')).split('|')[0]
+            if item_type not in ('M', 'R'):
+                continue
+            # Use amalgamated price as the base (idempotent)
+            base_price_for_adj = row.get('amalgamated_price', 0)
+            if pd.isna(base_price_for_adj) or base_price_for_adj <= 0:
+                continue
+            current_price = row.get('final_price', 0)
+            if pd.isna(current_price) or current_price <= 0:
+                continue
+            # Compute adjusted price from amalgamated base
+            new_price = round(base_price_for_adj * (1 + adj), 2)
+            if abs(new_price - current_price) > 0.01:
+                df.loc[idx, 'final_price'] = new_price
+                variant_spacing_adjustments.append(
+                    f"  {name}: {current_price:.2f} -> {new_price:.2f} gp (variant adj={adj:+.4f})"
+                )
+    
+    if variant_spacing_adjustments:
+        print(f'\n=== VARIANT SPACING ADJUSTMENTS ===')
+        print(f'Total: {len(variant_spacing_adjustments)}')
+        for msg in variant_spacing_adjustments[:20]:
+            print(msg)
+        if len(variant_spacing_adjustments) > 20:
+            print(f'  ... and {len(variant_spacing_adjustments) - 20} more')
+
     # Enforce armor tier ordering: Plate Armor >= Half Plate Armor >= Breastplate
     # for the same enhancement bonus (+1, +2, +3), to prevent ML adjustments from
     # inverting the natural price relationship that reflects the higher mundane cost.
@@ -265,13 +327,9 @@ def main():
         for msg in tier_ordering_adjustments:
             print(f'  {msg}')
 
-    # Apply mundane-cost-based variant spacing for +N armor/weapons
-    df, variant_adjustments = apply_variant_spacing(df)
-    if variant_adjustments:
-        print(f'\n=== VARIANT SPACING ADJUSTMENTS ===')
-        print(f'Total: {len(variant_adjustments)} items adjusted')
-        for adj in sorted(variant_adjustments, key=lambda x: x['name']):
-            print(f"  {adj['name']:45s} | {adj['old_price']:>10.2f} -> {adj['new_price']:>10.2f} gp (x{adj['multiplier']:.3f})")
+    # NOTE: Variant spacing is already applied in script 05b.
+    # Do NOT re-apply here — it compounds multipliers on every run (non-idempotent).
+    # See commit history for details on this fix.
 
     # Override ML quantile-based price bands with flat ±20% range.
     # Rationale: ML quantile bounds were too wide for common items (>50% range)
@@ -312,10 +370,13 @@ def main():
             continue
         base_name, base_price = find_base_item(name, mundane_prices)
         if base_name is not None and base_price is not None:
+            has_amalgamated = pd.notna(row.get('amalgamated_price')) and row.get('price_confidence') in ('multi', 'solo')
             rarity_key = row['rarity'].lower().replace(' ', '_')
             rarity_mult = RARITY_MINIMUMS.get(rarity_key, 1.5)
             
             if is_flavor_item(name):
+                min_price = base_price * 1.10
+            elif has_amalgamated:
                 min_price = base_price * 1.10
             else:
                 min_price = base_price * rarity_mult

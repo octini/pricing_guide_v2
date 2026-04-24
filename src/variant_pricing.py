@@ -221,6 +221,12 @@ def apply_variant_spacing(df: pd.DataFrame) -> Tuple[pd.DataFrame, list]:
         if rarity == 'mundane':
             continue
         
+        # Defensive: skip items that already had variant spacing applied
+        # (price_source == 'rule+variant') to prevent compounding multipliers
+        price_source = str(row.get('price_source', '')).lower()
+        if 'variant' in price_source:
+            continue
+        
         multiplier = compute_variant_multiplier(name)
         
         if abs(multiplier - 1.0) < 0.001:
