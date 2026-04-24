@@ -1,25 +1,90 @@
-# Anomaly Detection Report (Updated)
+# Anomaly Detection Report
 
 ## Overall Statistics
-- Total items: 4759
-- Median price: 4,900 gp
-- Mean price: 23,519 gp
-- Std dev: 69,055 gp
-- CV: 2.94
-- Skewness: 7.61
+
+- Total items: 4,837
+- Median price: 3,905 gp
+- Mean price: 22,322 gp
+- Std dev: 70,241 gp
+- CV: 3.15
+- Skewness: 7.63
 - Price range: 0 – 985,000 gp
 
 ## Outliers by Rarity & Type
 
 | Rarity/Type | Count | Median | IQR Width | Outliers | Outlier Rate |
 |--------------|-------|--------|-----------|----------|--------------|
-| Artifact (persistent) | 71 | 413,000 gp | 310,000 | 0 | 0.0% |
-| Common (persistent) | 353 | 250 gp | 295 | 39 | 11.0% |
-| Legendary (persistent) | 639 | 51,090 gp | 42,350 | 67 | 10.5% |
-| Mundane (persistent) | 444 | 5 gp | 49 | 77 | 17.3% |
-| Rare (persistent) | 1412 | 4,994 gp | 3,428 | 156 | 11.0% |
-| Uncommon (persistent) | 951 | 871 gp | 816 | 119 | 12.5% |
-| Unknown (persistent) | 19 | 1 gp | 0 | 3 | 15.8% ⚠️ zero-width IQR |
-| Unknown Magic (persistent) | 9 | 345 gp | 15 | 2 | 22.2% |
-| Varies (persistent) | 8 | 2,482 gp | 12,000 | 0 | 0.0% |
-| Very Rare (persistent) | 853 | 17,035 gp | 14,481 | 17 | 2.0% |
+| artifact (persistent) | 80 | 391,250 gp | 300,312 | 0 | 0.0%  |
+| common (consumable) | 64 | 90 gp | 7 | 19 | 29.7%  |
+| common (persistent) | 292 | 154 gp | 181 | 8 | 2.7%  |
+| legendary (consumable) | 26 | 35,993 gp | 24,522 | 4 | 15.4%  |
+| legendary (persistent) | 625 | 48,700 gp | 51,891 | 60 | 9.6%  |
+| mundane (consumable) | 46 | 10 gp | 199 | 6 | 13.0%  |
+| mundane (persistent) | 405 | 5 gp | 39 | 68 | 16.8%  |
+| rare (consumable) | 84 | 2,369 gp | 3,066 | 3 | 3.6%  |
+| rare (persistent) | 1331 | 4,271 gp | 3,755 | 136 | 10.2%  |
+| uncommon (consumable) | 70 | 409 gp | 407 | 8 | 11.4%  |
+| uncommon (persistent) | 886 | 750 gp | 594 | 121 | 13.7%  |
+| unknown (persistent) | 20 | 1 gp | 0 | 1 | 5.0% ⚠️ zero-width IQR |
+| unknown_magic (persistent) | 9 | 342 gp | 16 | 2 | 22.2%  |
+| varies (consumable) | 6 | 350 gp | 691 | 1 | 16.7%  |
+| varies (persistent) | 35 | 750 gp | 2,163 | 7 | 20.0%  |
+| very_rare (consumable) | 45 | 3,181 gp | 11,402 | 3 | 6.7%  |
+| very_rare (persistent) | 813 | 16,242 gp | 15,192 | 18 | 2.2%  |
+
+## Extreme Outliers (> 3× rarity median)
+
+Total: 1143 items
+
+| Name | Source | Rarity | Price | Rarity Median |
+|------|--------|--------|-------|---------------|
+| Breastplate of Gleaming | XDMG | common | 700 gp | - |
+| Cast-Off Half Plate Armor | XDMG | common | 611 gp | - |
+| Cast-Off Plate Armor | XDMG | common | 1,009 gp | - |
+| Detection Dragonmark Channel | ExploringEberron24 | common | 526 gp | - |
+| Earring of Message | CRCotN | common | 998 gp | - |
+| Finding Dragonmark Channel | ExploringEberron24 | common | 526 gp | - |
+| Half Plate Armor of Gleaming | XDMG | common | 1,050 gp | - |
+| Handling Dragonmark Channel | ExploringEberron24 | common | 526 gp | - |
+| Healing Dragonmark Channel | ExploringEberron24 | common | 526 gp | - |
+| Hospitality Dragonmark Channel | ExploringEberron24 | common | 526 gp | - |
+| Making Dragonmark Channel | ExploringEberron24 | common | 526 gp | - |
+| Passage Dragonmark Channel | ExploringEberron24 | common | 526 gp | - |
+| Pressure Capsule | GoS | common | 39 gp | - |
+| Scribing Dragonmark Channel | ExploringEberron24 | common | 526 gp | - |
+| Sentinel Dragonmark Channel | ExploringEberron24 | common | 526 gp | - |
+| Shadow Dragonmark Channel | ExploringEberron24 | common | 526 gp | - |
+| Smoldering Half Plate Armor | XDMG | common | 616 gp | - |
+| Smoldering Plate Armor | XDMG | common | 1,014 gp | - |
+| Splint Armor of Gleaming | XDMG | common | 500 gp | - |
+| Storm Dragonmark Channel | ExploringEberron24 | common | 526 gp | - |
+| Warding Dragonmark Channel | ExploringEberron24 | common | 526 gp | - |
+| Wind Stones | ExploringEberron24 | common | 3,135 gp | - |
+| Silvered Arrow | PHB | common | 12 gp | - |
+| Silvered Bolt | PHB | common | 19 gp | - |
+| Silvered Needle | PHB | common | 10 gp | - |
+| Silvered Sling Bullet | PHB | common | 19 gp | - |
+| Spell Scroll (Cantrip) | XDMG | common | 25 gp | - |
+| Walloping Arrow | XDMG | common | 25 gp | - |
+| Walloping Bolt | XDMG | common | 25 gp | - |
+| Walloping Firearm Bullet | XDMG | common | 25 gp | - |
+| Walloping Needle | XDMG | common | 25 gp | - |
+| Walloping Sling Bullet | XDMG | common | 25 gp | - |
+| Deck of Many More Things | BMT | legendary | 189,214 gp | - |
+| Drow +3 Battleaxe | MM | legendary | 14,540 gp | - |
+| Drow +3 Blowgun | MM | legendary | 14,571 gp | - |
+| Drow +3 Club | MM | legendary | 14,540 gp | - |
+| Drow +3 Dagger | MM | legendary | 14,540 gp | - |
+| Drow +3 Dart | MM | legendary | 14,571 gp | - |
+| Drow +3 Double-Bladed Scimitar | MM | legendary | 14,540 gp | - |
+| Drow +3 Flail | MM | legendary | 14,540 gp | - |
+| Drow +3 Glaive | MM | legendary | 14,540 gp | - |
+| Drow +3 Greataxe | MM | legendary | 14,540 gp | - |
+| Drow +3 Greatclub | MM | legendary | 14,540 gp | - |
+| Drow +3 Greatsword | MM | legendary | 14,540 gp | - |
+| Drow +3 Halberd | MM | legendary | 14,540 gp | - |
+| Drow +3 Hand Crossbow | MM | legendary | 14,571 gp | - |
+| Drow +3 Handaxe | MM | legendary | 14,540 gp | - |
+| Drow +3 Heavy Crossbow | MM | legendary | 14,571 gp | - |
+| Drow +3 Hooked Shortspear | MM | legendary | 14,540 gp | - |
+| Drow +3 Hoopak | MM | legendary | 14,540 gp | - |

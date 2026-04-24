@@ -256,32 +256,6 @@ def fuzzy_match_items(
     return matched
 
 
-def _get_reference_rarity_tier(price: float) -> str:
-    """Infer the rarity tier of a reference price based on RARITY_MEDIANS."""
-    for tier in ["artifact", "legendary", "very_rare", "rare", "uncommon", "common", "mundane"]:
-        if price >= RARITY_MEDIANS[tier] * 0.5:
-            return tier
-    return "mundane"
-
-
-def _apply_rarity_scaling(price: float, item_rarity: str, reference_price: float) -> float:
-    """Scale a reference price up if the item's rarity tier exceeds the reference's implied tier."""
-    rarity_order = ["mundane", "common", "uncommon", "rare", "very_rare", "legendary", "artifact"]
-    item_rarity_key = item_rarity.lower().replace(" ", "_").replace("-", "_")
-    if item_rarity_key not in RARITY_MEDIANS:
-        return price
-
-    ref_tier = _get_reference_rarity_tier(reference_price)
-    item_idx = rarity_order.index(item_rarity_key) if item_rarity_key in rarity_order else -1
-    ref_idx = rarity_order.index(ref_tier) if ref_tier in rarity_order else -1
-
-    if item_idx > ref_idx:
-        # Scale up by the ratio of rarity medians
-        scale = RARITY_MEDIANS[item_rarity_key] / RARITY_MEDIANS[ref_tier]
-        return price * scale
-    return price
-
-
 def amalgamate_prices(
     items_df: pd.DataFrame,
     dsa_df: pd.DataFrame,
@@ -380,20 +354,9 @@ def amalgamate_prices(
                             continue
                         matches = fuzzy_match_items(query, names, threshold)
                         if matches:
-                            ref_price = lookup[matches[0]]
-                            prices[source] = ref_price
-                            generic_prices[source] = ref_price
+                            prices[source] = lookup[matches[0]]
 
         if prices:
-            # Apply rarity scaling to ALL prices when item's rarity exceeds
-            # the reference price's implied tier. This handles cases where
-            # reference sources price items at a lower rarity than our data.
-            item_rarity = row.get("rarity", "unknown")
-            for source in list(prices.keys()):
-                scaled = _apply_rarity_scaling(prices[source], item_rarity, prices[source])
-                if scaled != prices[source]:
-                    prices[source] = scaled
-
             # Detect and exclude outlier prices before calculating weighted average
             filtered_prices = detect_and_exclude_outliers(prices)
             
