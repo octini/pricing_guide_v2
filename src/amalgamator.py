@@ -207,6 +207,13 @@ def fuzzy_match_items(
         if dragon_slayer_matches:
             return dragon_slayer_matches
 
+    # SPECIAL CASE: Giant Slayer weapons match "Giant Slayer" entries
+    # Reference sources list as "Giant Slayer", "Giant Slayer (any sword or axe)", "Giant Slayer (any axe or sword)"
+    if query.lower().startswith('giant slayer '):
+        giant_slayer_matches = [c for c in candidates if re.match(r'^giant slayer(\s*\(?any\s+(sword|axe)(\s+or\s+(sword|axe))?\)?)?$', c.lower())]
+        if giant_slayer_matches:
+            return giant_slayer_matches
+
     # Extract bonus number from query (e.g., "+3 Shortsword" → "3")
     query_bonus_match = re.search(r'\+(\d+)', query)
     query_bonus = query_bonus_match.group(1) if query_bonus_match else None
