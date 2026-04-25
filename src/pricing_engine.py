@@ -712,9 +712,9 @@ def calculate_price(criteria: dict) -> float:
                     if any(w in item_name_lower for w in ["sword", "axe", "hammer", "bow", "dagger", "spear", "staff"]):
                         item_base_cost = float(WEAPON_BASE_COSTS["default"])
             
-            # Apply DSA formula: Base_Enspelled + Item_Cost × 5.0
+            # Apply formula: Base_Enspelled + Item_Cost × 1.0
             # DSA does NOT apply attunement modifiers to enspelled items
-            enspelled_price = base_enspelled_price + item_base_cost * 5.0
+            enspelled_price = base_enspelled_price + item_base_cost * 1.0
             
             # Apply floor
             floor = RARITY_FLOORS.get(rarity, 1)

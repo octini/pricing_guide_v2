@@ -259,6 +259,28 @@ def fuzzy_match_items(
             if query_bonus != candidate_bonus:
                 continue  # Skip if bonus numbers don't match
 
+        # If query has NO bonus but candidate does, reject the match
+        # (prevents mundane "Shortsword" matching magic "Shortsword +1")
+        if not query_bonus:
+            candidate_bonus_match = re.search(r'\+(\d+)', candidate)
+            if candidate_bonus_match:
+                continue  # Mundane item should not match a +N magic item
+
+        # Prevent Mithral +N specific armor from matching generic "Mithral +N Armor"
+        # The guides price these flat regardless of base armor type, but the
+        # algorithm correctly differentiates by base armor cost
+        if 'mithral' in query.lower() and query_bonus:
+            q_lower = query.lower()
+            c_lower = candidate.lower()
+            # If query has a specific armor type but candidate doesn't, reject
+            armor_types = ['plate armor', 'half plate', 'breastplate', 'chain mail',
+                          'chain shirt', 'scale mail', 'splint', 'ring mail',
+                          'studded leather', 'hide armor']
+            query_has_type = any(t in q_lower for t in armor_types)
+            candidate_has_type = any(t in c_lower for t in armor_types)
+            if query_has_type and not candidate_has_type and 'mithral' in c_lower:
+                continue  # Reject generic mithral match
+
         matched.append(candidate)
 
     return matched
@@ -290,6 +312,20 @@ def amalgamate_prices(
     results = []
     for _, row in items_df.iterrows():
         norm_name = row.get("normalized_name", row["name"].lower())
+
+        # Mundane items should never amalgamate - they have fixed PHB prices
+        item_rarity = str(row.get("rarity", "")).lower()
+        if item_rarity == "mundane":
+            results.append({
+                **row.to_dict(),
+                "dsa_price": None,
+                "msrp_price": None,
+                "dmpg_price": None,
+                "amalgamated_price": None,
+                "price_sources": "",
+                "price_confidence": "mundane",
+            })
+            continue
 
         # Match in each guide
         prices = {}
@@ -345,6 +381,12 @@ def amalgamate_prices(
                 # Check both original name (with apostrophe) and normalized name (without apostrophe)
                 if re.search(r"monster hunters?[']?.*\+\d+", item_name.lower()) or re.search(r"monster hunters.*\+\d+", norm_name):
                     is_weapon = False  # Prevent generic weapon matching
+                
+                # Prevent Mithral +N armor from matching generic "Armor +N" entries
+                # The guides price these flat regardless of base armor type, but the
+                # algorithm correctly differentiates by base armor cost
+                if re.search(r"mithral.*\+\d+", item_name.lower()):
+                    is_armor = False  # Prevent generic armor matching
                 
                 if is_ammo:
                     generic_queries = [f"ammunition +{bonus}", f"ammunition any +{bonus}", f"ammunition +{bonus} ea"]

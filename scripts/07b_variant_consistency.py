@@ -10,13 +10,27 @@ OUTPUT_CSV = Path('output/variant_consistency_report.csv')
 
 
 def consistency_group(row: pd.Series):
-    """Assign an item to a consistency group based on its properties."""
+    """Assign an item to a consistency group based on its properties.
+
+    Named legendary items (Holy Avenger, Moonblade, Luck Blade, etc.) share
+    weapon_bonus/ac_bonus numeric bonuses with generic +N variants but have
+    much higher prices due to unique properties. They're excluded from +N
+    groups by checking generic_parent — only items whose generic_parent
+    matches the literal "+N Weapon" or "+N Armor" pattern are included.
+    """
     wb = row.get('weapon_bonus')
+    gp = str(row.get('generic_parent', ''))
+    
     if pd.notna(wb) and wb > 0:
-        return f"weapon+{int(wb)}"
+        if gp == f"+{int(wb)} Weapon" or gp == f"+{int(wb)} Ammunition":
+            return f"weapon+{int(wb)}"
+        return None
+    
     ab = row.get('ac_bonus')
     if pd.notna(ab) and ab > 0:
-        return f"armor+{int(ab)}"
+        if gp == f"+{int(ab)} Armor" or gp == f"+{int(ab)} Shield":
+            return f"armor+{int(ab)}"
+        return None
 
     name = str(row.get('name', '')).lower()
     if 'gleaming' in name:
