@@ -201,6 +201,14 @@ def fuzzy_match_items(
         if wounding_matches:
             return wounding_matches
 
+    # SPECIAL CASE: Monster Hunter weapons - DO NOT amalgamate to generic +N weapons
+    # Monster Hunter weapons have special properties (concentration-free Hunter's Mark,
+    # spell attack/DC bonuses) that generic +N weapons don't have. Let them fall through
+    # to algorithm pricing which properly values these properties.
+    # Note: normalized names strip apostrophes, so "monster hunter's" becomes "monster hunters"
+    if re.search(r"monster hunters.*\+\d+", query.lower()):
+        return []  # No amalgamation - use algorithm pricing
+    
     # SPECIAL CASE: Dragon Slayer weapons match "Dragon Slayer" entries
     # Reference sources list as "Dragon Slayer" or "Dragon Slayer (any sword)"
     if query.lower().startswith('dragon slayer '):
@@ -331,6 +339,13 @@ def amalgamate_prices(
 
                 # Build generic query names for each guide's naming convention
                 generic_queries = []
+                
+                # SPECIAL CASE: Skip generic fallback for Monster Hunter weapons
+                # They have special properties that generic +N weapons don't have
+                # Check both original name (with apostrophe) and normalized name (without apostrophe)
+                if re.search(r"monster hunters?[']?.*\+\d+", item_name.lower()) or re.search(r"monster hunters.*\+\d+", norm_name):
+                    is_weapon = False  # Prevent generic weapon matching
+                
                 if is_ammo:
                     generic_queries = [f"ammunition +{bonus}", f"ammunition any +{bonus}", f"ammunition +{bonus} ea"]
                 elif is_shield:
