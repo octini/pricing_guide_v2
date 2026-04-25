@@ -1,0 +1,302 @@
+check,name,rarity,final_price,base_name,details,severity
+variant_family_outlier,Ascendant Scaled Ornament,legendary,43189.12939453125,armor+1,"Family CV=0.88, deviation=30248gp (threshold=22679gp), family median=12941gp",medium
+variant_family_outlier,Hide of the Feral Guardian (Dormant),legendary,67149.39765625,armor+1,"Family CV=0.88, deviation=54208gp (threshold=22679gp), family median=12941gp",medium
+variant_family_outlier,Jewel of Three Prayers (Dormant),legendary,52616.5072265625,armor+1,"Family CV=0.88, deviation=39675gp (threshold=22679gp), family median=12941gp",medium
+variant_family_outlier,Platinum Scarf,legendary,57176.1849609375,armor+1,"Family CV=0.88, deviation=44235gp (threshold=22679gp), family median=12941gp",medium
+variant_family_outlier,Scarab of Protection,legendary,54854.2779296875,armor+1,"Family CV=0.88, deviation=41913gp (threshold=22679gp), family median=12941gp",medium
+variant_family_outlier,Breastplate of Kamvuul Norek,legendary,90757.6078125,armor+2,"Family CV=2.47, deviation=82318gp (threshold=41675gp), family median=8439gp",medium
+variant_family_outlier,Hide of the Feral Guardian (Awakened),legendary,62680.482226562504,armor+2,"Family CV=2.47, deviation=54241gp (threshold=41675gp), family median=8439gp",medium
+variant_family_outlier,Jewel of Three Prayers (Awakened),legendary,58483.1974609375,armor+2,"Family CV=2.47, deviation=50044gp (threshold=41675gp), family median=8439gp",medium
+variant_family_outlier,Shield of the Hidden Lord,legendary,85435.3109375,armor+2,"Family CV=2.47, deviation=76996gp (threshold=41675gp), family median=8439gp",medium
+variant_family_outlier,Half Plate Armor of Gleaming,common,1050.0,gleaming-armor,"Family CV=0.63, deviation=710gp (threshold=429gp), family median=340gp",medium
+variant_family_outlier,Drown,legendary,106063.336328125,weapon+1,"Family CV=6.92, deviation=102045gp (threshold=55580gp), family median=4018gp",high
+variant_family_outlier,Gurt's Greataxe,legendary,71560.91875,weapon+1,"Family CV=6.92, deviation=67543gp (threshold=55580gp), family median=4018gp",high
+variant_family_outlier,Hazirawn,legendary,108407.19438820449,weapon+1,"Family CV=6.92, deviation=104389gp (threshold=55580gp), family median=4018gp",high
+variant_family_outlier,Luck Glaive,legendary,220282.75913015136,weapon+1,"Family CV=6.92, deviation=216265gp (threshold=55580gp), family median=4018gp",high
+variant_family_outlier,Luck Greatsword,legendary,228170.13413015136,weapon+1,"Family CV=6.92, deviation=224152gp (threshold=55580gp), family median=4018gp",high
+variant_family_outlier,Luck Longsword,legendary,210330.0,weapon+1,"Family CV=6.92, deviation=206312gp (threshold=55580gp), family median=4018gp",high
+variant_family_outlier,Luck Rapier,legendary,204508.00913015136,weapon+1,"Family CV=6.92, deviation=200490gp (threshold=55580gp), family median=4018gp",high
+variant_family_outlier,Luck Scimitar,legendary,202442.625,weapon+1,"Family CV=6.92, deviation=198425gp (threshold=55580gp), family median=4018gp",high
+variant_family_outlier,Luck Shortsword,legendary,196620.63413015136,weapon+1,"Family CV=6.92, deviation=192603gp (threshold=55580gp), family median=4018gp",high
+variant_family_outlier,Luck Sickle,legendary,196620.63413015136,weapon+1,"Family CV=6.92, deviation=192603gp (threshold=55580gp), family median=4018gp",high
+variant_family_outlier,Moonblade Greatsword,legendary,157504.0,weapon+1,"Family CV=6.92, deviation=153486gp (threshold=55580gp), family median=4018gp",high
+variant_family_outlier,Moonblade Longsword,legendary,157504.0,weapon+1,"Family CV=6.92, deviation=153486gp (threshold=55580gp), family median=4018gp",high
+variant_family_outlier,Moonblade Rapier,legendary,157504.0,weapon+1,"Family CV=6.92, deviation=153486gp (threshold=55580gp), family median=4018gp",high
+variant_family_outlier,Moonblade Scimitar,legendary,157504.0,weapon+1,"Family CV=6.92, deviation=153486gp (threshold=55580gp), family median=4018gp",high
+variant_family_outlier,Moonblade Shortsword,legendary,157504.0,weapon+1,"Family CV=6.92, deviation=153486gp (threshold=55580gp), family median=4018gp",high
+variant_family_outlier,Waythe,legendary,74818.36152343749,weapon+1,"Family CV=6.92, deviation=70800gp (threshold=55580gp), family median=4018gp",high
+variant_family_outlier,Blackstaff,legendary,77352.05390625,weapon+2,"Family CV=0.77, deviation=52039gp (threshold=39132gp), family median=25314gp",medium
+variant_family_outlier,Dawnbringer,legendary,70979.963671875,weapon+2,"Family CV=0.77, deviation=45666gp (threshold=39132gp), family median=25314gp",medium
+variant_family_outlier,Infiltrator's Key (Awakened),legendary,90013.52265625,weapon+2,"Family CV=0.77, deviation=64700gp (threshold=39132gp), family median=25314gp",medium
+variant_family_outlier,Inscrutable Staff,legendary,105343.89905160449,weapon+2,"Family CV=0.77, deviation=80030gp (threshold=39132gp), family median=25314gp",medium
+variant_family_outlier,Ironfang,legendary,105208.6073325092,weapon+2,"Family CV=0.77, deviation=79895gp (threshold=39132gp), family median=25314gp",medium
+variant_family_outlier,Staff of Contaminated Power,legendary,89313.83744858112,weapon+2,"Family CV=0.77, deviation=64000gp (threshold=39132gp), family median=25314gp",medium
+variant_family_outlier,Staff of the Magi,legendary,105300.23033854166,weapon+2,"Family CV=0.77, deviation=79987gp (threshold=39132gp), family median=25314gp",medium
+variant_family_outlier,Sunsword,legendary,69613.037109375,weapon+2,"Family CV=0.77, deviation=44300gp (threshold=39132gp), family median=25314gp",medium
+variant_family_outlier,Tinderstrike,legendary,124110.17265625,weapon+2,"Family CV=0.77, deviation=98797gp (threshold=39132gp), family median=25314gp",medium
+variant_family_outlier,Windvane,legendary,111195.507421875,weapon+2,"Family CV=0.77, deviation=85882gp (threshold=39132gp), family median=25314gp",medium
+variant_family_outlier,Greater Silver Sword,legendary,261250.0,weapon+3,"Family CV=2.22, deviation=225560gp (threshold=158708gp), family median=35690gp",medium
+variant_family_outlier,Holy Avenger Battleaxe,legendary,214828.3874858703,weapon+3,"Family CV=2.22, deviation=179138gp (threshold=158708gp), family median=35690gp",medium
+variant_family_outlier,Holy Avenger Blowgun,legendary,209631.80892251583,weapon+3,"Family CV=2.22, deviation=173941gp (threshold=158708gp), family median=35690gp",medium
+variant_family_outlier,Holy Avenger Club,legendary,204214.4732041931,weapon+3,"Family CV=2.22, deviation=168524gp (threshold=158708gp), family median=35690gp",medium
+variant_family_outlier,Holy Avenger Dagger,legendary,201616.18392251583,weapon+3,"Family CV=2.22, deviation=165926gp (threshold=158708gp), family median=35690gp",medium
+variant_family_outlier,Holy Avenger Dart,legendary,196419.6053591614,weapon+3,"Family CV=2.22, deviation=160729gp (threshold=158708gp), family median=35690gp",medium
+variant_family_outlier,Holy Avenger Double-Bladed Scimitar,legendary,216348.28928167725,weapon+3,"Family CV=2.22, deviation=180658gp (threshold=158708gp), family median=35690gp",medium
+variant_family_outlier,Holy Avenger Flail,legendary,212230.0982041931,weapon+3,"Family CV=2.22, deviation=176540gp (threshold=158708gp), family median=35690gp",medium
+variant_family_outlier,Holy Avenger Glaive,legendary,216348.28928167725,weapon+3,"Family CV=2.22, deviation=180658gp (threshold=158708gp), family median=35690gp",medium
+variant_family_outlier,Holy Avenger Greataxe,legendary,224941.754126362,weapon+3,"Family CV=2.22, deviation=189251gp (threshold=158708gp), family median=35690gp",medium
+variant_family_outlier,Holy Avenger Greatclub,legendary,218263.13908596415,weapon+3,"Family CV=2.22, deviation=182573gp (threshold=158708gp), family median=35690gp",medium
+variant_family_outlier,Holy Avenger Greatsword,legendary,224363.91428167725,weapon+3,"Family CV=2.22, deviation=188673gp (threshold=158708gp), family median=35690gp",medium
+variant_family_outlier,Holy Avenger Halberd,legendary,216348.28928167725,weapon+3,"Family CV=2.22, deviation=180658gp (threshold=158708gp), family median=35690gp",medium
+variant_family_outlier,Holy Avenger Hand Crossbow,legendary,205734.375,weapon+3,"Family CV=2.22, deviation=170044gp (threshold=158708gp), family median=35690gp",medium
+variant_family_outlier,Holy Avenger Hand Sentira Lens,legendary,205734.375,weapon+3,"Family CV=2.22, deviation=170044gp (threshold=158708gp), family median=35690gp",medium
+variant_family_outlier,Holy Avenger Handaxe,legendary,204214.4732041931,weapon+3,"Family CV=2.22, deviation=168524gp (threshold=158708gp), family median=35690gp",medium
+variant_family_outlier,Holy Avenger Heavy Bayonet,legendary,209631.80892251583,weapon+3,"Family CV=2.22, deviation=173941gp (threshold=158708gp), family median=35690gp",medium
+variant_family_outlier,Holy Avenger Heavy Crossbow,legendary,220466.4803591614,weapon+3,"Family CV=2.22, deviation=184776gp (threshold=158708gp), family median=35690gp",medium
+variant_family_outlier,Holy Avenger Heavy Sentira Lens,legendary,212450.8553591614,weapon+3,"Family CV=2.22, deviation=176760gp (threshold=158708gp), family median=35690gp",medium
+variant_family_outlier,Holy Avenger Hooked Shortspear,legendary,204214.4732041931,weapon+3,"Family CV=2.22, deviation=168524gp (threshold=158708gp), family median=35690gp",medium
+variant_family_outlier,Holy Avenger Hoopak,legendary,204214.4732041931,weapon+3,"Family CV=2.22, deviation=168524gp (threshold=158708gp), family median=35690gp",medium
+variant_family_outlier,Holy Avenger Javelin,legendary,204214.4732041931,weapon+3,"Family CV=2.22, deviation=168524gp (threshold=158708gp), family median=35690gp",medium
+variant_family_outlier,Holy Avenger Lance,legendary,216348.28928167725,weapon+3,"Family CV=2.22, deviation=180658gp (threshold=158708gp), family median=35690gp",medium
+variant_family_outlier,Holy Avenger Light Bayonet,legendary,201616.18392251583,weapon+3,"Family CV=2.22, deviation=165926gp (threshold=158708gp), family median=35690gp",medium
+variant_family_outlier,Holy Avenger Light Crossbow,legendary,215664.84980428696,weapon+3,"Family CV=2.22, deviation=179974gp (threshold=158708gp), family median=35690gp",medium
+variant_family_outlier,Holy Avenger Light Hammer,legendary,204214.4732041931,weapon+3,"Family CV=2.22, deviation=168524gp (threshold=158708gp), family median=35690gp",medium
+variant_family_outlier,Holy Avenger Light Repeating Crossbow,legendary,215664.84980428696,weapon+3,"Family CV=2.22, deviation=179974gp (threshold=158708gp), family median=35690gp",medium
+variant_family_outlier,Holy Avenger Light Sentira Lens,legendary,207649.22480428696,weapon+3,"Family CV=2.22, deviation=171959gp (threshold=158708gp), family median=35690gp",medium
+variant_family_outlier,Holy Avenger Longbow,legendary,212230.0982041931,weapon+3,"Family CV=2.22, deviation=176540gp (threshold=158708gp), family median=35690gp",medium
+variant_family_outlier,Holy Avenger Longsword,legendary,213750.0,weapon+3,"Family CV=2.22, deviation=178060gp (threshold=158708gp), family median=35690gp",medium
+variant_family_outlier,Holy Avenger Mace,legendary,206812.7624858703,weapon+3,"Family CV=2.22, deviation=171122gp (threshold=158708gp), family median=35690gp",medium
+variant_family_outlier,Holy Avenger Maul,legendary,226278.76408596415,weapon+3,"Family CV=2.22, deviation=190588gp (threshold=158708gp), family median=35690gp",medium
+variant_family_outlier,Holy Avenger Morningstar,legendary,214828.3874858703,weapon+3,"Family CV=2.22, deviation=179138gp (threshold=158708gp), family median=35690gp",medium
+variant_family_outlier,Holy Avenger Musket,legendary,226278.76408596415,weapon+3,"Family CV=2.22, deviation=190588gp (threshold=158708gp), family median=35690gp",medium
+variant_family_outlier,Holy Avenger Pike,legendary,220466.4803591614,weapon+3,"Family CV=2.22, deviation=184776gp (threshold=158708gp), family median=35690gp",medium
+variant_family_outlier,Holy Avenger Pistol,legendary,213750.0,weapon+3,"Family CV=2.22, deviation=178060gp (threshold=158708gp), family median=35690gp",medium
+variant_family_outlier,Holy Avenger Quarterstaff,legendary,206812.7624858703,weapon+3,"Family CV=2.22, deviation=171122gp (threshold=158708gp), family median=35690gp",medium
+variant_family_outlier,Holy Avenger Rapier,legendary,212230.0982041931,weapon+3,"Family CV=2.22, deviation=176540gp (threshold=158708gp), family median=35690gp",medium
+variant_family_outlier,Holy Avenger Scimitar,legendary,205734.375,weapon+3,"Family CV=2.22, deviation=170044gp (threshold=158708gp), family median=35690gp",medium
+variant_family_outlier,Holy Avenger Shortbow,legendary,204214.4732041931,weapon+3,"Family CV=2.22, deviation=168524gp (threshold=158708gp), family median=35690gp",medium
+variant_family_outlier,Holy Avenger Shortsword,legendary,204214.4732041931,weapon+3,"Family CV=2.22, deviation=168524gp (threshold=158708gp), family median=35690gp",medium
+variant_family_outlier,Holy Avenger Sickle,legendary,204214.4732041931,weapon+3,"Family CV=2.22, deviation=168524gp (threshold=158708gp), family median=35690gp",medium
+variant_family_outlier,Holy Avenger Sling,legendary,205734.375,weapon+3,"Family CV=2.22, deviation=170044gp (threshold=158708gp), family median=35690gp",medium
+variant_family_outlier,Holy Avenger Spear,legendary,205734.375,weapon+3,"Family CV=2.22, deviation=170044gp (threshold=158708gp), family median=35690gp",medium
+variant_family_outlier,Holy Avenger Staff,legendary,215906.7749717407,weapon+3,"Family CV=2.22, deviation=180216gp (threshold=158708gp), family median=35690gp",medium
+variant_family_outlier,Holy Avenger Trident,legendary,214828.3874858703,weapon+3,"Family CV=2.22, deviation=179138gp (threshold=158708gp), family median=35690gp",medium
+variant_family_outlier,Holy Avenger War Pick,legendary,212230.0982041931,weapon+3,"Family CV=2.22, deviation=176540gp (threshold=158708gp), family median=35690gp",medium
+variant_family_outlier,Holy Avenger Warhammer,legendary,215664.84980428696,weapon+3,"Family CV=2.22, deviation=179974gp (threshold=158708gp), family median=35690gp",medium
+variant_family_outlier,Holy Avenger Whip,legendary,205734.375,weapon+3,"Family CV=2.22, deviation=170044gp (threshold=158708gp), family median=35690gp",medium
+variant_family_outlier,Holy Avenger Wooden Staff,legendary,215906.7749717407,weapon+3,"Family CV=2.22, deviation=180216gp (threshold=158708gp), family median=35690gp",medium
+variant_family_outlier,Holy Avenger Yklwa,legendary,213750.0,weapon+3,"Family CV=2.22, deviation=178060gp (threshold=158708gp), family median=35690gp",medium
+variant_family_outlier,"Shaarat'doovol, the Blade of Truth",legendary,234451.2859375,weapon+3,"Family CV=2.22, deviation=198761gp (threshold=158708gp), family median=35690gp",medium
+amalgamated_deviation,Adamantine Bar,mundane,1000.0,bar,"Final: 1000gp, Amalgamated: 312gp, Deviation: 220%",high
+amalgamated_deviation,Shortsword,mundane,10.0,shortsword,"Final: 10gp, Amalgamated: 842gp, Deviation: 99%",medium
+amalgamated_deviation,Studded Leather Armor,mundane,45.0,studded leather armor,"Final: 45gp, Amalgamated: 2954gp, Deviation: 98%",medium
+amalgamated_deviation,Abracadabrus,very_rare,15736.0,abracadabrus,"Final: 15736gp, Amalgamated: 2500gp, Deviation: 529%",high
+amalgamated_deviation,Adamantine Lance,uncommon,750.0,lance,"Final: 750gp, Amalgamated: 7425gp, Deviation: 90%",medium
+amalgamated_deviation,Azorius Keyrune,rare,2486.124853515625,azorius keyrune,"Final: 2486gp, Amalgamated: 1000gp, Deviation: 149%",high
+amalgamated_deviation,Balloon Pack,uncommon,766.2817138671875,balloon pack,"Final: 766gp, Amalgamated: 275gp, Deviation: 179%",high
+amalgamated_deviation,Barrier Tattoo (Large),very_rare,12150.0,barrier tattoo (large),"Final: 12150gp, Amalgamated: 1500gp, Deviation: 710%",high
+amalgamated_deviation,Blood Spear,uncommon,650.7958007812499,blood spear,"Final: 651gp, Amalgamated: 375gp, Deviation: 74%",medium
+amalgamated_deviation,Cleansing Stone,common,75.73762054443358,cleansing stone,"Final: 76gp, Amalgamated: 50gp, Deviation: 51%",medium
+amalgamated_deviation,Common Glamerweave,common,75.73762054443358,common glamerweave,"Final: 76gp, Amalgamated: 50gp, Deviation: 51%",medium
+amalgamated_deviation,Conch of Teleportation,very_rare,49725.0,conch,"Final: 49725gp, Amalgamated: 1850gp, Deviation: 2588%",high
+amalgamated_deviation,Dancing Longsword,very_rare,8257.5498046875,dancing longsword,"Final: 8258gp, Amalgamated: 5400gp, Deviation: 53%",medium
+amalgamated_deviation,Duskcrusher,very_rare,16058.13828125,duskcrusher,"Final: 16058gp, Amalgamated: 10625gp, Deviation: 51%",medium
+amalgamated_deviation,Elixir of Health,rare,420.247314453125,elixir,"Final: 420gp, Amalgamated: 252gp, Deviation: 67%",medium
+amalgamated_deviation,Enspelled (Cantrip) Greatsword,uncommon,655.0,enspelled (cantrip) greatsword,"Final: 655gp, Amalgamated: 420gp, Deviation: 56%",medium
+amalgamated_deviation,Enspelled (Cantrip) Half Plate Armor,uncommon,4155.0,enspelled (cantrip) half plate armor,"Final: 4155gp, Amalgamated: 420gp, Deviation: 889%",high
+amalgamated_deviation,Enspelled (Cantrip) Plate Armor,uncommon,7905.0,enspelled (cantrip) plate armor,"Final: 7905gp, Amalgamated: 420gp, Deviation: 1782%",high
+amalgamated_deviation,Enspelled (Cantrip) Splint Armor,uncommon,1405.0,enspelled (cantrip) splint armor,"Final: 1405gp, Amalgamated: 405gp, Deviation: 247%",high
+amalgamated_deviation,Feather of Diatryma Summoning,rare,1062.3355590820313,feather summoning,"Final: 1062gp, Amalgamated: 675gp, Deviation: 57%",medium
+amalgamated_deviation,Feather Token,common,100.0,feather token,"Final: 100gp, Amalgamated: 25gp, Deviation: 300%",high
+amalgamated_deviation,Glaive of Wounding,rare,2884.685009765625,glaive,"Final: 2885gp, Amalgamated: 1626gp, Deviation: 77%",medium
+amalgamated_deviation,Greatsword of Wounding,rare,2884.685009765625,greatsword,"Final: 2885gp, Amalgamated: 1626gp, Deviation: 77%",medium
+amalgamated_deviation,Gulthias Staff,rare,3587.7044921875,gulthias staff,"Final: 3588gp, Amalgamated: 2200gp, Deviation: 63%",medium
+amalgamated_deviation,Helm of the Gods,rare,2913.81328125,helm gods,"Final: 2914gp, Amalgamated: 1200gp, Deviation: 143%",high
+amalgamated_deviation,Hook of Fisher's Delight,rare,5000.0,hook delight,"Final: 5000gp, Amalgamated: 550gp, Deviation: 809%",high
+amalgamated_deviation,Hunter's Coat,very_rare,9455.3552734375,hunter's coat,"Final: 9455gp, Amalgamated: 6250gp, Deviation: 51%",medium
+amalgamated_deviation,Izzet Keyrune,rare,2826.124853515625,izzet keyrune,"Final: 2826gp, Amalgamated: 1850gp, Deviation: 53%",medium
+amalgamated_deviation,Loadstone,rare,298.5677124023438,loadstone,"Final: 299gp, Amalgamated: 169gp, Deviation: 77%",medium
+amalgamated_deviation,Longsword of Wounding,rare,2884.685009765625,longsword,"Final: 2885gp, Amalgamated: 1626gp, Deviation: 77%",medium
+amalgamated_deviation,Mithral +1 Breastplate,rare,4580.0,+1 breastplate,"Final: 4580gp, Amalgamated: 1646gp, Deviation: 178%",high
+amalgamated_deviation,Mithral +1 Chain Mail,rare,3865.0,+1 chain mail,"Final: 3865gp, Amalgamated: 1646gp, Deviation: 135%",high
+amalgamated_deviation,Mithral +1 Chain Shirt,rare,3810.0,+1 chain shirt,"Final: 3810gp, Amalgamated: 1646gp, Deviation: 131%",high
+amalgamated_deviation,Mithral +1 Half Plate Armor,rare,5350.0,+1 half plate armor,"Final: 5350gp, Amalgamated: 1646gp, Deviation: 225%",high
+amalgamated_deviation,Mithral +1 Plate Armor,rare,7000.0,+1 plate armor,"Final: 7000gp, Amalgamated: 1646gp, Deviation: 325%",high
+amalgamated_deviation,Mithral +1 Ring Mail,rare,3766.0,+1 ring mail,"Final: 3766gp, Amalgamated: 1646gp, Deviation: 129%",high
+amalgamated_deviation,Mithral +1 Scale Mail,rare,3810.0,+1 scale mail,"Final: 3810gp, Amalgamated: 1646gp, Deviation: 131%",high
+amalgamated_deviation,Mithral +1 Splint Armor,rare,4140.0,+1 splint armor,"Final: 4140gp, Amalgamated: 1646gp, Deviation: 151%",high
+amalgamated_deviation,Mizzium Mortar,rare,3340.81083984375,mizzium mortar,"Final: 3341gp, Amalgamated: 2100gp, Deviation: 59%",medium
+amalgamated_deviation,Moodmark Paint,common,75.73762054443358,moodmark paint,"Final: 76gp, Amalgamated: 50gp, Deviation: 51%",medium
+amalgamated_deviation,Opal of the Ild Rune,rare,7146.095117187499,opal ild rune,"Final: 7146gp, Amalgamated: 3500gp, Deviation: 104%",high
+amalgamated_deviation,Orzhov Keyrune,rare,2526.124853515625,orzhov keyrune,"Final: 2526gp, Amalgamated: 1100gp, Deviation: 130%",high
+amalgamated_deviation,Pyroconverger,uncommon,541.2571899414063,pyroconverger,"Final: 541gp, Amalgamated: 250gp, Deviation: 117%",high
+amalgamated_deviation,"Quaal's Feather Token, Whip",rare,1002.08115234375,"quaal's feather token, whip","Final: 1002gp, Amalgamated: 630gp, Deviation: 59%",medium
+amalgamated_deviation,Rakdos Keyrune,uncommon,670.2769653320313,rakdos keyrune,"Final: 670gp, Amalgamated: 400gp, Deviation: 68%",medium
+amalgamated_deviation,Rapier of Wounding,rare,2884.685009765625,rapier,"Final: 2885gp, Amalgamated: 1626gp, Deviation: 77%",medium
+amalgamated_deviation,Ring of Truth Telling,uncommon,271.25534362792973,ring telling,"Final: 271gp, Amalgamated: 169gp, Deviation: 61%",medium
+amalgamated_deviation,Robe of Serpents,uncommon,591.2571899414063,robe,"Final: 591gp, Amalgamated: 375gp, Deviation: 58%",medium
+amalgamated_deviation,Scimitar of Wounding,rare,2884.685009765625,scimitar,"Final: 2885gp, Amalgamated: 1626gp, Deviation: 77%",medium
+amalgamated_deviation,Scroll of the Comet,legendary,32900.0,scroll comet,"Final: 32900gp, Amalgamated: 250000gp, Deviation: 87%",medium
+amalgamated_deviation,Scroll of Titan Summoning,legendary,23840.914453125,scroll summoning,"Final: 23841gp, Amalgamated: 10890gp, Deviation: 119%",high
+amalgamated_deviation,Scroll of Titan Summoning (Kraken),legendary,23840.914453125,scroll summoning (kraken),"Final: 23841gp, Amalgamated: 10890gp, Deviation: 119%",high
+amalgamated_deviation,Seeker Dart,uncommon,750.0,seeker dart,"Final: 750gp, Amalgamated: 100gp, Deviation: 650%",high
+amalgamated_deviation,Selesnya Keyrune,rare,2686.124853515625,selesnya keyrune,"Final: 2686gp, Amalgamated: 1500gp, Deviation: 79%",medium
+amalgamated_deviation,Shard of the Ise Rune,very_rare,15030.966796875,shard ise rune,"Final: 15031gp, Amalgamated: 9000gp, Deviation: 67%",medium
+amalgamated_deviation,Shortsword of Wounding,rare,2884.685009765625,shortsword,"Final: 2885gp, Amalgamated: 1626gp, Deviation: 77%",medium
+amalgamated_deviation,Siren Song Lyre,rare,10350.0,siren song lyre,"Final: 10350gp, Amalgamated: 650gp, Deviation: 1492%",high
+amalgamated_deviation,Speaking Stone,very_rare,9382.5189453125,speaking stone,"Final: 9383gp, Amalgamated: 5000gp, Deviation: 88%",medium
+amalgamated_deviation,Spell Scroll (Level 1),common,75.0,spell scroll (level 1),"Final: 75gp, Amalgamated: 1016gp, Deviation: 93%",medium
+amalgamated_deviation,Spell Scroll (Level 2),uncommon,150.0,spell scroll (level 2),"Final: 150gp, Amalgamated: 1094gp, Deviation: 86%",medium
+amalgamated_deviation,Spell Scroll (Level 3),uncommon,300.0,spell scroll (level 3),"Final: 300gp, Amalgamated: 1250gp, Deviation: 76%",medium
+amalgamated_deviation,Spell Scroll (Level 5),rare,3000.0,spell scroll (level 5),"Final: 3000gp, Amalgamated: 1938gp, Deviation: 55%",medium
+amalgamated_deviation,Spell Scroll (Level 6),very_rare,8500.0,spell scroll (level 6),"Final: 8500gp, Amalgamated: 2250gp, Deviation: 278%",high
+amalgamated_deviation,Spell Scroll (Level 7),very_rare,20000.0,spell scroll (level 7),"Final: 20000gp, Amalgamated: 3938gp, Deviation: 408%",high
+amalgamated_deviation,Spell Scroll (Level 8),very_rare,45000.0,spell scroll (level 8),"Final: 45000gp, Amalgamated: 5625gp, Deviation: 700%",high
+amalgamated_deviation,Spell Scroll (Level 9),legendary,100000.0,spell scroll (level 9),"Final: 100000gp, Amalgamated: 21250gp, Deviation: 371%",high
+amalgamated_deviation,Spider Staff,rare,2896.08056640625,spider staff,"Final: 2896gp, Amalgamated: 1750gp, Deviation: 65%",medium
+amalgamated_deviation,Storm Boomerang,uncommon,750.0,storm boomerang,"Final: 750gp, Amalgamated: 150gp, Deviation: 400%",high
+amalgamated_deviation,Sun Blade,rare,5839.07236328125,sun blade,"Final: 5839gp, Amalgamated: 3886gp, Deviation: 50%",medium
+amalgamated_deviation,Thermal Cube,common,75.73762054443358,thermal cube,"Final: 76gp, Amalgamated: 50gp, Deviation: 51%",medium
+amalgamated_deviation,Travel Alchemical Kit,uncommon,574.8300659179688,travel alchemical kit,"Final: 575gp, Amalgamated: 375gp, Deviation: 53%",medium
+amalgamated_deviation,Universal Solvent,legendary,7822.8177734375,universal solvent,"Final: 7823gp, Amalgamated: 3923gp, Deviation: 99%",medium
+amalgamated_deviation,Wand of Viscid Globs,rare,1560.7105957031251,wand globs,"Final: 1561gp, Amalgamated: 1012gp, Deviation: 54%",medium
+amalgamated_deviation,Wheel of Wind and Water,uncommon,564.8300659179688,wheel and water,"Final: 565gp, Amalgamated: 350gp, Deviation: 61%",medium
+amalgamated_deviation,Wingwear,uncommon,744.9006591796875,wingwear,"Final: 745gp, Amalgamated: 300gp, Deviation: 148%",high
+round_price,Adamantine Bar,mundane,1000.0,bar,"Round price: 1000gp, Source: official",low
+round_price,Airship,mundane,40000.0,airship,"Round price: 40000gp, Source: official",low
+round_price,Bombard,mundane,50000.0,bombard,"Round price: 50000gp, Source: official",low
+round_price,Crystal,mundane,1000.0,crystal,"Round price: 1000gp, Source: official",low
+round_price,Damselfly Ship,mundane,20000.0,damselfly ship,"Round price: 20000gp, Source: official",low
+round_price,Ffolk Sailing Ship,mundane,20000.0,ffolk sailing ship,"Round price: 20000gp, Source: official",low
+round_price,Flying Fish Ship,mundane,20000.0,flying fish ship,"Round price: 20000gp, Source: official",low
+round_price,Galley,mundane,30000.0,galley,"Round price: 30000gp, Source: official",low
+round_price,Geode,mundane,5000.0,geode,"Round price: 5000gp, Source: official",low
+round_price,Half Plate Barding,mundane,3000.0,half plate barding,"Round price: 3000gp, Source: official",low
+round_price,Hammerhead Ship,mundane,40000.0,hammerhead ship,"Round price: 40000gp, Source: official",low
+round_price,Keelboat,mundane,3000.0,keelboat,"Round price: 3000gp, Source: official",low
+round_price,Lamprey Ship,mundane,20000.0,lamprey ship,"Round price: 20000gp, Source: official",low
+round_price,Living Ship,mundane,25000.0,living ship,"Round price: 25000gp, Source: official",low
+round_price,Longship,mundane,10000.0,longship,"Round price: 10000gp, Source: official",low
+round_price,Nautiloid,mundane,50000.0,nautiloid,"Round price: 50000gp, Source: official",low
+round_price,Nightspider,mundane,50000.0,nightspider,"Round price: 50000gp, Source: official",low
+round_price,Norlander Longship,mundane,20000.0,norlander longship,"Round price: 20000gp, Source: official",low
+round_price,Plate Barding,mundane,6000.0,plate barding,"Round price: 6000gp, Source: official",low
+round_price,Purple Worm Poison,mundane,2000.0,purple worm poison,"Round price: 2000gp, Source: official",low
+round_price,Rusted Hulk,mundane,50000.0,rusted hulk,"Round price: 50000gp, Source: official",low
+round_price,Sailing Ship,mundane,10000.0,sailing ship,"Round price: 10000gp, Source: official",low
+round_price,Scorpion Ship,mundane,25000.0,scorpion ship,"Round price: 25000gp, Source: official",low
+round_price,Shrike Ship,mundane,20000.0,shrike ship,"Round price: 20000gp, Source: official",low
+round_price,Skyship,mundane,100000.0,skyship,"Round price: 100000gp, Source: official",low
+round_price,Space Galleon,mundane,30000.0,space galleon,"Round price: 30000gp, Source: official",low
+round_price,Spyglass,mundane,1000.0,spyglass,"Round price: 1000gp, Source: official",low
+round_price,Squid Ship,mundane,25000.0,squid ship,"Round price: 25000gp, Source: official",low
+round_price,Star Moth,mundane,40000.0,star moth,"Round price: 40000gp, Source: official",low
+round_price,Turtle Ship,mundane,40000.0,turtle ship,"Round price: 40000gp, Source: official",low
+round_price,Ulcrun,mundane,1000.0,ulcrun,"Round price: 1000gp, Source: official",low
+round_price,Warship,mundane,25000.0,warship,"Round price: 25000gp, Source: official",low
+round_price,Wasp Ship,mundane,20000.0,wasp ship,"Round price: 20000gp, Source: official",low
+round_price,Adze of Annam,artifact,670000.0,adze,"Round price: 670000gp, Source: rule",low
+round_price,"Akmon, Hammer of Purphoros",artifact,485000.0,"akmon, hammer","Round price: 485000gp, Source: rule",low
+round_price,Axe of the Dwarvish Lords,artifact,790000.0,axe dwarvish lords,"Round price: 790000gp, Source: rule",low
+round_price,Bigby's Beneficent Bracelet,artifact,425000.0,bigby's beneficent bracelet,"Round price: 425000gp, Source: rule",low
+round_price,Blackrazor,artifact,610000.0,blackrazor,"Round price: 610000gp, Source: rule",low
+round_price,Blade of Avernus,artifact,865000.0,blade,"Round price: 865000gp, Source: rule",low
+round_price,Blade of Broken Mirrors,artifact,250000.0,blade mirrors,"Round price: 250000gp, Source: rule",low
+round_price,Blade of Broken Mirrors (Exalted),artifact,540000.0,blade mirrors (exalted),"Round price: 540000gp, Source: rule",low
+round_price,Book of Exalted Deeds,artifact,820000.0,book deeds,"Round price: 820000gp, Source: rule",low
+round_price,Book of Vile Darkness,artifact,880000.0,book darkness,"Round price: 880000gp, Source: rule",low
+round_price,Book of Vile Darkness (Variant),artifact,530000.0,book darkness (variant),"Round price: 530000gp, Source: rule",low
+round_price,Calimemnon Crystal,artifact,395000.0,calimemnon crystal,"Round price: 395000gp, Source: rule",low
+round_price,Crook of Rao,artifact,640000.0,crook,"Round price: 640000gp, Source: rule",low
+round_price,Crown of Horns,artifact,380000.0,crown,"Round price: 380000gp, Source: rule",low
+round_price,Crown of Lies,artifact,310000.0,crown,"Round price: 310000gp, Source: rule",low
+round_price,Daoud's Wondrous Lanthorn,artifact,850000.0,daoud's wondrous lanthorn,"Round price: 850000gp, Source: rule",low
+round_price,"Dekella, Bident of Thassa",artifact,630000.0,"dekella, bident","Round price: 630000gp, Source: rule",low
+round_price,Demonomicon of Iggwilv,artifact,660000.0,demonomicon,"Round price: 660000gp, Source: rule",low
+round_price,Enspelled (Level 8) Chain Shirt,legendary,61000.0,enspelled (level 8) chain shirt,"Round price: 61000gp, Source: rule",low
+round_price,Enspelled (Level 8) Greatsword,legendary,61000.0,enspelled (level 8) greatsword,"Round price: 61000gp, Source: rule",low
+round_price,Enspelled (Level 8) Heavy Crossbow,legendary,61000.0,enspelled (level 8) heavy crossbow,"Round price: 61000gp, Source: rule",low
+round_price,Enspelled (Level 8) Longbow,legendary,61000.0,enspelled (level 8) longbow,"Round price: 61000gp, Source: rule",low
+round_price,Enspelled (Level 8) Scale Mail,legendary,61000.0,enspelled (level 8) scale mail,"Round price: 61000gp, Source: rule",low
+round_price,"Ephixis, Bow of Nylea",artifact,470000.0,"ephixis, bow","Round price: 470000gp, Source: rule",low
+round_price,Eye and Hand of Vecna,artifact,910000.0,eye and hand,"Round price: 910000gp, Source: rule",low
+round_price,Eye of Vecna,artifact,925000.0,eye,"Round price: 925000gp, Source: rule",low
+round_price,"Ghaal'duur, the Mighty Dirge",artifact,275000.0,"ghaal'duur, the mighty dirge","Round price: 275000gp, Source: rule",low
+round_price,Grovelthrash,artifact,250000.0,grovelthrash,"Round price: 250000gp, Source: rule",low
+round_price,Grovelthrash (Awakened),artifact,330000.0,grovelthrash (awakened),"Round price: 330000gp, Source: rule",low
+round_price,Grovelthrash (Dormant),artifact,265000.0,grovelthrash (dormant),"Round price: 265000gp, Source: rule",low
+round_price,Grovelthrash (Exalted),artifact,550000.0,grovelthrash (exalted),"Round price: 550000gp, Source: rule",low
+round_price,Hand of Vecna,artifact,910000.0,hand,"Round price: 910000gp, Source: rule",low
+round_price,Helm of Perfect Potential,artifact,590000.0,helm potential,"Round price: 590000gp, Source: rule",low
+round_price,Hook of Fisher's Delight,rare,5000.0,hook delight,"Round price: 5000gp, Source: rule-outlier-detected",low
+round_price,Iggwilv's Cauldron,artifact,280000.0,iggwilv's cauldron,"Round price: 280000gp, Source: rule",low
+round_price,Kharash's Promise,artifact,365000.0,kharash's promise,"Round price: 365000gp, Source: rule",low
+round_price,Lash of Shadows,artifact,250000.0,lash,"Round price: 250000gp, Source: rule",low
+round_price,Lash of Shadows (Awakened),artifact,315000.0,lash (awakened),"Round price: 315000gp, Source: rule",low
+round_price,Luba's Tarokka of Souls,artifact,290000.0,luba's tarokka,"Round price: 290000gp, Source: rule",low
+round_price,Mace of the Black Crown,artifact,250000.0,mace black crown,"Round price: 250000gp, Source: rule",low
+round_price,Mace of the Black Crown (Awakened),artifact,335000.0,mace black crown (awakened),"Round price: 335000gp, Source: rule",low
+round_price,Mace of the Black Crown (Dormant),artifact,260000.0,mace black crown (dormant),"Round price: 260000gp, Source: rule",low
+round_price,Mithral +1 Plate Armor,rare,7000.0,+1 plate armor,"Round price: 7000gp, Source: rule",low
+round_price,Orb of Damara,artifact,305000.0,orb,"Round price: 305000gp, Source: rule",low
+round_price,Orlassk's Reach,artifact,570000.0,orlassk's reach,"Round price: 570000gp, Source: rule",low
+round_price,Orrery of the Wanderer,artifact,650000.0,orrery wanderer,"Round price: 650000gp, Source: rule",low
+round_price,Ring of Winter,artifact,690000.0,ring,"Round price: 690000gp, Source: rule",low
+round_price,Rod of Seven Parts,artifact,955000.0,rod parts,"Round price: 955000gp, Source: rule",low
+round_price,Ruin's Wake,artifact,250000.0,ruin's wake,"Round price: 250000gp, Source: rule",low
+round_price,Ruin's Wake (Awakened),artifact,325000.0,ruin's wake (awakened),"Round price: 325000gp, Source: rule",low
+round_price,Ruin's Wake (Dormant),artifact,255000.0,ruin's wake (dormant),"Round price: 255000gp, Source: rule",low
+round_price,Ruin's Wake (Exalted),artifact,413000.0,ruin's wake (exalted),"Round price: 413000gp, Source: rule",low
+round_price,Sage's Signet,varies,3000.0,sage's signet,"Round price: 3000gp, Source: rule",low
+round_price,Silken Spite,artifact,250000.0,silken spite,"Round price: 250000gp, Source: rule",low
+round_price,Silken Spite (Awakened),artifact,345000.0,silken spite (awakened),"Round price: 345000gp, Source: rule",low
+round_price,Silken Spite (Exalted),artifact,458000.0,silken spite (exalted),"Round price: 458000gp, Source: rule",low
+round_price,Spell Scroll (Level 5),rare,3000.0,spell scroll (level 5),"Round price: 3000gp, Source: rule",low
+round_price,Spell Scroll (Level 7),very_rare,20000.0,spell scroll (level 7),"Round price: 20000gp, Source: rule",low
+round_price,Spell Scroll (Level 8),very_rare,45000.0,spell scroll (level 8),"Round price: 45000gp, Source: rule",low
+round_price,Spell Scroll (Level 9),legendary,100000.0,spell scroll (level 9),"Round price: 100000gp, Source: rule",low
+round_price,Staff of the Forgotten One,artifact,285000.0,staff forgotten one,"Round price: 285000gp, Source: rule",low
+round_price,Stone of Golorr,artifact,295000.0,stone,"Round price: 295000gp, Source: rule",low
+round_price,Sword of Kas,artifact,970000.0,sword,"Round price: 970000gp, Source: rule",low
+round_price,Teeth of Dahlver-Nar,artifact,680000.0,teeth,"Round price: 680000gp, Source: rule",low
+round_price,The Bloody End,artifact,250000.0,the bloody end,"Round price: 250000gp, Source: rule",low
+round_price,The Bloody End (Awakened),artifact,340000.0,the bloody end (awakened),"Round price: 340000gp, Source: rule",low
+round_price,The Bloody End (Exalted),artifact,452000.0,the bloody end (exalted),"Round price: 452000gp, Source: rule",low
+round_price,Wand of Orcus,artifact,985000.0,wand,"Round price: 985000gp, Source: rule",low
+round_price,Wave,artifact,440000.0,wave,"Round price: 440000gp, Source: rule",low
+round_price,Will of the Talon,artifact,250000.0,will talon,"Round price: 250000gp, Source: rule",low
+round_price,Will of the Talon (Awakened),artifact,320000.0,will talon (awakened),"Round price: 320000gp, Source: rule",low
+round_price,Will of the Talon (Exalted),artifact,407000.0,will talon (exalted),"Round price: 407000gp, Source: rule",low
+round_price,Wyrmskull Throne,artifact,300000.0,wyrmskull throne,"Round price: 300000gp, Source: rule",low
+unknown_rarity,Adjustable Stilts,unknown,1.0,adjustable stilts,"Rarity: 'unknown', Price: 1gp",medium
+unknown_rarity,Alchemist's Doom,unknown,1.0,alchemist's doom,"Rarity: 'unknown', Price: 1gp",medium
+unknown_rarity,Backpack Parachute,unknown,1.0,backpack parachute,"Rarity: 'unknown', Price: 1gp",medium
+unknown_rarity,Barking Box,unknown,1.0,barking box,"Rarity: 'unknown', Price: 1gp",medium
+unknown_rarity,Catapult Munition,unknown,1.0,catapult munition,"Rarity: 'unknown', Price: 1gp",medium
+unknown_rarity,Flensing Claws,unknown,1.0,flensing claws,"Rarity: 'unknown', Price: 1gp",medium
+unknown_rarity,Flensing Claws (Huge),unknown,1.0,flensing claws (huge),"Rarity: 'unknown', Price: 1gp",medium
+unknown_rarity,Flensing Claws (Large),unknown,1.0,flensing claws (large),"Rarity: 'unknown', Price: 1gp",medium
+unknown_rarity,Flensing Claws (Medium),unknown,1.0,flensing claws (medium),"Rarity: 'unknown', Price: 1gp",medium
+unknown_rarity,Flensing Claws (Small),unknown,1.0,flensing claws (small),"Rarity: 'unknown', Price: 1gp",medium
+unknown_rarity,Hooked Shortspear,unknown,1.0,hooked shortspear,"Rarity: 'unknown', Price: 1gp",medium
+unknown_rarity,Iron Ball,unknown,1.0,iron ball,"Rarity: 'unknown', Price: 1gp",medium
+unknown_rarity,Light Repeating Crossbow,unknown,1.0,light repeating crossbow,"Rarity: 'unknown', Price: 1gp",medium
+unknown_rarity,Matchless Pipe,unknown,1.0,matchless pipe,"Rarity: 'unknown', Price: 1gp",medium
+unknown_rarity,Murgaxor's Elixir of Life,unknown,1.0,murgaxor's elixir,"Rarity: 'unknown', Price: 1gp",medium
+unknown_rarity,Nimblewright Detector,unknown,1.0,nimblewright detector,"Rarity: 'unknown', Price: 1gp",medium
+unknown_rarity,Oversized Longbow,unknown,1.0,oversized longbow,"Rarity: 'unknown', Price: 1gp",medium
+unknown_rarity,Spiked Armor,unknown,1.0,spiked armor,"Rarity: 'unknown', Price: 1gp",medium
+unknown_rarity,Survival Mantle,unknown,1.0,survival mantle,"Rarity: 'unknown', Price: 1gp",medium
+unknown_rarity,The Incantations of Iriolarthas,unknown,5001.0,the incantations,"Rarity: 'unknown', Price: 5001gp",medium
+unknown_rarity,Command Amulet,unknown_magic,336.87510643005373,command amulet,"Rarity: 'unknown_magic', Price: 337gp",medium
+unknown_rarity,Flame Tongue Shortsword of Greed,unknown_magic,5167.796423339843,flame tongue shortsword,"Rarity: 'unknown_magic', Price: 5168gp",medium
+unknown_rarity,Gravenhollow Compass Ring,unknown_magic,336.87510643005373,gravenhollow compass ring,"Rarity: 'unknown_magic', Price: 337gp",medium
+unknown_rarity,Horizon Puzzle Cube,unknown_magic,336.87510643005373,horizon puzzle cube,"Rarity: 'unknown_magic', Price: 337gp",medium
+unknown_rarity,Orcus Figurine,unknown_magic,336.87510643005373,orcus figurine,"Rarity: 'unknown_magic', Price: 337gp",medium
+unknown_rarity,Tankard of Plenty,unknown_magic,336.87510643005373,tankard,"Rarity: 'unknown_magic', Price: 337gp",medium
+unknown_rarity,Teleporter Ring,unknown_magic,353.46545486450196,teleporter ring,"Rarity: 'unknown_magic', Price: 353gp",medium
+unknown_rarity,The Codicil of White,unknown_magic,336.87510643005373,the codicil,"Rarity: 'unknown_magic', Price: 337gp",medium
+unknown_rarity,White Dragon Cape,unknown_magic,441.87510643005373,white dragon cape,"Rarity: 'unknown_magic', Price: 442gp",medium
+ceiling_proximity,Rod of Seven Parts,artifact,955000.0,rod parts,Price: 955000gp (95.5% of ceiling),medium
+ceiling_proximity,Sword of Kas,artifact,970000.0,sword,Price: 970000gp (97.0% of ceiling),medium
+ceiling_proximity,Wand of Orcus,artifact,985000.0,wand,Price: 985000gp (98.5% of ceiling),medium
