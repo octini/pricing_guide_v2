@@ -76,7 +76,8 @@ def main():
         material = row.get('material', '')
         item_type_code = str(row.get('item_type_code', '')).split('|')[0] if row.get('item_type_code') else ''
         is_ammunition_type = item_type_code == 'A' or 'arrow' in item_name_lower or 'bolt' in item_name_lower or 'bullet' in item_name_lower or 'needle' in item_name_lower
-        if material in ('mithral', 'adamantine') and not is_ammunition_type:
+        is_armor_type = item_type_code in ('LA', 'MA', 'HA', 'S')
+        if material in ('mithral', 'adamantine') and is_armor_type and not is_ammunition_type:
             continue
 
         # Skip variant adjustment for enspelled items
