@@ -274,12 +274,15 @@ def main():
     out_df = pd.DataFrame(output_rows)
 
     # Deduplicate items that appear from multiple source books with identical pricing.
+    # Match on Name + Price + Type to avoid collapsing different items with the same name
+    # (e.g., "Crystal" is both a PHB2024 spellcasting focus at 10gp and a Drakkenheim delerium at 1000gp).
     # Prefer DMG2024 or PHB2024 sources; otherwise keep first occurrence.
     before_dedup = len(out_df)
-    # Create a sort key: preferred sources get 0, others get 1
     preferred_sources = ['Dungeon Master\'s Guide (2024)', 'Player\'s Handbook (2024)']
     out_df['_source_priority'] = out_df['Source'].apply(lambda s: 0 if s in preferred_sources else 1)
-    out_df = out_df.sort_values('_source_priority').drop_duplicates(subset=['Name'], keep='first').drop(columns=['_source_priority'])
+    out_df = out_df.sort_values('_source_priority').drop_duplicates(
+        subset=['Name', 'Price (gp)', 'Type Code'], keep='first'
+    ).drop(columns=['_source_priority'])
     out_df = out_df.sort_values('Name').reset_index(drop=True)
     dedup_removed = before_dedup - len(out_df)
     if dedup_removed:
