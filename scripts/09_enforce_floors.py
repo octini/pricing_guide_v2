@@ -278,6 +278,41 @@ def main():
         if len(variant_spacing_adjustments) > 20:
             print(f'  ... and {len(variant_spacing_adjustments) - 20} more')
 
+    # --- Fix: Apply post-amalgamation variant spacing to named weapon families ---
+    # Named weapon families like Defender have a flat amalgamated price across all
+    # weapon variants. Apply the pre-computed variant_adjustment (dampened by 0.3)
+    # to differentiate variants while keeping the amalgamated price as the base.
+    NAMED_WEAPON_FAMILIES = {'Defender'}
+    named_variant_adjustments = []
+    if 'variant_adjustment' in df.columns and 'generic_parent' in df.columns:
+        for idx, row in df.iterrows():
+            adj = row.get('variant_adjustment', 0)
+            if pd.isna(adj) or adj == 0:
+                continue
+            generic_parent = str(row.get('generic_parent', ''))
+            if generic_parent not in NAMED_WEAPON_FAMILIES:
+                continue
+            base_price_for_adj = row.get('amalgamated_price', 0)
+            if pd.isna(base_price_for_adj) or base_price_for_adj <= 0:
+                continue
+            current_price = row.get('final_price', 0)
+            if pd.isna(current_price) or current_price <= 0:
+                continue
+            # Apply dampened variant adjustment: 0.3 factor compresses the spread
+            new_price = round(base_price_for_adj * (1 + adj * 0.3), 2)
+            if abs(new_price - current_price) > 0.01:
+                df.loc[idx, 'final_price'] = new_price
+                named_variant_adjustments.append(
+                    f"  {row['name']}: {current_price:.2f} -> {new_price:.2f} gp "
+                    f"(variant adj={adj:+.4f}, family={generic_parent})"
+                )
+
+    if named_variant_adjustments:
+        print(f'\n=== NAMED WEAPON FAMILY VARIANT SPACING ===')
+        print(f'Total: {len(named_variant_adjustments)}')
+        for msg in named_variant_adjustments:
+            print(msg)
+
     # Enforce armor tier ordering: Plate Armor >= Half Plate Armor >= Breastplate
     # for the same enhancement bonus (+1, +2, +3), to prevent ML adjustments from
     # inverting the natural price relationship that reflects the higher mundane cost.
