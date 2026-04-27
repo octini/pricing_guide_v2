@@ -264,7 +264,10 @@ def main():
         desc = meta.get('description', '')
         if url:
             linked_count += 1
-        # Fallback: construct URL from name and source code if not in JSON
+        # Fallback: use URL from CSV data (which has correct source codes)
+        if not url and 'URL' in row.index and pd.notna(row.get('URL')) and str(row['URL']).startswith('http'):
+            url = str(row['URL'])
+        # Last resort: construct URL from name and source code
         if not url:
             source_code = str(row['Source']).split('|')[0].strip() if pd.notna(row['Source']) else 'dmg'
             url = build_5etools_url(name, source_code)
