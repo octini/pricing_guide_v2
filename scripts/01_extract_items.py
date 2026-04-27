@@ -70,6 +70,29 @@ def override_known_rarity(item: dict, rarity: str) -> str:
         if source in {"BGDIA", "WDMM"}:
             return "common"
 
+        # Known mundane items that aren't marked as such in source data
+        known_mundane = {
+            "adjustable stilts",
+            "alchemist's doom",
+            "backpack parachute",
+            "barking box",
+            "catapult munition",
+            "hooked shortspear",
+            "iron ball",
+            "light repeating crossbow",
+            "matchless pipe",
+            "murgaxor's elixir of life",
+            "nimblewright detector",
+            "oversized longbow",
+            "spiked armor",
+            "survival mantle",
+            "the incantations of iriolarthas",
+        }
+        if name_lower in known_mundane:
+            return "mundane"
+        if name_lower.startswith("flensing claws"):
+            return "mundane"
+
     return rarity
 
 

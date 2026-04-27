@@ -20,12 +20,11 @@
 | legendary (consumable) | 26 | 36,211 gp | 24,316 | 4 | 15.4%  |
 | legendary (persistent) | 625 | 48,630 gp | 42,831 | 67 | 10.7%  |
 | mundane (consumable) | 46 | 10 gp | 199 | 6 | 13.0%  |
-| mundane (persistent) | 405 | 5 gp | 39 | 68 | 16.8%  |
+| mundane (persistent) | 425 | 5 gp | 39 | 69 | 16.2%  |
 | rare (consumable) | 84 | 2,376 gp | 3,082 | 3 | 3.6%  |
 | rare (persistent) | 1331 | 4,496 gp | 3,585 | 150 | 11.3%  |
 | uncommon (consumable) | 70 | 409 gp | 411 | 8 | 11.4%  |
 | uncommon (persistent) | 886 | 731 gp | 600 | 116 | 13.1%  |
-| unknown (persistent) | 20 | 1 gp | 0 | 1 | 5.0% ⚠️ zero-width IQR |
 | unknown_magic (persistent) | 9 | 312 gp | 6 | 2 | 22.2%  |
 | varies (consumable) | 6 | 350 gp | 691 | 1 | 16.7%  |
 | varies (persistent) | 35 | 750 gp | 2,171 | 7 | 20.0%  |
@@ -34,7 +33,7 @@
 
 ## Extreme Outliers (> 3× rarity median)
 
-Total: 974 items
+Total: 993 items
 
 | Name | Source | Rarity | Price | Rarity Median |
 |------|--------|--------|-------|---------------|
