@@ -955,6 +955,10 @@ def calculate_price(criteria: dict) -> float:
                     simple_price *= prop_mult
                     break
             
+            # Focus premium: spellcasting focus is a convenience feature worth +300
+            if criteria.get("is_focus"):
+                simple_price += 300
+            
             # Apply floor
             floor = RARITY_FLOORS.get(rarity, 1)
             return max(floor, simple_price)
@@ -1151,6 +1155,10 @@ def calculate_price(criteria: dict) -> float:
         additive += 500    # was 3000
     if criteria.get("invisibility_atwill"):
         additive += 8000   # was 25000
+
+    # Spellcasting focus
+    if criteria.get("is_focus"):
+        additive += 300
 
     # Legendary resistance
     if criteria.get("legendary_resistance"):

@@ -136,6 +136,9 @@ def main():
         combined.update(entries)
         combined.update(prose)
 
+        # Merge is_focus: prose detection supplements structured JSON field
+        combined["is_focus"] = combined.get("is_focus", False) or combined.get("is_focus_prose", False)
+
         rows.append(combined)
 
     out_df = pd.DataFrame(rows)

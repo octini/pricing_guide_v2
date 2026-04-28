@@ -301,6 +301,7 @@ def extract_prose_criteria(description: str) -> dict:
         "immune_to_disease": False,
         "death_save_advantage": False,
         "conditional_save_advantage": [],
+        "is_focus_prose": False,
     }
     
     desc = description.lower()
@@ -404,6 +405,9 @@ def extract_prose_criteria(description: str) -> dict:
         re.search(r'you\s+can\s+breathe\s+underwater', desc) or
         re.search(r'grants?\s+the\s+ability\s+to\s+breathe\s+water', desc)
     )
+
+    # Spellcasting focus (prose detection, supplements structured is_focus)
+    c["is_focus_prose"] = bool(re.search(r'spellcasting focus', desc))
 
     # Immune to disease
     c["immune_to_disease"] = bool(
