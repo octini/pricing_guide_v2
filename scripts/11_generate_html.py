@@ -374,6 +374,19 @@ def main():
             margin-left: 5px;
         }}
         
+        .dropdown-search {{
+            padding: 8px 10px;
+            border: 1px solid rgba(255,255,255,0.15);
+            border-radius: 4px;
+            background: rgba(0,0,0,0.3);
+            color: #fff;
+            font-size: 0.85em;
+            width: 100%;
+            margin-bottom: 6px;
+            outline: none;
+            box-sizing: border-box;
+        }}
+        .dropdown-search:focus {{ border-color: #ffd700; }}
         input[type="text"] {{ padding: 10px 15px; border: 1px solid rgba(255,255,255,0.2); border-radius: 6px; background: rgba(0,0,0,0.3); color: #fff; font-size: 14px; min-width: 250px; }}
         input[type="number"] {{ padding: 10px 15px; border: 1px solid rgba(255,255,255,0.2); border-radius: 6px; background: rgba(0,0,0,0.3); color: #fff; font-size: 14px; width: 100px; }}
         
@@ -464,6 +477,7 @@ def main():
                         <button class="dropdown-btn" id="source-btn" type="button">All <span class="filter-count">0</span></button>
                         <div class="dropdown-content">
                              <div class="checkbox-list">
+                                 <input type="text" class="dropdown-search" placeholder="Search sources..." data-search="source">
                                  {''.join(f'<label class="checkbox-item"><input type="checkbox" id="src_{i}" value="{s}" data-filter="source"><span>{s}</span></label>' for i, s in enumerate(sources))}
                             </div>
                         </div>
@@ -475,6 +489,7 @@ def main():
                         <button class="dropdown-btn" id="type-btn" type="button">All <span class="filter-count">0</span></button>
                          <div class="dropdown-content">
                              <div class="checkbox-list">
+                                 <input type="text" class="dropdown-search" placeholder="Search types..." data-search="type">
                                  {''.join(f'<label class="checkbox-item"><input type="checkbox" id="type_{i}" value="{t}" data-filter="type"><span>{t}</span></label>' for i, t in enumerate(types))}
                             </div>
                         </div>
@@ -486,6 +501,7 @@ def main():
                         <button class="dropdown-btn" id="rarity-btn" type="button">All <span class="filter-count">0</span></button>
                          <div class="dropdown-content">
                              <div class="checkbox-list">
+                                 <input type="text" class="dropdown-search" placeholder="Search rarity..." data-search="rarity">
                                  {''.join(f'<label class="checkbox-item"><input type="checkbox" id="rar_{i}" value="{r}" data-filter="rarity"><span>{r}</span></label>' for i, r in enumerate(rarities))}
                             </div>
                         </div>
@@ -689,9 +705,21 @@ def main():
         }}
         
         // Add event listeners
-        document.querySelectorAll('input, select').forEach(el => {{
+        document.querySelectorAll('input:not(.dropdown-search), select').forEach(el => {{
             el.addEventListener('change', () => {{ currentPage = 1; renderTable(); }});
             el.addEventListener('input', () => {{ currentPage = 1; renderTable(); }});
+        }});
+        
+        // Dropdown search filtering
+        document.querySelectorAll('.dropdown-search').forEach(function(input) {{
+            input.addEventListener('input', function() {{
+                const query = this.value.toLowerCase();
+                const items = this.parentElement.querySelectorAll('.checkbox-item');
+                items.forEach(function(item) {{
+                    const text = item.querySelector('span').textContent.toLowerCase();
+                    item.style.display = text.includes(query) ? '' : 'none';
+                }});
+            }});
         }});
         
         // Add click handlers for dropdowns to toggle on click
