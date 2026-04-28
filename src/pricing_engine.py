@@ -4,6 +4,7 @@
 Constants calibrated against external price guides (DSA, MSRP, DMPG) via oracle review.
 """
 
+import ast
 import math
 import re
 import pandas as pd
@@ -11,6 +12,26 @@ from typing import Any, Optional
 
 from .spell_data import get_spell_level
 from .constants import RARITY_MEDIANS, CONDITION_IMMUNITY_VALUES
+
+
+def _parse_list_field(value):
+    """Parse a list field from CSV (serialized as string) back to Python list.
+    
+    CSV stores Python lists as their repr string (e.g., '[]', "['fire']").
+    This safely deserializes them using ast.literal_eval.
+    Returns an empty list for None/NaN/empty input.
+    """
+    if value is None or (isinstance(value, float) and value != value):
+        return []
+    if isinstance(value, str):
+        if not value or value == "nan":
+            return []
+        try:
+            result = ast.literal_eval(value)
+            return result if isinstance(result, list) else [result]
+        except (ValueError, SyntaxError):
+            return [value] if value else []
+    return value if isinstance(value, list) else [value]
 
 RARITY_BASE_PRICES = {
     "mundane": 1,
@@ -835,9 +856,9 @@ def calculate_price(criteria: dict) -> float:
             # Check if this is a simple +N item (no other significant properties)
             has_charges = criteria.get("charges") is not None
             has_spell_scroll = criteria.get("spell_scroll_level") is not None
-            has_resistances = criteria.get("damage_resistances") or []
-            has_immunities = criteria.get("damage_immunities") or []
-            has_condition_immunities = criteria.get("condition_immunities") or []
+            has_resistances = _parse_list_field(criteria.get("damage_resistances"))
+            has_immunities = _parse_list_field(criteria.get("damage_immunities"))
+            has_condition_immunities = _parse_list_field(criteria.get("condition_immunities"))
             has_flight = criteria.get("flight_full") or criteria.get("flight_limited")
             has_teleport = criteria.get("teleportation")
             has_invisibility = criteria.get("invisibility_atwill")
@@ -856,6 +877,19 @@ def calculate_price(criteria: dict) -> float:
                 (criteria.get("minor_detrimental") or 0) > 0 or
                 (criteria.get("major_detrimental") or 0) > 0
             )
+            has_spell_damage_bonus = (criteria.get("spell_damage_bonus") or 0) > 0
+            has_vulnerabilities = len(_parse_list_field(criteria.get("damage_vulnerabilities"))) > 0
+            has_environmental_breathing = criteria.get("environmental_breathing")
+            has_water_breathing = criteria.get("water_breathing")
+            has_grants_language = criteria.get("grants_language")
+            has_grants_proficiency = criteria.get("grants_proficiency")
+            has_conc_save_bonus = (criteria.get("bonus_saving_throw_concentration") or 0) > 0
+            has_death_save_adv = criteria.get("death_save_advantage")
+            has_cond_save_adv = len(_parse_list_field(criteria.get("conditional_save_advantage"))) > 0
+            has_walk_speed_mod = False
+            _speed_mods = criteria.get("speed_mods") or {}
+            if isinstance(_speed_mods, dict):
+                has_walk_speed_mod = (_speed_mods.get("multiply") or {}).get("walk", 1) > 1 or (_speed_mods.get("bonus") or {}).get("walk", 0) or 0 >= 10
 
             # Item is "simple" if it only has the bonus and no other major properties
             is_simple_bonus_item = not (
@@ -873,7 +907,17 @@ def calculate_price(criteria: dict) -> float:
                 has_save_advantage or
                 has_save_bonus or
                 has_legendary_resistance or
-                has_artifact_properties
+                has_artifact_properties or
+                has_spell_damage_bonus or
+                has_vulnerabilities or
+                has_environmental_breathing or
+                has_water_breathing or
+                has_grants_language or
+                has_grants_proficiency or
+                has_conc_save_bonus or
+                has_death_save_adv or
+                has_cond_save_adv or
+                has_walk_speed_mod
             )
 
     if is_simple_bonus_item:
@@ -944,6 +988,11 @@ def calculate_price(criteria: dict) -> float:
     if spell_bonus > 0:
         additive += SPELL_ATTACK_ADDITIVE.get(min(spell_bonus, 3), 10000)
 
+    # Spell damage bonus (e.g., "You gain a +1 bonus to spell damage rolls")
+    spell_damage_bonus = criteria.get("spell_damage_bonus") or 0
+    if spell_damage_bonus > 0:
+        additive += 200 * spell_damage_bonus
+
     # Saving throw bonus
     save_bonus = criteria.get("saving_throw_bonus") or 0
     if save_bonus > 0:
@@ -960,46 +1009,64 @@ def calculate_price(criteria: dict) -> float:
         additive += 800 * prof_bonus  # was 5000
 
     # Resistances
-    resistances = criteria.get("damage_resistances") or []
-    if isinstance(resistances, str):
-        resistances = [resistances] if resistances else []
+    resistances = _parse_list_field(criteria.get("damage_resistances"))
     additive += 300 * len(resistances)  # was 2000
 
     # Immunities
-    immunities = criteria.get("damage_immunities") or []
-    if isinstance(immunities, str):
-        immunities = [immunities] if immunities else []
+    immunities = _parse_list_field(criteria.get("damage_immunities"))
     additive += 800 * len(immunities)  # was 5000
 
+    # Damage vulnerabilities: items that make you weaker cost less
+    vulnerabilities = _parse_list_field(criteria.get("damage_vulnerabilities"))
+    additive -= 300 * len(vulnerabilities)
+
     # Condition immunities
-    cond_immune = criteria.get("condition_immunities") or []
-    if isinstance(cond_immune, str):
-        cond_immune = [cond_immune] if cond_immune else []
+    cond_immune = _parse_list_field(criteria.get("condition_immunities"))
     for cond in cond_immune:
         additive += CONDITION_IMMUNITY_VALUES.get(str(cond).lower(), 400)
     
     # Condition immunity from prose (e.g., Mind Carapace: "immune to the frightened condition")
-    cond_immune_prose = criteria.get("condition_immunity_prose") or []
-    if isinstance(cond_immune_prose, str):
-        cond_immune_prose = [cond_immune_prose] if cond_immune_prose else []
+    cond_immune_prose = _parse_list_field(criteria.get("condition_immunity_prose"))
     for cond in cond_immune_prose:
         additive += CONDITION_IMMUNITY_VALUES.get(str(cond).lower(), 400)
     
     # Saving throw advantage (e.g., Mind Carapace: "advantage on Intelligence, Wisdom, and Charisma saving throws")
-    save_advantage = criteria.get("save_advantage") or []
-    if isinstance(save_advantage, str):
-        save_advantage = [save_advantage] if save_advantage else []
+    save_advantage = _parse_list_field(criteria.get("save_advantage"))
     if save_advantage:
         # Each ability save advantage is worth ~400gp (similar to condition immunity)
         additive += 400 * len(save_advantage)
     
     # Language known (e.g., Demon Armor: "you know Abyssal")
-    language_known = criteria.get("language_known") or []
-    if isinstance(language_known, str):
-        language_known = [language_known] if language_known else []
+    language_known = _parse_list_field(criteria.get("language_known"))
     if language_known:
         additive += 100 * len(language_known)  # Minor utility
     
+    # Grants language (structured field)
+    if criteria.get("grants_language"):
+        additive += 100  # Same as language_known
+    
+    # Grants proficiency (structured field)
+    if criteria.get("grants_proficiency"):
+        additive += 300  # Minor utility value
+    
+    # Concentration saving throw bonus (e.g., Orb of Skoraeus: +2)
+    conc_save_bonus = criteria.get("bonus_saving_throw_concentration") or 0
+    if conc_save_bonus > 0:
+        additive += 400 * conc_save_bonus
+
+    # Conditional save advantage (non-ability-targeted, e.g., vs poison, vs gases)
+    cond_save_adv = _parse_list_field(criteria.get("conditional_save_advantage"))
+    if cond_save_adv:
+        additive += 200 * len(cond_save_adv)
+    
+    # Death saving throw advantage
+    if criteria.get("death_save_advantage"):
+        additive += 200
+    
+    # Immune to disease
+    if criteria.get("immune_to_disease"):
+        additive += 400
+
     # Unarmed strike bonus (e.g., Demon Armor: "+1 bonus to unarmed strikes")
     unarmed_bonus = criteria.get("unarmed_strike_bonus")
     if unarmed_bonus and unarmed_bonus > 0:
@@ -1016,9 +1083,7 @@ def calculate_price(criteria: dict) -> float:
             additive += _avg_dice(unarmed_dmg) * 50  # Scale damage to gp
     
     # Spell casting abilities (e.g., Armor of the Fallen: "cast Speak with Dead or Animate Dead")
-    spell_abilities = criteria.get("spell_casting_abilities") or []
-    if isinstance(spell_abilities, str):
-        spell_abilities = [spell_abilities] if spell_abilities else []
+    spell_abilities = _parse_list_field(criteria.get("spell_casting_abilities"))
     if spell_abilities:
         for spell_name in spell_abilities:
             spell_level = get_spell_level(spell_name)
@@ -1041,6 +1106,27 @@ def calculate_price(criteria: dict) -> float:
         additive += 300    # was 2000
     if criteria.get("burrow_speed"):
         additive += 500    # was 3000
+
+    # Environmental breathing
+    if criteria.get("environmental_breathing"):
+        additive += 500
+    
+    # Water breathing
+    if criteria.get("water_breathing"):
+        additive += 300
+
+    # Walk speed modifications (from structured modifySpeed field)
+    # Handles multiply (Boots of Speed: walk x2) and bonus modifiers
+    speed_mods = criteria.get("speed_mods") or {}
+    if isinstance(speed_mods, dict):
+        if "multiply" in speed_mods and isinstance(speed_mods["multiply"], dict):
+            walk_mult = speed_mods["multiply"].get("walk", 1)
+            if walk_mult > 1:
+                additive += 2000 * (walk_mult - 1)
+        if "bonus" in speed_mods and isinstance(speed_mods["bonus"], dict):
+            walk_bonus = speed_mods["bonus"].get("walk", 0) or 0
+            if walk_bonus >= 10:
+                additive += 200 * (walk_bonus // 10)
 
     # Vision
     darkvision_ft = criteria.get("darkvision_feet") or 0
@@ -1065,6 +1151,14 @@ def calculate_price(criteria: dict) -> float:
         additive += 500    # was 3000
     if criteria.get("invisibility_atwill"):
         additive += 8000   # was 25000
+
+    # Legendary resistance
+    if criteria.get("legendary_resistance"):
+        additive += 3000  # Powerful defensive ability
+    
+    # Spell absorption
+    if criteria.get("spell_absorption"):
+        additive += 5000  # Very powerful
 
     # Healing
     healing_daily = criteria.get("healing_daily_hp") or 0
@@ -1260,9 +1354,7 @@ def calculate_price(criteria: dict) -> float:
     
     # Specific curse effects from prose (e.g., Demon Armor: "disadvantage vs demons")
     # These provide additional curse penalties beyond the generic curse flag
-    curse_effects = criteria.get("curse_effects") or []
-    if isinstance(curse_effects, str):
-        curse_effects = [curse_effects] if curse_effects else []
+    curse_effects = _parse_list_field(criteria.get("curse_effects"))
     if curse_effects:
         # Each curse effect adds an additional 5% price reduction
         curse_mod *= max(0.5, 1.0 - 0.05 * len(curse_effects))
@@ -1300,6 +1392,12 @@ def calculate_price(criteria: dict) -> float:
         if criteria.get("spell_absorption"):
             sig_props += 1
         if criteria.get("legendary_resistance"):
+            sig_props += 1
+        if criteria.get("spell_damage_bonus") and (criteria.get("spell_damage_bonus") or 0) > 0:
+            sig_props += 1
+        if criteria.get("environmental_breathing"):
+            sig_props += 1
+        if criteria.get("water_breathing"):
             sig_props += 1
         if criteria.get("invisibility_atwill"):
             sig_props += 1
@@ -1390,16 +1488,9 @@ def calculate_composite_features(criteria: dict) -> dict:
     
     # Defensive score: combines AC bonus, resistances, immunities
     ac_bonus = criteria.get("ac_bonus") or 0
-    resistances = criteria.get("damage_resistances") or []
-    immunities = criteria.get("damage_immunities") or []
-    condition_immunities = criteria.get("condition_immunities") or []
-    
-    if isinstance(resistances, str):
-        resistances = [resistances] if resistances else []
-    if isinstance(immunities, str):
-        immunities = [immunities] if immunities else []
-    if isinstance(condition_immunities, str):
-        condition_immunities = [condition_immunities] if condition_immunities else []
+    resistances = _parse_list_field(criteria.get("damage_resistances"))
+    immunities = _parse_list_field(criteria.get("damage_immunities"))
+    condition_immunities = _parse_list_field(criteria.get("condition_immunities"))
     
     features["defensive_score"] = (
         ac_bonus + 

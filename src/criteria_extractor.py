@@ -54,6 +54,7 @@ def extract_structured_criteria(item: dict) -> dict:
     c["spell_attack_bonus"] = _parse_bonus(item.get("bonusSpellAttack"))
     c["spell_save_dc_bonus"] = _parse_bonus(item.get("bonusSpellSaveDc"))
     c["spell_damage_bonus"] = _parse_bonus(item.get("bonusSpellDamage"))
+    c["bonus_saving_throw_concentration"] = _parse_bonus(item.get("bonusSavingThrowConcentration"))
     
     # Resistances/immunities
     c["damage_resistances"] = item.get("resist", []) or []
@@ -81,6 +82,8 @@ def extract_structured_criteria(item: dict) -> dict:
     # Speed
     speed_mods = item.get("modifySpeed", {}) or {}
     c["speed_mods"] = speed_mods
+    c["grants_language"] = item.get("grantsLanguage", False)
+    c["grants_proficiency"] = item.get("grantsProficiency", False)
     
     # Flags
     c["is_sentient"] = bool(item.get("sentient"))
@@ -293,6 +296,11 @@ def extract_prose_criteria(description: str) -> dict:
         "unarmed_strike_damage": None,
         "spell_casting_abilities": [],
         "curse_effects": [],
+        "environmental_breathing": False,
+        "water_breathing": False,
+        "immune_to_disease": False,
+        "death_save_advantage": False,
+        "conditional_save_advantage": [],
     }
     
     desc = description.lower()
@@ -381,6 +389,48 @@ def extract_prose_criteria(description: str) -> dict:
     c["climb_speed"] = bool(re.search(r'\bclimb(?:ing)? speed\b', desc))
     c["burrow_speed"] = bool(re.search(r'\bburrow(?:ing)? speed\b', desc))
     
+    # Environmental breathing: "breathe in any environment"
+    c["environmental_breathing"] = bool(
+        re.search(r'breathe\s+(normally\s+)?in\s+any\s+environment', desc) or
+        re.search(r'you\s+can\s+breathe\s+in\s+any', desc) or
+        re.search(r'can\s+exist\s+normally\s+in\s+any\s+environment', desc) or
+        re.search(r'breathe\s+anywhere', desc)
+    )
+
+    # Water breathing: "breathe underwater"
+    c["water_breathing"] = bool(
+        re.search(r'water\s+breathing', desc) or
+        re.search(r'breathe\s+underwater', desc) or
+        re.search(r'you\s+can\s+breathe\s+underwater', desc) or
+        re.search(r'grants?\s+the\s+ability\s+to\s+breathe\s+water', desc)
+    )
+
+    # Immune to disease
+    c["immune_to_disease"] = bool(
+        re.search(r'immune\s+to\s+(all\s+)?disease', desc) or
+        re.search(r'cannot\s+(contract|get)\s+disease', desc) or
+        re.search(r'immun(ity|e)\s+against\s+disease', desc)
+    )
+
+    # Death save advantage
+    c["death_save_advantage"] = bool(
+        re.search(r'advantage\s+on\s+death\s+saving\s+throws?', desc) or
+        re.search(r'advantage\s+on\s+saving\s+throws?\s+against\s+death', desc)
+    )
+
+    # Conditional save advantage: advantage vs non-ability-specific effects like "poison", "harmful gases"
+    # Only match if the existing save_advantage regex didn't already capture it
+    cond_save_match = re.search(r'advantage on saving throws against ([\w\s]+?)(?:[,.]|$)', desc)
+    if cond_save_match:
+        # Extract the condition name
+        cond_text = cond_save_match.group(1).strip().lower()
+        # Filter out pure ability names (those are already captured by save_advantage above)
+        known_abilities = {'intelligence', 'wisdom', 'charisma', 'strength', 'dexterity', 'constitution', 'intelligence, wisdom, and charisma'}
+        if cond_text not in known_abilities and cond_text not in [a.replace(' and ', ', ') for a in known_abilities]:
+            # Split on ' and ' or ', ' to handle compound conditions
+            conditions = [c_item.strip() for c_item in re.split(r',\s*|\s+and\s+', cond_text) if c_item.strip()]
+            c["conditional_save_advantage"] = [cond for cond in conditions if cond not in known_abilities]
+
     # Saving throw advantage: "advantage on Intelligence, Wisdom, and Charisma saving throws"
     save_match = re.search(r'advantage on ([\w,\s]+?) saving throws', desc)
     if save_match:
