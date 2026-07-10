@@ -3,5 +3,16 @@
 .dolt/
 *.db
 
+# Beads local state
+.beads/export-state.json
+
 # Git worktrees
 .worktrees/
+
+# Python caches
+__pycache__/
+*.py[cod]
+.pytest_cache/
+
+# OS metadata
+.DS_Store
