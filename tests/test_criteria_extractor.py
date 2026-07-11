@@ -121,10 +121,44 @@ def test_healing_consumable():
     c = extract_prose_criteria(desc)
     assert c["healing_consumable_avg"] > 0
 
+
+@pytest.mark.parametrize(
+    ("desc", "expected_avg"),
+    [
+        ("The creature regains 2d4 + 2 hit points when it drinks this potion.", 7.0),
+        ("You regain 2d4 + 2 hit points when you drink this potion.", 7.0),
+        ("You regain 10 hit points when you drink this potion.", 10.0),
+    ],
+)
+def test_healing_consumable_handles_regains_spaced_dice_and_flat_text(desc, expected_avg):
+    c = extract_prose_criteria(desc)
+    assert c["healing_consumable_avg"] == pytest.approx(expected_avg)
+
+
+@pytest.mark.parametrize(
+    "desc",
+    [
+        "If you hit an Undead with this weapon, you take 1d10 Necrotic damage, and the target regains 1d10 Hit Points.",
+        "The target regains 2d8 + 2 hit points, and all diseases and poisons affecting it are removed. The tooth regains all expended charges daily at dawn.",
+        "One creature you can see within 30 feet either takes radiant damage or regains hit points equal to the total.",
+        "The target regains 2d4 + 2 hit points.",
+        "The enemy regains 10 hit points.",
+        "The object regains 10 hit points.",
+        "When the treant finishes a long rest, it repairs the ship's hull, enabling the ship to regain 4d12 hit points.",
+        "You gain 2d4 + 2 temporary hit points when you press this medal to your mouth.",
+        "The target can't regain 10 hit points until the curse ends.",
+    ],
+)
+def test_healing_consumable_ignores_non_consumable_or_harmful_contexts(desc):
+    c = extract_prose_criteria(desc)
+    assert c["healing_consumable_avg"] == 0
+    assert c["healing_daily_hp"] == 0
+
 def test_healing_daily():
     desc = "At dawn, you regain 10 hit points."
     c = extract_prose_criteria(desc)
     assert c["healing_daily_hp"] == 10
+    assert c["healing_consumable_avg"] == 0
 
 def test_tome_manual():
     desc = "This tome contains wisdom and insight. After 48 hours of study, your Wisdom score increases by 2."

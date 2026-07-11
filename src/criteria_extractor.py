@@ -143,7 +143,11 @@ def extract_structured_criteria(item: dict) -> dict:
     return c
 
 def _avg_dice(dice_str: str) -> float:
-    """Compute average of a dice expression like '2d4+2'."""
+    """Compute average of a dice expression like '2d4+2' or a flat value."""
+    dice_str = dice_str.replace(" ", "")
+    if dice_str.isdigit():
+        return float(dice_str)
+
     total = 0.0
     # Match NdM parts
     for m in re.finditer(r'(\d+)d(\d+)', dice_str):
@@ -306,6 +310,20 @@ def extract_prose_criteria(description: str) -> dict:
     
     desc = description.lower()
 
+    def is_safe_healing_context(match: re.Match) -> bool:
+        start, end = match.span()
+        nearby = desc[max(0, start - 80):min(len(desc), end + 120)]
+        prefix = desc[max(0, start - 40):start]
+
+        if "temporary hit points" in nearby:
+            return False
+        if re.search(r"(?:can't|cannot)\s*$", prefix):
+            return False
+        if re.search(r"\b(?:target|enemy|object|weapon|chest|item|corpse|construct|ship)\s+(?:to\s+)?$", prefix):
+            return False
+
+        return True
+
     # Flight detection - must be about the user gaining flight ability
     # Look for phrases like "you can fly", "flying speed", "gain a fly speed"
     has_flying = (
@@ -344,17 +362,22 @@ def extract_prose_criteria(description: str) -> dict:
         if "spell" not in desc[:desc.find("invisible")] if "invisible" in desc else True:
             c["invisibility_atwill"] = True
     
-    # Healing: consumable
-    heal_match = re.search(r'regain\s+(\d+d?\d*[+\d]*)\s+hit points', desc)
-    if heal_match:
-        c["healing_consumable_avg"] = _avg_dice(heal_match.group(1))
-    
+    healing_amount_pattern = r'(\d+d\d+(?:\s*\+\s*\d+)?|\d+)'
+
     # Healing: daily
-    daily_heal = re.search(r'(?:at dawn|each dawn|per day|once per day|next dawn).{0,100}regain\s+(\d+d?\d*[+\d]*)\s+hit points', desc)
+    daily_heal = re.search(rf'(?:at dawn|each dawn|per day|once per day|next dawn).{{0,100}}regains?\s+{healing_amount_pattern}\s+hit points', desc)
     if not daily_heal:
-        daily_heal = re.search(r'regain\s+(\d+d?\d*[+\d]*)\s+hit points.{0,50}(?:at dawn|each dawn|per day|next dawn|until the next dawn)', desc)
-    if daily_heal:
+        daily_heal = re.search(rf'regains?\s+{healing_amount_pattern}\s+hit points.{{0,50}}(?:at dawn|each dawn|per day|next dawn|until the next dawn)', desc)
+    if daily_heal and is_safe_healing_context(daily_heal):
         c["healing_daily_hp"] = int(_avg_dice(daily_heal.group(1)))
+    else:
+        daily_heal = None
+
+    # Healing: consumable
+    if not daily_heal:
+        heal_match = re.search(rf'regains?\s+{healing_amount_pattern}\s+hit points', desc)
+        if heal_match and is_safe_healing_context(heal_match):
+            c["healing_consumable_avg"] = _avg_dice(heal_match.group(1))
     
     # Tome/Manual permanent boost
     c["tome_manual_boost"] = bool(

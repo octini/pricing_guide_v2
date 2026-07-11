@@ -12,9 +12,16 @@ from xgboost import XGBRegressor
 
 sys.path.insert(0, str(Path(__file__).parent.parent))
 
+from src.official_price_anchor import (
+    apply_official_price_anchors,
+    build_official_price_audit,
+    write_official_price_audit,
+)
+
 INPUT_CSV = Path("data/processed/items_variant_adjusted.csv")
 INPUT_FALLBACK_CSV = Path("data/processed/items_priced.csv")
 OUTPUT_CSV = Path("data/processed/items_ml_priced.csv")
+OFFICIAL_PRICE_AUDIT_CSV = Path("output/official_price_anchor_audit.csv")
 
 # Features for ML: these are the additive criteria values + composite features
 FEATURE_COLS = [
@@ -241,6 +248,19 @@ def build_features(df: pd.DataFrame) -> pd.DataFrame:
     return X
 
 
+def apply_post_blend_official_price_anchors(
+    df: pd.DataFrame,
+    audit_output_path: Path | None = None,
+) -> tuple[pd.DataFrame, pd.DataFrame]:
+    """Apply official-price anchors after the existing final-price blend."""
+    anchored_df = apply_official_price_anchors(df)
+    if audit_output_path is not None:
+        audit_df = write_official_price_audit(anchored_df, audit_output_path)
+    else:
+        audit_df = build_official_price_audit(anchored_df)
+    return anchored_df, audit_df
+
+
 def main():
     import os
     if INPUT_CSV.exists():
@@ -387,6 +407,15 @@ def main():
 
     # Apply minimum price floor (1 copper piece)
     df["final_price"] = df["final_price"].clip(lower=0.01)
+
+    # Apply official-price anchor after the existing blend calculation.
+    df, official_price_audit = apply_post_blend_official_price_anchors(df, OFFICIAL_PRICE_AUDIT_CSV)
+    print(f"\nOfficial price anchor audit written to {OFFICIAL_PRICE_AUDIT_CSV}")
+    print(f"Official-priced rows audited: {len(official_price_audit)}")
+    if len(official_price_audit):
+        print("Official anchor tiers:")
+        for tier, count in official_price_audit["official_anchor_tier"].value_counts().items():
+            print(f" {tier}: {count}")
 
     # Ensure price bounds encompass final_price (ML quantile predictions don't account for blend)
     df["price_low"] = df[["price_low", "final_price"]].min(axis=1)

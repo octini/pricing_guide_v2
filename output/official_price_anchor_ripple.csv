@@ -1,0 +1,13 @@
+name,source,rarity,type,official_price_gp,rule_price,ml_price,pre_anchor_final_price,anchored_final_price,official_anchor_ratio,official_anchor_tier,official_anchor_delta,has_valid_official_price
+Windskiff,FRAiF,rare,,4000.0,4866.0,3458.984,3951.439526,4173.2,1.2165,near_agreement_official_heavy,221.760474,True
+Mechanical Wonder (Domestic),FRAiF,uncommon,,400.0,750.0,701.89716,718.733151,591.239891,1.875,moderate_disagreement_blended,-127.49326,True
+Pearl of Undead Detection,WDMM,uncommon,OTH,500.0,750.0,701.89716,718.733151,631.239891,1.5,moderate_disagreement_blended,-87.49326,True
+Dancing Monkey Fruit,ToA,uncommon,OTH,5.0,1150.0,701.89716,858.733151,773.359836,230.0,high_disagreement_computed_heavy,-85.373315,True
+Statuette of Saint Markovia,CoS,uncommon,OTH,250.0,1250.0,820.4261,970.776956,898.699261,5.0,high_disagreement_computed_heavy,-72.077696,True
+Dagger of Guitar Solos,WDMM,uncommon,M,750.0,750.0,682.2222,705.944449,750.0,1.0,near_agreement_official_heavy,44.055551,True
+Arcanaloth's Music Box,ToA,uncommon,OTH,750.0,750.0,701.89716,718.733151,750.0,1.0,near_agreement_official_heavy,31.266849,True
+Potion of Healing,XDMG,common,P|XPHB,50.0,58.75,101.63039,65.182058,51.75,1.175,near_agreement_official_heavy,-13.432058,True
+Spell Scroll (Level 1),XDMG,common,SC|XPHB,50.0,75.0,128.62677,75.0,65.0,1.5,moderate_disagreement_blended,-10.0,True
+Spell Scroll (Cantrip),XDMG,common,SC|XPHB,30.0,25.0,128.62677,25.0,29.0,0.833333,near_agreement_official_heavy,4.0,True
+Ball Bearing,PHB,mundane,G,0.001,0.001,84.59741,0.01,0.001,1.0,near_agreement_official_heavy,-0.009,True
+Sling Bullet,XPHB,mundane,A|XPHB,0.002,0.002,36.354607,0.01,0.002,1.0,near_agreement_official_heavy,-0.008,True

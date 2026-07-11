@@ -1,0 +1,3 @@
+has_valid_official_price,total_rows,changed_rows,max_abs_delta
+False,4419,0,0.0
+True,418,12,221.760474

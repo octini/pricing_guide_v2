@@ -1,0 +1,27 @@
+name,source,rarity,type,old_healing_consumable_avg,new_healing_consumable_avg,old_healing_daily_hp,new_healing_daily_hp,healing_additive_delta_gp,current_final_price,final_price_delta_in_worktree,official_price_gp,is_artifact,is_non_potion,generated_outputs_regenerated
+Amulet of the Drunkard,EGW,uncommon,,0.0,14.0,0.0,0.0,140.0,583.409573,0.0,,False,True,False
+Constantori's Portrait,KftGV,very_rare,,0.0,7.0,0.0,0.0,70.0,28029.237891,0.0,,False,True,False
+Devotee's Censer,TCE,rare,M,2.5,0.0,2.0,2.0,-25.0,4586.448384,0.0,,False,True,False
+"Ioun Stone, Regeneration",XDMG,legendary,,0.0,15.0,0.0,0.0,150.0,24669.036719,0.0,,False,True,False
+Keoghtom's Ointment,XDMG,uncommon,,0.0,11.0,0.0,0.0,110.0,866.459573,0.0,,False,True,False
+Living Ship,AAG,mundane,SPC|AAG,26.0,0.0,0.0,0.0,-260.0,25000.0,0.0,25000.0,False,True,False
+Mariner's Breastplate,XDMG,uncommon,MA|XPHB,2.5,0.0,2.0,2.0,-25.0,2303.75,0.0,,False,True,False
+Mariner's Chain Mail,XDMG,uncommon,HA|XPHB,2.5,0.0,2.0,2.0,-25.0,2236.928571,0.0,,False,True,False
+Mariner's Chain Shirt,XDMG,uncommon,MA|XPHB,2.5,0.0,2.0,2.0,-25.0,2080.910714,0.0,,False,True,False
+Mariner's Half Plate Armor,XDMG,uncommon,MA|XPHB,2.5,0.0,2.0,2.0,-25.0,2725.0,0.0,,False,True,False
+Mariner's Hide Armor,XDMG,uncommon,MA|XPHB,2.5,0.0,2.0,2.0,-25.0,1985.0,0.0,,False,True,False
+Mariner's Leather Armor,XDMG,uncommon,LA|XPHB,2.5,0.0,2.0,2.0,-25.0,1985.0,0.0,,False,True,False
+Mariner's Padded Armor,XDMG,uncommon,LA|XPHB,2.5,0.0,2.0,2.0,-25.0,1980.0,0.0,,False,True,False
+Mariner's Plate Armor,XDMG,uncommon,HA|XPHB,2.5,0.0,2.0,2.0,-25.0,3475.0,0.0,,False,True,False
+Mariner's Ring Mail,XDMG,uncommon,HA|XPHB,2.5,0.0,2.0,2.0,-25.0,2118.75,0.0,,False,True,False
+Mariner's Scale Mail,XDMG,uncommon,MA|XPHB,2.5,0.0,2.0,2.0,-25.0,2128.75,0.0,,False,True,False
+Mariner's Splint Armor,XDMG,uncommon,HA|XPHB,2.5,0.0,2.0,2.0,-25.0,2175.0,0.0,,False,True,False
+Mariner's Studded Leather Armor,XDMG,uncommon,LA|XPHB,2.5,0.0,2.0,2.0,-25.0,1985.0,0.0,,False,True,False
+Mudslick Tower,PaBTSO,very_rare,,0.0,50.0,0.0,0.0,500.0,10691.663574,0.0,,False,True,False
+Periapt of Health,XDMG,uncommon,,0.0,0.0,0.0,7.0,1400.0,2232.251868,0.0,,False,True,False
+Platinum Scarf,FTD,legendary,,0.0,25.0,0.0,0.0,250.0,56478.841602,0.0,,False,True,False
+Potion of Greater Healing,XDMG,uncommon,P|XPHB,0.0,14.0,0.0,0.0,140.0,217.29418,0.0,,False,False,False
+Potion of Healing,XDMG,common,P|XPHB,0.0,7.0,0.0,0.0,70.0,65.182058,0.0,50.0,False,False,False
+Potion of Superior Healing,XDMG,rare,P|XPHB,0.0,28.0,0.0,0.0,280.0,801.461652,0.0,,False,False,False
+Potion of Supreme Healing,XDMG,very_rare,P|XPHB,0.0,45.0,0.0,0.0,450.0,1443.75604,0.0,,False,False,False
+Trollblood Potion,MonstersOfDrakkenheim,rare,P|XPHB,0.0,5.0,0.0,0.0,50.0,1636.104657,0.0,,False,False,False
