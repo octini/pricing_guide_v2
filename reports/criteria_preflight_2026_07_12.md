@@ -16,9 +16,9 @@ Total items analyzed: 12243
 | any `vehicle_*` | 31 | CallfromtheDeep (17), XPHB (7), FRAiF (4), EGW (1), TalDoreiCampaignSettingReborn (1) |
 | raw prose `advantage ... checks` | 236 | GriffonsSaddlebag2 (35), EGW (19), XDMG (18), GrimHollowCG24 (14), ExploringEberron24 (13) |
 | raw prose `disadvantage ... checks/saves` | 130 | GrimHollowCG24 (21), GriffonsSaddlebag2 (20), 24GriffonsSaddlebag1 (13), HelianasGuidetoMonsterHunting (12), TalDoreiCampaignSettingReborn (10) |
-| extracted `check_advantage` | 169 | GriffonsSaddlebag2 (30), EGW (17), GrimHollowCG24 (13), XDMG (13), BookOfEbonTides (10) |
-| extracted `check_disadvantage` | 27 | GrimHollowCG24 (9), 24GriffonsSaddlebag1 (7), GriffonsSaddlebag2 (4), HumblewoodTales (3), BookOfEbonTides (1) |
-| extracted `save_disadvantage` | 21 | GrimHollowCG24 (12), 24GriffonsSaddlebag1 (3), GriffonsSaddlebag2 (3), BMT (1), BookOfEbonTides (1) |
+| extracted `check_advantage` | 181 | GriffonsSaddlebag2 (30), EGW (17), GrimHollowCG24 (14), XDMG (14), BookOfEbonTides (12) |
+| extracted `check_disadvantage` | 30 | GrimHollowCG24 (10), 24GriffonsSaddlebag1 (7), GriffonsSaddlebag2 (5), HumblewoodTales (3), BookOfEbonTides (1) |
+| extracted `save_disadvantage` | 22 | GrimHollowCG24 (13), 24GriffonsSaddlebag1 (3), GriffonsSaddlebag2 (3), BMT (1), BookOfEbonTides (1) |
 
 ## Structured field examples
 
@@ -83,7 +83,7 @@ Examples show normalized extractor targets only, not raw prose snippets.
 - Dream Mantle (24GriffonsSaddlebag1): `wisdom (perception)`
 
 ### save_disadvantage
-- Aether Blood (GrimHollowCG24): `saving throws`
+- Aether Blood (GrimHollowCG24): `strength, constitution`
 - Amulet of the Lycanthrope (GriffonsSaddlebag2): `saving throws`
 - Barricade Shield (24GriffonsSaddlebag1): `dexterity`
 - Boots of Dendallen (24GriffonsSaddlebag1): `dexterity`

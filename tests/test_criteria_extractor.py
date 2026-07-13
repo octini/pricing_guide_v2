@@ -363,7 +363,89 @@ def test_prose_extracts_generic_disadvantage_on_saving_throws():
 
     c = extract_prose_criteria(desc)
 
+    assert c["save_advantage"] == []
     assert c["save_disadvantage"] == ["saving throws"]
+
+
+def test_prose_does_not_treat_user_disadvantage_on_specific_save_as_advantage():
+    desc = "While cursed, you have disadvantage on Constitution saving throws."
+
+    c = extract_prose_criteria(desc)
+
+    assert c["save_advantage"] == []
+    assert c["save_disadvantage"] == ["constitution"]
+
+
+def test_prose_does_not_treat_target_disadvantage_on_saves_as_user_advantage():
+    desc = "When you hit a creature, the target has disadvantage on Wisdom saving throws until the end of its next turn."
+
+    c = extract_prose_criteria(desc)
+
+    assert c["save_advantage"] == []
+
+
+def test_prose_still_extracts_user_facing_advantage_on_specific_save():
+    desc = "While wearing this ring, you have advantage on Wisdom saving throws."
+
+    c = extract_prose_criteria(desc)
+
+    assert c["save_advantage"] == ["wisdom"]
+
+
+def test_prose_extracts_you_also_have_advantage_on_specific_save():
+    desc = "While the cloak is active, you also have advantage on Dexterity saving throws while in the air."
+
+    c = extract_prose_criteria(desc)
+
+    assert c["save_advantage"] == ["dexterity"]
+
+
+def test_prose_extracts_elided_and_have_advantage_after_user_benefit():
+    desc = "While it is active, you also have blindsight and have advantage on Dexterity saving throws while in the air."
+
+    c = extract_prose_criteria(desc)
+
+    assert c["save_advantage"] == ["dexterity"]
+
+
+def test_prose_extracts_item_grants_advantage_to_wearer():
+    desc = "The armor grants advantage on Intelligence, Wisdom, and Charisma saving throws to its wearer."
+
+    c = extract_prose_criteria(desc)
+
+    assert c["save_advantage"] == ["intelligence", "wisdom", "charisma"]
+
+
+def test_prose_extracts_armour_grants_advantage_to_intended_wearer_prefix():
+    desc = "To its intended wearer, the armour grants advantage on Intelligence, Wisdom, and Charisma saving throws."
+
+    c = extract_prose_criteria(desc)
+
+    assert c["save_advantage"] == ["intelligence", "wisdom", "charisma"]
+
+
+def test_prose_does_not_bridge_from_you_to_minion_save_advantage():
+    desc = "While you wear this crown, undead that you create or summon have twice as many hit points as normal and have advantage on saving throws."
+
+    c = extract_prose_criteria(desc)
+
+    assert c["save_advantage"] == []
+
+
+def test_prose_does_not_treat_creature_of_your_choice_aura_as_wearer_save_advantage():
+    desc = "Each creature of your choice within 30 feet of you has advantage on saving throws it makes to avoid being charmed."
+
+    c = extract_prose_criteria(desc)
+
+    assert c["save_advantage"] == []
+
+
+def test_prose_does_not_treat_allies_near_you_as_wearer_save_advantage():
+    desc = "Allies within 10 feet of you have advantage on saving throws against spells."
+
+    c = extract_prose_criteria(desc)
+
+    assert c["save_advantage"] == []
 
 
 

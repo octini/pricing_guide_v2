@@ -388,11 +388,15 @@ def extract_prose_criteria(description: str) -> dict:
         Intentionally avoids broad "target/creature has disadvantage" matches so enemy
         debuffs are not misclassified as drawbacks on the item user.
         """
-        actor = r"(?:you|the wearer|the attuned creature|the creature wearing [^.;]{0,80}|a creature wearing [^.;]{0,80})"
+        actor = r"(?:(?<!of )you|the wearer|the attuned creature|the creature wearing [^.;]{0,80}|a creature wearing [^.;]{0,80})"
+        item_actor = r"(?:armor|armour|cloak|ring|amulet|mantle|breastplate|shield|helm(?:et)?|weapon|sword|staff|item)"
         clauses: list[str] = []
         patterns = [
-            rf"\b{actor}\s+(?:have|has|gain|gains|suffer|suffers)\s+{kind}\s+on\s+([^.;]+)",
+            rf"\b{actor}\s+(?:also\s+)?(?:have|has|gain|gains|suffer|suffers)\s+{kind}\s+on\s+([^.;]+)",
+            rf"\b{actor}\b(?![^.;]{{0,160}}\b(?:undead|creatures?|allies|companions?|summons?|summoned|minions?|servants?|targets?|enemies)\b)[^.;]{{0,160}}\band\s+(?:also\s+)?(?:have|has|gain|gains|suffer|suffers)\s+{kind}\s+on\s+([^.;]+)",
             rf"\b(?:grants?|gives?)\s+you\s+{kind}\s+on\s+([^.;]+)",
+            rf"\b(?:the\s+)?{item_actor}\s+(?:grants?|gives?)\s+{kind}\s+on\s+([^.;]+?)\s+to\s+(?:its|the)\s+wearer\b",
+            rf"\bto\s+(?:its|the)\s+(?:intended\s+)?wearer,?\s+(?:the\s+)?{item_actor}\s+(?:grants?|gives?)\s+{kind}\s+on\s+([^.;]+)",
         ]
         for pattern in patterns:
             clauses.extend(match.group(1) for match in re.finditer(pattern, desc))
@@ -427,9 +431,13 @@ def extract_prose_criteria(description: str) -> dict:
         targets: list[str] = []
         for clause in clauses:
             clause_has_specific_target = False
-            for match in re.finditer(r"\b(strength|dexterity|constitution|intelligence|wisdom|charisma)\s+saving throws?\b", clause):
-                append_unique(targets, match.group(1))
-                clause_has_specific_target = True
+            for save_phrase in re.finditer(r"\b((?:strength|dexterity|constitution|intelligence|wisdom|charisma)\b(?:(?!\bsaving throws?\b)[^.;])*)\s+saving throws?\b", clause):
+                phrase = re.sub(r"\b(?:strength|dexterity|constitution|intelligence|wisdom|charisma)\s*(?:\([^)]+\))?\s+checks?\b", "", save_phrase.group(1))
+                targets_before = len(targets)
+                for match in re.finditer(r"\b(strength|dexterity|constitution|intelligence|wisdom|charisma)\b", phrase):
+                    append_unique(targets, match.group(1))
+                if len(targets) > targets_before:
+                    clause_has_specific_target = True
             if (
                 not clause_has_specific_target
                 and re.search(r"\b(?:all\s+)?saving throws?\b", clause)
@@ -593,15 +601,10 @@ def extract_prose_criteria(description: str) -> dict:
             conditions = [c_item.strip() for c_item in re.split(r',\s*|\s+and\s+', cond_text) if c_item.strip()]
             c["conditional_save_advantage"] = [cond for cond in conditions if cond not in known_abilities]
 
-    # Saving throw advantage: "advantage on Intelligence, Wisdom, and Charisma saving throws"
-    save_match = re.search(r'advantage on ([\w,\s]+?) saving throws', desc)
-    if save_match:
-        abilities = [a.strip().lower() for a in save_match.group(1).replace(' and ', ',').split(',')]
-        for ability in abilities:
-            if ability in ('intelligence', 'wisdom', 'charisma', 'strength', 'dexterity', 'constitution'):
-                append_unique(c["save_advantage"], ability)
-    if not c["save_advantage"]:
-        c["save_advantage"] = extract_save_targets(advantage_clauses)
+    # Saving throw advantage: only use actor-filtered advantage clauses so
+    # "disadvantage on ... saving throws" and enemy/target effects cannot be
+    # misclassified as a benefit on the wearer/user.
+    c["save_advantage"] = extract_save_targets(advantage_clauses)
     
     # Condition immunity from prose (in addition to structured conditionImmune field)
     ci_match = re.search(r'immune to the ([\w\s]+?) condition', desc)
