@@ -115,6 +115,58 @@ def test_tattoo():
     c = extract_structured_criteria(item)
     assert c["is_tattoo"] is True
 
+
+def test_structured_extracts_firearm_reload():
+    item = make_item(type="MF", firearm=True, reload=6)
+
+    c = extract_structured_criteria(item)
+
+    assert c["reload"] == 6
+
+
+def test_structured_extracts_armor_ac_and_strength_requirement():
+    item = make_item(type="HA|XPHB", ac=18, strength="15")
+
+    c = extract_structured_criteria(item)
+
+    assert c["armor_ac"] == 18
+    assert c["armor_strength_req"] == 15
+
+
+def test_structured_ignores_non_armor_ac_for_armor_columns():
+    item = make_item(type="RG", ac=16)
+
+    c = extract_structured_criteria(item)
+
+    assert c["armor_ac"] is None
+
+
+def test_structured_does_not_conflate_shield_bonus_with_armor_ac():
+    item = make_item(type="S", ac=2)
+
+    c = extract_structured_criteria(item)
+
+    assert c["armor_ac"] is None
+
+
+def test_structured_extracts_vehicle_stats():
+    item = make_item(
+        type="SHP",
+        vehSpeed=2,
+        vehAc=15,
+        vehHp=200,
+        crew=15,
+        capCargo=100,
+    )
+
+    c = extract_structured_criteria(item)
+
+    assert c["vehicle_speed"] == 2
+    assert c["vehicle_ac"] == 15
+    assert c["vehicle_hp"] == 200
+    assert c["vehicle_crew"] == 15
+    assert c["vehicle_cargo_capacity"] == 100
+
 # NLP prose criteria tests
 from src.criteria_extractor import extract_prose_criteria
 
@@ -208,3 +260,60 @@ def test_crit_immunity():
     desc = "While you wear this armor, critical hits against you are treated as normal hits."
     c = extract_prose_criteria(desc)
     assert c["crit_immunity"] is True
+
+
+def test_prose_extracts_advantage_on_ability_and_skill_checks():
+    desc = "While wearing this cloak, you have advantage on Strength checks and Dexterity (Stealth) checks."
+
+    c = extract_prose_criteria(desc)
+
+    assert c["check_advantage"] == ["strength", "dexterity (stealth)"]
+
+
+def test_prose_extracts_advantage_on_tool_checks():
+    desc = "You have advantage on ability checks you make with jeweler's tools."
+
+    c = extract_prose_criteria(desc)
+
+    assert c["check_advantage"] == ["jeweler's tools"]
+
+
+def test_prose_keeps_later_generic_advantage_clause_after_specific_check():
+    desc = "You have advantage on Dexterity (Stealth) checks. You have advantage on ability checks that rely on smell."
+
+    c = extract_prose_criteria(desc)
+
+    assert c["check_advantage"] == ["dexterity (stealth)", "ability checks"]
+
+
+def test_prose_keeps_later_generic_disadvantage_clause_after_specific_check():
+    desc = "You have disadvantage on Dexterity checks. You have disadvantage on ability checks that rely on smell."
+
+    c = extract_prose_criteria(desc)
+
+    assert c["check_disadvantage"] == ["dexterity", "ability checks"]
+
+
+def test_prose_normalizes_5etools_skill_markup_in_check_targets():
+    desc = "You have advantage on Charisma ({@skill Intimidation}) checks."
+
+    c = extract_prose_criteria(desc)
+
+    assert c["check_advantage"] == ["charisma (intimidation)"]
+
+
+def test_prose_extracts_disadvantage_on_checks_and_saves_as_drawbacks():
+    desc = "While cursed, you have disadvantage on Dexterity checks and Wisdom saving throws."
+
+    c = extract_prose_criteria(desc)
+
+    assert c["check_disadvantage"] == ["dexterity"]
+    assert c["save_disadvantage"] == ["wisdom"]
+
+
+def test_prose_does_not_treat_target_disadvantage_as_drawback():
+    desc = "When you hit a creature, the target has disadvantage on Strength checks until the end of its next turn."
+
+    c = extract_prose_criteria(desc)
+
+    assert c["check_disadvantage"] == []

@@ -18,6 +18,24 @@ def _parse_bonus(val: Any) -> Optional[int]:
             return int(m.group(1))
     return None
 
+def _parse_number(val: Any) -> Optional[int | float]:
+    """Parse a stable numeric criterion from int/float/string raw fields."""
+    if val is None or isinstance(val, bool):
+        return None
+    if isinstance(val, int):
+        return val
+    if isinstance(val, float):
+        return int(val) if val.is_integer() else val
+    if isinstance(val, str):
+        raw = val.strip()
+        if not raw:
+            return None
+        m = re.match(r'^[+]?(-?\d+(?:\.\d+)?)$', raw)
+        if m:
+            parsed = float(m.group(1))
+            return int(parsed) if parsed.is_integer() else parsed
+    return None
+
 def extract_structured_criteria(item: dict) -> dict:
     """Extract all objective criteria from JSON fields."""
     c = {}
@@ -41,6 +59,7 @@ def extract_structured_criteria(item: dict) -> dict:
     # Note: bonusWeapon is used for items that grant weapon bonuses (e.g., Demon Armor's
     # unarmed strike bonus), not for the item being a +N weapon. Don't extract it for armor.
     item_type = item.get("type", "")
+    item_type_base = item_type.split("|")[0] if isinstance(item_type, str) else item_type
     is_armor = any(armor in item_type for armor in ["HA", "MA", "LA"])
     if not is_armor:
         c["weapon_bonus"] = _parse_bonus(item.get("bonusWeapon"))
@@ -94,6 +113,19 @@ def extract_structured_criteria(item: dict) -> dict:
     c["is_focus"] = bool(item.get("focus"))
     c["is_poison"] = bool(item.get("poison"))
     c["is_firearm"] = bool(item.get("firearm"))
+
+    # New structured 2026-list fields. Keep these as criteria-only columns for now;
+    # pricing formulas/ML can opt into them later after calibration.
+    armor_type_codes = {"LA", "MA", "HA", "TAH", "AdvEq"}
+    is_armor_like = item_type_base in armor_type_codes
+    c["reload"] = _parse_number(item.get("reload"))
+    c["armor_ac"] = _parse_number(item.get("ac")) if is_armor_like else None
+    c["armor_strength_req"] = _parse_number(item.get("strength")) if is_armor_like else None
+    c["vehicle_speed"] = _parse_number(item.get("vehSpeed"))
+    c["vehicle_ac"] = _parse_number(item.get("vehAc"))
+    c["vehicle_hp"] = _parse_number(item.get("vehHp"))
+    c["vehicle_crew"] = _parse_number(item.get("crew"))
+    c["vehicle_cargo_capacity"] = _parse_number(item.get("capCargo"))
     
     # Type-derived flags
     item_type = item.get("type", "")
@@ -306,10 +338,60 @@ def extract_prose_criteria(description: str) -> dict:
         "immune_to_disease": False,
         "death_save_advantage": False,
         "conditional_save_advantage": [],
+        "check_advantage": [],
+        "check_disadvantage": [],
+        "save_disadvantage": [],
         "is_focus_prose": False,
     }
     
     desc = description.lower()
+
+    def append_unique(values: list[str], value: str) -> None:
+        if value and value not in values:
+            values.append(value)
+
+    def clean_target(value: str) -> str:
+        value = re.sub(r"\{@\w+\s+([^}|]+)(?:\|[^}]*)?\}", r"\1", value)
+        return re.sub(r"\s+", " ", value.replace("’", "'").strip().strip(",;:."))
+
+    def effect_clauses(kind: str) -> list[str]:
+        """Return player/wearer-facing advantage/disadvantage clauses.
+
+        Intentionally avoids broad "target/creature has disadvantage" matches so enemy
+        debuffs are not misclassified as drawbacks on the item user.
+        """
+        actor = r"(?:you|the wearer|the attuned creature|the creature wearing [^.;]{0,80}|a creature wearing [^.;]{0,80})"
+        clauses: list[str] = []
+        patterns = [
+            rf"\b{actor}\s+(?:have|has|gain|gains|suffer|suffers)\s+{kind}\s+on\s+([^.;]+)",
+            rf"\b(?:grants?|gives?)\s+you\s+{kind}\s+on\s+([^.;]+)",
+        ]
+        for pattern in patterns:
+            clauses.extend(match.group(1) for match in re.finditer(pattern, desc))
+        return clauses
+
+    def extract_check_targets(clauses: list[str]) -> list[str]:
+        targets: list[str] = []
+        for clause in clauses:
+            clause_has_specific_target = False
+            for match in re.finditer(r"\b(strength|dexterity|constitution|intelligence|wisdom|charisma)\s*(?:\(([^)]+)\))?\s+checks?\b", clause):
+                ability = match.group(1)
+                skill = match.group(2)
+                append_unique(targets, clean_target(f"{ability} ({skill})" if skill else ability))
+                clause_has_specific_target = True
+            for match in re.finditer(r"\bability checks?\s+(?:you\s+make\s+|made\s+)?with\s+([a-z0-9][\w\s'’-]+?\s+tools?)\b", clause):
+                append_unique(targets, clean_target(match.group(1)))
+                clause_has_specific_target = True
+            if not clause_has_specific_target and re.search(r"\bability checks?\b", clause):
+                append_unique(targets, "ability checks")
+        return targets
+
+    def extract_save_targets(clauses: list[str]) -> list[str]:
+        targets: list[str] = []
+        for clause in clauses:
+            for match in re.finditer(r"\b(strength|dexterity|constitution|intelligence|wisdom|charisma)\s+saving throws?\b", clause):
+                append_unique(targets, match.group(1))
+        return targets
 
     def is_safe_healing_context(match: re.Match) -> bool:
         start, end = match.span()
@@ -405,6 +487,12 @@ def extract_prose_criteria(description: str) -> dict:
         re.search(r'(?<!dis)advantage.{0,30}(stealth|dexterity \(stealth\))', desc) or
         re.search(r'stealth.{0,30}(?<!dis)advantage', desc)
     )
+
+    advantage_clauses = effect_clauses("advantage")
+    disadvantage_clauses = effect_clauses("disadvantage")
+    c["check_advantage"] = extract_check_targets(advantage_clauses)
+    c["check_disadvantage"] = extract_check_targets(disadvantage_clauses)
+    c["save_disadvantage"] = extract_save_targets(disadvantage_clauses)
     
     # Legendary resistance
     c["legendary_resistance"] = "legendary resistance" in desc
