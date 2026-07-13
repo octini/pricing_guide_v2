@@ -9,6 +9,7 @@ from pathlib import Path
 
 sys.path.insert(0, str(Path(__file__).parent.parent))
 from src.pricing_engine import calculate_price, calculate_price_with_outlier_check, calculate_composite_features
+from src.list_curation import is_commodity_exact_price_candidate
 
 INPUT_CSV = Path("data/processed/amalgamated_prices.csv")
 OUTPUT_CSV = Path("data/processed/items_priced.csv")
@@ -115,7 +116,9 @@ def main():
                 c[num_col] = None
 
         # Determine price source
-        if pd.notna(c.get("official_price_gp")) and c.get("rarity") in ("mundane", "none"):
+        if pd.notna(c.get("official_price_gp")) and (
+            c.get("rarity") in ("mundane", "none") or is_commodity_exact_price_candidate(c)
+        ):
             price = float(c["official_price_gp"])
             price_source = "official"
         else:

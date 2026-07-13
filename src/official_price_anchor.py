@@ -9,6 +9,8 @@ from typing import Any
 
 import pandas as pd
 
+from .list_curation import is_commodity_exact_price_candidate
+
 
 NEAR_AGREEMENT_MAX_RATIO = 1.25
 MODERATE_DISAGREEMENT_MAX_RATIO = 2.5
@@ -19,6 +21,7 @@ INVALID_COMPUTED_FINAL_TIER = "invalid_computed_final"
 NEAR_AGREEMENT_TIER = "near_agreement_official_heavy"
 MODERATE_DISAGREEMENT_TIER = "moderate_disagreement_blended"
 HIGH_DISAGREEMENT_TIER = "high_disagreement_computed_heavy"
+EXACT_COMMODITY_TIER = "exact_commodity_official_price"
 
 
 @dataclass(frozen=True)
@@ -54,6 +57,7 @@ def anchor_official_price(
     official_price: Any,
     rule_price: Any,
     computed_final: Any,
+    item_type: Any = None,
 ) -> OfficialPriceAnchorResult:
     """Return the post-blend price anchored by an official price, if available.
 
@@ -70,6 +74,11 @@ def anchor_official_price(
 
     if official is None:
         return OfficialPriceAnchorResult(safe_computed, NO_OFFICIAL_PRICE_TIER, None)
+
+    if is_commodity_exact_price_candidate({"type": item_type, "official_price_gp": official}):
+        ratio = rule / official if rule is not None else None
+        return OfficialPriceAnchorResult(official, EXACT_COMMODITY_TIER, ratio)
+
     if rule is None:
         return OfficialPriceAnchorResult(safe_computed, MISSING_RULE_PRICE_TIER, None)
 
@@ -100,6 +109,7 @@ def apply_official_price_anchors(df: pd.DataFrame) -> pd.DataFrame:
             official_price=row.get("official_price_gp"),
             rule_price=row.get("rule_price"),
             computed_final=row.get("pre_anchor_final_price"),
+            item_type=row.get("item_type_code") or row.get("type"),
         ),
         axis=1,
     )

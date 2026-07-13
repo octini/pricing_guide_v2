@@ -146,6 +146,38 @@ def test_official_price_used_directly():
     assert price == 15.0
 
 
+@pytest.mark.parametrize("item_type", ["$A", "$G|XDMG", "$C", "TG", "TB"])
+def test_pure_wealth_commodity_types_use_exact_official_price(item_type):
+    """Treasure/commodity rows use listed value even when rarity is not mundane."""
+    c = make_criteria(
+        rarity="varies",
+        name="Commodity Item",
+        item_type_code=item_type,
+        official_price_gp=500.0,
+    )
+
+    price = calculate_price(c)
+
+    assert price == 500.0
+
+
+def test_magic_material_weapon_with_official_value_does_not_use_commodity_exact_override():
+    """Material/+N magic variants keep formula behavior when raw values conflict."""
+    c = make_criteria(
+        rarity="uncommon",
+        name="+1 Adamantine Longsword",
+        item_type_code="M",
+        weapon_bonus=1,
+        material="adamantine",
+        official_price_gp=100.0,
+    )
+
+    price = calculate_price(c)
+
+    assert price != pytest.approx(100.0)
+    assert price >= 725.0
+
+
 def test_flight_full_bonus():
     """Flight (full) adds 10000 gp to rare base of 4000 = 14000."""
     c = make_criteria(rarity="rare", flight_full=True)

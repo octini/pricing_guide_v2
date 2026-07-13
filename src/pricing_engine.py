@@ -12,6 +12,7 @@ from typing import Any, Optional
 
 from .spell_data import get_spell_level
 from .constants import RARITY_MEDIANS, CONDITION_IMMUNITY_VALUES
+from .list_curation import is_commodity_exact_price_candidate, official_price_gp
 
 
 def _parse_list_field(value):
@@ -610,6 +611,7 @@ def calculate_price(criteria: dict) -> float:
     official_price = criteria.get("official_price_gp")
     req_attune = criteria.get("req_attune", "none")
     item_name_lower = str(criteria.get("name", "")).lower().replace("'", "")
+    item_type_code = str(criteria.get("item_type_code", "") or "").split("|")[0]
 
     # Artifact tier-based pricing: overrides all other pricing for artifacts
     # This ensures all artifacts fall within the 250k-1M GP range with
@@ -641,7 +643,6 @@ def calculate_price(criteria: dict) -> float:
         # Removed override: amalgamated price flows through naturally.
     ]
     
-    item_type_code = str(criteria.get("item_type_code", "") or "").split("|")[0]
     is_weapon_type = item_type_code in ("M", "R")
     
     for override_key, override_price, require_weapon in NAMED_ITEM_OVERRIDES:
@@ -659,6 +660,8 @@ def calculate_price(criteria: dict) -> float:
 
     # Official prices used directly for mundane items
     # NaN check: x == x is False for NaN, so NaN official prices fall through
+    if is_commodity_exact_price_candidate(criteria):
+        return float(official_price_gp(criteria))
     if official_price is not None and official_price == official_price and rarity in ("mundane", "none"):
         return float(official_price)
 

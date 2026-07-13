@@ -76,6 +76,40 @@ def test_is_wondrous():
     c = extract_structured_criteria(item)
     assert c["is_wondrous"] is True
 
+
+def test_nested_variation_phrase_marks_generic_parent():
+    item = make_item(
+        name="Aussie Creature: Hairy-Nosed Wombat",
+        source="GriffonsSaddlebag2",
+        rarity="varies",
+        entries=[
+            {
+                "type": "entries",
+                "entries": [
+                    "Multiple variations of this item exist, as listed below.",
+                    {"type": "list", "items": ["Common", "Uncommon"]},
+                ],
+            }
+        ],
+    )
+
+    c = extract_structured_criteria(item)
+
+    assert c["is_generic_variant"] is True
+
+
+def test_varies_rarity_without_nested_variation_phrase_is_not_generic_parent():
+    item = make_item(
+        name="Elemental Essence Shard",
+        source="TEST",
+        rarity="varies",
+        entries=["The shard's power varies according to the plane where it formed."],
+    )
+
+    c = extract_structured_criteria(item)
+
+    assert c["is_generic_variant"] is False
+
 def test_tattoo():
     item = make_item(tattoo=True)
     c = extract_structured_criteria(item)

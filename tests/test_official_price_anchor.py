@@ -188,6 +188,52 @@ def test_apply_official_price_anchors_preserves_rows_with_invalid_rule_price():
     assert anchored.loc[0, "official_anchor_tier"] == "missing_rule_price"
 
 
+def test_apply_official_price_anchors_exactly_preserves_commodity_official_prices():
+    df = pd.DataFrame(
+        [
+            {
+                "name": "Ruby",
+                "source": "XDMG",
+                "rarity": "varies",
+                "type": "$G|XDMG",
+                "official_price_gp": 500.0,
+                "rule_price": 900.0,
+                "ml_price": 1200.0,
+                "final_price": 1100.0,
+            }
+        ]
+    )
+
+    anchored = apply_official_price_anchors(df)
+
+    assert anchored.loc[0, "final_price"] == pytest.approx(500.0)
+    assert anchored.loc[0, "official_anchor_tier"] == "exact_commodity_official_price"
+    assert anchored.loc[0, "official_anchor_delta"] == pytest.approx(-600.0)
+
+
+def test_apply_official_price_anchors_does_not_exact_override_magic_material_variants():
+    df = pd.DataFrame(
+        [
+            {
+                "name": "+1 Adamantine Longsword",
+                "source": "CallfromtheDeep",
+                "rarity": "uncommon",
+                "type": "M",
+                "genericVariant": {"name": "+1 Adamantine Weapon"},
+                "official_price_gp": 100.0,
+                "rule_price": 2225.0,
+                "ml_price": 2400.0,
+                "final_price": 2500.0,
+            }
+        ]
+    )
+
+    anchored = apply_official_price_anchors(df)
+
+    assert anchored.loc[0, "final_price"] != pytest.approx(100.0)
+    assert anchored.loc[0, "official_anchor_tier"] == "high_disagreement_computed_heavy"
+
+
 def test_build_official_price_audit_outputs_required_columns_for_official_rows_only():
     df = pd.DataFrame(
         [

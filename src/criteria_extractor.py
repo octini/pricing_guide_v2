@@ -1,5 +1,6 @@
 # src/criteria_extractor.py
 import re
+from .list_curation import is_nested_generic_parent
 import json
 from typing import Any, Optional
 
@@ -122,7 +123,7 @@ def extract_structured_criteria(item: dict) -> dict:
     # Generic variant detection
     # Items with 'items' field are generic variants (e.g., "Horn of Valhalla" has variants like "Horn of Valhalla, Brass")
     # These should be excluded from pricing guide since specific variants are already included
-    c["is_generic_variant"] = "items" in item
+    c["is_generic_variant"] = "items" in item or is_nested_generic_parent(item)
 
     # Material detection (mithral, adamantine, silvered)
     # Check item name for material keywords
