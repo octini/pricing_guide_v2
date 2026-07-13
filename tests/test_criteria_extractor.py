@@ -302,6 +302,79 @@ def test_prose_normalizes_5etools_skill_markup_in_check_targets():
     assert c["check_advantage"] == ["charisma (intimidation)"]
 
 
+def test_prose_matches_variantrule_advantage_tag_on_check_surface():
+    desc = "You have {@variantrule Advantage|XPHB} on Wisdom (Perception) checks."
+
+    c = extract_prose_criteria(desc)
+
+    assert c["check_advantage"] == ["wisdom (perception)"]
+
+
+def test_prose_matches_variantrule_disadvantage_tag_on_save_surface():
+    desc = "You have {@variantrule Disadvantage|XPHB} on Wisdom saving throws."
+
+    c = extract_prose_criteria(desc)
+
+    assert c["save_disadvantage"] == ["wisdom"]
+
+
+def test_prose_tag_normalization_preserves_condition_immunity_extraction():
+    desc = "While wearing this ring, you are immune to the {@condition Blinded|XPHB} condition."
+
+    c = extract_prose_criteria(desc)
+
+    assert c["condition_immunity_prose"] == ["blinded"]
+
+
+def test_prose_extracts_all_targets_from_compound_ability_skill_check_phrase():
+    desc = "You have advantage on Wisdom (Insight) and Charisma (Persuasion) checks."
+
+    c = extract_prose_criteria(desc)
+
+    assert c["check_advantage"] == ["wisdom (insight)", "charisma (persuasion)"]
+
+
+def test_prose_maps_bare_skill_check_names_to_canonical_targets():
+    desc = "You have advantage on Perception checks, Survival checks, and Stealth checks."
+
+    c = extract_prose_criteria(desc)
+
+    assert c["check_advantage"] == ["wisdom (perception)", "wisdom (survival)", "dexterity (stealth)"]
+
+
+def test_prose_extracts_generic_advantage_on_all_saving_throws():
+    desc = "You have advantage on all saving throws."
+
+    c = extract_prose_criteria(desc)
+
+    assert c["save_advantage"] == ["saving throws"]
+
+
+def test_prose_preserves_compound_ability_save_advantage_order():
+    desc = "You have advantage on Intelligence, Wisdom, and Charisma saving throws."
+
+    c = extract_prose_criteria(desc)
+
+    assert c["save_advantage"] == ["intelligence", "wisdom", "charisma"]
+
+
+def test_prose_extracts_generic_disadvantage_on_saving_throws():
+    desc = "You have disadvantage on saving throws."
+
+    c = extract_prose_criteria(desc)
+
+    assert c["save_disadvantage"] == ["saving throws"]
+
+
+
+def test_prose_does_not_treat_target_tagged_disadvantage_as_wearer_drawback():
+    desc = "The target has {@variantrule Disadvantage|XPHB} on all saving throws until the end of its next turn."
+
+    c = extract_prose_criteria(desc)
+
+    assert c["save_disadvantage"] == []
+
+
 def test_prose_extracts_disadvantage_on_checks_and_saves_as_drawbacks():
     desc = "While cursed, you have disadvantage on Dexterity checks and Wisdom saving throws."
 

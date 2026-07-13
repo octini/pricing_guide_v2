@@ -16,9 +16,9 @@ Total items analyzed: 12243
 | any `vehicle_*` | 31 | CallfromtheDeep (17), XPHB (7), FRAiF (4), EGW (1), TalDoreiCampaignSettingReborn (1) |
 | raw prose `advantage ... checks` | 236 | GriffonsSaddlebag2 (35), EGW (19), XDMG (18), GrimHollowCG24 (14), ExploringEberron24 (13) |
 | raw prose `disadvantage ... checks/saves` | 130 | GrimHollowCG24 (21), GriffonsSaddlebag2 (20), 24GriffonsSaddlebag1 (13), HelianasGuidetoMonsterHunting (12), TalDoreiCampaignSettingReborn (10) |
-| extracted `check_advantage` | 109 | GriffonsSaddlebag2 (30), EGW (17), BookOfEbonTides (10), WhereEvilLives (8), ObojimaTallGrass (6) |
-| extracted `check_disadvantage` | 9 | GriffonsSaddlebag2 (4), HumblewoodTales (3), BookOfEbonTides (1), KftGV (1) |
-| extracted `save_disadvantage` | 3 | BMT (1), BookOfEbonTides (1), GriffonsSaddlebag2 (1) |
+| extracted `check_advantage` | 169 | GriffonsSaddlebag2 (30), EGW (17), GrimHollowCG24 (13), XDMG (13), BookOfEbonTides (10) |
+| extracted `check_disadvantage` | 27 | GrimHollowCG24 (9), 24GriffonsSaddlebag1 (7), GriffonsSaddlebag2 (4), HumblewoodTales (3), BookOfEbonTides (1) |
+| extracted `save_disadvantage` | 21 | GrimHollowCG24 (12), 24GriffonsSaddlebag1 (3), GriffonsSaddlebag2 (3), BMT (1), BookOfEbonTides (1) |
 
 ## Structured field examples
 
@@ -69,23 +69,25 @@ Total items analyzed: 12243
 Examples show normalized extractor targets only, not raw prose snippets.
 
 ### check_advantage
+- Bark Armor (ObojimaTallGrass): `dexterity (stealth)`
+- Costume (XPHB): `ability checks`
+- Crowbar (XPHB): `strength`
+- Cultist's Robe (HotB): `ability checks`
 - Demon Signet Ring (WhereEvilLives): `charisma (intimidation)`
-- Kiona's Notes (WhereEvilLives): `intelligence`
-- Acorn Charm (GriffonsSaddlebag2): `charisma`
-- Amulet of the Lycanthrope (GriffonsSaddlebag2): `wisdom (perception)`
-- Angler's Worldly Fisher (GriffonsSaddlebag2): `ability checks`
 
 ### check_disadvantage
+- Aether Blood (GrimHollowCG24): `strength, constitution`
 - Alluring Dye (HumblewoodTales): `charisma`
-- Fool's Lamp (GriffonsSaddlebag2): `dexterity`
-- Scorned Heart Breastplate (GriffonsSaddlebag2): `charisma`
-- Shard of Xeluan (KftGV): `ability checks`
-- Shroud of Ending (HumblewoodTales): `ability checks`
+- Barricade Shield (24GriffonsSaddlebag1): `dexterity`
+- Boots of Dendallen (24GriffonsSaddlebag1): `dexterity (acrobatics)`
+- Dream Mantle (24GriffonsSaddlebag1): `wisdom (perception)`
 
 ### save_disadvantage
+- Aether Blood (GrimHollowCG24): `saving throws`
+- Amulet of the Lycanthrope (GriffonsSaddlebag2): `saving throws`
+- Barricade Shield (24GriffonsSaddlebag1): `dexterity`
+- Boots of Dendallen (24GriffonsSaddlebag1): `dexterity`
 - Deck of Wonder (BMT): `intelligence`
-- Fool's Lamp (GriffonsSaddlebag2): `dexterity`
-- Wine of the Winter Court (BookOfEbonTides): `wisdom`
 
 ## Pipeline safety
 

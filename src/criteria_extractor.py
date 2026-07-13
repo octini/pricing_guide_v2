@@ -1,4 +1,6 @@
 # src/criteria_extractor.py
+from __future__ import annotations
+
 import re
 from .list_curation import is_nested_generic_parent
 import json
@@ -35,6 +37,10 @@ def _parse_number(val: Any) -> Optional[int | float]:
             parsed = float(m.group(1))
             return int(parsed) if parsed.is_integer() else parsed
     return None
+
+def _strip_5etools_tags(text: str) -> str:
+    """Convert common 5e.tools inline tags to their display text."""
+    return re.sub(r"\{@\w+\s+([^}|]+)(?:\|[^}]*)?\}", r"\1", text)
 
 def extract_structured_criteria(item: dict) -> dict:
     """Extract all objective criteria from JSON fields."""
@@ -344,15 +350,37 @@ def extract_prose_criteria(description: str) -> dict:
         "is_focus_prose": False,
     }
     
-    desc = description.lower()
+    desc = _strip_5etools_tags(description).lower()
 
     def append_unique(values: list[str], value: str) -> None:
         if value and value not in values:
             values.append(value)
 
     def clean_target(value: str) -> str:
-        value = re.sub(r"\{@\w+\s+([^}|]+)(?:\|[^}]*)?\}", r"\1", value)
+        value = _strip_5etools_tags(value)
         return re.sub(r"\s+", " ", value.replace("’", "'").strip().strip(",;:."))
+
+    skill_check_targets = {
+        "acrobatics": "dexterity (acrobatics)",
+        "animal handling": "wisdom (animal handling)",
+        "arcana": "intelligence (arcana)",
+        "athletics": "strength (athletics)",
+        "deception": "charisma (deception)",
+        "history": "intelligence (history)",
+        "insight": "wisdom (insight)",
+        "intimidation": "charisma (intimidation)",
+        "investigation": "intelligence (investigation)",
+        "medicine": "wisdom (medicine)",
+        "nature": "intelligence (nature)",
+        "perception": "wisdom (perception)",
+        "performance": "charisma (performance)",
+        "persuasion": "charisma (persuasion)",
+        "religion": "intelligence (religion)",
+        "sleight of hand": "dexterity (sleight of hand)",
+        "stealth": "dexterity (stealth)",
+        "survival": "wisdom (survival)",
+    }
+    skill_names_pattern = "|".join(re.escape(skill) for skill in sorted(skill_check_targets, key=len, reverse=True))
 
     def effect_clauses(kind: str) -> list[str]:
         """Return player/wearer-facing advantage/disadvantage clauses.
@@ -374,10 +402,19 @@ def extract_prose_criteria(description: str) -> dict:
         targets: list[str] = []
         for clause in clauses:
             clause_has_specific_target = False
-            for match in re.finditer(r"\b(strength|dexterity|constitution|intelligence|wisdom|charisma)\s*(?:\(([^)]+)\))?\s+checks?\b", clause):
-                ability = match.group(1)
-                skill = match.group(2)
-                append_unique(targets, clean_target(f"{ability} ({skill})" if skill else ability))
+            for check_phrase in re.finditer(r"\b((?:strength|dexterity|constitution|intelligence|wisdom|charisma)\b(?:(?!\bchecks?\b)[^.;])*)\s+checks?\b", clause):
+                phrase = check_phrase.group(1)
+                if "saving throw" in phrase:
+                    continue
+                targets_before = len(targets)
+                for match in re.finditer(r"\b(strength|dexterity|constitution|intelligence|wisdom|charisma)\s*(?:\(([^)]+)\))?", phrase):
+                    ability = match.group(1)
+                    skill = match.group(2)
+                    append_unique(targets, clean_target(f"{ability} ({skill})" if skill else ability))
+                if len(targets) > targets_before:
+                    clause_has_specific_target = True
+            for match in re.finditer(rf"\b({skill_names_pattern})\s+checks?\b", clause):
+                append_unique(targets, skill_check_targets[match.group(1)])
                 clause_has_specific_target = True
             for match in re.finditer(r"\bability checks?\s+(?:you\s+make\s+|made\s+)?with\s+([a-z0-9][\w\s'’-]+?\s+tools?)\b", clause):
                 append_unique(targets, clean_target(match.group(1)))
@@ -389,8 +426,17 @@ def extract_prose_criteria(description: str) -> dict:
     def extract_save_targets(clauses: list[str]) -> list[str]:
         targets: list[str] = []
         for clause in clauses:
+            clause_has_specific_target = False
             for match in re.finditer(r"\b(strength|dexterity|constitution|intelligence|wisdom|charisma)\s+saving throws?\b", clause):
                 append_unique(targets, match.group(1))
+                clause_has_specific_target = True
+            if (
+                not clause_has_specific_target
+                and re.search(r"\b(?:all\s+)?saving throws?\b", clause)
+                and not re.search(r"\bdeath\s+saving throws?\b", clause)
+                and not re.search(r"\bsaving throws?\s+against\b", clause)
+            ):
+                append_unique(targets, "saving throws")
         return targets
 
     def is_safe_healing_context(match: re.Match) -> bool:
@@ -551,7 +597,11 @@ def extract_prose_criteria(description: str) -> dict:
     save_match = re.search(r'advantage on ([\w,\s]+?) saving throws', desc)
     if save_match:
         abilities = [a.strip().lower() for a in save_match.group(1).replace(' and ', ',').split(',')]
-        c["save_advantage"] = [a for a in abilities if a in ('intelligence', 'wisdom', 'charisma', 'strength', 'dexterity', 'constitution')]
+        for ability in abilities:
+            if ability in ('intelligence', 'wisdom', 'charisma', 'strength', 'dexterity', 'constitution'):
+                append_unique(c["save_advantage"], ability)
+    if not c["save_advantage"]:
+        c["save_advantage"] = extract_save_targets(advantage_clauses)
     
     # Condition immunity from prose (in addition to structured conditionImmune field)
     ci_match = re.search(r'immune to the ([\w\s]+?) condition', desc)
