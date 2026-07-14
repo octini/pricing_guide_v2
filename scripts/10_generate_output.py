@@ -9,93 +9,14 @@ from openpyxl.styles import PatternFill, Font, Alignment
 from openpyxl.utils import get_column_letter
 from pathlib import Path
 
+# Allow imports from project root when executed as python3 scripts/10_generate_output.py
+sys.path.insert(0, str(Path(__file__).parent.parent))
+
+from src.source_names import translate_source
+
 INPUT_CSV = Path('data/processed/items_validated.csv')
 OUTPUT_XLSX = Path('output/pricing_guide.xlsx')
 OUTPUT_CSV = Path('output/pricing_guide.csv')
-
-# Sourcebook mapping: acronym -> full name (from 5e.tools)
-SOURCEBOOK_NAMES = {
-    # Core Books
-    "PHB": "Player's Handbook",
-    "XPHB": "Player's Handbook (2024)",
-    "DMG": "Dungeon Master's Guide",
-    "XDMG": "Dungeon Master's Guide (2024)",
-    "MM": "Monster Manual",
-    "XMM": "Monster Manual (2024)",
-    
-    # Expansion Books
-    "XGE": "Xanathar's Guide to Everything",
-    "VGM": "Volo's Guide to Monsters",
-    "VRGR": "Van Richten's Guide to Ravenloft",
-    "TCE": "Tasha's Cauldron of Everything",
-    "MTF": "Mordenkainen's Tome of Foes",
-    "SCAG": "Sword Coast Adventurer's Guide",
-    "GGR": "Guildmasters' Guide to Ravnica",
-    "ERLW": "Eberron: Rising from the Last War",
-    "EGW": "Explorer's Guide to Wildemount",
-    "MOT": "Mythic Odysseys of Theros",
-    "FTD": "Fizban's Treasury of Dragons",
-    "SCC": "Strixhaven: A Curriculum of Chaos",
-    "CRCotN": "Critical Role: Call of the Netherdeep",
-    
-    # Adventures
-    "SKT": "Storm King's Thunder",
-    "CoS": "Curse of Strahd",
-    "ToA": "Tomb of Annihilation",
-    "HotDQ": "Hoard of the Dragon Queen",
-    "LMoP": "Lost Mine of Phandelver",
-    "WDH": "Waterdeep: Dragon Heist",
-    "WDMM": "Waterdeep: Dungeon of the Mad Mage",
-    "BGDIA": "Baldur's Gate: Descent Into Avernus",
-    "OotA": "Out of the Abyss",
-    "PotA": "Princes of the Apocalypse",
-    "IDRotF": "Icewind Dale: Rime of the Frostmaiden",
-    "GoS": "Ghosts of Saltmarsh",
-    "TftYP": "Tales from the Yawning Portal",
-    "KftGV": "Keys from the Golden Vault",
-    "JttRC": "Journeys through the Radiant Citadel",
-    "DSotDQ": "Dragonlance: Shadow of the Dragon Queen",
-    "DitLCoT": "Descent into the Lost Caverns of Tsojcanth",
-    "LoX": "Light of Xaryxis",
-    "PaBTSO": "Phandelver and Below: The Shattered Obelisk",
-    "VEoR": "Vecna: Eve of Ruin",
-    "WBtW": "The Wild Beyond the Witchlight",
-    "QftIS": "Quests from the Infinite Staircase",
-    
-    # Other Supplements
-    "BAM": "Boo's Astral Menagerie",
-    "AI": "Acquisitions Incorporated",
-    "BGG": "Bigby Presents: Glory of the Giants",
-    "BMT": "The Book of Many Things",
-    "CM": "Candlekeep Mysteries",
-    "AAG": "Astral Adventurer's Guide",
-    "SAT": "Sigil and the Outlands",
-    "SatO": "Sigil and the Outlands",
-    "SDW": "Sleeping Dragon's Wake",
-    "HotB": "Heroes of the Borderlands",
-    "LFL": "Lorwyn: First Light",
-    "RoT": "The Rise of Tiamat",
-    "RoTOS": "The Rise of Tiamat Online Supplement",
-    "RMBRE": "The Lost Dungeon of Rickedness",
-    "WttHC": "Stranger Things: Welcome to the Hellfire Club",
-    
-    # Eberron
-    "EET": "Elemental Evil: Trinkets",
-    "EFA": "Eberron: Forge of the Artificer",
-    "FRAiF": "Forgotten Realms: Adventures in Faerûn",
-    "FRHoF": "Forgotten Realms: Heroes of Faerûn",
-    "NF": "Netheril's Fall",
-    "ExploringEberron24": "Exploring Eberron (2024)",
-    "ChroniclesOfEberron": "Chronicles of Eberron",
-    
-# Third Party / Other
-    'DC': 'Divine Contention',
-    'FoEQuickstone': 'Frontiers of Eberron: Quickstone',
-    'HftT': 'Hunt for the Thessalhydra',
-    'MonstersOfDrakkenheim': 'Monsters of Drakkenheim',
-    'DungeonsDrakkenheim': 'Dungeons of Drakkenheim',
-}
-
 
 # Item type mapping: 5e.tools code -> common name
 TYPE_NAMES = {
@@ -181,20 +102,6 @@ def determine_price_source_label(row):
         return f"Single source ({row.get('price_sources', '')})"
     else:
         return 'Algorithm'
-
-
-def translate_source(source_code):
-    """Translate sourcebook acronym to full name"""
-    if pd.isna(source_code):
-        return 'Unknown'
-    # Handle pipe-separated sources (multiple sources)
-    sources = str(source_code).split('|')
-    translated = []
-    for s in sources:
-        s = s.strip()
-        translated.append(SOURCEBOOK_NAMES.get(s, s))
-    return ', '.join(translated)
-
 
 def translate_type(type_code):
     """Translate 5e.tools type code to common name.
