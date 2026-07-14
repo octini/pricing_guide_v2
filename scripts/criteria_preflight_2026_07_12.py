@@ -17,7 +17,7 @@ REPO_ROOT = Path(__file__).resolve().parent.parent
 if str(REPO_ROOT) not in sys.path:
     sys.path.insert(0, str(REPO_ROOT))
 
-from src.criteria_extractor import extract_prose_criteria, extract_structured_criteria
+from src.criteria_extractor import extract_entries_criteria, extract_prose_criteria, extract_structured_criteria
 
 
 DEFAULT_INPUT = Path("2026_07_12_item_list.json")
@@ -67,6 +67,10 @@ def _has_criteria(record: Record, field_name: str) -> bool:
 
 def _has_prose_criteria(record: Record, field_name: str) -> bool:
     return _has_value(record["prose_criteria"].get(field_name))
+
+
+def _has_entries_criteria(record: Record, field_name: str) -> bool:
+    return _has_value(record["entries_criteria"].get(field_name))
 
 
 def _entry_text(value: Any) -> str:
@@ -129,6 +133,14 @@ def _prose_criteria_predicate(field_name: str) -> Predicate:
     return lambda record: _has_prose_criteria(record, field_name)
 
 
+def _entries_criteria_predicate(field_name: str) -> Predicate:
+    return lambda record: _has_entries_criteria(record, field_name)
+
+
+def _positive_entries_criteria_predicate(field_name: str) -> Predicate:
+    return lambda record: (record["entries_criteria"].get(field_name) or 0) > 0
+
+
 def _any_vehicle_raw(record: Record) -> bool:
     return any(_has_raw_field(record["item"], field_name) for field_name in VEHICLE_RAW_FIELDS)
 
@@ -151,6 +163,17 @@ def _disadvantage_candidate(record: Record) -> bool:
     )
 
 
+def _extra_damage_candidate(record: Record) -> bool:
+    return bool(
+        re.search(r"\b(?:extra|additional)\s+\{@damage\s+[^}]+\}", record["prose_text"], re.IGNORECASE)
+        or re.search(
+            r"\b(?:extra|additional)\s+\d+d\d+(?:\s+[a-z]+(?:\s+or\s+[a-z]+)?)?\s+damage\b",
+            record["prose_text"],
+            re.IGNORECASE,
+        )
+    )
+
+
 def _format_scalar(prefix: str, value: Any) -> str:
     return f"{prefix}={value}"
 
@@ -165,6 +188,18 @@ def _format_criteria_field(field_name: str) -> Formatter:
 
 def _format_target_list(field_name: str) -> Formatter:
     return lambda record: ", ".join(str(value) for value in record["prose_criteria"][field_name])
+
+
+def _format_prose_field(field_name: str) -> Formatter:
+    return lambda record: _format_scalar(field_name, record["prose_criteria"][field_name])
+
+
+def _format_extra_damage(record: Record) -> str:
+    entries_criteria = record["entries_criteria"]
+    return (
+        f"extra_damage_avg={entries_criteria['extra_damage_avg']}, "
+        f"extra_damage_dice={entries_criteria['extra_damage_dice']}"
+    )
 
 
 def _format_vehicle_criteria(record: Record) -> str:
@@ -201,6 +236,7 @@ def _analysis_records(items: list[dict[str, Any]]) -> list[Record]:
                 "criteria": extract_structured_criteria(item),
                 "prose_text": prose_text,
                 "prose_criteria": extract_prose_criteria(prose_text),
+                "entries_criteria": extract_entries_criteria(item),
             }
         )
     return records
@@ -220,6 +256,8 @@ def build_report(items: list[dict[str, Any]], input_path: Path) -> str:
     check_advantage_predicate = _prose_criteria_predicate("check_advantage")
     check_disadvantage_predicate = _prose_criteria_predicate("check_disadvantage")
     save_disadvantage_predicate = _prose_criteria_predicate("save_disadvantage")
+    save_dc_predicate = _prose_criteria_predicate("save_dc")
+    extra_damage_predicate = _positive_entries_criteria_predicate("extra_damage_avg")
 
     lines = [
         "# 2026-07-12 Criteria Preflight (Phase 1)",
@@ -243,6 +281,9 @@ def build_report(items: list[dict[str, Any]], input_path: Path) -> str:
         _count_row(records, "extracted `check_advantage`", check_advantage_predicate),
         _count_row(records, "extracted `check_disadvantage`", check_disadvantage_predicate),
         _count_row(records, "extracted `save_disadvantage`", save_disadvantage_predicate),
+        _count_row(records, "extracted `save_dc`", save_dc_predicate),
+        _count_row(records, "raw prose extra/additional damage candidates", _extra_damage_candidate),
+        _count_row(records, "extracted `extra_damage_avg`", extra_damage_predicate),
         "",
         "## Structured field examples",
         "",
@@ -276,6 +317,16 @@ def build_report(items: list[dict[str, Any]], input_path: Path) -> str:
         "",
         "### save_disadvantage",
         *_example_lines(records, save_disadvantage_predicate, _format_target_list("save_disadvantage")),
+        "",
+        "### save_dc",
+        *_example_lines(records, save_dc_predicate, _format_prose_field("save_dc")),
+        "",
+        "## Extra damage examples",
+        "",
+        "The extra damage rows below use raw 2026 JSON entries only. Current canonical markdown-prose impact is price-bearing and is reported separately in `reports/extra_damage_impact_2026_07_12.md`.",
+        "",
+        "### extra_damage_avg",
+        *_example_lines(records, extra_damage_predicate, _format_extra_damage),
         "",
         "## Pipeline safety",
         "",

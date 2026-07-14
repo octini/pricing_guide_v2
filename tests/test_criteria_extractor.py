@@ -1,7 +1,7 @@
 # tests/test_criteria_extractor.py
 import json
 import pytest
-from src.criteria_extractor import extract_structured_criteria
+from src.criteria_extractor import extract_entries_criteria, extract_structured_criteria
 
 def make_item(**kwargs):
     """Helper: build a minimal item dict."""
@@ -166,6 +166,43 @@ def test_structured_extracts_vehicle_stats():
     assert c["vehicle_hp"] == 200
     assert c["vehicle_crew"] == 15
     assert c["vehicle_cargo_capacity"] == 100
+
+
+def test_prose_extracts_static_save_dc_values():
+    c = extract_prose_criteria("A creature must make a DC 15 Dexterity saving throw or fall prone.")
+    assert c["save_dc"] == 15
+
+    c = extract_prose_criteria("This item uses your spell save DC of 13 for this effect.")
+    assert c["save_dc"] == 13
+
+    c = extract_prose_criteria("First use DC 13. The awakened power requires a DC 17 saving throw.")
+    assert c["save_dc"] == 17
+
+    c = extract_prose_criteria("This item has no static saving throw difficulty.")
+    assert c["save_dc"] is None
+
+
+def test_prose_ignores_unreasonable_static_save_dc_values():
+    c = extract_prose_criteria("This catalog was printed in DC 2026 and contains 99 curiosities.")
+
+    assert c["save_dc"] is None
+
+
+def test_entries_hardens_extra_damage_fallback_plain_and_compound_types():
+    c = extract_entries_criteria(make_item(), "When you hit, the attack deals an extra 1d8 damage.")
+    assert c["extra_damage_avg"] == pytest.approx(4.5)
+    assert c["extra_damage_dice"] == "1d8"
+
+    c = extract_entries_criteria(
+        make_item(),
+        "When you hit, the target takes an additional 2d6 fire or cold damage.",
+    )
+    assert c["extra_damage_avg"] == pytest.approx(7.0)
+    assert c["extra_damage_dice"] == "2d6"
+
+    c = extract_entries_criteria(make_item(), "On a hit, the weapon deals extra 1d6 fire damage.")
+    assert c["extra_damage_avg"] == pytest.approx(3.5)
+    assert c["extra_damage_dice"] == "1d6"
 
 # NLP prose criteria tests
 from src.criteria_extractor import extract_prose_criteria

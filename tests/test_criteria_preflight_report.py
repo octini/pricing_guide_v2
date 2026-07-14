@@ -89,6 +89,16 @@ def test_run_writes_deterministic_phase_1_report(tmp_path):
                 "While wearing these greaves, you have disadvantage on Dexterity checks and Wisdom saving throws."
             ],
         },
+        {
+            "name": "Static Wand",
+            "source": "SRC",
+            "entries": ["A target must succeed on a DC 15 Dexterity saving throw or fall prone."],
+        },
+        {
+            "name": "Burning Blade",
+            "source": "SRC",
+            "entries": ["When you hit, the attack deals an extra 1d8 damage."],
+        },
     ]
     input_path.write_text(json.dumps(items), encoding="utf-8")
 
@@ -98,7 +108,7 @@ def test_run_writes_deterministic_phase_1_report(tmp_path):
     assert run(input_path=input_path, output_path=output_path) == 0
     assert output_path.read_text(encoding="utf-8") == first_report
 
-    assert "Total items analyzed: 8" in first_report
+    assert "Total items analyzed: 10" in first_report
     assert "| `reload` | 1 |" in first_report
     assert "| raw `ac` | 2 |" in first_report
     assert "| extracted `armor_ac` | 1 |" in first_report
@@ -108,6 +118,9 @@ def test_run_writes_deterministic_phase_1_report(tmp_path):
     assert "| extracted `check_advantage` | 1 |" in first_report
     assert "| extracted `check_disadvantage` | 1 |" in first_report
     assert "| extracted `save_disadvantage` | 1 |" in first_report
+    assert "| extracted `save_dc` | 1 |" in first_report
+    assert "| raw prose extra/additional damage candidates | 1 |" in first_report
+    assert "| extracted `extra_damage_avg` | 1 |" in first_report
     assert "- Test Musket (SRC): `reload=1`" in first_report
     assert "- Test Plate Armor (SRC): `armor_ac=18`" in first_report
     assert "- Test Plate Armor (SRC): `armor_strength_req=15`" in first_report
@@ -115,4 +128,6 @@ def test_run_writes_deterministic_phase_1_report(tmp_path):
     assert "- Demon Signet Ring (SRC): `charisma (intimidation)`" in first_report
     assert "- Cursed Greaves (SRC): `dexterity`" in first_report
     assert "- Cursed Greaves (SRC): `wisdom`" in first_report
+    assert "- Static Wand (SRC): `save_dc=15`" in first_report
+    assert "- Burning Blade (SRC): `extra_damage_avg=4.5, extra_damage_dice=1d8`" in first_report
     assert "{@skill" not in first_report

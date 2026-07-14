@@ -19,6 +19,9 @@ Total items analyzed: 12243
 | extracted `check_advantage` | 181 | GriffonsSaddlebag2 (30), EGW (17), GrimHollowCG24 (14), XDMG (14), BookOfEbonTides (12) |
 | extracted `check_disadvantage` | 30 | GrimHollowCG24 (10), 24GriffonsSaddlebag1 (7), GriffonsSaddlebag2 (5), HumblewoodTales (3), BookOfEbonTides (1) |
 | extracted `save_disadvantage` | 22 | GrimHollowCG24 (13), 24GriffonsSaddlebag1 (3), GriffonsSaddlebag2 (3), BMT (1), BookOfEbonTides (1) |
+| extracted `save_dc` | 428 | GriffonsSaddlebag2 (136), 24GriffonsSaddlebag1 (115), ObojimaTallGrass (30), BookOfEbonTides (22), CrookedMoon24 (21) |
+| raw prose extra/additional damage candidates | 411 | GriffonsSaddlebag2 (80), 24GriffonsSaddlebag1 (58), XDMG (36), HelianasGuidetoMonsterHunting (28), CrookedMoon24 (22) |
+| extracted `extra_damage_avg` | 843 | FTD (438), GriffonsSaddlebag2 (80), 24GriffonsSaddlebag1 (58), XDMG (36), HelianasGuidetoMonsterHunting (28) |
 
 ## Structured field examples
 
@@ -88,6 +91,24 @@ Examples show normalized extractor targets only, not raw prose snippets.
 - Barricade Shield (24GriffonsSaddlebag1): `dexterity`
 - Boots of Dendallen (24GriffonsSaddlebag1): `dexterity`
 - Deck of Wonder (BMT): `intelligence`
+
+### save_dc
+- Arrow, War Oil (GrimHollowPG24): `save_dc=10`
+- Balm of Shifting Form (WhereEvilLives): `save_dc=18`
+- Bolt, War Oil (GrimHollowPG24): `save_dc=10`
+- Breath of Beleth (GrimHollowPG24): `save_dc=15`
+- Chip (MonstersOfDrakkenheim): `save_dc=10`
+
+## Extra damage examples
+
+The extra damage rows below use raw 2026 JSON entries only. Current canonical markdown-prose impact is price-bearing and is reported separately in `reports/extra_damage_impact_2026_07_12.md`.
+
+### extra_damage_avg
+- Arrow, Incendiary (GrimHollowPG24): `extra_damage_avg=2.5, extra_damage_dice=1d4`
+- Arrow, War Oil (GrimHollowPG24): `extra_damage_avg=5.0, extra_damage_dice=2d4`
+- Basic Poison (XPHB): `extra_damage_avg=2.5, extra_damage_dice=1d4`
+- Bolt, Incendiary (GrimHollowPG24): `extra_damage_avg=2.5, extra_damage_dice=1d4`
+- Bolt, War Oil (GrimHollowPG24): `extra_damage_avg=5.0, extra_damage_dice=2d4`
 
 ## Pipeline safety
 

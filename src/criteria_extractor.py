@@ -239,11 +239,15 @@ def extract_entries_criteria(item: dict, prose_text: str = "") -> dict:
     
     # FALLBACK: Plain text "extra XdY [type] damage" (for prose without {@damage} markup)
     if not c.get('extra_damage_avg'):
-        plain_matches = re.findall(r'(?:additional|extra)\s+(\d+d\d+)\s+(\w+)\s+damage', combined_text, re.IGNORECASE)
+        plain_matches = re.findall(
+            r'(?:additional|extra)\s+(\d+d\d+)(?:\s+[a-z]+(?:\s+or\s+[a-z]+)?)?\s+damage',
+            combined_text,
+            re.IGNORECASE,
+        )
         if plain_matches:
-            total_avg = sum(_avg_dice(d[0]) for d in plain_matches)
+            total_avg = sum(_avg_dice(d) for d in plain_matches)
             c['extra_damage_avg'] = total_avg
-            c['extra_damage_dice'] = plain_matches[0][0]
+            c['extra_damage_dice'] = plain_matches[0]
     
     # Extract artifact random properties
     # Pattern: "2 {@table Artifact Properties; Minor Beneficial Properties|dmg|minor beneficial} properties"
@@ -348,9 +352,18 @@ def extract_prose_criteria(description: str) -> dict:
         "check_disadvantage": [],
         "save_disadvantage": [],
         "is_focus_prose": False,
+        "save_dc": None,
     }
     
     desc = _strip_5etools_tags(description).lower()
+
+    static_save_dcs = [
+        int(match.group(1))
+        for match in re.finditer(r"\bdc\s+(?:of\s+)?(\d{1,2})\b", desc, re.IGNORECASE)
+        if 5 <= int(match.group(1)) <= 30
+    ]
+    if static_save_dcs:
+        c["save_dc"] = max(static_save_dcs)
 
     def append_unique(values: list[str], value: str) -> None:
         if value and value not in values:
