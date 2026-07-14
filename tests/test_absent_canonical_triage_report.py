@@ -83,3 +83,32 @@ def test_report_includes_harkons_bite_rename_and_crystal_keep_separate_checks():
     assert "Crystal (XPHB)" in report
     assert "Crystal (MonstersOfDrakkenheim)" in report
     assert "Recommendation: approve all classified omissions" in report
+
+
+def test_report_identifies_wtthc_and_rmbre_as_collaboration_tie_ins_without_draft_labels():
+    module = load_script_module()
+    canonical_items = [
+        {"name": "Cap of Vanishing", "source": "WttHC", "rarity": "uncommon"},
+        {"name": "Cloak of Billowing", "source": "WttHC", "rarity": "common"},
+        {"name": "Concertina", "source": "RMBRE", "rarity": "rare"},
+    ]
+    raw_items = [
+        {"name": "Cloak of Billowing", "source": "XDMG", "rarity": "common"},
+    ]
+
+    report = module.build_report(
+        canonical_items,
+        raw_items,
+        input_path=Path("2026_07_12_item_list.json"),
+        canonical_path=Path("trimmed_5etools_list.json"),
+        price_lookup={},
+    )
+
+    assert "Welcome to the Hellfire Club" in report
+    assert "Stranger Things collaboration" in report
+    assert "The Lost Dungeon of Rickedness: Big Rick Energy" in report
+    assert "Rick and Morty collaboration" in report
+    assert "collaboration-only row — user-approved drop" in report
+    assert "superseded collaboration row — XDMG replacement" in report
+    assert "absent from the 2026 export and not a known-good/core carry-forward row" in report
+    assert "draft" not in report.lower()

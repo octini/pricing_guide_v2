@@ -25,7 +25,7 @@ DEFAULT_OUTPUT = Path("reports/absent_canonical_triage_2026_07_12.md")
 
 SPELLJAMMER_SOURCES = frozenset({"AAG", "BAM"})
 WTTHC_SUPERSEDED_BY_XDMG = frozenset({"Cloak of Billowing", "Dread Helm"})
-WTTHC_DRAFT_ONLY = frozenset(
+WTTHC_COLLABORATION_ONLY = frozenset(
     {
         "Cap of Vanishing",
         "Holly's Handy Haversack",
@@ -38,7 +38,7 @@ WTTHC_DRAFT_ONLY = frozenset(
 SOURCE_RENAMES = {
     ("VRGR", "Harkon's Bite"): ("RHW", "source-code rename — VRGR → RHW"),
 }
-RAVNICA_DRAFT_ROWS = frozenset({("RMBRE", "Concertina")})
+RICK_AND_MORTY_COLLABORATION_ROWS = frozenset({("RMBRE", "Concertina")})
 
 
 Item = dict[str, Any]
@@ -130,20 +130,20 @@ def classify_absent_row(item: Item, raw_items_by_name: dict[str, list[Item]]) ->
         )
     if source == "WttHC" and name in WTTHC_SUPERSEDED_BY_XDMG:
         return (
-            "superseded draft row — WttHC replaced by XDMG",
-            "Draft Wayfinder/Eberron row is superseded by the 2024 XDMG entry.",
+            "superseded collaboration row — XDMG replacement",
+            "Welcome to the Hellfire Club (Stranger Things collaboration) row is superseded by the 2024 XDMG entry.",
             present_as,
         )
-    if source == "WttHC" and name in WTTHC_DRAFT_ONLY:
+    if source == "WttHC" and name in WTTHC_COLLABORATION_ONLY:
         return (
-            "intentional draft exclusion — WttHC draft-only",
-            "Wayfinder/Eberron draft-only row omitted from the 2026 curation candidate.",
+            "collaboration-only row — user-approved drop",
+            "Welcome to the Hellfire Club (Stranger Things collaboration) row is absent from the 2026 export and not a known-good/core carry-forward row; user approved dropping it.",
             present_as,
         )
-    if (source, name) in RAVNICA_DRAFT_ROWS:
+    if (source, name) in RICK_AND_MORTY_COLLABORATION_ROWS:
         return (
-            "intentional draft exclusion — Ravnica/RMBRE draft-only",
-            "Ravnica draft row omitted from the 2026 curation candidate.",
+            "collaboration-only row — user-approved drop",
+            "The Lost Dungeon of Rickedness: Big Rick Energy (Rick and Morty collaboration) row is absent from the 2026 export and not a known-good/core carry-forward row; user approved dropping it.",
             present_as,
         )
     if (source, name) in SOURCE_RENAMES:

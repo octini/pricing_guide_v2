@@ -19,12 +19,11 @@ No canonical migration, full pricing run, or processed/published output generati
 
 | Classification | Rows |
 |---|---:|
+| collaboration-only row — user-approved drop | 7 |
 | hard exclusion — QftIS grenade | 2 |
-| intentional draft exclusion — Ravnica/RMBRE draft-only | 1 |
-| intentional draft exclusion — WttHC draft-only | 6 |
 | intentional scope exclusion — Spelljammer/space | 21 |
 | source-code rename — VRGR → RHW | 1 |
-| superseded draft row — WttHC replaced by XDMG | 2 |
+| superseded collaboration row — XDMG replacement | 2 |
 
 ## Sensitive presence checks
 
@@ -59,16 +58,16 @@ No canonical migration, full pricing run, or processed/published output generati
 | 21 | Talarith | BAM | legendary |  | no | no | — | 47,508 gp (name-only) | intentional scope exclusion — Spelljammer/space | AAG/BAM Spelljammer/space scope intentionally absent from 2026 curation candidate. |
 | 22 | Concussion Grenade | QftIS | none | EXP\|DMG | yes | no | Concussion Grenade (QftIS) | 1.0 gp (name-only) | hard exclusion — QftIS grenade | Approved exact hard exclusion from curation policy. |
 | 23 | Sleep Grenade | QftIS | none | EXP\|DMG | yes | no | Sleep Grenade (QftIS) | 1.0 gp (name-only) | hard exclusion — QftIS grenade | Approved exact hard exclusion from curation policy. |
-| 24 | Concertina | RMBRE | rare |  | no | no | — | 3,355 gp (name-only) | intentional draft exclusion — Ravnica/RMBRE draft-only | Ravnica draft row omitted from the 2026 curation candidate. |
+| 24 | Concertina | RMBRE | rare |  | no | no | — | 3,355 gp (name-only) | collaboration-only row — user-approved drop | The Lost Dungeon of Rickedness: Big Rick Energy (Rick and Morty collaboration) row is absent from the 2026 export and not a known-good/core carry-forward row; user approved dropping it. |
 | 25 | Harkon's Bite | VRGR | uncommon |  | no | no | Harkon's Bite (RHW) | 804 gp (name-only) | source-code rename — VRGR → RHW | Same item is present under the updated source code. |
-| 26 | Cap of Vanishing | WttHC | uncommon |  | no | no | — | 1,053 gp (name-only) | intentional draft exclusion — WttHC draft-only | Wayfinder/Eberron draft-only row omitted from the 2026 curation candidate. |
-| 27 | Cloak of Billowing | WttHC | common |  | no | no | Cloak of Billowing (XDMG) | 147 gp (name-only) | superseded draft row — WttHC replaced by XDMG | Draft Wayfinder/Eberron row is superseded by the 2024 XDMG entry. |
-| 28 | Dread Helm | WttHC | common |  | no | no | Dread Helm (XDMG) | 159 gp (name-only) | superseded draft row — WttHC replaced by XDMG | Draft Wayfinder/Eberron row is superseded by the 2024 XDMG entry. |
-| 29 | Holly's Handy Haversack | WttHC | rare |  | no | no | — | 3,355 gp (name-only) | intentional draft exclusion — WttHC draft-only | Wayfinder/Eberron draft-only row omitted from the 2026 curation candidate. |
-| 30 | Pipes of Pestilence | WttHC | uncommon |  | no | no | — | 745 gp (name-only) | intentional draft exclusion — WttHC draft-only | Wayfinder/Eberron draft-only row omitted from the 2026 curation candidate. |
-| 31 | Poison Soaked Kukri | WttHC | uncommon | M\|XPHB | no | no | — | 699 gp (name-only) | intentional draft exclusion — WttHC draft-only | Wayfinder/Eberron draft-only row omitted from the 2026 curation candidate. |
-| 32 | Speaking Stones | WttHC | rare |  | no | no | — | 3,804 gp (name-only) | intentional draft exclusion — WttHC draft-only | Wayfinder/Eberron draft-only row omitted from the 2026 curation candidate. |
-| 33 | Spiked Shield | WttHC | uncommon | S\|XPHB | no | no | — | 887 gp (name-only) | intentional draft exclusion — WttHC draft-only | Wayfinder/Eberron draft-only row omitted from the 2026 curation candidate. |
+| 26 | Cap of Vanishing | WttHC | uncommon |  | no | no | — | 1,053 gp (name-only) | collaboration-only row — user-approved drop | Welcome to the Hellfire Club (Stranger Things collaboration) row is absent from the 2026 export and not a known-good/core carry-forward row; user approved dropping it. |
+| 27 | Cloak of Billowing | WttHC | common |  | no | no | Cloak of Billowing (XDMG) | 147 gp (name-only) | superseded collaboration row — XDMG replacement | Welcome to the Hellfire Club (Stranger Things collaboration) row is superseded by the 2024 XDMG entry. |
+| 28 | Dread Helm | WttHC | common |  | no | no | Dread Helm (XDMG) | 159 gp (name-only) | superseded collaboration row — XDMG replacement | Welcome to the Hellfire Club (Stranger Things collaboration) row is superseded by the 2024 XDMG entry. |
+| 29 | Holly's Handy Haversack | WttHC | rare |  | no | no | — | 3,355 gp (name-only) | collaboration-only row — user-approved drop | Welcome to the Hellfire Club (Stranger Things collaboration) row is absent from the 2026 export and not a known-good/core carry-forward row; user approved dropping it. |
+| 30 | Pipes of Pestilence | WttHC | uncommon |  | no | no | — | 745 gp (name-only) | collaboration-only row — user-approved drop | Welcome to the Hellfire Club (Stranger Things collaboration) row is absent from the 2026 export and not a known-good/core carry-forward row; user approved dropping it. |
+| 31 | Poison Soaked Kukri | WttHC | uncommon | M\|XPHB | no | no | — | 699 gp (name-only) | collaboration-only row — user-approved drop | Welcome to the Hellfire Club (Stranger Things collaboration) row is absent from the 2026 export and not a known-good/core carry-forward row; user approved dropping it. |
+| 32 | Speaking Stones | WttHC | rare |  | no | no | — | 3,804 gp (name-only) | collaboration-only row — user-approved drop | Welcome to the Hellfire Club (Stranger Things collaboration) row is absent from the 2026 export and not a known-good/core carry-forward row; user approved dropping it. |
+| 33 | Spiked Shield | WttHC | uncommon | S\|XPHB | no | no | — | 887 gp (name-only) | collaboration-only row — user-approved drop | Welcome to the Hellfire Club (Stranger Things collaboration) row is absent from the 2026 export and not a known-good/core carry-forward row; user approved dropping it. |
 
 ## Migration recommendation
 
