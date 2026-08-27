@@ -11,7 +11,7 @@ import pandas as pd
 from typing import Any, Optional
 
 from .spell_data import get_spell_level
-from .constants import RARITY_MEDIANS, CONDITION_IMMUNITY_VALUES
+from .constants import CONDITION_IMMUNITY_VALUES, EXPENSIVE_ARMOR_BASES, RARITY_MEDIANS
 from .list_curation import is_commodity_exact_price_candidate, official_price_gp
 
 
@@ -507,24 +507,7 @@ MUNDANE_BASE_COSTS = {
     "A": 0,  # Ammunition (per-piece pricing irrelevant)
 }
 
-# For armor specifically, we need to know the base armor type cost
-# We detect this from item name for the most expensive armors
-# IMPORTANT: Order matters! More specific names must come before substrings
-# e.g., "half plate" must come before "plate armor" to avoid false matches
-EXPENSIVE_ARMOR_BASES = {
-    "half plate": 750, # Must come before "plate armor"
-    "plate armor": 1500,
-    "splint armor": 200,
-    "chain mail": 75,
-    "breastplate": 400,
-    "ring mail": 30,
-    "scale mail": 50,
-    "chain shirt": 50,
-    "hide armor": 10,
-    "leather armor": 10,
-    "padded armor": 5,
-    "studded leather": 45,
-}
+# EXPENSIVE_ARMOR_BASES is now canonical in src/constants.py — imported above
 
 # Weapon base costs for enspelled items (PHB prices)
 # Used for DSA formula: Base_Enspelled + Item_Cost × 5.0
