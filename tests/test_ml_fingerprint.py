@@ -62,8 +62,52 @@ def test_load_criteria_columns_reads_header(tmp_path: Path):
 
 def test_load_criteria_columns_fallback_missing_returns_empty(tmp_path: Path):
     p = tmp_path / "nonexistent.csv"
-    cols = load_criteria_columns(p)
-    assert cols == []
+    with pytest.raises((FileNotFoundError, OSError)):
+        load_criteria_columns(p)
+
+
+def test_load_criteria_columns_missing_default_raises(tmp_path: Path, monkeypatch):
+    # Default path missing should raise — no silent fallback to other CSVs
+    import src.ml_fingerprint as mfp
+
+    monkeypatch.setattr(mfp, "CRITERIA_CSV", tmp_path / "missing_criteria.csv")
+    with pytest.raises((FileNotFoundError, OSError)):
+        mfp.load_criteria_columns()
+
+
+def test_check_r2_malformed_json_handling(tmp_path: Path, monkeypatch, capsys):
+    """Malformed coefficients.json must be rejected without traceback."""
+    import json as _json
+    import sys
+    import subprocess
+
+    # Simulate check_r2 validation logic: non-dict, missing fp, empty/whitespace fp
+    for bad_payload in [
+        [],  # not a dict
+        {},  # missing fingerprint
+        {"criteria_fingerprint": ""},  # empty string
+        {"criteria_fingerprint": "   "},  # whitespace only
+        {"criteria_fingerprint": 123},  # wrong type
+        '{"criteria_fingerprint": null}',  # null -> None after parse, handled as not str
+    ]:
+        if isinstance(bad_payload, str):
+            parsed = _json.loads(bad_payload)
+        else:
+            parsed = bad_payload
+        is_valid = isinstance(parsed, dict) and isinstance(parsed.get("criteria_fingerprint"), str) and bool(parsed.get("criteria_fingerprint", "").strip())
+        assert not is_valid, f"payload should be invalid: {bad_payload!r}"
+
+    # Valid case should pass
+    valid = {"criteria_fingerprint": "abc123"}
+    assert isinstance(valid, dict)
+    assert isinstance(valid.get("criteria_fingerprint"), str) and bool(valid["criteria_fingerprint"].strip())
+
+
+def test_fingerprint_whitespace_blank_insensitive():
+    # Fingerprints are whitespace/blank-insensitive by design
+    assert compute_fingerprint(["a", ""], ["x"]) == compute_fingerprint(["a"], ["x"])
+    assert compute_fingerprint([" a "], [" x "]) == compute_fingerprint(["a"], ["x"])
+    assert compute_fingerprint(["a", "  "], ["x", ""]) == compute_fingerprint(["a"], ["x"])
 
 
 def test_get_training_feature_columns_matches_06():

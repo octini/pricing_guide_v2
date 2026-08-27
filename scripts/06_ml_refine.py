@@ -439,12 +439,20 @@ def main():
     print(f"\nWrote {len(df)} rows to {OUTPUT_CSV}")
 
     # Write coefficients.json with criteria fingerprint (ML retrain discipline)
+    # Canonical source only: criteria CSV must exist; fail loudly otherwise.
+    try:
+        criteria_columns = load_criteria_columns(CRITERIA_CSV)
+    except (FileNotFoundError, OSError, ValueError) as e:
+        print(f"ERROR: {e}", file=sys.stderr)
+        sys.exit(1)
+    if not criteria_columns:
+        print(
+            f"ERROR: criteria CSV has no columns: {CRITERIA_CSV} — cannot compute fingerprint",
+            file=sys.stderr,
+        )
+        sys.exit(1)
     try:
         feature_columns = list(X.columns)
-        criteria_columns = load_criteria_columns(CRITERIA_CSV)
-        if not criteria_columns:
-            # Fallback: use training frame columns as criteria proxy
-            criteria_columns = list(df.columns)
         criteria_fingerprint = compute_fingerprint(feature_columns, criteria_columns)
         payload = {
             "criteria_fingerprint": criteria_fingerprint,
@@ -458,6 +466,8 @@ def main():
         COEFFICIENTS_JSON.parent.mkdir(parents=True, exist_ok=True)
         COEFFICIENTS_JSON.write_text(json.dumps(payload, indent=2) + "\n")
         print(f"Wrote coefficients with fingerprint {criteria_fingerprint[:16]}... to {COEFFICIENTS_JSON}")
+    except SystemExit:
+        raise
     except Exception as e:
         print(f"Warning: failed to write {COEFFICIENTS_JSON}: {e}")
 

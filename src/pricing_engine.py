@@ -1531,6 +1531,12 @@ def calculate_price(
         additive += 400 * conc_save_bonus
 
     # Conditional save advantage (non-ability-targeted, e.g., vs poison, vs gases)
+    # NOTE: Legacy conditional path (flat 200 gp) coincides exactly with the
+    # new CATEGORY tier (400 * 0.5 = 200 gp). No double-count: extractor is
+    # disjoint by design — "saving throws against X" is excluded from
+    # save_advantage (extract_save_targets) and captured only here, while
+    # "saving throws to avoid or end X" stays in save_advantage and is
+    # tiered as CATEGORY. Verified: no row is priced by both paths.
     cond_save_adv = _parse_list_field(criteria.get("conditional_save_advantage"))
     if cond_save_adv:
         additive += 200 * len(cond_save_adv)

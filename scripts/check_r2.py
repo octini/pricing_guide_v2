@@ -126,22 +126,36 @@ def main():
         print(f"  (could not read {COEFFICIENTS_JSON}: {e})")
         sys.exit(1)
 
+    if not isinstance(stored_data, dict):
+        print("ML coefficients stale: criteria matrix changed since last training — retrain before trusting ML-blended prices")
+        print(f"  ({COEFFICIENTS_JSON} malformed: expected JSON object, got {type(stored_data).__name__} — retrain with scripts/06_ml_refine.py)")
+        sys.exit(1)
+
     stored_fp = stored_data.get("criteria_fingerprint")
-    if not stored_fp:
+    if not isinstance(stored_fp, str) or not stored_fp.strip():
         print("ML coefficients stale: criteria matrix changed since last training — retrain before trusting ML-blended prices")
         print(f"  ({COEFFICIENTS_JSON} missing criteria_fingerprint — retrain with scripts/06_ml_refine.py)")
         sys.exit(1)
 
-    feature_cols = get_training_feature_columns()
-    criteria_cols = load_criteria_columns()
-    # Fallback: if criteria CSV missing, warn but don't crash — treat as mismatch
-    if not criteria_cols:
+    try:
+        feature_cols = get_training_feature_columns()
+    except Exception as e:
         print("ML coefficients stale: criteria matrix changed since last training — retrain before trusting ML-blended prices")
-        print("  (could not load current criteria columns)")
+        print(f"  (could not load current feature columns: {e})")
         sys.exit(1)
     if not feature_cols:
         print("ML coefficients stale: criteria matrix changed since last training — retrain before trusting ML-blended prices")
         print("  (could not load current feature columns)")
+        sys.exit(1)
+    try:
+        criteria_cols = load_criteria_columns()
+    except Exception as e:
+        print("ML coefficients stale: criteria matrix changed since last training — retrain before trusting ML-blended prices")
+        print(f"  (could not load current criteria columns: {e})")
+        sys.exit(1)
+    if not criteria_cols:
+        print("ML coefficients stale: criteria matrix changed since last training — retrain before trusting ML-blended prices")
+        print("  (could not load current criteria columns)")
         sys.exit(1)
 
     current_fp = compute_fingerprint(feature_cols, criteria_cols)
