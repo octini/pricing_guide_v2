@@ -8,8 +8,12 @@ from pathlib import Path
 
 sys.path.insert(0, str(Path(__file__).parent.parent))
 
-from src.generic_variant_mapper import extract_generic_variant_mapping, compute_generic_group_stats
-from src.generic_pricing import compute_generic_base_prices, merge_variant_prices
+from src.variant_system import (
+    extract_generic_variant_mapping,
+    compute_generic_group_stats,
+    compute_generic_base_prices,
+    merge_variant_prices,
+)
 
 INPUT_CSV = Path("data/processed/items_priced.csv")
 AMALGAMATED_CSV = Path("data/processed/amalgamated_prices.csv")
