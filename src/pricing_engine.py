@@ -1427,42 +1427,59 @@ def calculate_price(
             except (TypeError, ValueError):
                 return 0
         if has_tier_counts:
-            b = _int_or_zero(broad)
-            cat = _int_or_zero(category)
-            sit = _int_or_zero(situational)
-            # If counts are present but all zero yet save_advantage non-empty, fall back to BROAD
-            if b == 0 and cat == 0 and sit == 0:
-                # Check if tiers list provides detail
+            b = max(0, _int_or_zero(broad))
+            cat = max(0, _int_or_zero(category))
+            sit = max(0, _int_or_zero(situational))
+            n = len(save_advantage)
+            # Cap category/situational counts at len(save_advantage) to never overprice
+            cat = min(cat, n)
+            sit = min(sit, n)
+            b = min(b, n)
+            # If counts are present but all zero yet save_advantage non-empty, fall back to BROAD or tiers list
+            if b == 0 and cat == 0 and sit == 0 and n > 0:
                 if has_tiers_list:
                     parsed_tiers = _parse_list_field(tiers)
                     if parsed_tiers:
+                        # Truncate tier-list longer than targets
+                        parsed_tiers = parsed_tiers[:n]
                         for t in parsed_tiers:
-                            tl = str(t).upper()
+                            tl = str(t).upper().strip()
                             if tl == SAVE_ADVANTAGE_TIER_SITUATIONAL:
                                 sit += 1
                             elif tl == SAVE_ADVANTAGE_TIER_CATEGORY:
                                 cat += 1
                             else:
                                 b += 1
+                        cat = min(cat, n)
+                        sit = min(sit, n)
+                        b = min(b, n)
                     else:
-                        b = len(save_advantage)
+                        b = n
                 else:
-                    b = len(save_advantage)
-            # If counts sum mismatches len(save_advantage), trust the tier counts but also allow fallback for untiered remainder
+                    b = n
+            # Sanitize: never overprice, mismatch pads BROAD
             total_tiered = b + cat + sit
-            if total_tiered < len(save_advantage):
-                b += len(save_advantage) - total_tiered
-            elif total_tiered > len(save_advantage):
-                # Clamp - shouldn't happen; normalize by capping broad
-                b = max(0, len(save_advantage) - cat - sit)
+            if total_tiered < n:
+                b += n - total_tiered
+            elif total_tiered > n:
+                if cat + sit > n:
+                    cat = min(cat, n)
+                    sit = min(sit, n - cat)
+                    b = 0
+                else:
+                    b = max(0, n - cat - sit)
             additive += SAVE_ADVANTAGE_BASE_VALUE * b
             additive += SAVE_ADVANTAGE_BASE_VALUE * SAVE_ADVANTAGE_CATEGORY_MULTIPLIER * cat
             additive += SAVE_ADVANTAGE_BASE_VALUE * SAVE_ADVANTAGE_SITUATIONAL_MULTIPLIER * sit
         elif has_tiers_list:
             parsed_tiers = _parse_list_field(tiers)
+            if parsed_tiers:
+                # Truncate tier-list longer than targets → never overprice
+                if len(parsed_tiers) > len(save_advantage):
+                    parsed_tiers = parsed_tiers[:len(save_advantage)]
             if parsed_tiers and len(parsed_tiers) == len(save_advantage):
                 for t in parsed_tiers:
-                    tl = str(t).upper()
+                    tl = str(t).upper().strip()
                     if tl == SAVE_ADVANTAGE_TIER_SITUATIONAL:
                         additive += SAVE_ADVANTAGE_BASE_VALUE * SAVE_ADVANTAGE_SITUATIONAL_MULTIPLIER
                     elif tl == SAVE_ADVANTAGE_TIER_CATEGORY:
@@ -1470,13 +1487,24 @@ def calculate_price(
                     else:
                         additive += SAVE_ADVANTAGE_BASE_VALUE
             elif parsed_tiers:
-                # Fallback: count tiers in list
-                b = sum(1 for t in parsed_tiers if str(t).upper() == SAVE_ADVANTAGE_TIER_BROAD)
-                cat = sum(1 for t in parsed_tiers if str(t).upper() == SAVE_ADVANTAGE_TIER_CATEGORY)
-                sit = sum(1 for t in parsed_tiers if str(t).upper() == SAVE_ADVANTAGE_TIER_SITUATIONAL)
-                # Pad broad for length mismatch
-                if b + cat + sit < len(save_advantage):
-                    b += len(save_advantage) - (b + cat + sit)
+                # Fallback: count tiers in (truncated) list
+                b = sum(1 for t in parsed_tiers if str(t).upper().strip() == SAVE_ADVANTAGE_TIER_BROAD)
+                cat = sum(1 for t in parsed_tiers if str(t).upper().strip() == SAVE_ADVANTAGE_TIER_CATEGORY)
+                sit = sum(1 for t in parsed_tiers if str(t).upper().strip() == SAVE_ADVANTAGE_TIER_SITUATIONAL)
+                n = len(save_advantage)
+                cat = min(cat, n)
+                sit = min(sit, n)
+                b = min(b, n)
+                total = b + cat + sit
+                if total < n:
+                    b += n - total
+                elif total > n:
+                    if cat + sit > n:
+                        cat = min(cat, n)
+                        sit = min(sit, n - cat)
+                        b = 0
+                    else:
+                        b = max(0, n - cat - sit)
                 additive += SAVE_ADVANTAGE_BASE_VALUE * b + SAVE_ADVANTAGE_BASE_VALUE * SAVE_ADVANTAGE_CATEGORY_MULTIPLIER * cat + SAVE_ADVANTAGE_BASE_VALUE * SAVE_ADVANTAGE_SITUATIONAL_MULTIPLIER * sit
             else:
                 additive += SAVE_ADVANTAGE_BASE_VALUE * len(save_advantage)

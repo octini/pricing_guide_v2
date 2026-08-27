@@ -25,41 +25,68 @@ _SAVE_ADVANTAGE_CATEGORY_RE = re.compile(
 _SAVE_ADVANTAGE_SITUATIONAL_RE = re.compile(
     r"\bwhile at 0 (?:hit points|hp)\b"
     r"|\bat 0 hit points\b"
+    r"|\bwhile you are mounted\b"
     r"|\bwhile mounted\b"
     r"|\bwhile riding\b"
-    r"|\bmounted on\b"
+    r"|\bwhile you are flying\b"
+    r"|\bwhile flying\b"
     r"|\bwhile in the air\b"
     r"|\bwhile you are in the air\b"
-    r"|\bwhile flying\b",
+    r"|\bmounted on\b",
+    re.IGNORECASE,
+)
+# Negated situational markers (e.g. "unless mounted", "unless at 0 hit points") must NOT count as situational
+_SAVE_ADVANTAGE_SITUATIONAL_NEGATION_RE = re.compile(
+    r"\bunless\b[^.;]{0,60}?\b(?:at 0 (?:hit points|hp)|mounted|riding|flying|in the air|mounted on)\b",
     re.IGNORECASE,
 )
 
 
-def _save_advantage_tier_for_clause(clause: str, desc: str) -> str:
+def _save_advantage_tier_for_clause(clause: str, desc: str, occurrence: int = 0) -> str:
     """Classify a single advantage clause into BROAD/CATEGORY/SITUATIONAL.
 
     SITUATIONAL takes precedence over CATEGORY when both markers are present,
     because a situational gate is strictly narrower than a category gate.
     Checks the clause itself and a 250-char window before the clause's
-    occurrence in the full description to catch state markers like
+    OWN occurrence in the full description to catch state markers like
     "while mounted, you have advantage ..." that sit outside the captured
-    clause.
+    clause. Each clause uses its own occurrence's context (not first-occurrence
+    prefix shared across clauses). Strict lookbehind only — no forward search.
+    Whitespace is normalized in both desc and anchor so line breaks don't break matching.
+    Negated markers (e.g. "unless mounted") are excluded.
     """
-    clause_l = clause.lower()
-    # Build a window around the clause's occurrence in desc to catch leading state markers
+    # Normalize whitespace in BOTH clause and desc (collapse all whitespace to single spaces)
+    clause_l = re.sub(r"\s+", " ", clause.lower().strip())
+    desc_l = re.sub(r"\s+", " ", desc.lower())
+    # Build a window around the clause's OWN occurrence in desc to catch leading state markers
     window = clause_l
     try:
-        # Find clause snippet in desc (lowercased) to get surrounding context
-        desc_l = desc.lower()
-        # Use first 24 chars of clause as anchor for search
         anchor = re.sub(r"\s+", " ", clause_l[:32].strip())
-        if anchor:
-            idx = desc_l.find(anchor[:24])
+        anchor_key = anchor[:24].strip() if anchor else ""
+        if anchor_key:
+            # Find the Nth occurrence (occurrence is 0-based) of anchor_key in desc_l
+            idx = -1
+            search_start = 0
+            for _i in range(occurrence + 1):
+                idx = desc_l.find(anchor_key, search_start)
+                if idx == -1:
+                    break
+                if _i < occurrence:
+                    search_start = idx + len(anchor_key)
+            # If requested occurrence not found, fall back to first occurrence; if none, keep clause_l
+            if idx == -1 and occurrence > 0:
+                idx = desc_l.find(anchor_key)
             if idx != -1:
-                window = desc_l[max(0, idx - 250): idx + len(clause_l) + 80]
+                # Strict lookbehind only: 250 chars before clause, no forward search beyond clause
+                window = desc_l[max(0, idx - 250): idx + len(clause_l)]
     except Exception:
         window = clause_l
-    if _SAVE_ADVANTAGE_SITUATIONAL_RE.search(window):
+    # Negation guard: remove negated patterns (e.g. "unless mounted", "unless at 0 hit points") before checking situational
+    try:
+        window_for_situational = _SAVE_ADVANTAGE_SITUATIONAL_NEGATION_RE.sub("", window)
+    except Exception:
+        window_for_situational = window
+    if _SAVE_ADVANTAGE_SITUATIONAL_RE.search(window_for_situational):
         return SAVE_ADVANTAGE_TIER_SITUATIONAL
     if _SAVE_ADVANTAGE_CATEGORY_RE.search(clause_l):
         return SAVE_ADVANTAGE_TIER_CATEGORY
@@ -829,9 +856,16 @@ def extract_prose_criteria(description: str) -> dict:
         category_set: set[str] = set()
         situational_set: set[str] = set()
         tiers_in_order: list[str] = []
+        # Per-clause occurrence tracking: identical clauses with different contexts each get their OWN occurrence's window
+        occurrence_counter: dict[str, int] = {}
         # Iterate clauses in the same order as extract_save_targets to preserve ordering
         for clause in advantage_clauses:
-            tier = _save_advantage_tier_for_clause(clause, desc)
+            clause_norm_for_counter = re.sub(r"\s+", " ", clause.lower().strip())
+            anchor_for_counter = re.sub(r"\s+", " ", clause_norm_for_counter[:32].strip())[:24].strip()
+            counter_key = anchor_for_counter if anchor_for_counter else clause_norm_for_counter
+            occ = occurrence_counter.get(counter_key, 0)
+            tier = _save_advantage_tier_for_clause(clause, desc, occ)
+            occurrence_counter[counter_key] = occ + 1
             # Extract targets from this clause using the same logic as extract_save_targets (per-clause)
             clause_targets: list[str] = []
             has_specific = False
@@ -872,15 +906,26 @@ def extract_prose_criteria(description: str) -> dict:
         # Fallback for clauses like Bracers where generic "saving throws" was correctly extracted
         # but our per-clause loop may have missed it due to against-filter nuance: ensure any
         # remaining save_advantage entries not yet accounted for get a tier via clause search
+        # Precompute occurrence index for each clause to handle repeated identical clauses
+        clause_occurrences: list[int] = []
+        _tmp_counter: dict[str, int] = {}
+        for _cl in advantage_clauses:
+            _norm = re.sub(r"\s+", " ", _cl.lower().strip())
+            _anch = re.sub(r"\s+", " ", _norm[:32].strip())[:24].strip()
+            _key = _anch if _anch else _norm
+            _occ = _tmp_counter.get(_key, 0)
+            clause_occurrences.append(_occ)
+            _tmp_counter[_key] = _occ + 1
         for tgt in c["save_advantage"]:
             if tgt in broad_set or tgt in category_set or tgt in situational_set:
                 continue
             # Find a clause that contains this target or generic saving throws
             assigned = False
-            for clause in advantage_clauses:
+            for _idx_cl, clause in enumerate(advantage_clauses):
+                _occ = clause_occurrences[_idx_cl]
                 if tgt == "saving throws":
                     if re.search(r"\bsaving throws?\b", clause):
-                        tier = _save_advantage_tier_for_clause(clause, desc)
+                        tier = _save_advantage_tier_for_clause(clause, desc, _occ)
                         if tier == SAVE_ADVANTAGE_TIER_SITUATIONAL:
                             situational_set.add(tgt)
                         elif tier == SAVE_ADVANTAGE_TIER_CATEGORY:
@@ -892,7 +937,7 @@ def extract_prose_criteria(description: str) -> dict:
                         break
                 else:
                     if re.search(rf"\b{re.escape(tgt)}\b", clause):
-                        tier = _save_advantage_tier_for_clause(clause, desc)
+                        tier = _save_advantage_tier_for_clause(clause, desc, _occ)
                         if tier == SAVE_ADVANTAGE_TIER_SITUATIONAL:
                             situational_set.add(tgt)
                         elif tier == SAVE_ADVANTAGE_TIER_CATEGORY:
