@@ -8,7 +8,15 @@ import numpy as np
 from pathlib import Path
 
 sys.path.insert(0, str(Path(__file__).parent.parent))
-from src.pricing_engine import calculate_price, calculate_price_with_outlier_check, calculate_composite_features
+from src.pricing_engine import (
+    calculate_price,
+    calculate_price_with_outlier_check,
+    calculate_composite_features,
+    compute_criteria_coverage,
+    compute_guide_spread,
+    CRITERIA_RICH_THRESHOLD,
+    GUIDE_DIVERGENCE_THRESHOLD,
+)
 from src.list_curation import is_commodity_exact_price_candidate
 
 INPUT_CSV = Path("data/processed/amalgamated_prices.csv")
@@ -115,6 +123,15 @@ def main():
             if pd.isna(val):
                 c[num_col] = None
 
+        # Tiered authority inputs: coverage + guide spread
+        criteria_coverage = compute_criteria_coverage(c)
+        guide_spread = compute_guide_spread(
+            c.get("dsa_price"),
+            c.get("msrp_price"),
+            c.get("dmpg_price"),
+            c.get("price_sources"),
+        )
+
         # Determine price source
         if pd.notna(c.get("official_price_gp")) and (
             c.get("rarity") in ("mundane", "none") or is_commodity_exact_price_candidate(c)
@@ -122,8 +139,12 @@ def main():
             price = float(c["official_price_gp"])
             price_source = "official"
         else:
-            # Use outlier check function to handle solo-outlier items
-            price, price_source = calculate_price_with_outlier_check(c)
+            # Use outlier check function to handle solo-outlier items (tiered authority forwarded)
+            price, price_source = calculate_price_with_outlier_check(
+                c,
+                criteria_coverage=criteria_coverage,
+                guide_spread=guide_spread,
+            )
 
         # Flag indicating whether any external reference was used
         has_reference = (
@@ -131,7 +152,32 @@ def main():
             pd.notna(c.get("amalgamated_price"))
         )
 
-        prices.append({**c, "rule_price": price, "price_source": price_source, "has_reference_source": has_reference})
+        # Authority flag for guardrail/reports: formula wins only when rich+divergent
+        price_conf = str(c.get("price_confidence") or "none")
+        is_rich = criteria_coverage >= CRITERIA_RICH_THRESHOLD
+        is_div = guide_spread is not None and guide_spread > GUIDE_DIVERGENCE_THRESHOLD
+        if price_source == "official":
+            price_authority = "official"
+        elif price_conf in ("multi", "solo") and is_rich and is_div:
+            price_authority = "formula"
+        elif price_conf in ("multi", "solo") and pd.notna(c.get("amalgamated_price")):
+            price_authority = "anchor"
+        elif price_conf == "solo-outlier":
+            price_authority = "rule-outlier"
+        else:
+            price_authority = "rule"
+
+        prices.append(
+            {
+                **c,
+                "rule_price": price,
+                "price_source": price_source,
+                "has_reference_source": has_reference,
+                "criteria_coverage": criteria_coverage,
+                "guide_spread": guide_spread,
+                "price_authority": price_authority,
+            }
+        )
 
     out = pd.DataFrame(prices)
 

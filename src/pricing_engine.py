@@ -60,6 +60,155 @@ RARITY_FLOORS = {
     "varies": 10,
 }
 
+# ─── Tiered pricing authority thresholds ─────────────────────────────────────
+CRITERIA_RICH_THRESHOLD = 3
+GUIDE_DIVERGENCE_THRESHOLD = 0.60
+
+
+def compute_criteria_coverage(criteria: dict) -> int:
+    """Count distinct price-bearing criteria the extractor found.
+
+    Spec-defined buckets (11): weapon/ac/spell bonuses, resistances,
+    immunities, extra_damage_avg, save_advantage, flight, material,
+    sentience, curse — the inputs pricing_engine's additive/multiplicative
+    stacks actually consume. Each bucket counts once regardless of magnitude.
+    >=3 = criteria-rich.
+    """
+    count = 0
+    # weapon bonus (any of weapon_bonus / attack / damage)
+    weapon_bonus = max(
+        criteria.get("weapon_bonus") or 0,
+        criteria.get("weapon_attack_bonus") or 0,
+        criteria.get("weapon_damage_bonus") or 0,
+    )
+    if isinstance(weapon_bonus, (int, float)) and weapon_bonus > 0:
+        count += 1
+    # ac bonus
+    ac_bonus = criteria.get("ac_bonus") or 0
+    if isinstance(ac_bonus, (int, float)) and ac_bonus > 0:
+        count += 1
+    # spell bonuses (attack / save dc / damage)
+    if (
+        (criteria.get("spell_attack_bonus") or 0) > 0
+        or (criteria.get("spell_save_dc_bonus") or 0) > 0
+        or (criteria.get("spell_damage_bonus") or 0) > 0
+    ):
+        count += 1
+    # resistances
+    if len(_parse_list_field(criteria.get("damage_resistances"))) > 0:
+        count += 1
+    # immunities (damage or condition)
+    if (
+        len(_parse_list_field(criteria.get("damage_immunities"))) > 0
+        or len(_parse_list_field(criteria.get("condition_immunities"))) > 0
+        or len(_parse_list_field(criteria.get("condition_immunity_prose"))) > 0
+    ):
+        count += 1
+    # extra_damage_avg
+    extra = criteria.get("extra_damage_avg") or 0
+    try:
+        extra_val = float(extra)
+    except (TypeError, ValueError):
+        extra_val = 0
+    if extra_val and extra_val == extra_val and extra_val > 0:  # not NaN
+        count += 1
+    # save_advantage (includes save_advantage and conditional)
+    if (
+        len(_parse_list_field(criteria.get("save_advantage"))) > 0
+        or len(_parse_list_field(criteria.get("conditional_save_advantage"))) > 0
+        or bool(criteria.get("death_save_advantage"))
+    ):
+        count += 1
+    # flight
+    if criteria.get("flight_full") or criteria.get("flight_limited"):
+        count += 1
+    # material
+    material = criteria.get("material")
+    if material is not None:
+        # handle float NaN
+        if isinstance(material, float) and material != material:
+            pass
+        else:
+            m_str = str(material).strip().lower()
+            if m_str and m_str not in ("", "none", "nan", "unknown", "null"):
+                count += 1
+    # sentience
+    if criteria.get("is_sentient"):
+        count += 1
+    # curse (is_cursed or curse_effects)
+    if criteria.get("is_cursed") or len(_parse_list_field(criteria.get("curse_effects"))) > 0:
+        count += 1
+    return count
+
+
+def compute_guide_spread(
+    dsa_price: Any = None,
+    msrp_price: Any = None,
+    dmpg_price: Any = None,
+    price_sources: Any = None,
+) -> Optional[float]:
+    """Guide spread = (max-min)/mean across guides post-trim.
+
+    Args:
+        dsa_price, msrp_price, dmpg_price: raw guide prices (may be None/NaN).
+        price_sources: optional comma-separated string like "DSA,MSRP"
+            indicating which guides survived trim/outlier filtering. When
+            provided, only those sources are considered; otherwise all
+            non-null prices are used.
+
+    Returns None when fewer than 2 guides contribute; otherwise float.
+    >0.60 = high divergence.
+    """
+    import pandas as pd  # local to avoid circular
+
+    candidates: dict[str, Any] = {"DSA": dsa_price, "MSRP": msrp_price, "DMPG": dmpg_price}
+    # If price_sources is provided, filter to only included sources
+    if price_sources is not None and isinstance(price_sources, str) and price_sources.strip():
+        allowed = {s.strip() for s in price_sources.split(",") if s.strip()}
+        # normalize case
+        allowed_upper = {a.upper() for a in allowed}
+        candidates = {k: v for k, v in candidates.items() if k in allowed_upper}
+    # Also handle list/tuple form
+    elif price_sources is not None and isinstance(price_sources, (list, tuple, set)):
+        allowed_upper = {str(a).upper() for a in price_sources}
+        candidates = {k: v for k, v in candidates.items() if k in allowed_upper}
+
+    prices: list[float] = []
+    for p in candidates.values():
+        if p is None:
+            continue
+        try:
+            if pd.isna(p):
+                continue
+        except Exception:
+            pass
+        try:
+            f = float(p)
+        except (TypeError, ValueError):
+            continue
+        if f != f:  # NaN
+            continue
+        if f <= 0:
+            continue
+        prices.append(f)
+    if len(prices) < 2:
+        return None
+    mean = sum(prices) / len(prices)
+    if mean == 0:
+        return None
+    spread = (max(prices) - min(prices)) / mean
+    return float(spread)
+
+
+def compute_guide_spread_from_criteria(criteria: dict) -> Optional[float]:
+    """Convenience wrapper: compute spread directly from criteria dict."""
+    return compute_guide_spread(
+        criteria.get("dsa_price"),
+        criteria.get("msrp_price"),
+        criteria.get("dmpg_price"),
+        criteria.get("price_sources"),
+    )
+
 SPELL_SCROLL_PRICES = {
     0: 25,
     1: 75,
@@ -625,8 +774,18 @@ def get_scaled_bonus_additive(additive_table: dict, bonus: int, rarity: str, use
         return anchored_additive
 
 
-def calculate_price(criteria: dict) -> float:
+def calculate_price(
+    criteria: dict,
+    criteria_coverage: Optional[int] = None,
+    guide_spread: Optional[float] = None,
+) -> float:
     """Calculate item price based on criteria dict.
+
+    Tiered authority: when price_confidence is multi/solo and
+    criteria_coverage >=3 and guide_spread >0.60, the rule formula
+    (max floor, base+additive...) wins over the amalgamated anchor.
+    Otherwise anchor wins (current behavior). Passing None for the two
+    new params preserves backward-compat identical output.
 
     Returns price in gold pieces.
     """
@@ -945,6 +1104,12 @@ def calculate_price(criteria: dict) -> float:
                 has_cond_save_adv or
                 has_walk_speed_mod
             )
+            # Tiered authority: criteria-rich + high divergence forces formula over simple anchor
+            _tier_is_rich = criteria_coverage is not None and criteria_coverage >= CRITERIA_RICH_THRESHOLD
+            _tier_is_div = guide_spread is not None and guide_spread > GUIDE_DIVERGENCE_THRESHOLD
+            _tier_conf = criteria.get("price_confidence", "none")
+            if _tier_is_rich and _tier_is_div and _tier_conf in ("multi", "solo"):
+                is_simple_bonus_item = False
 
     if is_simple_bonus_item:
         # Use amalgamated price if available, otherwise use simple bonus base
@@ -995,12 +1160,16 @@ def calculate_price(criteria: dict) -> float:
     # NOTE: Do NOT apply attunement modifier here - guide prices already factor in attunement.
     amalgamated_price = criteria.get("amalgamated_price")
     price_confidence = criteria.get("price_confidence", "none")
-    if pd.notna(amalgamated_price) and amalgamated_price > 0 and price_confidence in ("multi", "solo"):
+    # Tiered authority: anchor wins unless criteria-rich AND high-divergence → formula wins
+    _is_rich = criteria_coverage is not None and criteria_coverage >= CRITERIA_RICH_THRESHOLD
+    _is_div = guide_spread is not None and guide_spread > GUIDE_DIVERGENCE_THRESHOLD
+    _should_force_formula = _is_rich and _is_div and price_confidence in ("multi", "solo")
+    if pd.notna(amalgamated_price) and amalgamated_price > 0 and price_confidence in ("multi", "solo") and not _should_force_formula:
         amalg_price = float(amalgamated_price)
-        
         # Apply floor
         floor = RARITY_FLOORS.get(rarity, 1)
         return max(floor, amalg_price)
+    # else: formula wins (fall through) or no anchor — compute rule formula
 
     if weapon_bonus > 0:
         additive += get_scaled_bonus_additive(WEAPON_BONUS_ADDITIVE, weapon_bonus, rarity)
@@ -1473,9 +1642,16 @@ def calculate_price(criteria: dict) -> float:
     return price
 
 
-def calculate_price_with_outlier_check(criteria: dict) -> tuple[float, str]:
+def calculate_price_with_outlier_check(
+    criteria: dict,
+    criteria_coverage: Optional[int] = None,
+    guide_spread: Optional[float] = None,
+) -> tuple[float, str]:
     """
     Calculate price with single-source outlier detection.
+
+    Tiered-authority params propagate to calculate_price so that rich+divergent
+    anchors lose to the formula. Defaults None preserve backward compat.
 
     Returns:
         (price, price_source): The calculated price and its source type
@@ -1487,11 +1663,19 @@ def calculate_price_with_outlier_check(criteria: dict) -> tuple[float, str]:
     # Check for single-source outlier flag from amalgamator
     if price_confidence == "solo-outlier":
         # Use rule-based price instead of amalgamated price
-        rule_price = calculate_price(criteria)
+        rule_price = calculate_price(
+            criteria,
+            criteria_coverage=criteria_coverage,
+            guide_spread=guide_spread,
+        )
         return (rule_price, "rule-outlier-detected")
 
-    # Normal pricing
-    price = calculate_price(criteria)
+    # Normal pricing (tiered authority forwarded)
+    price = calculate_price(
+        criteria,
+        criteria_coverage=criteria_coverage,
+        guide_spread=guide_spread,
+    )
 
     # Determine source
     # Note: amalgamated price is used for R² comparison only, not blended into final price
