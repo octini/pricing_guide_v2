@@ -23,6 +23,32 @@ KNOWN_GOOD_LOCAL_SOURCE_NAMES = {
     "SAT": "Sigil and the Outlands",
 }
 
+VERIFIED_2026_HOMEBREW_SOURCE_NAMES = {
+    "24GriffonsSaddlebag1": "The Griffon's Saddlebag: Book One",
+    "GriffonsSaddlebag2": "The Griffon's Saddlebag: Book Two",
+    "ObojimaTallGrass": "Obojima: Tales from the Tall Grass",
+    "HelianasGuidetoMonsterHunting": "Heliana's Guide to Monster Hunting",
+    "CallfromtheDeep": "Call from the Deep",
+    "IllriggerRevised": "The Illrigger Revised",
+    "GrimHollowCG24": "Grim Hollow: Campaign Guide (2024/Transformed)",
+    "WhereEvilLives": "Where Evil Lives: The MCDM Book of Boss Battles",
+    "TalDoreiCampaignSettingReborn": "Tal'Dorei Campaign Setting Reborn",
+    "GrimHollowPG24": "Grim Hollow: Player's Guide (2024)",
+    "GrimHollowLairsEtharis": "Grim Hollow: Lairs of Etharis",
+    "BookOfEbonTides": "Book of Ebon Tides",
+    "CrookedMoon24": "The Crooked Moon",
+    "HumblewoodTales": "Humblewood Tales",
+    "Pugilist2024": "The Pugilist Class (2024)",
+    "HumblewoodCampaignSetting": "Humblewood Campaign Setting",
+    "OneShotWondersHolidayPack": "One-Shot Wonders: Holiday Adventure Pack",
+    "GrimHollowPlayerPack": "Grim Hollow: Player Pack",
+    "FleeMortals": "Flee, Mortals! The MCDM Monster Book",
+    "TalesFromTheShadows": "Tales from the Shadows",
+    "ValdaGunslinger": "Valda's Spire of Secrets: Gunslinger",
+    "ValdaPlayerPack": "Valda's Spire of Secrets: Player Pack",
+    "CthulhuTorchlight": "Cthulhu by Torchlight",
+}
+
 
 def load_script_module(script_name: str):
     script_path = REPO_ROOT / "scripts" / script_name
@@ -126,3 +152,19 @@ def test_current_pipeline_sources_keep_known_good_display_names_from_current_out
         assert display_name in current_output_display_names
         assert translate_source(source_code) == display_name
         assert translate_source(source_code) != source_code
+
+
+def test_translate_source_resolves_verified_2026_homebrew_sources():
+    # Spot-checks required by spec
+    assert translate_source("24GriffonsSaddlebag1") == "The Griffon's Saddlebag: Book One"
+    assert translate_source("ObojimaTallGrass") == "Obojima: Tales from the Tall Grass"
+    # Full verified set — all 23 should resolve via LOCAL_SOURCE_NAME_SUPPLEMENTS
+    for source_code, display_name in VERIFIED_2026_HOMEBREW_SOURCE_NAMES.items():
+        assert translate_source(source_code) == display_name
+        assert translate_source(source_code) != source_code
+
+
+def test_translate_source_wsc_still_falls_back_to_raw_code():
+    assert translate_source("WSC") == "WSC"
+    # Pipe-separated with known + unresolved should fall back only for WSC
+    assert translate_source("24GriffonsSaddlebag1|WSC") == "The Griffon's Saddlebag: Book One, WSC"
