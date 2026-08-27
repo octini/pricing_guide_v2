@@ -492,3 +492,14 @@ def test_save_advantage_tier_counts_mismatch_pads_broad():
     c = make_criteria(rarity="rare", save_advantage=["a", "b", "c"], save_advantage_broad=1, save_advantage_category=1, save_advantage_situational=0)
     # 1 broad (400) +1 cat (200) + remainder 1 broad (400) = 1000
     assert calculate_price(c) == pytest.approx(base + 1000, rel=0.01)
+def test_extra_damage_priced_avg_mixed_consumes_priced():
+    base = calculate_price(make_criteria(rarity="rare"))
+    # Mixed priced avg already weighted: 3.5*1.0 + 4.5*0.25 = 4.625
+    c = make_criteria(rarity="rare", extra_damage_avg=8.0, extra_damage_priced_avg=4.625, extra_damage_condition="mixed", extra_damage_multiplier=0.578)
+    assert calculate_price(c) == pytest.approx(base + 1500 * 4.625, rel=0.01)
+    # Fallback when priced avg missing still uses multiplier (old behavior preserved)
+    c2 = make_criteria(rarity="rare", extra_damage_avg=7.0, extra_damage_condition="vs_creature_type", extra_damage_multiplier=0.25)
+    assert calculate_price(c2) == pytest.approx(base + 1500 * 7.0 * 0.25, rel=0.01)
+    # NaN priced avg falls back
+    c3 = make_criteria(rarity="rare", extra_damage_avg=7.0, extra_damage_priced_avg=float("nan"), extra_damage_condition="vs_creature_type", extra_damage_multiplier=0.25)
+    assert calculate_price(c3) == pytest.approx(base + 1500 * 7.0 * 0.25, rel=0.01)

@@ -285,29 +285,64 @@ def extract_entries_criteria(item: dict, prose_text: str = "") -> dict:
     # Combine entries and prose for pattern matching
     combined_text = entries_str + " " + prose_text
 
-    def set_extra_damage_condition(context_text: str | None = None) -> None:
-        if not c.get("extra_damage_avg"):
-            return
-        condition_text = (context_text or combined_text).lower()
+    # Helper: classify a single extra-damage clause (per-source)
+    def _classify_extra_damage_context(context_text: str) -> tuple[str, str | None, float]:
+        lower = context_text.lower()
+        # Generic crit-only detection — applies to ANY item
+        if "on a critical hit" in lower or "when you hit with a critical hit" in lower or "when you roll a 20" in lower:
+            return ("on_crit", None, 0.05)
+        generic_single = {"target","creature","enemy","foe"}
+        generic_phrases = {"a target","a creature","an enemy","the target","the creature","any creature","any target","the enemy"}
+        # Direct "against <type>" handling
+        m_against = re.search(r"\bagainst\s+(?:an?\s+)?([a-z][a-z\s-]+?)\b", lower)
+        if m_against:
+            detail_raw = m_against.group(1).strip().strip(".,;:")
+            dl = detail_raw.lower().strip()
+            if dl in generic_single or dl in generic_phrases:
+                pass
+            else:
+                first_word = re.findall(r"[a-z]+", dl)
+                fw = first_word[0] if first_word else dl
+                if fw not in generic_single:
+                    return ("vs_creature_type", fw, 0.25)
         creature_patterns = [
             r"\b(?:whenever|when|if)\s+you\s+hit\s+(?:an?\s+)?([a-z][a-z\s-]+?)(?:\s+creature)?\s+with\s+(?:an?\s+attack\s+using\s+)?(?:this|the)\s+weapon",
             r"\bif\s+the\s+target\s+is\s+(?:an?\s+)?([a-z][a-z\s-]+?)\b",
             r"\bcreature\s+of\s+the\s+chosen\s+type\b",
         ]
-        detail = None
         for pattern in creature_patterns:
-            creature_match = re.search(pattern, condition_text, re.IGNORECASE)
+            creature_match = re.search(pattern, lower)
             if creature_match:
-                detail = "chosen type" if "chosen type" in creature_match.group(0) else creature_match.group(1)
-                break
-        if detail:
-            detail = detail.strip().strip(".,;:")
-            c["extra_damage_condition"] = "vs_creature_type"
-            c["extra_damage_condition_detail"] = detail
-            c["extra_damage_multiplier"] = 0.25
-        else:
-            c["extra_damage_condition"] = "unconditional"
-            c["extra_damage_multiplier"] = 1.0
+                if "chosen type" in creature_match.group(0):
+                    return ("vs_creature_type", "chosen type", 0.25)
+                raw = creature_match.group(1).strip().strip(".,;:")
+                rl = raw.lower().strip()
+                if rl in generic_single or rl in generic_phrases:
+                    continue
+                # also reject if first word is generic (e.g., "target" with article stripped)
+                fw_list = re.findall(r"[a-z]+", rl)
+                if fw_list and fw_list[0] in generic_single and len(fw_list) == 1:
+                    continue
+                # otherwise treat any non-generic capture as genuine creature type (including gargoyle, aberration, etc.)
+                # Use the first meaningful word as detail to avoid capturing trailing fluff
+                # For multi-word like "red dragon" capture would be "red dragon" -> take last word? But keep full lower for now, tests expect single word
+                # Normalize to the last word if multi? But for our whitelist, "aberration" single, "undead" single, "gargoyle" single
+                # So return the first word that is not article
+                detail_word = fw_list[0] if fw_list else rl
+                # If detail contains multiple words, prefer the creature type word (last)
+                if len(fw_list) > 1:
+                    detail_word = fw_list[-1] if fw_list[-1] not in generic_single else fw_list[0]
+                return ("vs_creature_type", detail_word, 0.25)
+        return ("unconditional", None, 1.0)
+
+    def set_extra_damage_condition(context_text: str | None = None) -> None:
+        if not c.get("extra_damage_avg"):
+            return
+        condition_text = (context_text or combined_text)
+        condition, detail, multiplier = _classify_extra_damage_context(condition_text)
+        c["extra_damage_condition"] = condition
+        c["extra_damage_condition_detail"] = detail
+        c["extra_damage_multiplier"] = multiplier
 
     def extra_damage_context(match: re.Match) -> str:
         """Return sentence-local context around a damage phrase.
@@ -316,27 +351,49 @@ def extract_entries_criteria(item: dict, prose_text: str = "") -> dict:
         rider) reclassify an unconditional extra-damage sentence as conditional.
         """
         start, end = match.span()
-        sentence_start = max(combined_text.rfind(".", 0, start), combined_text.rfind("\n", 0, start))
+        sentence_start = max(combined_text.rfind(".", 0, start), combined_text.rfind("\n", 0, start), combined_text.rfind(";", 0, start))
         sentence_end_candidates = [
-            pos for pos in (combined_text.find(".", end), combined_text.find("\n", end)) if pos != -1
+            pos for pos in (combined_text.find(".", end), combined_text.find("\n", end), combined_text.find(";", end)) if pos != -1
         ]
         sentence_end = min(sentence_end_candidates) if sentence_end_candidates else len(combined_text)
         return combined_text[sentence_start + 1 : sentence_end]
     
     # Extract extra/additional damage
     # Pattern: "additional {@damage XdY}" or "extra {@damage XdY}"
-    damage_matches = [match.group(1) for match in re.finditer(r'(?:additional|extra) {@damage ([^}]+)}', combined_text)]
+    damage_matches = list(re.finditer(r'(?:additional|extra) {@damage ([^}]+)}', combined_text))
     if damage_matches:
-        # Sum all extra damage sources
         total_avg = 0.0
-        for dmg_str in damage_matches:
-            total_avg += _avg_dice(dmg_str)
+        priced_total = 0.0
+        conditions: list[str] = []
+        details: list[str | None] = []
+        multipliers: list[float] = []
+        for m in damage_matches:
+            dmg_str = m.group(1)
+            avg = _avg_dice(dmg_str)
+            total_avg += avg
+            ctx = extra_damage_context(m)
+            cond, detail, mult = _classify_extra_damage_context(ctx)
+            conditions.append(cond)
+            details.append(detail)
+            multipliers.append(mult)
+            priced_total += avg * mult
         c["extra_damage_avg"] = total_avg
-        # Store the first (or most significant) dice string
-        c["extra_damage_dice"] = damage_matches[0] if len(damage_matches) == 1 else f"{len(damage_matches)} sources"
-        first_damage_match = re.search(r'(?:additional|extra) {@damage [^}]+}', combined_text)
-        if first_damage_match:
-            set_extra_damage_condition(extra_damage_context(first_damage_match))
+        c["extra_damage_priced_avg"] = priced_total
+        c["extra_damage_dice"] = damage_matches[0].group(1) if len(damage_matches) == 1 else f"{len(damage_matches)} sources"
+        unique_conds = set(conditions)
+        if len(unique_conds) == 1:
+            c["extra_damage_condition"] = conditions[0]
+            # for vs_creature_type, preserve first non-None detail
+            if conditions[0] == "vs_creature_type":
+                first_detail = next((d for d in details if d), details[0])
+                c["extra_damage_condition_detail"] = first_detail
+            else:
+                c["extra_damage_condition_detail"] = None
+            c["extra_damage_multiplier"] = multipliers[0]
+        else:
+            c["extra_damage_condition"] = "mixed"
+            c["extra_damage_condition_detail"] = None
+            c["extra_damage_multiplier"] = (priced_total / total_avg) if total_avg else 1.0
     
     # FALLBACK: Plain text "extra XdY [type] damage" (for prose without {@damage} markup)
     if not c.get('extra_damage_avg'):
@@ -346,10 +403,36 @@ def extract_entries_criteria(item: dict, prose_text: str = "") -> dict:
             re.IGNORECASE,
         ))
         if plain_matches:
-            total_avg = sum(_avg_dice(match.group(1)) for match in plain_matches)
+            total_avg = 0.0
+            priced_total = 0.0
+            conditions: list[str] = []
+            details: list[str | None] = []
+            multipliers: list[float] = []
+            for m in plain_matches:
+                avg = _avg_dice(m.group(1))
+                total_avg += avg
+                ctx = extra_damage_context(m)
+                cond, detail, mult = _classify_extra_damage_context(ctx)
+                conditions.append(cond)
+                details.append(detail)
+                multipliers.append(mult)
+                priced_total += avg * mult
             c['extra_damage_avg'] = total_avg
-            c['extra_damage_dice'] = plain_matches[0].group(1)
-            set_extra_damage_condition(extra_damage_context(plain_matches[0]))
+            c['extra_damage_priced_avg'] = priced_total
+            c['extra_damage_dice'] = plain_matches[0].group(1) if len(plain_matches) == 1 else f"{len(plain_matches)} sources"
+            unique_conds = set(conditions)
+            if len(unique_conds) == 1:
+                c['extra_damage_condition'] = conditions[0]
+                if conditions[0] == "vs_creature_type":
+                    first_detail = next((d for d in details if d), details[0])
+                    c['extra_damage_condition_detail'] = first_detail
+                else:
+                    c['extra_damage_condition_detail'] = None
+                c['extra_damage_multiplier'] = multipliers[0]
+            else:
+                c['extra_damage_condition'] = "mixed"
+                c['extra_damage_condition_detail'] = None
+                c['extra_damage_multiplier'] = (priced_total / total_avg) if total_avg else 1.0
     
     # Extract artifact random properties
     # Pattern: "2 {@table Artifact Properties; Minor Beneficial Properties|dmg|minor beneficial} properties"
@@ -392,21 +475,25 @@ def extract_entries_criteria(item: dict, prose_text: str = "") -> dict:
             c["extra_damage_dice"] = "1d6"
             c["extra_damage_condition"] = "on_crit"
             c["extra_damage_multiplier"] = 0.05
+            c["extra_damage_priced_avg"] = 3.5 * 0.05
         elif "Stirring" in item_name:
             c["extra_damage_avg"] = 3.5  # 1d6 on every hit
             c["extra_damage_dice"] = "1d6"
             c["extra_damage_condition"] = "unconditional"
             c["extra_damage_multiplier"] = 1.0
+            c["extra_damage_priced_avg"] = 3.5 * 1.0
         elif "Wakened" in item_name:
             c["extra_damage_avg"] = 7.0  # 2d6 on every hit
             c["extra_damage_dice"] = "2d6"
             c["extra_damage_condition"] = "unconditional"
             c["extra_damage_multiplier"] = 1.0
+            c["extra_damage_priced_avg"] = 7.0 * 1.0
         elif "Ascendant" in item_name:
             c["extra_damage_avg"] = 10.5  # 3d6 on every hit
             c["extra_damage_dice"] = "3d6"
             c["extra_damage_condition"] = "unconditional"
             c["extra_damage_multiplier"] = 1.0
+            c["extra_damage_priced_avg"] = 10.5 * 1.0
     
     # Check for fixed beneficial/detrimental properties (non-random)
     # These are sections like "Beneficial Properties" or "Detrimental Properties"

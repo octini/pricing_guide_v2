@@ -1573,8 +1573,22 @@ def calculate_price(
     extra_damage_avg = criteria.get("extra_damage_avg") or 0
     has_moonblade_props = (criteria.get("moonblade_properties") or 0) > 0
     if extra_damage_avg > 0 and not has_moonblade_props:
-        extra_damage_multiplier = extra_damage_pricing_multiplier(criteria)
-        priced_extra_damage_avg = extra_damage_avg * extra_damage_multiplier
+        # Prefer per-source priced avg when present (Group 1); fallback to multiplier path for backward compat
+        priced_extra_damage_avg = criteria.get("extra_damage_priced_avg")
+        use_priced = False
+        if priced_extra_damage_avg is not None:
+            try:
+                priced_val = float(priced_extra_damage_avg)
+                if priced_val == priced_val:  # not NaN
+                    priced_extra_damage_avg = priced_val
+                    use_priced = True
+                else:
+                    use_priced = False
+            except (TypeError, ValueError):
+                use_priced = False
+        if not use_priced:
+            extra_damage_multiplier = extra_damage_pricing_multiplier(criteria)
+            priced_extra_damage_avg = extra_damage_avg * extra_damage_multiplier
         # Scale: 3000 gp per point of average damage for legendary/artifact,
         # 1500 gp per point for lower rarities
         if rarity in ("legendary", "artifact"):

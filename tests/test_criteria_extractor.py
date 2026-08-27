@@ -670,3 +670,51 @@ def test_save_advantage_tier_backward_compat_fields_present():
     assert "save_advantage_category" in c
     assert "save_advantage_situational" in c
 
+def test_vicious_style_crit_only_extra_damage():
+    c = extract_entries_criteria(make_item(), "Deal an extra 2d6 damage when you roll a 20")
+    assert c["extra_damage_avg"] == pytest.approx(7.0)
+    assert c["extra_damage_condition"] == "on_crit"
+    assert c["extra_damage_multiplier"] == pytest.approx(0.05)
+    assert c["extra_damage_priced_avg"] == pytest.approx(7.0 * 0.05)
+
+    # Markup variant also classified as on_crit via generic detection
+    c2 = extract_entries_criteria(make_item(), "Deal an extra {@damage 2d6} damage when you roll a 20.")
+    assert c2["extra_damage_condition"] == "on_crit"
+    assert c2["extra_damage_multiplier"] == pytest.approx(0.05)
+
+
+def test_mixed_source_extra_damage_priced_avg():
+    desc = "The weapon deals an extra {@damage 1d6} damage. When you hit an undead creature with this weapon, the attack deals an extra {@damage 1d8} damage."
+    c = extract_entries_criteria(make_item(), desc)
+    assert c["extra_damage_avg"] == pytest.approx(3.5 + 4.5)
+    assert c["extra_damage_condition"] == "mixed"
+    assert c["extra_damage_priced_avg"] == pytest.approx(3.5 * 1.0 + 4.5 * 0.25)
+    assert c["extra_damage_multiplier"] == pytest.approx((3.5 * 1.0 + 4.5 * 0.25) / (3.5 + 4.5))
+
+
+def test_extra_damage_rejects_bare_generics_and_accepts_against():
+    c = extract_entries_criteria(make_item(), "When you hit a target with this weapon, it deals an extra 1d6 damage.")
+    assert c["extra_damage_condition"] == "unconditional"
+    assert c["extra_damage_multiplier"] == pytest.approx(1.0)
+
+    c2 = extract_entries_criteria(make_item(), "When you hit a creature with this weapon, it deals an extra 1d6 damage.")
+    assert c2["extra_damage_condition"] == "unconditional"
+
+    c3 = extract_entries_criteria(make_item(), "When you hit an enemy with this weapon, it deals an extra 1d6 damage.")
+    assert c3["extra_damage_condition"] == "unconditional"
+
+    c4 = extract_entries_criteria(make_item(), "When you hit the target with this weapon, it deals an extra 1d6 damage.")
+    assert c4["extra_damage_condition"] == "unconditional"
+
+    c5 = extract_entries_criteria(make_item(), "The weapon deals an extra 1d6 damage against undead.")
+    assert c5["extra_damage_condition"] == "vs_creature_type"
+    assert c5["extra_damage_condition_detail"] == "undead"
+    assert c5["extra_damage_multiplier"] == pytest.approx(0.25)
+
+
+def test_extra_damage_semicolon_boundary():
+    desc = "The weapon deals an extra {@damage 1d6} damage; when you hit a dragon with this weapon, it deals an extra {@damage 1d8} damage."
+    c = extract_entries_criteria(make_item(), desc)
+    assert c["extra_damage_avg"] == pytest.approx(3.5 + 4.5)
+    assert c["extra_damage_condition"] == "mixed"
+    assert c["extra_damage_priced_avg"] == pytest.approx(3.5 * 1.0 + 4.5 * 0.25)
