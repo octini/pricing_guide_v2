@@ -192,6 +192,8 @@ def test_entries_hardens_extra_damage_fallback_plain_and_compound_types():
     c = extract_entries_criteria(make_item(), "When you hit, the attack deals an extra 1d8 damage.")
     assert c["extra_damage_avg"] == pytest.approx(4.5)
     assert c["extra_damage_dice"] == "1d8"
+    assert c["extra_damage_condition"] == "unconditional"
+    assert c["extra_damage_multiplier"] == 1.0
 
     c = extract_entries_criteria(
         make_item(),
@@ -199,10 +201,86 @@ def test_entries_hardens_extra_damage_fallback_plain_and_compound_types():
     )
     assert c["extra_damage_avg"] == pytest.approx(7.0)
     assert c["extra_damage_dice"] == "2d6"
+    assert c["extra_damage_condition"] == "unconditional"
+    assert c["extra_damage_multiplier"] == 1.0
 
     c = extract_entries_criteria(make_item(), "On a hit, the weapon deals extra 1d6 fire damage.")
     assert c["extra_damage_avg"] == pytest.approx(3.5)
     assert c["extra_damage_dice"] == "1d6"
+    assert c["extra_damage_condition"] == "unconditional"
+    assert c["extra_damage_multiplier"] == 1.0
+
+
+def test_entries_extracts_conditional_extra_damage_metadata_without_damping_raw_avg():
+    c = extract_entries_criteria(
+        make_item(),
+        "Whenever you hit an Aberration with this weapon, the target takes an extra 1d6 damage.",
+    )
+
+    assert c["extra_damage_avg"] == pytest.approx(3.5)
+    assert c["extra_damage_dice"] == "1d6"
+    assert c["extra_damage_condition"] == "vs_creature_type"
+    assert c["extra_damage_condition_detail"] == "aberration"
+    assert c["extra_damage_multiplier"] < 1.0
+
+
+@pytest.mark.parametrize(
+    ("desc", "detail"),
+    [
+        ("The weapon deals an extra 3d6 damage of the weapon's type if the target is a Dragon.", "dragon"),
+        ("If you hit a creature of the chosen type with the weapon, you inflict an additional 2d6 damage.", "chosen type"),
+        ("When you hit an undead creature with an attack using this weapon, the attack deals an extra 1d8 damage.", "undead"),
+    ],
+)
+def test_entries_extracts_common_conditional_extra_damage_phrasings(desc, detail):
+    c = extract_entries_criteria(make_item(), desc)
+
+    assert c["extra_damage_avg"] > 0
+    assert c["extra_damage_condition"] == "vs_creature_type"
+    assert c["extra_damage_condition_detail"] == detail
+    assert c["extra_damage_multiplier"] == pytest.approx(0.25)
+
+
+def test_entries_treats_extra_damage_to_any_creature_as_unconditional():
+    c = extract_entries_criteria(make_item(), "This magic weapon deals an extra 2d6 damage to any creature it hits.")
+
+    assert c["extra_damage_avg"] == pytest.approx(7.0)
+    assert c["extra_damage_condition"] == "unconditional"
+    assert c["extra_damage_condition_detail"] is None
+    assert c["extra_damage_multiplier"] == pytest.approx(1.0)
+
+
+def test_entries_does_not_let_later_non_damage_conditions_reclassify_unconditional_damage():
+    desc = (
+        "This magic weapon deals an extra 2d6 damage to any creature it hits. "
+        "Mastery: Sap. If you hit a creature with this weapon, that creature has disadvantage "
+        "on its next attack roll."
+    )
+
+    c = extract_entries_criteria(make_item(), desc)
+
+    assert c["extra_damage_avg"] == pytest.approx(7.0)
+    assert c["extra_damage_condition"] == "unconditional"
+    assert c["extra_damage_condition_detail"] is None
+    assert c["extra_damage_multiplier"] == pytest.approx(1.0)
+
+
+def test_entries_keeps_crit_only_raw_damage_and_condition_metadata():
+    c = extract_entries_criteria(make_item(name="Slumbering Dragon's Wrath Longsword"), "")
+
+    assert c["extra_damage_avg"] == pytest.approx(3.5)
+    assert c["extra_damage_dice"] == "1d6"
+    assert c["extra_damage_condition"] == "on_crit"
+    assert c["extra_damage_multiplier"] == pytest.approx(0.05)
+
+
+def test_entries_does_not_set_extra_damage_for_unrelated_advantage_text():
+    c = extract_entries_criteria(make_item(), "You have advantage on attack rolls against Undead.")
+
+    assert c["extra_damage_avg"] == 0.0
+    assert c["extra_damage_dice"] is None
+    assert c["extra_damage_condition"] is None
+    assert c["extra_damage_multiplier"] == 1.0
 
 # NLP prose criteria tests
 from src.criteria_extractor import extract_prose_criteria
