@@ -5,6 +5,8 @@ import csv
 import json
 from pathlib import Path
 
+import pytest
+
 
 SCRIPT_PATH = Path(__file__).resolve().parent.parent / "scripts" / "extra_damage_impact_2026_07_12.py"
 
@@ -49,12 +51,14 @@ def test_analyze_items_reports_prose_driven_extra_damage_delta():
     assert analysis["changed_count"] == 1
     assert analysis["old_total_extra_damage_avg"] == 0
     assert analysis["new_total_extra_damage_avg"] == 4.5
-    assert analysis["direct_formula_exposure_gp"] == 13500
+    assert analysis["new_total_weighted_extra_damage_avg"] == 4.5
+    assert analysis["direct_formula_exposure_gp"] == 6750
     row = analysis["rows"][0]
     assert row["name"] == "Burning Blade"
     assert row["old_extra_damage_avg"] == 0
     assert row["new_extra_damage_avg"] == 4.5
-    assert row["delta_exposure_gp"] == 13500
+    assert row["new_extra_damage_multiplier"] == 1.0
+    assert row["delta_exposure_gp"] == 6750
     assert "extra 1d8 damage" in row["evidence"]
 
 
@@ -76,7 +80,49 @@ def test_existing_dragons_wrath_override_is_not_reported_as_new_impact():
     assert analysis["changed_count"] == 0
     assert analysis["old_total_extra_damage_avg"] == 10.5
     assert analysis["new_total_extra_damage_avg"] == 10.5
+    assert analysis["new_total_weighted_extra_damage_avg"] == 10.5
     assert analysis["direct_formula_exposure_gp"] == 0
+
+
+def test_slumbering_dragons_wrath_raw_average_changes_but_weighted_exposure_does_not():
+    module = load_script_module()
+    item = {
+        "name": "Slumbering Dragon's Wrath Longsword",
+        "source": "FTD",
+        "rarity": "uncommon",
+        "type": "M",
+        "entries": [],
+    }
+
+    analysis = module.analyze_items([item], {}, price_lookup={})
+
+    row = analysis["rows"][0]
+    assert row["old_extra_damage_avg"] == 0.175
+    assert row["new_extra_damage_avg"] == 3.5
+    assert row["new_extra_damage_multiplier"] == 0.05
+    assert row["delta_exposure_gp"] == pytest.approx(0)
+
+
+def test_conditional_creature_type_damage_uses_multiplier_for_exposure():
+    module = load_script_module()
+    item = {
+        "name": "Stonebane Longsword",
+        "source": "FoEQuickstone",
+        "rarity": "uncommon",
+        "type": "M",
+        "entries": [],
+    }
+    prose_map = {
+        "stonebane longsword": "Whenever you hit a Gargoyle with this weapon, the target takes an extra 1d6 damage."
+    }
+
+    analysis = module.analyze_items([item], prose_map, price_lookup={})
+
+    row = analysis["rows"][0]
+    assert row["new_extra_damage_avg"] == 3.5
+    assert row["new_extra_damage_condition"] == "vs_creature_type"
+    assert row["new_extra_damage_multiplier"] == 0.25
+    assert row["delta_exposure_gp"] == 1500 * 3.5 * 0.25
 
 
 def test_report_includes_summary_rows_and_direct_exposure_note():
@@ -87,6 +133,7 @@ def test_report_includes_summary_rows_and_direct_exposure_note():
         "old_total_extra_damage_avg": 0.0,
         "new_total_extra_damage_avg": 7.0,
         "total_delta_extra_damage_avg": 7.0,
+        "new_total_weighted_extra_damage_avg": 7.0,
         "direct_formula_exposure_gp": 21000.0,
         "high_rarity_count": 1,
         "artifact_count": 0,
@@ -100,6 +147,8 @@ def test_report_includes_summary_rows_and_direct_exposure_note():
                 "old_extra_damage_avg": 0.0,
                 "new_extra_damage_avg": 7.0,
                 "delta_extra_damage_avg": 7.0,
+                "new_extra_damage_multiplier": 1.0,
+                "delta_weighted_extra_damage_avg": 7.0,
                 "delta_exposure_gp": 21000.0,
                 "current_output_price": "12,000 gp",
                 "known_good_anchor": True,

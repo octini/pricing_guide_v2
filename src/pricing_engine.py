@@ -140,6 +140,29 @@ WEAPON_BONUS_VALUES = {
     3: 14950,    
 }
 
+EXTRA_DAMAGE_CONDITION_MULTIPLIERS = {
+    "unconditional": 1.0,
+    "vs_creature_type": 0.25,
+    "on_crit": 0.05,
+}
+
+
+def extra_damage_pricing_multiplier(criteria: dict[str, Any]) -> float:
+    """Return pricing-only multiplier for conditional extra damage.
+
+    Raw ``extra_damage_avg`` remains the truthful per-hit dice average for reporting/ML.
+    The multiplier only discounts rule-formula additive value for conditional uptime.
+    """
+    condition = str(criteria.get("extra_damage_condition") or "unconditional")
+    raw_multiplier = criteria.get("extra_damage_multiplier")
+    try:
+        multiplier = float(raw_multiplier)
+    except (TypeError, ValueError):
+        multiplier = EXTRA_DAMAGE_CONDITION_MULTIPLIERS.get(condition, 1.0)
+    if multiplier != multiplier:  # NaN
+        multiplier = EXTRA_DAMAGE_CONDITION_MULTIPLIERS.get(condition, 1.0)
+    return max(0.0, min(multiplier, 1.0))
+
 
 # Base mundane item costs to prevent magic variants from being cheaper than mundane base
 # These are official PHB/XPHB prices in gp
@@ -1292,12 +1315,14 @@ def calculate_price(criteria: dict) -> float:
     extra_damage_avg = criteria.get("extra_damage_avg") or 0
     has_moonblade_props = (criteria.get("moonblade_properties") or 0) > 0
     if extra_damage_avg > 0 and not has_moonblade_props:
+        extra_damage_multiplier = extra_damage_pricing_multiplier(criteria)
+        priced_extra_damage_avg = extra_damage_avg * extra_damage_multiplier
         # Scale: 3000 gp per point of average damage for legendary/artifact,
         # 1500 gp per point for lower rarities
         if rarity in ("legendary", "artifact"):
-            additive += 3000 * extra_damage_avg
+            additive += 3000 * priced_extra_damage_avg
         else:
-            additive += 1500 * extra_damage_avg
+            additive += 1500 * priced_extra_damage_avg
 
     # Ability score mods: items that set a stat to a fixed value (like Gauntlets of Ogre Power)
     # Format: dict with {"static": {"str": 19}} or list of dicts with {type: "ability", amount: N, stat: "str"}

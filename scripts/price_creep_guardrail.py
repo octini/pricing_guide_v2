@@ -17,20 +17,7 @@ DEFAULT_BASELINE = Path("output/pricing_guide.csv")
 DEFAULT_CANDIDATE = Path("output/pricing_guide_candidate.csv")
 DEFAULT_OUTPUT = Path("reports/price_creep_guardrail.md")
 
-KNOWN_GOOD_PATTERNS = (
-    "holy avenger",
-    "defender",
-    "vorpal sword",
-    "+1 weapon",
-    "+2 weapon",
-    "+3 weapon",
-    "+1 armor",
-    "+2 armor",
-    "+3 armor",
-    "dragon slayer",
-    "giant slayer",
-    "vicious weapon",
-)
+GENERIC_ANCHOR_NAMES = frozenset({"+1 weapon", "+2 weapon", "+3 weapon", "+1 armor", "+2 armor", "+3 armor"})
 
 
 Row = dict[str, Any]
@@ -90,14 +77,33 @@ def _split_label(row: Row) -> str:
     return "reference-anchored" if _has_reference(row) else "formula/ML-only"
 
 
-def _is_known_good(name: str) -> bool:
+def _is_weapon_type(item_type: str) -> bool:
+    type_lower = item_type.casefold().strip()
+    return "weapon" in type_lower or type_lower in {"m", "r"}
+
+
+def _is_armor_type(item_type: str) -> bool:
+    type_lower = item_type.casefold().strip()
+    return "armor" in type_lower or type_lower in {"la", "ma", "ha"}
+
+
+def _is_known_good(name: str, item_type: str = "") -> bool:
     lowered = re.sub(r"\s+", " ", name.casefold().strip())
-    if any(pattern in lowered for pattern in KNOWN_GOOD_PATTERNS):
+    is_weapon = _is_weapon_type(item_type)
+    is_armor = _is_armor_type(item_type)
+
+    if lowered in GENERIC_ANCHOR_NAMES:
         return True
+    if "holy avenger" in lowered or "vorpal sword" in lowered:
+        return True
+    if lowered.startswith("vorpal "):
+        return is_weapon
+    if any(pattern in lowered for pattern in ("defender", "dragon slayer", "giant slayer")):
+        return is_weapon
     if re.match(r"^\+[123]\s+.+", lowered):
-        return True
+        return is_weapon or is_armor
     if re.match(r"^vicious\s+.+", lowered):
-        return True
+        return is_weapon
     return False
 
 
@@ -170,11 +176,12 @@ def analyze_price_drift(baseline_rows: list[Row], candidate_rows: list[Row]) -> 
                 "gp_delta": gp_delta,
                 "pct_delta": pct_delta,
                 "reference_split": _split_label(base),
-                "known_good": _is_known_good(_name(base)),
+                "known_good": _is_known_good(_name(base), _type(base)),
             }
         )
 
     rows_by_abs_delta = sorted(rows, key=lambda row: (abs(row["gp_delta"]), abs(row["pct_delta"])), reverse=True)
+    rows_by_abs_pct = sorted(rows, key=lambda row: (abs(row["pct_delta"]), abs(row["gp_delta"])), reverse=True)
     known_good_rows = [row for row in rows_by_abs_delta if row["known_good"]]
     artifact_legendary_rows = [
         row for row in rows_by_abs_delta if str(row["Rarity"]).casefold() in {"artifact", "legendary"}
@@ -201,6 +208,7 @@ def analyze_price_drift(baseline_rows: list[Row], candidate_rows: list[Row]) -> 
         "known_good_status": _known_good_status(known_good_rows),
         "artifact_legendary_rows": artifact_legendary_rows,
         "largest_movers": rows_by_abs_delta[:25],
+        "largest_percent_movers": rows_by_abs_pct[:25],
     }
 
 
@@ -312,6 +320,10 @@ def build_report(analysis: dict[str, Any], *, baseline_path: Path, candidate_pat
         "## Largest movers",
         "",
         *_mover_table(analysis["largest_movers"], limit=25),
+        "",
+        "## Largest percent movers",
+        "",
+        *_mover_table(analysis["largest_percent_movers"], limit=25),
         "",
         "## Anchor-tier transitions / ML R² / double-count audit",
         "",

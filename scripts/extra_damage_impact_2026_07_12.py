@@ -18,6 +18,7 @@ if str(REPO_ROOT) not in sys.path:
     sys.path.insert(0, str(REPO_ROOT))
 
 from src.criteria_extractor import extract_entries_criteria
+from src.pricing_engine import extra_damage_pricing_multiplier
 from src.prose_loader import load_prose_descriptions
 
 
@@ -31,6 +32,10 @@ csv.field_size_limit(_sys.maxsize)
 
 Item = dict[str, Any]
 PriceLookup = dict[str, dict[str, str]]
+
+
+def _rarity_extra_damage_coefficient(rarity: str) -> int:
+    return 3000 if str(rarity).lower() in {"legendary", "artifact"} else 1500
 
 
 def old_extra_damage_criteria(item: Item, prose_text: str = "") -> dict[str, Any]:
@@ -154,6 +159,8 @@ def analyze_items(items: list[Item], prose_map: dict[str, str], price_lookup: Pr
     rows = []
     old_total = 0.0
     new_total = 0.0
+    old_weighted_total = 0.0
+    new_weighted_total = 0.0
     for item in items:
         name = _name(item)
         prose_text = prose_map.get(name.casefold(), "")
@@ -161,11 +168,19 @@ def analyze_items(items: list[Item], prose_map: dict[str, str], price_lookup: Pr
         new = extract_entries_criteria(dict(item), prose_text)
         old_avg = float(old.get("extra_damage_avg") or 0)
         new_avg = float(new.get("extra_damage_avg") or 0)
+        old_multiplier = 1.0
+        new_multiplier = extra_damage_pricing_multiplier(new)
+        old_weighted = old_avg * old_multiplier
+        new_weighted = new_avg * new_multiplier
         old_total += old_avg
         new_total += new_avg
-        if old_avg == new_avg:
+        old_weighted_total += old_weighted
+        new_weighted_total += new_weighted
+        if old_avg == new_avg and old_weighted == new_weighted:
             continue
         delta = new_avg - old_avg
+        weighted_delta = new_weighted - old_weighted
+        coefficient = _rarity_extra_damage_coefficient(_rarity(item))
         rows.append(
             {
                 "name": name,
@@ -175,7 +190,11 @@ def analyze_items(items: list[Item], prose_map: dict[str, str], price_lookup: Pr
                 "old_extra_damage_avg": old_avg,
                 "new_extra_damage_avg": new_avg,
                 "delta_extra_damage_avg": delta,
-                "delta_exposure_gp": delta * DIRECT_GP_PER_AVG_POINT,
+                "new_extra_damage_condition": new.get("extra_damage_condition"),
+                "new_extra_damage_multiplier": new_multiplier,
+                "delta_weighted_extra_damage_avg": weighted_delta,
+                "delta_exposure_gp": weighted_delta * coefficient,
+                "exposure_coefficient_gp": coefficient,
                 "current_output_price": _current_price(name, price_lookup),
                 "known_good_anchor": _known_good_anchor(name, price_lookup),
                 "evidence": _evidence(prose_text or str(item.get("entries", []))),
@@ -188,8 +207,11 @@ def analyze_items(items: list[Item], prose_map: dict[str, str], price_lookup: Pr
         "changed_count": len(rows),
         "old_total_extra_damage_avg": old_total,
         "new_total_extra_damage_avg": new_total,
+        "old_total_weighted_extra_damage_avg": old_weighted_total,
+        "new_total_weighted_extra_damage_avg": new_weighted_total,
         "total_delta_extra_damage_avg": new_total - old_total,
-        "direct_formula_exposure_gp": (new_total - old_total) * DIRECT_GP_PER_AVG_POINT,
+        "total_delta_weighted_extra_damage_avg": new_weighted_total - old_weighted_total,
+        "direct_formula_exposure_gp": sum(row["delta_exposure_gp"] for row in rows),
         "high_rarity_count": sum(1 for row in rows if str(row["rarity"]).lower() in high_rarity),
         "artifact_count": sum(1 for row in rows if str(row["rarity"]).lower() == "artifact"),
         "known_good_anchor_count": sum(1 for row in rows if row["known_good_anchor"]),
@@ -213,7 +235,7 @@ def build_report(analysis: dict[str, Any]) -> str:
     lines = [
         "# extra_damage_avg Current Canonical Impact",
         "",
-        "This report compares old vs new `extra_damage_avg` extraction on CURRENT canonical items using markdown prose, matching the criteria pipeline input shape. It is not a full pipeline price delta; it is direct criterion exposure using the pricing rule `3000 gp * extra_damage_avg`.",
+        "This report compares old vs new `extra_damage_avg` extraction on CURRENT canonical items using markdown prose, matching the criteria pipeline input shape. It is not a full pipeline price delta; it is direct criterion exposure using rarity-specific coefficients (1,500 gp/point below legendary, 3,000 gp/point for legendary/artifact) after extra-damage condition multipliers.",
         "",
         "## Summary",
         "",
@@ -222,6 +244,9 @@ def build_report(analysis: dict[str, Any]) -> str:
         f"- Old total extra_damage_avg: {_num(analysis['old_total_extra_damage_avg'])}",
         f"- New total extra_damage_avg: {_num(analysis['new_total_extra_damage_avg'])}",
         f"- Total delta extra_damage_avg: {_num(analysis['total_delta_extra_damage_avg'])}",
+        f"- Old weighted extra_damage_avg: {_num(analysis.get('old_total_weighted_extra_damage_avg', 0.0))}",
+        f"- New weighted extra_damage_avg: {_num(analysis.get('new_total_weighted_extra_damage_avg', 0.0))}",
+        f"- Total delta weighted extra_damage_avg: {_num(analysis.get('total_delta_weighted_extra_damage_avg', 0.0))}",
         f"- Direct formula exposure: {_money(analysis['direct_formula_exposure_gp'])}",
         f"- High-rarity changed rows: {analysis['high_rarity_count']}",
         f"- Artifact changed rows: {analysis['artifact_count']}",
@@ -229,8 +254,8 @@ def build_report(analysis: dict[str, Any]) -> str:
         "",
         "## Changed rows",
         "",
-        "| # | Name | Source | Rarity | Type | Old avg | New avg | Direct exposure | Current output price | Reference anchor | Evidence |",
-        "|---:|---|---|---|---|---:|---:|---:|---:|---|---|",
+        "| # | Name | Source | Rarity | Type | Old avg | New avg | Condition | Multiplier | Weighted delta | Direct exposure | Current output price | Reference anchor | Evidence |",
+        "|---:|---|---|---|---|---:|---:|---|---:|---:|---:|---:|---|---|",
     ]
     for index, row in enumerate(analysis["rows"], start=1):
         lines.append(
@@ -244,6 +269,9 @@ def build_report(analysis: dict[str, Any]) -> str:
                     _md(row["type"]),
                     _num(row["old_extra_damage_avg"]),
                     _num(row["new_extra_damage_avg"]),
+                    _md(row.get("new_extra_damage_condition")),
+                    _num(row.get("new_extra_damage_multiplier", 1.0)),
+                    _num(row.get("delta_weighted_extra_damage_avg", row["delta_extra_damage_avg"])),
                     _money(row["delta_exposure_gp"]),
                     _md(row["current_output_price"]),
                     "yes" if row["known_good_anchor"] else "no",

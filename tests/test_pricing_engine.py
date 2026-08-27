@@ -220,6 +220,35 @@ def test_poison_consumable_discount():
     assert price == pytest.approx(4000 * 0.60, rel=0.01)
 
 
+def test_extra_damage_uses_condition_multiplier_without_mutating_raw_average():
+    base = calculate_price(make_criteria(rarity="rare"))
+    c = make_criteria(
+        rarity="rare",
+        extra_damage_avg=7.0,
+        extra_damage_condition="vs_creature_type",
+        extra_damage_multiplier=0.25,
+    )
+
+    price = calculate_price(c)
+
+    assert c["extra_damage_avg"] == 7.0
+    assert price == pytest.approx(base + 1500 * 7.0 * 0.25, rel=0.01)
+
+
+def test_extra_damage_crit_only_multiplier_preserves_existing_expected_value():
+    base = calculate_price(make_criteria(rarity="uncommon"))
+    c = make_criteria(
+        rarity="uncommon",
+        extra_damage_avg=3.5,
+        extra_damage_condition="on_crit",
+        extra_damage_multiplier=0.05,
+    )
+
+    price = calculate_price(c)
+
+    assert price == pytest.approx(base + 1500 * 3.5 * 0.05, rel=0.01)
+
+
 # --- Rarity-scaled additive bonus tests ---
 
 
