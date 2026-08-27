@@ -308,16 +308,21 @@ def test_compute_criteria_coverage_counts_distinct_buckets():
 
 
 def test_compute_guide_spread_basic_and_threshold():
-    # 2 guides: (3000-1000)/2000 = 1.0 >0.60 high divergence
-    assert compute_guide_spread(1000, 3000, None) == pytest.approx(1.0, rel=0.01)
-    # filtered by price_sources: only DSA+MSRP considered
+    # explicit price_sources required (missing/empty → None, conservative anchor-wins)
+    assert compute_guide_spread(1000, 3000, None, price_sources="DSA,MSRP") == pytest.approx(1.0, rel=0.01)
+    # filtered by price_sources: only DSA+MSRP considered (DMPG ignored)
     assert compute_guide_spread(1000, 3000, 99999, price_sources="DSA,MSRP") == pytest.approx(1.0, rel=0.01)
     # only one guide → None (not divergent)
-    assert compute_guide_spread(1000, None, None) is None
-    # equal prices → 0 spread
-    assert compute_guide_spread(2000, 2000, 2000) == pytest.approx(0.0, rel=0.01)
+    assert compute_guide_spread(1000, None, None, price_sources="DSA") is None
+    assert compute_guide_spread(1000, None, None, price_sources="DSA,MSRP") is None
+    # equal prices → 0 spread (all three guides)
+    assert compute_guide_spread(2000, 2000, 2000, price_sources="DSA,MSRP,DMPG") == pytest.approx(0.0, rel=0.01)
     # threshold boundary: spread exactly 0.60 with 2 guides: max 1300 min 700 mean 1000 => 0.60
-    assert compute_guide_spread(700, 1300, None) == pytest.approx(0.60, rel=0.01)
+    assert compute_guide_spread(700, 1300, None, price_sources="DSA,MSRP") == pytest.approx(0.60, rel=0.01)
+    # missing/empty price_sources → None (unknown → anchor-wins), NOT "use all guides"
+    assert compute_guide_spread(1000, 3000, None, price_sources=None) is None
+    assert compute_guide_spread(1000, 3000, None, price_sources="") is None
+    assert compute_guide_spread(1000, 3000, None, price_sources="   ") is None
 
 
 def test_tiered_authority_anchor_wins_when_not_rich_or_not_divergent():
@@ -338,7 +343,7 @@ def test_tiered_authority_anchor_wins_when_not_rich_or_not_divergent():
     )
     # coverage 2, spread 1.0 => not rich => anchor
     assert compute_criteria_coverage(c_not_rich) == 2
-    assert compute_guide_spread(1000, 3000, None) > 0.60
+    assert compute_guide_spread(1000, 3000, None, price_sources="DSA,MSRP") > 0.60
     assert calculate_price(c_not_rich, criteria_coverage=2, guide_spread=1.0) == pytest.approx(amalgamated, rel=0.01)
     # Case 2: rich but low divergence => anchor wins
     c_low_div = {**base_rich, "amalgamated_price": amalgamated, "price_confidence": "multi"}
@@ -503,3 +508,132 @@ def test_extra_damage_priced_avg_mixed_consumes_priced():
     # NaN priced avg falls back
     c3 = make_criteria(rarity="rare", extra_damage_avg=7.0, extra_damage_priced_avg=float("nan"), extra_damage_condition="vs_creature_type", extra_damage_multiplier=0.25)
     assert calculate_price(c3) == pytest.approx(base + 1500 * 7.0 * 0.25, rel=0.01)
+
+
+# ─── Group 2: hardened authority metrics ─────────────────────────────────────
+def test_compute_criteria_coverage_null_safe_nan_na_strings():
+    """NaN/pd.NA/None/strings/inf never count; only finite >0 numeric counts."""
+    import math
+    import pandas as pd
+    # weapon_bonus variants
+    assert compute_criteria_coverage(make_criteria(rarity="rare", weapon_bonus=float("nan"))) == 0
+    assert compute_criteria_coverage(make_criteria(rarity="rare", weapon_bonus=pd.NA)) == 0
+    assert compute_criteria_coverage(make_criteria(rarity="rare", weapon_bonus=None)) == 0
+    assert compute_criteria_coverage(make_criteria(rarity="rare", weapon_bonus="2")) == 0
+    assert compute_criteria_coverage(make_criteria(rarity="rare", weapon_bonus=float("inf"))) == 0
+    assert compute_criteria_coverage(make_criteria(rarity="rare", weapon_bonus=float("-inf"))) == 0
+    assert compute_criteria_coverage(make_criteria(rarity="rare", weapon_bonus=0)) == 0
+    assert compute_criteria_coverage(make_criteria(rarity="rare", weapon_bonus=-1)) == 0
+    assert compute_criteria_coverage(make_criteria(rarity="rare", weapon_bonus=1)) == 1
+    # ac_bonus strings should not count
+    assert compute_criteria_coverage(make_criteria(rarity="rare", ac_bonus="2")) == 0
+    assert compute_criteria_coverage(make_criteria(rarity="rare", ac_bonus=float("nan"))) == 0
+    assert compute_criteria_coverage(make_criteria(rarity="rare", ac_bonus=pd.NA)) == 0
+    assert compute_criteria_coverage(make_criteria(rarity="rare", ac_bonus=1)) == 1
+    # spell bonuses NaN/pd.NA/strings not counted
+    assert compute_criteria_coverage(make_criteria(rarity="rare", spell_attack_bonus=float("nan"))) == 0
+    assert compute_criteria_coverage(make_criteria(rarity="rare", spell_attack_bonus=pd.NA)) == 0
+    assert compute_criteria_coverage(make_criteria(rarity="rare", spell_attack_bonus="1")) == 0
+    assert compute_criteria_coverage(make_criteria(rarity="rare", spell_attack_bonus=1)) == 1
+    # extra_damage NaN/inf/None/string/pd.NA not counted
+    assert compute_criteria_coverage(make_criteria(rarity="rare", extra_damage_avg=float("nan"))) == 0
+    assert compute_criteria_coverage(make_criteria(rarity="rare", extra_damage_avg=float("inf"))) == 0
+    assert compute_criteria_coverage(make_criteria(rarity="rare", extra_damage_avg="5.0")) == 0
+    assert compute_criteria_coverage(make_criteria(rarity="rare", extra_damage_avg=pd.NA)) == 0
+    assert compute_criteria_coverage(make_criteria(rarity="rare", extra_damage_avg=None)) == 0
+    assert compute_criteria_coverage(make_criteria(rarity="rare", extra_damage_avg=0)) == 0
+    assert compute_criteria_coverage(make_criteria(rarity="rare", extra_damage_avg=5.0)) == 1
+    # flight strings/NaN should not count
+    assert compute_criteria_coverage(make_criteria(rarity="rare", flight_full="true")) == 0
+    assert compute_criteria_coverage(make_criteria(rarity="rare", flight_full=float("nan"))) == 0
+    assert compute_criteria_coverage(make_criteria(rarity="rare", flight_full=pd.NA)) == 0
+    assert compute_criteria_coverage(make_criteria(rarity="rare", flight_full=True)) == 1
+    # sentience string/NaN not counted
+    assert compute_criteria_coverage(make_criteria(rarity="rare", is_sentient="true")) == 0
+    assert compute_criteria_coverage(make_criteria(rarity="rare", is_sentient=float("nan"))) == 0
+    assert compute_criteria_coverage(make_criteria(rarity="rare", is_sentient=pd.NA)) == 0
+    assert compute_criteria_coverage(make_criteria(rarity="rare", is_sentient=True)) == 1
+    # curse string not counted, but list still counts via effects
+    assert compute_criteria_coverage(make_criteria(rarity="rare", is_cursed="true")) == 0
+    assert compute_criteria_coverage(make_criteria(rarity="rare", is_cursed=True)) == 1
+
+
+def test_compute_guide_spread_rejects_non_finite():
+    """inf/-inf/NaN guide prices rejected before computing; fewer than 2 valid → None."""
+    import math
+    # inf with only one other valid → single valid after rejection → None
+    assert compute_guide_spread(float("inf"), 1000, None, price_sources="DSA,MSRP") is None
+    assert compute_guide_spread(float("-inf"), 1000, None, price_sources="DSA,MSRP") is None
+    assert compute_guide_spread(float("nan"), 1000, None, price_sources="DSA,MSRP") is None
+    # all non-finite except one → None
+    assert compute_guide_spread(float("nan"), float("inf"), 1000, price_sources="DSA,MSRP,DMPG") is None
+    assert compute_guide_spread(float("inf"), float("-inf"), None, price_sources="DSA,MSRP") is None
+    # non-finite mixed with two finite: inf rejected, remaining two compute correctly
+    assert compute_guide_spread(float("inf"), 1000, 2000, price_sources="DSA,MSRP,DMPG") == pytest.approx((2000 - 1000) / 1500, rel=0.01)
+    assert compute_guide_spread(float("nan"), 1000, 2000, price_sources="DSA,MSRP,DMPG") == pytest.approx((2000 - 1000) / 1500, rel=0.01)
+    # mean ≤0 guard → None (all prices ≤0 after filtering)
+    assert compute_guide_spread(-100, -200, None, price_sources="DSA,MSRP") is None
+    assert compute_guide_spread(0, 0, 0, price_sources="DSA,MSRP,DMPG") is None
+
+
+def test_compute_guide_spread_empty_string_or_missing_returns_none():
+    """Empty-string or missing price_sources → None (conservative anchor-wins), NOT use-all-guides."""
+    import pandas as pd
+    assert compute_guide_spread(1000, 3000, 5000, price_sources="") is None
+    assert compute_guide_spread(1000, 3000, 5000, price_sources="   ") is None
+    assert compute_guide_spread(1000, 3000, 5000, price_sources=None) is None
+    assert compute_guide_spread(1000, 3000, 5000, price_sources=pd.NA) is None
+    assert compute_guide_spread(1000, 3000, 5000, price_sources=float("nan")) is None
+    # even with explicit list empty → None
+    assert compute_guide_spread(1000, 3000, 5000, price_sources=[]) is None
+    assert compute_guide_spread(1000, 3000, 5000, price_sources=[pd.NA, ""]) is None
+    # valid sources still compute when provided
+    assert compute_guide_spread(1000, 3000, None, price_sources="DSA,MSRP") == pytest.approx(1.0, rel=0.01)
+
+
+def test_compute_guide_spread_single_guide_returns_none():
+    """Fewer than 2 valid guides → None."""
+    assert compute_guide_spread(1000, None, None, price_sources="DSA") is None
+    assert compute_guide_spread(1000, None, None, price_sources="DSA,MSRP") is None
+    assert compute_guide_spread(1000, 2000, None, price_sources="DSA") is None  # only DSA allowed even though MSRP available
+    assert compute_guide_spread(None, 2000, None, price_sources="MSRP,DMPG") is None  # only one price present among allowed
+    assert compute_guide_spread(1000, None, 2000, price_sources="DSA,DMPG") == pytest.approx((2000 - 1000) / 1500, rel=0.01)  # two valid → not None
+
+
+def test_price_authority_flag_vs_branch_consistency():
+    """Anchor flag implies amalgamated>0 was used; formula flag implies formula branch produced price."""
+    from src.pricing_engine import derive_price_authority
+    base = _rich_criteria()
+    formula_price = calculate_price({**base, "amalgamated_price": None, "price_confidence": "none"})
+    amalgamated = 99999.0
+    # Anchor case: not rich or not divergent → anchor wins, flag anchor, price == amalgamated
+    c_anchor = {**base, "amalgamated_price": amalgamated, "price_confidence": "multi"}
+    price_anchor = calculate_price(c_anchor, criteria_coverage=2, guide_spread=0.8)
+    assert price_anchor == pytest.approx(amalgamated, rel=0.01)
+    auth_anchor = derive_price_authority(c_anchor, criteria_coverage=2, guide_spread=0.8, price_source="rule")
+    assert auth_anchor == "anchor"
+    # Formula case: rich+divergent → formula wins, flag formula, price == formula
+    c_formula = {**base, "amalgamated_price": amalgamated, "price_confidence": "multi"}
+    price_formula = calculate_price(c_formula, criteria_coverage=3, guide_spread=0.8)
+    assert price_formula == pytest.approx(formula_price, rel=0.01)
+    auth_formula = derive_price_authority(c_formula, criteria_coverage=3, guide_spread=0.8, price_source="rule")
+    assert auth_formula == "formula"
+    # Backward compat: None args → anchor wins if applicable
+    c_backward = {**base, "amalgamated_price": amalgamated, "price_confidence": "multi"}
+    price_backward = calculate_price(c_backward)  # no coverage/spread args
+    assert price_backward == pytest.approx(amalgamated, rel=0.01)
+    auth_backward = derive_price_authority(c_backward, criteria_coverage=None, guide_spread=None, price_source="rule")
+    assert auth_backward == "anchor"
+    # No valid amalgamated (0, NaN, None) → never anchor/formula, falls to rule
+    c_zero = {**base, "amalgamated_price": 0, "price_confidence": "multi"}
+    assert derive_price_authority(c_zero, criteria_coverage=2, guide_spread=0.8, price_source="rule") == "rule"
+    c_nan = {**base, "amalgamated_price": float("nan"), "price_confidence": "multi"}
+    assert derive_price_authority(c_nan, criteria_coverage=2, guide_spread=0.8, price_source="rule") == "rule"
+    c_none = {**base, "amalgamated_price": None, "price_confidence": "multi"}
+    assert derive_price_authority(c_none, criteria_coverage=3, guide_spread=0.8, price_source="rule") == "rule"
+    # solo-outlier → rule-outlier regardless of coverage/spread
+    c_outlier = {**base, "amalgamated_price": 5000, "price_confidence": "solo-outlier"}
+    assert derive_price_authority(c_outlier, criteria_coverage=3, guide_spread=0.8, price_source="rule-outlier-detected") == "rule-outlier"
+    # official → official
+    c_off = {**base, "amalgamated_price": 5000, "price_confidence": "multi"}
+    assert derive_price_authority(c_off, criteria_coverage=3, guide_spread=0.8, price_source="official") == "official"

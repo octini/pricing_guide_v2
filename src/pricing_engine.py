@@ -73,26 +73,59 @@ def compute_criteria_coverage(criteria: dict) -> int:
     sentience, curse — the inputs pricing_engine's additive/multiplicative
     stacks actually consume. Each bucket counts once regardless of magnitude.
     >=3 = criteria-rich.
+
+    Null-safe: NaN/pd.NA/None/strings never count as present; count only
+    finite values >0 where numeric.
     """
     count = 0
+
+    def _finite_positive(v) -> bool:
+        if v is None:
+            return False
+        try:
+            if pd.isna(v):
+                return False
+        except Exception:
+            return False
+        if isinstance(v, str):
+            return False
+        try:
+            f = float(v)
+        except (TypeError, ValueError):
+            return False
+        if not math.isfinite(f):
+            return False
+        return f > 0
+
+    def _is_true_bool(v) -> bool:
+        if v is None:
+            return False
+        try:
+            if pd.isna(v):
+                return False
+        except Exception:
+            return False
+        if isinstance(v, str):
+            return False
+        # strict bool check — only True counts (handles python bool & numpy bool)
+        if isinstance(v, bool):
+            return v is True
+        try:
+            import numpy as np  # local
+            if isinstance(v, np.bool_):
+                return bool(v) is True
+        except Exception:
+            pass
+        return v is True
+
     # weapon bonus (any of weapon_bonus / attack / damage)
-    weapon_bonus = max(
-        criteria.get("weapon_bonus") or 0,
-        criteria.get("weapon_attack_bonus") or 0,
-        criteria.get("weapon_damage_bonus") or 0,
-    )
-    if isinstance(weapon_bonus, (int, float)) and weapon_bonus > 0:
+    if any(_finite_positive(criteria.get(k)) for k in ("weapon_bonus", "weapon_attack_bonus", "weapon_damage_bonus")):
         count += 1
     # ac bonus
-    ac_bonus = criteria.get("ac_bonus") or 0
-    if isinstance(ac_bonus, (int, float)) and ac_bonus > 0:
+    if _finite_positive(criteria.get("ac_bonus")):
         count += 1
     # spell bonuses (attack / save dc / damage)
-    if (
-        (criteria.get("spell_attack_bonus") or 0) > 0
-        or (criteria.get("spell_save_dc_bonus") or 0) > 0
-        or (criteria.get("spell_damage_bonus") or 0) > 0
-    ):
+    if any(_finite_positive(criteria.get(k)) for k in ("spell_attack_bonus", "spell_save_dc_bonus", "spell_damage_bonus")):
         count += 1
     # resistances
     if len(_parse_list_field(criteria.get("damage_resistances"))) > 0:
@@ -104,39 +137,36 @@ def compute_criteria_coverage(criteria: dict) -> int:
         or len(_parse_list_field(criteria.get("condition_immunity_prose"))) > 0
     ):
         count += 1
-    # extra_damage_avg
-    extra = criteria.get("extra_damage_avg") or 0
-    try:
-        extra_val = float(extra)
-    except (TypeError, ValueError):
-        extra_val = 0
-    if extra_val and extra_val == extra_val and extra_val > 0:  # not NaN
+    # extra_damage_avg — only finite >0 numeric
+    if _finite_positive(criteria.get("extra_damage_avg")):
         count += 1
     # save_advantage (includes save_advantage and conditional)
     if (
         len(_parse_list_field(criteria.get("save_advantage"))) > 0
         or len(_parse_list_field(criteria.get("conditional_save_advantage"))) > 0
-        or bool(criteria.get("death_save_advantage"))
+        or _is_true_bool(criteria.get("death_save_advantage"))
     ):
         count += 1
     # flight
-    if criteria.get("flight_full") or criteria.get("flight_limited"):
+    if _is_true_bool(criteria.get("flight_full")) or _is_true_bool(criteria.get("flight_limited")):
         count += 1
     # material
     material = criteria.get("material")
     if material is not None:
-        # handle float NaN
-        if isinstance(material, float) and material != material:
+        try:
+            if pd.isna(material):
+                pass
+            else:
+                m_str = str(material).strip().lower()
+                if m_str and m_str not in ("", "none", "nan", "unknown", "null", "<na>"):
+                    count += 1
+        except Exception:
             pass
-        else:
-            m_str = str(material).strip().lower()
-            if m_str and m_str not in ("", "none", "nan", "unknown", "null"):
-                count += 1
     # sentience
-    if criteria.get("is_sentient"):
+    if _is_true_bool(criteria.get("is_sentient")):
         count += 1
     # curse (is_cursed or curse_effects)
-    if criteria.get("is_cursed") or len(_parse_list_field(criteria.get("curse_effects"))) > 0:
+    if _is_true_bool(criteria.get("is_cursed")) or len(_parse_list_field(criteria.get("curse_effects"))) > 0:
         count += 1
     return count
 
@@ -150,28 +180,66 @@ def compute_guide_spread(
     """Guide spread = (max-min)/mean across guides post-trim.
 
     Args:
-        dsa_price, msrp_price, dmpg_price: raw guide prices (may be None/NaN).
+        dsa_price, msrp_price, dmpg_price: raw guide prices (may be None/NaN/inf).
         price_sources: optional comma-separated string like "DSA,MSRP"
             indicating which guides survived trim/outlier filtering. When
-            provided, only those sources are considered; otherwise all
-            non-null prices are used.
+            missing/empty-string/pd.NA → return None (unknown → conservative
+            anchor-wins path), NOT "use all guides".
 
-    Returns None when fewer than 2 guides contribute; otherwise float.
-    >0.60 = high divergence.
+    Returns None when fewer than 2 guides contribute or mean ≤0 or non-finite;
+    otherwise float. >0.60 = high divergence. Rejects non-finite (inf/-inf/NaN)
+    guide prices before computing.
     """
     import pandas as pd  # local to avoid circular
 
-    candidates: dict[str, Any] = {"DSA": dsa_price, "MSRP": msrp_price, "DMPG": dmpg_price}
-    # If price_sources is provided, filter to only included sources
-    if price_sources is not None and isinstance(price_sources, str) and price_sources.strip():
-        allowed = {s.strip() for s in price_sources.split(",") if s.strip()}
-        # normalize case
+    # Missing/empty price_sources → unknown → conservative anchor-wins (None)
+    if price_sources is None:
+        return None
+    try:
+        if pd.isna(price_sources):
+            return None
+    except Exception:
+        return None
+    if isinstance(price_sources, str):
+        stripped = price_sources.strip()
+        if not stripped:
+            return None
+        allowed = {s.strip() for s in stripped.split(",") if s.strip()}
+        if not allowed:
+            return None
         allowed_upper = {a.upper() for a in allowed}
-        candidates = {k: v for k, v in candidates.items() if k in allowed_upper}
-    # Also handle list/tuple form
-    elif price_sources is not None and isinstance(price_sources, (list, tuple, set)):
-        allowed_upper = {str(a).upper() for a in price_sources}
-        candidates = {k: v for k, v in candidates.items() if k in allowed_upper}
+        candidates: dict[str, Any] = {k: v for k, v in {"DSA": dsa_price, "MSRP": msrp_price, "DMPG": dmpg_price}.items() if k in allowed_upper}
+    elif isinstance(price_sources, (list, tuple, set)):
+        # Filter out NA/empty entries first
+        cleaned: list[str] = []
+        for a in price_sources:
+            try:
+                if pd.isna(a):
+                    continue
+            except Exception:
+                pass
+            if isinstance(a, str):
+                s = a.strip()
+                if not s:
+                    continue
+                cleaned.append(s)
+            elif a is None:
+                continue
+            else:
+                # coerce non-string (e.g. numbers) to string?
+                try:
+                    s = str(a).strip()
+                    if s and s.lower() not in ("nan", "none", "null"):
+                        cleaned.append(s)
+                except Exception:
+                    continue
+        if not cleaned:
+            return None
+        allowed_upper = {str(a).upper() for a in cleaned}
+        candidates = {k: v for k, v in {"DSA": dsa_price, "MSRP": msrp_price, "DMPG": dmpg_price}.items() if k in allowed_upper}
+    else:
+        # Unexpected type (e.g. float, int) → treat as missing
+        return None
 
     prices: list[float] = []
     for p in candidates.values():
@@ -182,11 +250,15 @@ def compute_guide_spread(
                 continue
         except Exception:
             pass
+        if isinstance(p, str):
+            s = p.strip()
+            if not s:
+                continue
         try:
             f = float(p)
         except (TypeError, ValueError):
             continue
-        if f != f:  # NaN
+        if not math.isfinite(f):
             continue
         if f <= 0:
             continue
@@ -194,9 +266,11 @@ def compute_guide_spread(
     if len(prices) < 2:
         return None
     mean = sum(prices) / len(prices)
-    if mean == 0:
+    if not math.isfinite(mean) or mean <= 0:
         return None
     spread = (max(prices) - min(prices)) / mean
+    if not math.isfinite(spread):
+        return None
     return float(spread)
 
 
@@ -208,6 +282,92 @@ def compute_guide_spread_from_criteria(criteria: dict) -> Optional[float]:
         criteria.get("dmpg_price"),
         criteria.get("price_sources"),
     )
+
+
+# ─── Price authority: branch-derived ─────────────────────────────────────────
+def _has_valid_amalgamated(criteria: dict) -> bool:
+    amalg = criteria.get("amalgamated_price")
+    if amalg is None:
+        return False
+    try:
+        if pd.isna(amalg):
+            return False
+    except Exception:
+        return False
+    try:
+        f = float(amalg)
+    except (TypeError, ValueError):
+        return False
+    if not math.isfinite(f):
+        return False
+    return f > 0
+
+
+def _is_criteria_rich(criteria_coverage: Optional[int]) -> bool:
+    if criteria_coverage is None:
+        return False
+    try:
+        if pd.isna(criteria_coverage):
+            return False
+    except Exception:
+        return False
+    try:
+        # strings never count; direct float/int check via _finite logic
+        if isinstance(criteria_coverage, str):
+            return False
+        f = float(criteria_coverage)
+    except (TypeError, ValueError):
+        return False
+    if not math.isfinite(f):
+        return False
+    return int(f) >= CRITERIA_RICH_THRESHOLD
+
+
+def _is_guide_divergent(guide_spread: Optional[float]) -> bool:
+    if guide_spread is None:
+        return False
+    try:
+        if pd.isna(guide_spread):
+            return False
+    except Exception:
+        return False
+    try:
+        f = float(guide_spread)
+    except (TypeError, ValueError):
+        return False
+    if not math.isfinite(f):
+        return False
+    return f > GUIDE_DIVERGENCE_THRESHOLD
+
+
+def derive_price_authority(
+    criteria: dict,
+    criteria_coverage: Optional[int],
+    guide_spread: Optional[float],
+    price_source: Optional[str] = None,
+) -> str:
+    """Derive price_authority from the pricing branch actually taken.
+
+    Anchor ⟺ amalgamated_price >0 AND confidence multi/solo AND NOT rich+divergent.
+    Formula only when the formula branch produced the price (rich+divergent overriding anchor).
+    None-args backward compat: when coverage/spread is None, should_force is False → anchor wins if applicable.
+    Solo-outlier and official are explicit branches.
+    """
+    if price_source == "official":
+        return "official"
+    price_conf = str(criteria.get("price_confidence") or "none")
+    if price_conf == "solo-outlier":
+        return "rule-outlier"
+    has_amalg = _has_valid_amalgamated(criteria)
+    is_rich = _is_criteria_rich(criteria_coverage)
+    is_div = _is_guide_divergent(guide_spread)
+    should_force = is_rich and is_div and price_conf in ("multi", "solo")
+    if has_amalg and price_conf in ("multi", "solo") and not should_force:
+        return "anchor"
+    if should_force and has_amalg and price_conf in ("multi", "solo"):
+        return "formula"
+    return "rule"
+
 
 SPELL_SCROLL_PRICES = {
     0: 25,

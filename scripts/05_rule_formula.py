@@ -14,6 +14,7 @@ from src.pricing_engine import (
     calculate_composite_features,
     compute_criteria_coverage,
     compute_guide_spread,
+    derive_price_authority,
     CRITERIA_RICH_THRESHOLD,
     GUIDE_DIVERGENCE_THRESHOLD,
 )
@@ -152,20 +153,8 @@ def main():
             pd.notna(c.get("amalgamated_price"))
         )
 
-        # Authority flag for guardrail/reports: formula wins only when rich+divergent
-        price_conf = str(c.get("price_confidence") or "none")
-        is_rich = criteria_coverage >= CRITERIA_RICH_THRESHOLD
-        is_div = guide_spread is not None and guide_spread > GUIDE_DIVERGENCE_THRESHOLD
-        if price_source == "official":
-            price_authority = "official"
-        elif price_conf in ("multi", "solo") and is_rich and is_div:
-            price_authority = "formula"
-        elif price_conf in ("multi", "solo") and pd.notna(c.get("amalgamated_price")):
-            price_authority = "anchor"
-        elif price_conf == "solo-outlier":
-            price_authority = "rule-outlier"
-        else:
-            price_authority = "rule"
+        # Authority flag: branch-derived (centralized in pricing_engine)
+        price_authority = derive_price_authority(c, criteria_coverage, guide_spread, price_source=price_source)
 
         prices.append(
             {
