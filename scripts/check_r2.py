@@ -10,12 +10,14 @@ Returns exit code 1 if R² drops more than 0.02 from baseline.
 """
 
 import argparse
+import json
 import subprocess
 import sys
 import re
 from pathlib import Path
 
 BASELINE_FILE = Path("data/.r2_baseline")
+COEFFICIENTS_JSON = Path("data/processed/coefficients.json")
 DEFAULT_BASELINE = 0.80
 MAX_DROP = 0.02
 
@@ -102,6 +104,53 @@ def main():
 
     if r2 < DEFAULT_BASELINE:
         print(f"⚠️  Warning: R² below target ({DEFAULT_BASELINE})")
+
+    # --- ML retrain discipline: fingerprint guard ---
+    try:
+        from src.ml_fingerprint import compute_fingerprint, load_criteria_columns, get_training_feature_columns
+    except Exception as e:
+        print(f"⚠️  Could not load fingerprint helper: {e}")
+        sys.exit(1)
+
+    if not COEFFICIENTS_JSON.exists():
+        print("ML coefficients stale: criteria matrix changed since last training — retrain before trusting ML-blended prices")
+        print(f"  (missing {COEFFICIENTS_JSON}; run scripts/06_ml_refine.py)")
+        sys.exit(1)
+
+    try:
+        stored_data = json.loads(COEFFICIENTS_JSON.read_text(encoding="utf-8"))
+    except Exception as e:
+        print("ML coefficients stale: criteria matrix changed since last training — retrain before trusting ML-blended prices")
+        print(f"  (could not read {COEFFICIENTS_JSON}: {e})")
+        sys.exit(1)
+
+    stored_fp = stored_data.get("criteria_fingerprint")
+    if not stored_fp:
+        print("ML coefficients stale: criteria matrix changed since last training — retrain before trusting ML-blended prices")
+        print(f"  ({COEFFICIENTS_JSON} missing criteria_fingerprint — retrain with scripts/06_ml_refine.py)")
+        sys.exit(1)
+
+    feature_cols = get_training_feature_columns()
+    criteria_cols = load_criteria_columns()
+    # Fallback: if criteria CSV missing, warn but don't crash — treat as mismatch
+    if not criteria_cols:
+        print("ML coefficients stale: criteria matrix changed since last training — retrain before trusting ML-blended prices")
+        print("  (could not load current criteria columns)")
+        sys.exit(1)
+    if not feature_cols:
+        print("ML coefficients stale: criteria matrix changed since last training — retrain before trusting ML-blended prices")
+        print("  (could not load current feature columns)")
+        sys.exit(1)
+
+    current_fp = compute_fingerprint(feature_cols, criteria_cols)
+    if current_fp != stored_fp:
+        print("ML coefficients stale: criteria matrix changed since last training — retrain before trusting ML-blended prices")
+        print(f"  stored:  {stored_fp[:16]}...")
+        print(f"  current: {current_fp[:16]}...")
+        print(f"  fix: python3 scripts/06_ml_refine.py  (then re-run check_r2.py)")
+        sys.exit(1)
+
+    print(f"✅ Criteria fingerprint matches ({stored_fp[:16]}...)")
 
     sys.exit(0)
 

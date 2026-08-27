@@ -18,10 +18,14 @@ from src.official_price_anchor import (
     write_official_price_audit,
 )
 
+from src.ml_fingerprint import compute_fingerprint, load_criteria_columns
+
 INPUT_CSV = Path("data/processed/items_variant_adjusted.csv")
 INPUT_FALLBACK_CSV = Path("data/processed/items_priced.csv")
 OUTPUT_CSV = Path("data/processed/items_ml_priced.csv")
 OFFICIAL_PRICE_AUDIT_CSV = Path("output/official_price_anchor_audit.csv")
+COEFFICIENTS_JSON = Path("data/processed/coefficients.json")
+CRITERIA_CSV = Path("data/processed/items_criteria.csv")
 
 # Features for ML: these are the additive criteria values + composite features
 FEATURE_COLS = [
@@ -433,6 +437,29 @@ def main():
     # Save output
     df.to_csv(OUTPUT_CSV, index=False)
     print(f"\nWrote {len(df)} rows to {OUTPUT_CSV}")
+
+    # Write coefficients.json with criteria fingerprint (ML retrain discipline)
+    try:
+        feature_columns = list(X.columns)
+        criteria_columns = load_criteria_columns(CRITERIA_CSV)
+        if not criteria_columns:
+            # Fallback: use training frame columns as criteria proxy
+            criteria_columns = list(df.columns)
+        criteria_fingerprint = compute_fingerprint(feature_columns, criteria_columns)
+        payload = {
+            "criteria_fingerprint": criteria_fingerprint,
+            "feature_columns": sorted(feature_columns),
+            "criteria_columns": sorted(criteria_columns),
+            "r2_final": float(r2_final),
+            "cv_mean_r2": float(float(np.mean(cv_scores))) if len(cv_scores) else None,
+            "cv_scores": [float(s) for s in cv_scores],
+            "feature_importances": {k: float(v) for k, v in feature_importance.to_dict().items()},
+        }
+        COEFFICIENTS_JSON.parent.mkdir(parents=True, exist_ok=True)
+        COEFFICIENTS_JSON.write_text(json.dumps(payload, indent=2) + "\n")
+        print(f"Wrote coefficients with fingerprint {criteria_fingerprint[:16]}... to {COEFFICIENTS_JSON}")
+    except Exception as e:
+        print(f"Warning: failed to write {COEFFICIENTS_JSON}: {e}")
 
     print("\nMedian final prices by rarity:")
     for rarity, group in df.groupby("rarity"):
