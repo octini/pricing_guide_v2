@@ -156,7 +156,7 @@ def main():
             final_variant_price = 0.5 * rule_price + 0.5 * variant_price
 
         if 'variant_adjusted_price' not in items_with_variants.columns:
-            items_with_variants['variant_adjusted_price'] = None
+            items_with_variants['variant_adjusted_price'] = float('nan')
 
         items_with_variants.loc[idx, 'variant_adjusted_price'] = final_variant_price
         blended_count += 1
@@ -166,7 +166,7 @@ def main():
     
     if 'variant_adjusted_price' in items_with_variants.columns:
         has_variant = items_with_variants['variant_adjusted_price'].notna()
-        items_with_variants.loc[has_variant, 'rule_price'] = items_with_variants.loc[has_variant, 'variant_adjusted_price']
+        items_with_variants.loc[has_variant, 'rule_price'] = items_with_variants.loc[has_variant, 'variant_adjusted_price'].astype(float)
         items_with_variants.loc[has_variant, 'price_source'] = 'rule+variant'
         # Variant-adjusted items have reference from their generic parent
         if 'has_reference_source' in items_with_variants.columns:
