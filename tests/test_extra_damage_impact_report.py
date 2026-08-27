@@ -8,7 +8,7 @@ from pathlib import Path
 import pytest
 
 
-SCRIPT_PATH = Path(__file__).resolve().parent.parent / "scripts" / "extra_damage_impact_2026_07_12.py"
+SCRIPT_PATH = Path(__file__).resolve().parent.parent / "scripts" / "reports" / "extra_damage_impact_2026_07_12.py"
 
 
 def load_script_module():

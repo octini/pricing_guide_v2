@@ -158,9 +158,9 @@ All are formula/ML-only legendaries where ML retraining and formula authority le
 
 ## Inputs and Limitations
 
-- Candidate `output/pricing_guide_candidate.csv` was regenerated from HEAD (`src/pricing_engine.py` with tiered authority, post-`05b_variant_adjust.py` dtype fix) and compared against `output/pricing_guide.csv` via `scripts/09_price_creep_guardrail.py` (see `reports/price_creep_guardrail.md` for the full drift-by-rarity/type/source tables).
+- Candidate `output/pricing_guide_candidate.csv` was regenerated from HEAD (`src/pricing_engine.py` with tiered authority, post-`05b_variant_adjust.py` dtype fix) and compared against `output/pricing_guide.csv` via `scripts/reports/price_creep_guardrail.py` (see `reports/price_creep_guardrail.md` for the full drift-by-rarity/type/source tables).
 - Numbers in this pack are verbatim from `reports/price_creep_guardrail.md` (aggregate, split, rarity, source, anchor, movers tables). No pipeline re-run was performed to build this pack; ML R² figures (blended 0.9723, rule 0.8996) are from `reports/demonglass_driver_investigation.md` §(b).
-- `data/processed/coefficients.json` is a generated artifact (now in `.gitignore`) — fingerprint match is enforced by `scripts/check_r2.py` (criteria fingerprint guard, blended R² gate).
+- `data/processed/coefficients.json` is a generated artifact (now in `.gitignore`) — fingerprint match is enforced by `scripts/reports/check_r2.py` (criteria fingerprint guard, blended R² gate).
 - Anchor-tier transitions and ML double-count audits require pipeline metadata not present in final CSV snapshots (guardrail note).
 
 ---
@@ -185,5 +185,5 @@ Proceed to the 12k migration on this baseline.
 - `reports/demonglass_driver_investigation.md` (driver investigation, §(b) R² and §(e) invalid guardrail note)
 - `reports/extra_damage_signoff_pack.md` (pack v1, superseded)
 - `src/pricing_engine.py` (tiered authority, 7673322)
-- `scripts/05b_variant_adjust.py` (dtype fix, cda35f2), `scripts/06_ml_refine.py` (R² 0.9723), `scripts/check_r2.py` (PYTHONPATH fix)
+- `scripts/05b_variant_adjust.py` (dtype fix, cda35f2), `scripts/06_ml_refine.py` (R² 0.9723), `scripts/reports/check_r2.py` (PYTHONPATH fix)
 - `data/processed/coefficients.json` (generated, gitignored)

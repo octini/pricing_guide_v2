@@ -3,7 +3,7 @@ import importlib.util
 from pathlib import Path
 
 
-SCRIPT_PATH = Path(__file__).resolve().parent.parent / "scripts" / "criteria_preflight_2026_07_12.py"
+SCRIPT_PATH = Path(__file__).resolve().parent.parent / "scripts" / "reports" / "criteria_preflight_2026_07_12.py"
 SPEC = importlib.util.spec_from_file_location("criteria_preflight_2026_07_12", SCRIPT_PATH)
 assert SPEC is not None and SPEC.loader is not None
 criteria_preflight = importlib.util.module_from_spec(SPEC)

@@ -7,7 +7,7 @@ from pathlib import Path
 import pytest
 
 
-SCRIPT_PATH = Path(__file__).resolve().parent.parent / "scripts" / "price_creep_guardrail.py"
+SCRIPT_PATH = Path(__file__).resolve().parent.parent / "scripts" / "reports" / "price_creep_guardrail.py"
 
 
 def load_script_module():

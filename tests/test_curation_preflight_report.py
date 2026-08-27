@@ -5,7 +5,7 @@ from pathlib import Path
 
 
 REPO_ROOT = Path(__file__).resolve().parents[1]
-SCRIPT_PATH = REPO_ROOT / "scripts" / "curation_preflight_2026_07_12.py"
+SCRIPT_PATH = REPO_ROOT / "scripts" / "reports" / "curation_preflight_2026_07_12.py"
 
 
 def load_script_module():

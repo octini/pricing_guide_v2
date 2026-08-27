@@ -41,7 +41,7 @@ python3 -c "import pandas as pd; df=pd.read_csv('data/processed/items_criteria.c
 
 ## 3. Price-creep guardrail — headline stats
 
-**Command:** `python3 scripts/price_creep_guardrail.py`
+**Command:** `python3 scripts/reports/price_creep_guardrail.py`
 **Report:** `reports/price_creep_guardrail.md` (generated 2026-08-27 17:07)
 
 - **Common rows:** 4748 (New candidate rows: 1, Missing candidate rows: 1)
@@ -65,7 +65,7 @@ python3 -c "import pandas as pd; df=pd.read_csv('data/processed/items_criteria.c
 
 *Side-effect dirt from prior `check_r2` run was cleared before guardrail capture: `git checkout -- data/processed/items_ml_priced.csv output/official_price_anchor_audit.csv` (restored to HEAD; verified clean via `git diff --name-only` and `git restore`).*
 
-## 4. R² + fingerprint — `python3 scripts/check_r2.py`
+## 4. R² + fingerprint — `python3 scripts/reports/check_r2.py`
 
 ```
 🔄 Running ML pipeline...

@@ -16,7 +16,7 @@ import sys
 import re
 from pathlib import Path
 
-sys.path.insert(0, str(Path(__file__).resolve().parent.parent))
+sys.path.insert(0, str(Path(__file__).resolve().parent.parent.parent))
 
 BASELINE_FILE = Path("data/.r2_baseline")
 COEFFICIENTS_JSON = Path("data/processed/coefficients.json")
