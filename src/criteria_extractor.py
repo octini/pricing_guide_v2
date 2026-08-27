@@ -8,6 +8,63 @@ from typing import Any, Optional
 
 from src.constants import CONDITION_IMMUNITY_VALUES
 
+# ─── Save advantage tiering ──────────────────────────────────────────────────
+# BROAD: all saving throws or all saves of one ability (e.g. "advantage on saving throws", "advantage on Strength saving throws")
+# CATEGORY: saves vs a condition/creature-type/damage/spell (e.g. "vs frightened", "vs spells", "to avoid or end paralyzed")
+# SITUATIONAL: conditional on item state/position/duration (e.g. "while at 0 hp", "while mounted")
+SAVE_ADVANTAGE_TIER_BROAD = "BROAD"
+SAVE_ADVANTAGE_TIER_CATEGORY = "CATEGORY"
+SAVE_ADVANTAGE_TIER_SITUATIONAL = "SITUATIONAL"
+
+# Category markers inside the advantage clause (what you save against)
+_SAVE_ADVANTAGE_CATEGORY_RE = re.compile(
+    r"\bagainst\b|\bto avoid or end\b|\bto avoid being\b|\bversus\b|\bvs\.?\b",
+    re.IGNORECASE,
+)
+# Situational markers: when/where the advantage applies (state/position/duration)
+_SAVE_ADVANTAGE_SITUATIONAL_RE = re.compile(
+    r"\bwhile at 0 (?:hit points|hp)\b"
+    r"|\bat 0 hit points\b"
+    r"|\bwhile mounted\b"
+    r"|\bwhile riding\b"
+    r"|\bmounted on\b"
+    r"|\bwhile in the air\b"
+    r"|\bwhile you are in the air\b"
+    r"|\bwhile flying\b",
+    re.IGNORECASE,
+)
+
+
+def _save_advantage_tier_for_clause(clause: str, desc: str) -> str:
+    """Classify a single advantage clause into BROAD/CATEGORY/SITUATIONAL.
+
+    SITUATIONAL takes precedence over CATEGORY when both markers are present,
+    because a situational gate is strictly narrower than a category gate.
+    Checks the clause itself and a 250-char window before the clause's
+    occurrence in the full description to catch state markers like
+    "while mounted, you have advantage ..." that sit outside the captured
+    clause.
+    """
+    clause_l = clause.lower()
+    # Build a window around the clause's occurrence in desc to catch leading state markers
+    window = clause_l
+    try:
+        # Find clause snippet in desc (lowercased) to get surrounding context
+        desc_l = desc.lower()
+        # Use first 24 chars of clause as anchor for search
+        anchor = re.sub(r"\s+", " ", clause_l[:32].strip())
+        if anchor:
+            idx = desc_l.find(anchor[:24])
+            if idx != -1:
+                window = desc_l[max(0, idx - 250): idx + len(clause_l) + 80]
+    except Exception:
+        window = clause_l
+    if _SAVE_ADVANTAGE_SITUATIONAL_RE.search(window):
+        return SAVE_ADVANTAGE_TIER_SITUATIONAL
+    if _SAVE_ADVANTAGE_CATEGORY_RE.search(clause_l):
+        return SAVE_ADVANTAGE_TIER_CATEGORY
+    return SAVE_ADVANTAGE_TIER_BROAD
+
 def _parse_bonus(val: Any) -> Optional[int]:
     """Parse bonus value which may be '+2', '2', 2, or None."""
     if val is None:
@@ -389,6 +446,10 @@ def extract_prose_criteria(description: str) -> dict:
         "climb_speed": False,
         "burrow_speed": False,
         "save_advantage": [],
+        "save_advantage_tiers": [],
+        "save_advantage_broad": 0,
+        "save_advantage_category": 0,
+        "save_advantage_situational": 0,
         "condition_immunity_prose": [],
         "language_known": [],
         "unarmed_strike_bonus": None,
@@ -670,6 +731,103 @@ def extract_prose_criteria(description: str) -> dict:
     # "disadvantage on ... saving throws" and enemy/target effects cannot be
     # misclassified as a benefit on the wearer/user.
     c["save_advantage"] = extract_save_targets(advantage_clauses)
+
+    # ── Tiering for save_advantage (backward compatible: missing = BROAD) ───
+    # Retain save_advantage list as-is; emit parallel tier counts. This also
+    # fixes the Bracers-of-Celerity class where "saving throws you make to
+    # avoid or end the paralyzed/restrained condition" was previously priced
+    # as BROAD (400 gp) but is CATEGORY (200 gp).
+    try:
+        broad_set: set[str] = set()
+        category_set: set[str] = set()
+        situational_set: set[str] = set()
+        tiers_in_order: list[str] = []
+        # Iterate clauses in the same order as extract_save_targets to preserve ordering
+        for clause in advantage_clauses:
+            tier = _save_advantage_tier_for_clause(clause, desc)
+            # Extract targets from this clause using the same logic as extract_save_targets (per-clause)
+            clause_targets: list[str] = []
+            has_specific = False
+            for save_phrase in re.finditer(r"\b((?:strength|dexterity|constitution|intelligence|wisdom|charisma)\b(?:(?!\bsaving throws?\b)[^.;])*)\s+saving throws?\b", clause):
+                phrase = re.sub(r"\b(?:strength|dexterity|constitution|intelligence|wisdom|charisma)\s*(?:\([^)]+\))?\s+checks?\b", "", save_phrase.group(1))
+                before = len(clause_targets)
+                for m in re.finditer(r"\b(strength|dexterity|constitution|intelligence|wisdom|charisma)\b", phrase):
+                    tgt = m.group(1)
+                    if tgt not in clause_targets:
+                        clause_targets.append(tgt)
+                if len(clause_targets) > before:
+                    has_specific = True
+            if not has_specific and re.search(r"\b(?:all\s+)?saving throws?\b", clause) and not re.search(r"\bdeath\s+saving throws?\b", clause):
+                # Note: for tiering we do NOT exclude "against" here so that
+                # "saving throws against X" is not silently dropped from tier counts;
+                # the generic save_advantage list excludes it, but tiering should
+                # still recognize the clause for accurate counts if it ever yielded a target.
+                # However to keep counts aligned with save_advantage list, only count generic
+                # when it matches the same condition as extract_save_targets.
+                if not re.search(r"\bsaving throws?\s+against\b", clause):
+                    clause_targets.append("saving throws")
+                else:
+                    # Clause is "saving throws against X" -> not in save_advantage list;
+                    # it is handled via conditional_save_advantage, so skip for save_advantage tiering
+                    pass
+            # Handle the Bracers case: generic "saving throws" with category marker should be CATEGORY
+            # The above already appended "saving throws" for Bracers; tier will be CATEGORY
+            for tgt in clause_targets:
+                if tgt in broad_set or tgt in category_set or tgt in situational_set:
+                    continue
+                if tier == SAVE_ADVANTAGE_TIER_SITUATIONAL:
+                    situational_set.add(tgt)
+                elif tier == SAVE_ADVANTAGE_TIER_CATEGORY:
+                    category_set.add(tgt)
+                else:
+                    broad_set.add(tgt)
+                tiers_in_order.append(tier)
+        # Fallback for clauses like Bracers where generic "saving throws" was correctly extracted
+        # but our per-clause loop may have missed it due to against-filter nuance: ensure any
+        # remaining save_advantage entries not yet accounted for get a tier via clause search
+        for tgt in c["save_advantage"]:
+            if tgt in broad_set or tgt in category_set or tgt in situational_set:
+                continue
+            # Find a clause that contains this target or generic saving throws
+            assigned = False
+            for clause in advantage_clauses:
+                if tgt == "saving throws":
+                    if re.search(r"\bsaving throws?\b", clause):
+                        tier = _save_advantage_tier_for_clause(clause, desc)
+                        if tier == SAVE_ADVANTAGE_TIER_SITUATIONAL:
+                            situational_set.add(tgt)
+                        elif tier == SAVE_ADVANTAGE_TIER_CATEGORY:
+                            category_set.add(tgt)
+                        else:
+                            broad_set.add(tgt)
+                        tiers_in_order.append(tier)
+                        assigned = True
+                        break
+                else:
+                    if re.search(rf"\b{re.escape(tgt)}\b", clause):
+                        tier = _save_advantage_tier_for_clause(clause, desc)
+                        if tier == SAVE_ADVANTAGE_TIER_SITUATIONAL:
+                            situational_set.add(tgt)
+                        elif tier == SAVE_ADVANTAGE_TIER_CATEGORY:
+                            category_set.add(tgt)
+                        else:
+                            broad_set.add(tgt)
+                        tiers_in_order.append(tier)
+                        assigned = True
+                        break
+            if not assigned:
+                broad_set.add(tgt)
+                tiers_in_order.append(SAVE_ADVANTAGE_TIER_BROAD)
+        c["save_advantage_tiers"] = tiers_in_order
+        c["save_advantage_broad"] = len(broad_set)
+        c["save_advantage_category"] = len(category_set)
+        c["save_advantage_situational"] = len(situational_set)
+    except Exception:
+        # Fail open: treat all as BROAD if tiering errors
+        c["save_advantage_tiers"] = [SAVE_ADVANTAGE_TIER_BROAD] * len(c["save_advantage"])
+        c["save_advantage_broad"] = len(c["save_advantage"])
+        c["save_advantage_category"] = 0
+        c["save_advantage_situational"] = 0
     
     # Condition immunity from prose (in addition to structured conditionImmune field)
     ci_match = re.search(r'immune to the ([\w\s]+?) condition', desc)

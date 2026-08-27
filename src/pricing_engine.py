@@ -295,6 +295,18 @@ EXTRA_DAMAGE_CONDITION_MULTIPLIERS = {
     "on_crit": 0.05,
 }
 
+# ─── Save advantage tiering ───────────────────────────────────────────────
+# Base value for a BROAD save advantage (e.g. "advantage on all saving throws"
+# or on all saves of one ability). CATEGORY and SITUATIONAL are discounted
+# because they apply to a narrower set of effects or only in a specific state.
+# Documented per spec: BROAD 1.0×, CATEGORY 0.5×, SITUATIONAL 0.25×.
+SAVE_ADVANTAGE_BASE_VALUE = 400
+SAVE_ADVANTAGE_CATEGORY_MULTIPLIER = 0.5
+SAVE_ADVANTAGE_SITUATIONAL_MULTIPLIER = 0.25
+SAVE_ADVANTAGE_TIER_BROAD = "BROAD"
+SAVE_ADVANTAGE_TIER_CATEGORY = "CATEGORY"
+SAVE_ADVANTAGE_TIER_SITUATIONAL = "SITUATIONAL"
+
 
 def extra_damage_pricing_multiplier(criteria: dict[str, Any]) -> float:
     """Return pricing-only multiplier for conditional extra damage.
@@ -1229,11 +1241,88 @@ def calculate_price(
     for cond in cond_immune_prose:
         additive += CONDITION_IMMUNITY_VALUES.get(str(cond).lower(), 400)
     
-    # Saving throw advantage (e.g., Mind Carapace: "advantage on Intelligence, Wisdom, and Charisma saving throws")
+    # Saving throw advantage: tiered pricing by breadth
+    # BROAD (all saves or single ability, always-on) = 1.0× base (400 gp)
+    # CATEGORY (vs condition/creature-type/damage/spell, e.g. "vs frightened", "vs spells", "to avoid or end paralyzed") = 0.5× (200 gp)
+    # SITUATIONAL (state/position-gated, e.g. "while at 0 hp", "while mounted") = 0.25× (100 gp)
+    # Backward compatible: missing tier data → all BROAD (original flat 400 gp behavior).
+    # Fixes Bracers-of-Celerity class: "saving throws to avoid or end paralyzed/restrained" was BROAD but is CATEGORY.
     save_advantage = _parse_list_field(criteria.get("save_advantage"))
     if save_advantage:
-        # Each ability save advantage is worth ~400gp (similar to condition immunity)
-        additive += 400 * len(save_advantage)
+        # Prefer explicit per-tier counts when present (emitted by criteria_extractor)
+        broad = criteria.get("save_advantage_broad")
+        category = criteria.get("save_advantage_category")
+        situational = criteria.get("save_advantage_situational")
+        tiers = criteria.get("save_advantage_tiers")
+        has_tier_counts = broad is not None or category is not None or situational is not None
+        has_tiers_list = tiers is not None
+        # Normalize tier counts (handle NaN/string from CSV)
+        def _int_or_zero(v):
+            if v is None:
+                return 0
+            try:
+                if isinstance(v, float) and v != v:  # NaN
+                    return 0
+                return int(float(v)) if isinstance(v, str) else int(v)
+            except (TypeError, ValueError):
+                return 0
+        if has_tier_counts:
+            b = _int_or_zero(broad)
+            cat = _int_or_zero(category)
+            sit = _int_or_zero(situational)
+            # If counts are present but all zero yet save_advantage non-empty, fall back to BROAD
+            if b == 0 and cat == 0 and sit == 0:
+                # Check if tiers list provides detail
+                if has_tiers_list:
+                    parsed_tiers = _parse_list_field(tiers)
+                    if parsed_tiers:
+                        for t in parsed_tiers:
+                            tl = str(t).upper()
+                            if tl == SAVE_ADVANTAGE_TIER_SITUATIONAL:
+                                sit += 1
+                            elif tl == SAVE_ADVANTAGE_TIER_CATEGORY:
+                                cat += 1
+                            else:
+                                b += 1
+                    else:
+                        b = len(save_advantage)
+                else:
+                    b = len(save_advantage)
+            # If counts sum mismatches len(save_advantage), trust the tier counts but also allow fallback for untiered remainder
+            total_tiered = b + cat + sit
+            if total_tiered < len(save_advantage):
+                b += len(save_advantage) - total_tiered
+            elif total_tiered > len(save_advantage):
+                # Clamp - shouldn't happen; normalize by capping broad
+                b = max(0, len(save_advantage) - cat - sit)
+            additive += SAVE_ADVANTAGE_BASE_VALUE * b
+            additive += SAVE_ADVANTAGE_BASE_VALUE * SAVE_ADVANTAGE_CATEGORY_MULTIPLIER * cat
+            additive += SAVE_ADVANTAGE_BASE_VALUE * SAVE_ADVANTAGE_SITUATIONAL_MULTIPLIER * sit
+        elif has_tiers_list:
+            parsed_tiers = _parse_list_field(tiers)
+            if parsed_tiers and len(parsed_tiers) == len(save_advantage):
+                for t in parsed_tiers:
+                    tl = str(t).upper()
+                    if tl == SAVE_ADVANTAGE_TIER_SITUATIONAL:
+                        additive += SAVE_ADVANTAGE_BASE_VALUE * SAVE_ADVANTAGE_SITUATIONAL_MULTIPLIER
+                    elif tl == SAVE_ADVANTAGE_TIER_CATEGORY:
+                        additive += SAVE_ADVANTAGE_BASE_VALUE * SAVE_ADVANTAGE_CATEGORY_MULTIPLIER
+                    else:
+                        additive += SAVE_ADVANTAGE_BASE_VALUE
+            elif parsed_tiers:
+                # Fallback: count tiers in list
+                b = sum(1 for t in parsed_tiers if str(t).upper() == SAVE_ADVANTAGE_TIER_BROAD)
+                cat = sum(1 for t in parsed_tiers if str(t).upper() == SAVE_ADVANTAGE_TIER_CATEGORY)
+                sit = sum(1 for t in parsed_tiers if str(t).upper() == SAVE_ADVANTAGE_TIER_SITUATIONAL)
+                # Pad broad for length mismatch
+                if b + cat + sit < len(save_advantage):
+                    b += len(save_advantage) - (b + cat + sit)
+                additive += SAVE_ADVANTAGE_BASE_VALUE * b + SAVE_ADVANTAGE_BASE_VALUE * SAVE_ADVANTAGE_CATEGORY_MULTIPLIER * cat + SAVE_ADVANTAGE_BASE_VALUE * SAVE_ADVANTAGE_SITUATIONAL_MULTIPLIER * sit
+            else:
+                additive += SAVE_ADVANTAGE_BASE_VALUE * len(save_advantage)
+        else:
+            # No tier data → backward compat: all BROAD (400 gp each)
+            additive += SAVE_ADVANTAGE_BASE_VALUE * len(save_advantage)
     
     # Language known (e.g., Demon Armor: "you know Abyssal")
     language_known = _parse_list_field(criteria.get("language_known"))

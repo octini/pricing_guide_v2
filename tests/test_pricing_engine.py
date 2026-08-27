@@ -424,3 +424,71 @@ def test_tiered_authority_formula_respects_rarity_floor():
     price = calculate_price(c, criteria_coverage=3, guide_spread=1.0)
     assert price >= RARITY_FLOORS["common"]
     assert price != pytest.approx(99999, rel=0.01)
+
+
+# ─── Save advantage tiered pricing ─────────────────────────────────────────
+# Base: BROAD 400, CATEGORY 200 (0.5×), SITUATIONAL 100 (0.25×)
+from src.pricing_engine import SAVE_ADVANTAGE_BASE_VALUE, SAVE_ADVANTAGE_CATEGORY_MULTIPLIER, SAVE_ADVANTAGE_SITUATIONAL_MULTIPLIER
+
+
+def test_save_advantage_pricing_constants():
+    assert SAVE_ADVANTAGE_BASE_VALUE == 400
+    assert SAVE_ADVANTAGE_CATEGORY_MULTIPLIER == 0.5
+    assert SAVE_ADVANTAGE_SITUATIONAL_MULTIPLIER == 0.25
+
+
+def test_save_advantage_broad_pricing():
+    base = calculate_price(make_criteria(rarity="rare"))
+    c = make_criteria(rarity="rare", save_advantage=["saving throws"], save_advantage_broad=1, save_advantage_category=0, save_advantage_situational=0)
+    assert calculate_price(c) == pytest.approx(base + 400, rel=0.01)
+    c2 = make_criteria(rarity="rare", save_advantage=["intelligence", "wisdom", "charisma"], save_advantage_broad=3)
+    assert calculate_price(c2) == pytest.approx(base + 400 * 3, rel=0.01)
+
+
+def test_save_advantage_category_pricing_half():
+    base = calculate_price(make_criteria(rarity="rare"))
+    # CATEGORY is 0.5× base (200 gp) — e.g. vs frightened, vs spells, to avoid paralyzed
+    c = make_criteria(rarity="rare", save_advantage=["saving throws"], save_advantage_broad=0, save_advantage_category=1, save_advantage_situational=0)
+    assert calculate_price(c) == pytest.approx(base + 400 * 0.5, rel=0.01)
+
+
+def test_save_advantage_situational_pricing_quarter():
+    base = calculate_price(make_criteria(rarity="rare"))
+    # SITUATIONAL is 0.25× base (100 gp) — e.g. while at 0 hp, while mounted
+    c = make_criteria(rarity="rare", save_advantage=["saving throws"], save_advantage_broad=0, save_advantage_category=0, save_advantage_situational=1)
+    assert calculate_price(c) == pytest.approx(base + 400 * 0.25, rel=0.01)
+
+
+def test_save_advantage_mixed_tier_pricing():
+    base = calculate_price(make_criteria(rarity="rare"))
+    # 1 BROAD (400) + 1 CATEGORY (200) + 1 SITUATIONAL (100) = 700
+    c = make_criteria(rarity="rare", save_advantage=["strength", "saving throws", "dexterity"], save_advantage_broad=1, save_advantage_category=1, save_advantage_situational=1)
+    assert calculate_price(c) == pytest.approx(base + 400 + 200 + 100, rel=0.01)
+
+
+def test_save_advantage_pricing_via_tiers_list():
+    base = calculate_price(make_criteria(rarity="rare"))
+    c = make_criteria(rarity="rare", save_advantage=["strength", "saving throws"], save_advantage_tiers=["BROAD", "CATEGORY"])
+    assert calculate_price(c) == pytest.approx(base + 400 + 200, rel=0.01)
+    c2 = make_criteria(rarity="rare", save_advantage=["saving throws"], save_advantage_tiers=["SITUATIONAL"])
+    assert calculate_price(c2) == pytest.approx(base + 100, rel=0.01)
+
+
+def test_save_advantage_backward_compat_missing_tier_is_broad():
+    base = calculate_price(make_criteria(rarity="rare"))
+    # No tier fields at all → treat all as BROAD (original 400 gp behavior)
+    c = make_criteria(rarity="rare", save_advantage=["saving throws"])
+    assert calculate_price(c) == pytest.approx(base + 400, rel=0.01)
+    c2 = make_criteria(rarity="rare", save_advantage=["strength", "dexterity"])
+    assert calculate_price(c2) == pytest.approx(base + 800, rel=0.01)
+    # Empty tier list also falls back to BROAD
+    c3 = make_criteria(rarity="rare", save_advantage=["saving throws"], save_advantage_tiers=[])
+    assert calculate_price(c3) == pytest.approx(base + 400, rel=0.01)
+
+
+def test_save_advantage_tier_counts_mismatch_pads_broad():
+    base = calculate_price(make_criteria(rarity="rare"))
+    # Tier counts sum < len(save_advantage) → remainder counted as BROAD
+    c = make_criteria(rarity="rare", save_advantage=["a", "b", "c"], save_advantage_broad=1, save_advantage_category=1, save_advantage_situational=0)
+    # 1 broad (400) +1 cat (200) + remainder 1 broad (400) = 1000
+    assert calculate_price(c) == pytest.approx(base + 1000, rel=0.01)

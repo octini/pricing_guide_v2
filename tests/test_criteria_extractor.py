@@ -587,3 +587,86 @@ def test_prose_does_not_treat_target_disadvantage_as_drawback():
     c = extract_prose_criteria(desc)
 
     assert c["check_disadvantage"] == []
+
+
+# ─── Save advantage tiering ───────────────────────────────────────────────
+
+def test_save_advantage_tier_broad_plain():
+    c = extract_prose_criteria("You have advantage on saving throws.")
+    assert c["save_advantage"] == ["saving throws"]
+    assert c["save_advantage_broad"] == 1
+    assert c["save_advantage_category"] == 0
+    assert c["save_advantage_situational"] == 0
+    assert c["save_advantage_tiers"] == ["BROAD"]
+
+
+def test_save_advantage_tier_broad_single_ability():
+    c = extract_prose_criteria("You have advantage on Strength saving throws.")
+    assert c["save_advantage"] == ["strength"]
+    assert c["save_advantage_broad"] == 1
+    assert c["save_advantage_category"] == 0
+
+
+def test_save_advantage_tier_broad_multiple_abilities():
+    c = extract_prose_criteria("You have advantage on Intelligence, Wisdom, and Charisma saving throws.")
+    assert c["save_advantage"] == ["intelligence", "wisdom", "charisma"]
+    assert c["save_advantage_broad"] == 3
+    assert c["save_advantage_category"] == 0
+    assert c["save_advantage_situational"] == 0
+    assert c["save_advantage_tiers"] == ["BROAD", "BROAD", "BROAD"]
+
+
+def test_save_advantage_tier_category_to_avoid_paralyzed():
+    # Bracers-of-Celerity class: "to avoid or end" is CATEGORY, not BROAD
+    desc = "While wearing these bracers, you have advantage on saving throws you make to avoid or end the paralyzed or restrained condition on yourself."
+    c = extract_prose_criteria(desc)
+    assert c["save_advantage"] == ["saving throws"]
+    assert c["save_advantage_category"] == 1
+    assert c["save_advantage_broad"] == 0
+    assert c["save_advantage_tiers"] == ["CATEGORY"]
+
+
+def test_save_advantage_tier_category_vs_spells_via_conditional():
+    # "against spells" routes to conditional_save_advantage, but save_advantage tier should remain BROAD-free
+    c = extract_prose_criteria("While holding this shield, you have advantage on saving throws against spells and other magical effects.")
+    assert c["save_advantage"] == []
+    assert c["conditional_save_advantage"] == ["spells", "other magical effects"]
+    # save_advantage tiers should be empty (no BROAD misclassification)
+    assert c["save_advantage_broad"] == 0
+    assert c["save_advantage_category"] == 0
+
+
+def test_save_advantage_tier_category_vs_frightened_saving_throws():
+    # Slumbering scaled ornament style: "to avoid being charmed or frightened"
+    desc = "You have advantage on saving throws you make to avoid being charmed or frightened or to end those conditions on you."
+    c = extract_prose_criteria(desc)
+    assert c["save_advantage"] == ["saving throws"]
+    assert c["save_advantage_category"] == 1
+    assert c["save_advantage_broad"] == 0
+
+
+def test_save_advantage_tier_situational_while_mounted():
+    desc = "While mounted, you have advantage on saving throws to avoid being knocked prone."
+    c = extract_prose_criteria(desc)
+    assert c["save_advantage"] == ["saving throws"]
+    # SITUATIONAL overrides CATEGORY (contains both "while mounted" and "to avoid being")
+    assert c["save_advantage_situational"] == 1
+    assert c["save_advantage_category"] == 0
+    assert c["save_advantage_broad"] == 0
+    assert c["save_advantage_tiers"] == ["SITUATIONAL"]
+
+
+def test_save_advantage_tier_situational_while_at_0_hp():
+    desc = "While at 0 hit points, you have advantage on saving throws."
+    c = extract_prose_criteria(desc)
+    assert c["save_advantage"] == ["saving throws"]
+    assert c["save_advantage_situational"] == 1
+
+
+def test_save_advantage_tier_backward_compat_fields_present():
+    c = extract_prose_criteria("You have advantage on Dexterity saving throws.")
+    assert "save_advantage_tiers" in c
+    assert "save_advantage_broad" in c
+    assert "save_advantage_category" in c
+    assert "save_advantage_situational" in c
+
