@@ -469,7 +469,8 @@ def main():
     except SystemExit:
         raise
     except Exception as e:
-        print(f"Warning: failed to write {COEFFICIENTS_JSON}: {e}")
+        print(f"ERROR: failed to write {COEFFICIENTS_JSON}: {e}", file=sys.stderr)
+        sys.exit(1)
 
     print("\nMedian final prices by rarity:")
     for rarity, group in df.groupby("rarity"):

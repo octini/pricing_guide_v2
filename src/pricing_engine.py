@@ -195,22 +195,8 @@ def compute_guide_spread(
     # Missing/empty price_sources → unknown → conservative anchor-wins (None)
     if price_sources is None:
         return None
-    try:
-        if pd.isna(price_sources):
-            return None
-    except Exception:
-        return None
-    if isinstance(price_sources, str):
-        stripped = price_sources.strip()
-        if not stripped:
-            return None
-        allowed = {s.strip() for s in stripped.split(",") if s.strip()}
-        if not allowed:
-            return None
-        allowed_upper = {a.upper() for a in allowed}
-        candidates: dict[str, Any] = {k: v for k, v in {"DSA": dsa_price, "MSRP": msrp_price, "DMPG": dmpg_price}.items() if k in allowed_upper}
-    elif isinstance(price_sources, (list, tuple, set)):
-        # Filter out NA/empty entries first
+    if isinstance(price_sources, (list, tuple, set)):
+        # Filter out NA/empty entries first (check list/tuple/set BEFORE pd.isna scalar — pd.isna(list) raises)
         cleaned: list[str] = []
         for a in price_sources:
             try:
@@ -238,8 +224,23 @@ def compute_guide_spread(
         allowed_upper = {str(a).upper() for a in cleaned}
         candidates = {k: v for k, v in {"DSA": dsa_price, "MSRP": msrp_price, "DMPG": dmpg_price}.items() if k in allowed_upper}
     else:
-        # Unexpected type (e.g. float, int) → treat as missing
-        return None
+        try:
+            if pd.isna(price_sources):
+                return None
+        except Exception:
+            return None
+        if isinstance(price_sources, str):
+            stripped = price_sources.strip()
+            if not stripped:
+                return None
+            allowed = {s.strip() for s in stripped.split(",") if s.strip()}
+            if not allowed:
+                return None
+            allowed_upper = {a.upper() for a in allowed}
+            candidates: dict[str, Any] = {k: v for k, v in {"DSA": dsa_price, "MSRP": msrp_price, "DMPG": dmpg_price}.items() if k in allowed_upper}
+        else:
+            # Unexpected type (e.g. float, int) → treat as missing
+            return None
 
     prices: list[float] = []
     for p in candidates.values():
@@ -352,10 +353,17 @@ def derive_price_authority(
     Formula only when the formula branch produced the price (rich+divergent overriding anchor).
     None-args backward compat: when coverage/spread is None, should_force is False → anchor wins if applicable.
     Solo-outlier and official are explicit branches.
+    Re-evaluates branch conditions by design — kept identical to pricing branch logic; covered by consistency test.
     """
     if price_source == "official":
         return "official"
-    price_conf = str(criteria.get("price_confidence") or "none")
+    _pc_raw = criteria.get("price_confidence")
+    try:
+        if pd.isna(_pc_raw):
+            _pc_raw = None
+    except Exception:
+        pass
+    price_conf = str(_pc_raw or "none")
     if price_conf == "solo-outlier":
         return "rule-outlier"
     has_amalg = _has_valid_amalgamated(criteria)
@@ -1279,7 +1287,13 @@ def calculate_price(
             # Tiered authority: criteria-rich + high divergence forces formula over simple anchor
             _tier_is_rich = criteria_coverage is not None and criteria_coverage >= CRITERIA_RICH_THRESHOLD
             _tier_is_div = guide_spread is not None and guide_spread > GUIDE_DIVERGENCE_THRESHOLD
-            _tier_conf = criteria.get("price_confidence", "none")
+            _tier_conf_raw = criteria.get("price_confidence")
+            try:
+                if pd.isna(_tier_conf_raw):
+                    _tier_conf_raw = None
+            except Exception:
+                pass
+            _tier_conf = str(_tier_conf_raw or "none")
             if _tier_is_rich and _tier_is_div and _tier_conf in ("multi", "solo"):
                 is_simple_bonus_item = False
 
@@ -1331,7 +1345,13 @@ def calculate_price(
     # This ensures items like Vorpal Sword, Defender, etc. stay close to guide prices.
     # NOTE: Do NOT apply attunement modifier here - guide prices already factor in attunement.
     amalgamated_price = criteria.get("amalgamated_price")
-    price_confidence = criteria.get("price_confidence", "none")
+    _pc_raw = criteria.get("price_confidence")
+    try:
+        if pd.isna(_pc_raw):
+            _pc_raw = None
+    except Exception:
+        pass
+    price_confidence = str(_pc_raw or "none")
     # Tiered authority: anchor wins unless criteria-rich AND high-divergence → formula wins
     _is_rich = criteria_coverage is not None and criteria_coverage >= CRITERIA_RICH_THRESHOLD
     _is_div = guide_spread is not None and guide_spread > GUIDE_DIVERGENCE_THRESHOLD
@@ -1457,17 +1477,12 @@ def calculate_price(
                         b = n
                 else:
                     b = n
-            # Sanitize: never overprice, mismatch pads BROAD
-            total_tiered = b + cat + sit
-            if total_tiered < n:
-                b += n - total_tiered
-            elif total_tiered > n:
+            # Aggregate cap: cat + sit ≤ n (reduce sit then cat if needed); broad = remainder ≥ 0
+            if cat + sit > n:
+                sit = max(0, n - cat)
                 if cat + sit > n:
-                    cat = min(cat, n)
-                    sit = min(sit, n - cat)
-                    b = 0
-                else:
-                    b = max(0, n - cat - sit)
+                    cat = max(0, n - sit)
+            b = max(0, n - cat - sit)
             additive += SAVE_ADVANTAGE_BASE_VALUE * b
             additive += SAVE_ADVANTAGE_BASE_VALUE * SAVE_ADVANTAGE_CATEGORY_MULTIPLIER * cat
             additive += SAVE_ADVANTAGE_BASE_VALUE * SAVE_ADVANTAGE_SITUATIONAL_MULTIPLIER * sit
@@ -1487,24 +1502,18 @@ def calculate_price(
                     else:
                         additive += SAVE_ADVANTAGE_BASE_VALUE
             elif parsed_tiers:
-                # Fallback: count tiers in (truncated) list
+                # Fallback: count tiers in (truncated) list — aggregate cap cat+sit≤n, broad=remainder
                 b = sum(1 for t in parsed_tiers if str(t).upper().strip() == SAVE_ADVANTAGE_TIER_BROAD)
                 cat = sum(1 for t in parsed_tiers if str(t).upper().strip() == SAVE_ADVANTAGE_TIER_CATEGORY)
                 sit = sum(1 for t in parsed_tiers if str(t).upper().strip() == SAVE_ADVANTAGE_TIER_SITUATIONAL)
                 n = len(save_advantage)
                 cat = min(cat, n)
                 sit = min(sit, n)
-                b = min(b, n)
-                total = b + cat + sit
-                if total < n:
-                    b += n - total
-                elif total > n:
+                if cat + sit > n:
+                    sit = max(0, n - cat)
                     if cat + sit > n:
-                        cat = min(cat, n)
-                        sit = min(sit, n - cat)
-                        b = 0
-                    else:
-                        b = max(0, n - cat - sit)
+                        cat = max(0, n - sit)
+                b = max(0, n - cat - sit)
                 additive += SAVE_ADVANTAGE_BASE_VALUE * b + SAVE_ADVANTAGE_BASE_VALUE * SAVE_ADVANTAGE_CATEGORY_MULTIPLIER * cat + SAVE_ADVANTAGE_BASE_VALUE * SAVE_ADVANTAGE_SITUATIONAL_MULTIPLIER * sit
             else:
                 additive += SAVE_ADVANTAGE_BASE_VALUE * len(save_advantage)
@@ -1772,17 +1781,29 @@ def calculate_price(
         use_priced = False
         if priced_extra_damage_avg is not None:
             try:
-                priced_val = float(priced_extra_damage_avg)
-                if priced_val == priced_val:  # not NaN
-                    priced_extra_damage_avg = priced_val
-                    use_priced = True
-                else:
+                if pd.isna(priced_extra_damage_avg):
                     use_priced = False
+                else:
+                    priced_val = float(priced_extra_damage_avg)
+                    if math.isfinite(priced_val):
+                        priced_extra_damage_avg = priced_val
+                        use_priced = True
+                    else:
+                        priced_extra_damage_avg = 0.0
+                        use_priced = True
             except (TypeError, ValueError):
-                use_priced = False
+                priced_extra_damage_avg = 0.0
+                use_priced = True
         if not use_priced:
             extra_damage_multiplier = extra_damage_pricing_multiplier(criteria)
-            priced_extra_damage_avg = extra_damage_avg * extra_damage_multiplier
+            try:
+                fallback = float(extra_damage_avg) * float(extra_damage_multiplier)
+                if math.isfinite(fallback):
+                    priced_extra_damage_avg = fallback
+                else:
+                    priced_extra_damage_avg = 0.0
+            except Exception:
+                priced_extra_damage_avg = 0.0
         # Scale: 3000 gp per point of average damage for legendary/artifact,
         # 1500 gp per point for lower rarities
         if rarity in ("legendary", "artifact"):
@@ -1927,7 +1948,13 @@ def calculate_price(
     is_ammunition = criteria.get("is_ammunition", False)
     if is_ammunition and price > 773:
         amalgamated_price = criteria.get("amalgamated_price")
-        price_confidence = criteria.get("price_confidence", "none")
+        _pc_raw = criteria.get("price_confidence")
+        try:
+            if pd.isna(_pc_raw):
+                _pc_raw = None
+        except Exception:
+            pass
+        price_confidence = str(_pc_raw or "none")
         has_amalgamated = pd.notna(amalgamated_price) and amalgamated_price > 0 and price_confidence in ("multi", "solo")
         if not has_amalgamated:
             price = min(price, 773)
@@ -1955,7 +1982,13 @@ def calculate_price_with_outlier_check(
     """
     # Get amalgamated price info
     amalgamated_price = criteria.get("amalgamated_price")
-    price_confidence = criteria.get("price_confidence", "none")
+    _pc_raw = criteria.get("price_confidence")
+    try:
+        if pd.isna(_pc_raw):
+            _pc_raw = None
+    except Exception:
+        pass
+    price_confidence = str(_pc_raw or "none")
 
     # Check for single-source outlier flag from amalgamator
     if price_confidence == "solo-outlier":

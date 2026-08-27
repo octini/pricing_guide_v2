@@ -37,7 +37,7 @@ _SAVE_ADVANTAGE_SITUATIONAL_RE = re.compile(
 )
 # Negated situational markers (e.g. "unless mounted", "unless at 0 hit points") must NOT count as situational
 _SAVE_ADVANTAGE_SITUATIONAL_NEGATION_RE = re.compile(
-    r"\bunless\b[^.;]{0,60}?\b(?:at 0 (?:hit points|hp)|mounted|riding|flying|in the air|mounted on)\b",
+    r"\bunless\b(?:\s+\w+){0,3}\s+(?:at 0 (?:hit points|hp)|mounted|riding|flying|in the air|mounted on)\b",
     re.IGNORECASE,
 )
 
@@ -61,10 +61,9 @@ def _save_advantage_tier_for_clause(clause: str, desc: str, occurrence: int = 0)
     # Build a window around the clause's OWN occurrence in desc to catch leading state markers
     window = clause_l
     try:
-        anchor = re.sub(r"\s+", " ", clause_l[:32].strip())
-        anchor_key = anchor[:24].strip() if anchor else ""
+        anchor_key = clause_l
         if anchor_key:
-            # Find the Nth occurrence (occurrence is 0-based) of anchor_key in desc_l
+            # Find the Nth occurrence (occurrence is 0-based) of the FULL clause in desc_l
             idx = -1
             search_start = 0
             for _i in range(occurrence + 1):
@@ -73,12 +72,10 @@ def _save_advantage_tier_for_clause(clause: str, desc: str, occurrence: int = 0)
                     break
                 if _i < occurrence:
                     search_start = idx + len(anchor_key)
-            # If requested occurrence not found, fall back to first occurrence; if none, keep clause_l
-            if idx == -1 and occurrence > 0:
-                idx = desc_l.find(anchor_key)
-            if idx != -1:
-                # Strict lookbehind only: 250 chars before clause, no forward search beyond clause
-                window = desc_l[max(0, idx - 250): idx + len(clause_l)]
+            if idx == -1:
+                return SAVE_ADVANTAGE_TIER_BROAD
+            # Strict lookbehind only: 250 chars before clause, no forward search beyond clause
+            window = desc_l[max(0, idx - 250): idx + len(clause_l)]
     except Exception:
         window = clause_l
     # Negation guard: remove negated patterns (e.g. "unless mounted", "unless at 0 hit points") before checking situational
@@ -318,20 +315,48 @@ def extract_entries_criteria(item: dict, prose_text: str = "") -> dict:
         # Generic crit-only detection — applies to ANY item
         if "on a critical hit" in lower or "when you hit with a critical hit" in lower or "when you roll a 20" in lower:
             return ("on_crit", None, 0.05)
-        generic_single = {"target","creature","enemy","foe"}
-        generic_phrases = {"a target","a creature","an enemy","the target","the creature","any creature","any target","the enemy"}
-        # Direct "against <type>" handling
+        generic_first = {"the", "a", "an", "any", "not", "target", "creature", "enemy", "foe"}
+        filler = {"of", "type"}
+
+        def _resolve_detail(detail_raw: str) -> str | None:
+            dl = detail_raw.lower().strip().strip(".,;:")
+            tokens = re.findall(r"[a-z]+", dl)
+            if not tokens:
+                return None
+            if tokens[0] in generic_first:
+                if "type" in tokens:
+                    try:
+                        idx = tokens.index("type")
+                        for t in tokens[idx + 1 :]:
+                            if t not in generic_first and t not in filler:
+                                return t
+                    except ValueError:
+                        pass
+                genuine = [t for t in tokens if t not in generic_first and t not in filler]
+                if genuine:
+                    return genuine[-1]
+                return None
+            if len(tokens) > 1:
+                genuine = [t for t in tokens if t not in generic_first and t not in filler]
+                if genuine:
+                    return genuine[-1]
+            return tokens[0]
+
+        # Explicit "against ... of type X" → use X even when first token is generic
+        m_of_type_explicit = re.search(r"\bagainst\s+(?:an?\s+|any\s+|the\s+)?(?:creature|target)?\s*of\s+type\s+([a-z]+)\b", lower)
+        if m_of_type_explicit:
+            return ("vs_creature_type", m_of_type_explicit.group(1).lower(), 0.25)
+        # Direct "against <type>" handling (token-aware generic rejection)
         m_against = re.search(r"\bagainst\s+(?:an?\s+)?([a-z][a-z\s-]+?)\b", lower)
         if m_against:
             detail_raw = m_against.group(1).strip().strip(".,;:")
-            dl = detail_raw.lower().strip()
-            if dl in generic_single or dl in generic_phrases:
-                pass
-            else:
-                first_word = re.findall(r"[a-z]+", dl)
-                fw = first_word[0] if first_word else dl
-                if fw not in generic_single:
-                    return ("vs_creature_type", fw, 0.25)
+            resolved = _resolve_detail(detail_raw)
+            if resolved:
+                return ("vs_creature_type", resolved, 0.25)
+            # If captured phrase was generic but broader context contains "of type X", use X
+            m_of_type_after = re.search(r"\bagainst\s+(?:[a-z]+\s+){0,3}of\s+type\s+([a-z]+)\b", lower)
+            if m_of_type_after:
+                return ("vs_creature_type", m_of_type_after.group(1).lower(), 0.25)
         creature_patterns = [
             r"\b(?:whenever|when|if)\s+you\s+hit\s+(?:an?\s+)?([a-z][a-z\s-]+?)(?:\s+creature)?\s+with\s+(?:an?\s+attack\s+using\s+)?(?:this|the)\s+weapon",
             r"\bif\s+the\s+target\s+is\s+(?:an?\s+)?([a-z][a-z\s-]+?)\b",
@@ -343,23 +368,9 @@ def extract_entries_criteria(item: dict, prose_text: str = "") -> dict:
                 if "chosen type" in creature_match.group(0):
                     return ("vs_creature_type", "chosen type", 0.25)
                 raw = creature_match.group(1).strip().strip(".,;:")
-                rl = raw.lower().strip()
-                if rl in generic_single or rl in generic_phrases:
-                    continue
-                # also reject if first word is generic (e.g., "target" with article stripped)
-                fw_list = re.findall(r"[a-z]+", rl)
-                if fw_list and fw_list[0] in generic_single and len(fw_list) == 1:
-                    continue
-                # otherwise treat any non-generic capture as genuine creature type (including gargoyle, aberration, etc.)
-                # Use the first meaningful word as detail to avoid capturing trailing fluff
-                # For multi-word like "red dragon" capture would be "red dragon" -> take last word? But keep full lower for now, tests expect single word
-                # Normalize to the last word if multi? But for our whitelist, "aberration" single, "undead" single, "gargoyle" single
-                # So return the first word that is not article
-                detail_word = fw_list[0] if fw_list else rl
-                # If detail contains multiple words, prefer the creature type word (last)
-                if len(fw_list) > 1:
-                    detail_word = fw_list[-1] if fw_list[-1] not in generic_single else fw_list[0]
-                return ("vs_creature_type", detail_word, 0.25)
+                resolved = _resolve_detail(raw)
+                if resolved:
+                    return ("vs_creature_type", resolved, 0.25)
         return ("unconditional", None, 1.0)
 
     def set_extra_damage_condition(context_text: str | None = None) -> None:
@@ -861,8 +872,7 @@ def extract_prose_criteria(description: str) -> dict:
         # Iterate clauses in the same order as extract_save_targets to preserve ordering
         for clause in advantage_clauses:
             clause_norm_for_counter = re.sub(r"\s+", " ", clause.lower().strip())
-            anchor_for_counter = re.sub(r"\s+", " ", clause_norm_for_counter[:32].strip())[:24].strip()
-            counter_key = anchor_for_counter if anchor_for_counter else clause_norm_for_counter
+            counter_key = clause_norm_for_counter
             occ = occurrence_counter.get(counter_key, 0)
             tier = _save_advantage_tier_for_clause(clause, desc, occ)
             occurrence_counter[counter_key] = occ + 1
@@ -911,8 +921,7 @@ def extract_prose_criteria(description: str) -> dict:
         _tmp_counter: dict[str, int] = {}
         for _cl in advantage_clauses:
             _norm = re.sub(r"\s+", " ", _cl.lower().strip())
-            _anch = re.sub(r"\s+", " ", _norm[:32].strip())[:24].strip()
-            _key = _anch if _anch else _norm
+            _key = _norm
             _occ = _tmp_counter.get(_key, 0)
             clause_occurrences.append(_occ)
             _tmp_counter[_key] = _occ + 1
