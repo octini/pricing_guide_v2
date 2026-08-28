@@ -591,6 +591,12 @@ def extract_prose_criteria(description: str) -> dict:
         "save_disadvantage": [],
         "is_focus_prose": False,
         "save_dc": None,
+        "temp_hp_avg": 0.0,
+        "temp_hp_frequency": None,
+        "hp_max_flat": 0,
+        "hp_max_per_level": 0,
+        "initiative_bonus": 0,
+        "initiative_advantage": False,
     }
     
     desc = _strip_5etools_tags(description).lower()
@@ -766,6 +772,65 @@ def extract_prose_criteria(description: str) -> dict:
         heal_match = re.search(rf'regains?\s+{healing_amount_pattern}\s+hit points', desc)
         if heal_match and is_safe_healing_context(heal_match):
             c["healing_consumable_avg"] = _avg_dice(heal_match.group(1))
+
+    # Temp HP: "gains 2d6 temporary hit points" / "give yourself 1d4+4 temporary hit points" — keep max avg, classify frequency from ±120-char window
+    _temp_hp_pattern = r'(?:gains?|give)\s+(?:yourself\s+)?(\d+d\d+(?:\s*\+\s*\d+)?|\d+)\s+temporary hit points'
+    _best_temp_avg = 0.0
+    _best_temp_span = None
+    for _m in re.finditer(_temp_hp_pattern, desc):
+        try:
+            _avg = _avg_dice(_m.group(1))
+        except Exception:
+            continue
+        if _avg > _best_temp_avg:
+            _best_temp_avg = _avg
+            _best_temp_span = _m.span()
+    if _best_temp_span is not None:
+        c["temp_hp_avg"] = float(_best_temp_avg)
+        _s, _e = _best_temp_span
+        _window = desc[max(0, _s - 120): min(len(desc), _e + 120)]
+        if re.search(r'reduce [^.]{0,60}to 0 hit points', _window):
+            c["temp_hp_frequency"] = "on_kill"
+        elif re.search(r'once per day|per dawn|each dawn', _window):
+            c["temp_hp_frequency"] = "daily"
+        elif re.search(r'bonus action|as an action|use an action|reaction', _window):
+            c["temp_hp_frequency"] = "per_action"
+        else:
+            c["temp_hp_frequency"] = "unclassified"
+
+    # HP max: "hit point maximum increases by ..."
+    _hp_max_match = re.search(r'hit point maximum[^.;]{0,60}?increases? by ([^.;]+)', desc)
+    if _hp_max_match:
+        _captured = _hp_max_match.group(1)
+        _m = re.search(r'(\d+)\s*\+\s*your level', _captured)
+        if _m:
+            c["hp_max_per_level"] = int(_m.group(1))
+        else:
+            _m = re.search(r'(\d+)\s+for each level', _captured)
+            if _m:
+                c["hp_max_per_level"] = int(_m.group(1))
+            else:
+                _m = re.search(r'an amount equal to (\d+)', _captured)
+                if _m:
+                    c["hp_max_per_level"] = int(_m.group(1))
+                else:
+                    _m = re.search(r'(\d+d\d+)', _captured)
+                    if _m:
+                        c["hp_max_flat"] = int(_avg_dice(_m.group(1)))
+                    else:
+                        _m = re.search(r'(\d+)', _captured)
+                        if _m:
+                            c["hp_max_flat"] = int(_m.group(1))
+
+    # Initiative: "+2 bonus to initiative" and "advantage on initiative"
+    _init_match = re.search(r'([+-]\d+)\s+(?:bonus\s+)?to\s+initiative', desc)
+    if _init_match:
+        try:
+            c["initiative_bonus"] = int(_init_match.group(1))
+        except (TypeError, ValueError):
+            pass
+    if re.search(r'advantage on (?:all )?initiative', desc):
+        c["initiative_advantage"] = True
     
     # Tome/Manual permanent boost
     c["tome_manual_boost"] = bool(

@@ -475,6 +475,22 @@ SAVE_ADVANTAGE_TIER_BROAD = "BROAD"
 SAVE_ADVANTAGE_TIER_CATEGORY = "CATEGORY"
 SAVE_ADVANTAGE_TIER_SITUATIONAL = "SITUATIONAL"
 
+# ─── Wave-1 prose criteria pricing (temp HP, HP-max, initiative) ────────────
+# Documented guesses; tuned in hop 2. Mirrors existing prose-criteria pattern
+# (e.g. healing_daily_hp, save_advantage_broad) — read via criteria.get and
+# add to additive.
+TEMP_HP_RATE = 40  # gp per avg temp-HP point before freq multiplier
+TEMP_HP_FREQ_MULTIPLIER = {
+    "per_action": 1.0,
+    "on_kill": 0.5,
+    "daily": 0.25,
+    "unclassified": 0.25,
+}
+HP_MAX_RATE = 40  # gp per HP-max point (flat + per_level * ref_level)
+HP_MAX_REF_LEVEL = 5  # reference character level for per-level HP-max scaling
+INIT_BONUS_RATE = 300  # gp per +1 initiative bonus
+INIT_ADVANTAGE_FLAT = 600  # gp for advantage on initiative
+
 
 def extra_damage_pricing_multiplier(criteria: dict[str, Any]) -> float:
     """Return pricing-only multiplier for conditional extra damage.
@@ -1646,6 +1662,75 @@ def calculate_price(
     healing_consumable = criteria.get("healing_consumable_avg") or 0.0
     if healing_consumable > 0:
         additive += 10 * healing_consumable  # was 50
+
+    # Temp HP (wave-1): rate × avg × freq multiplier — mirrors healing_daily_hp pattern
+    temp_hp_avg = criteria.get("temp_hp_avg") or 0.0
+    try:
+        temp_hp_avg_f = float(temp_hp_avg)
+    except (TypeError, ValueError):
+        temp_hp_avg_f = 0.0
+    if temp_hp_avg_f and temp_hp_avg_f == temp_hp_avg_f and math.isfinite(temp_hp_avg_f) and temp_hp_avg_f > 0:
+        freq = criteria.get("temp_hp_frequency")
+        try:
+            freq_str = str(freq).strip().lower() if freq is not None else "unclassified"
+        except Exception:
+            freq_str = "unclassified"
+        mult = TEMP_HP_FREQ_MULTIPLIER.get(freq_str, TEMP_HP_FREQ_MULTIPLIER["unclassified"])
+        additive += TEMP_HP_RATE * temp_hp_avg_f * mult
+
+    # HP-max increase (wave-1): rate × (flat + per_level × ref_level) — mirrors healing pattern
+    hp_max_flat = criteria.get("hp_max_flat") or 0
+    hp_max_per_level = criteria.get("hp_max_per_level") or 0
+    try:
+        flat_f = float(hp_max_flat) if hp_max_flat is not None else 0.0
+    except (TypeError, ValueError):
+        flat_f = 0.0
+    try:
+        per_level_f = float(hp_max_per_level) if hp_max_per_level is not None else 0.0
+    except (TypeError, ValueError):
+        per_level_f = 0.0
+    if (flat_f and flat_f == flat_f and math.isfinite(flat_f) and flat_f > 0) or (per_level_f and per_level_f == per_level_f and math.isfinite(per_level_f) and per_level_f > 0):
+        if not (flat_f == flat_f and math.isfinite(flat_f)):
+            flat_f = 0.0
+        if not (per_level_f == per_level_f and math.isfinite(per_level_f)):
+            per_level_f = 0.0
+        hp_max_total = max(0.0, flat_f) + max(0.0, per_level_f) * HP_MAX_REF_LEVEL
+        if hp_max_total > 0:
+            additive += HP_MAX_RATE * hp_max_total
+
+    # Initiative (wave-1): per-point bonus + flat for advantage — mirrors save_advantage pattern
+    init_bonus = criteria.get("initiative_bonus") or 0
+    try:
+        init_bonus_f = float(init_bonus) if init_bonus is not None else 0.0
+    except (TypeError, ValueError):
+        init_bonus_f = 0.0
+    if init_bonus_f and init_bonus_f == init_bonus_f and math.isfinite(init_bonus_f) and init_bonus_f != 0:
+        # Only positive bonuses add value; negative would be a drawback (not priced here)
+        if init_bonus_f > 0:
+            additive += INIT_BONUS_RATE * init_bonus_f
+    # Initiative advantage flag — bool check mirrors flight_full / invisibility_atwill pattern
+    init_adv = criteria.get("initiative_advantage")
+    _is_init_adv = False
+    if isinstance(init_adv, bool):
+        _is_init_adv = init_adv is True
+    elif isinstance(init_adv, str):
+        _is_init_adv = init_adv.strip().lower() == "true"
+    elif isinstance(init_adv, (int, float)):
+        # Handle numeric 1/0 from CSV or ML layers; NaN already filtered via truthiness
+        try:
+            if init_adv != init_adv:  # NaN
+                _is_init_adv = False
+            else:
+                _is_init_adv = bool(init_adv)
+        except Exception:
+            _is_init_adv = False
+    else:
+        _is_init_adv = bool(init_adv) if init_adv is not None else False
+        # Guard against string "false" being truthy
+        if isinstance(init_adv, str):
+            _is_init_adv = init_adv.strip().lower() == "true"
+    if _is_init_adv:
+        additive += INIT_ADVANTAGE_FLAT
 
     # Tome / manual permanent boost
     if criteria.get("tome_manual_boost"):
