@@ -492,6 +492,56 @@ INIT_BONUS_RATE = 300  # gp per +1 initiative bonus
 INIT_ADVANTAGE_FLAT = 600  # gp for advantage on initiative
 
 
+def _wave1_safe_float(v: Any, default: float = 0.0) -> float:
+    """NaN/NA-safe float coercion for wave-1 criteria (pd.NA, float('nan'), None → default)."""
+    if v is None:
+        return default
+    try:
+        if pd.isna(v):  # handles pd.NA, np.nan, None, float('nan')
+            return default
+    except Exception:
+        pass
+    try:
+        f = float(v)
+        if not math.isfinite(f):
+            return default
+        return f
+    except (TypeError, ValueError):
+        return default
+
+
+def _wave1_safe_bool(v: Any) -> bool:
+    """NA-safe bool: pd.NA / NaN → False; string "true" → True, "false" → False."""
+    if v is None:
+        return False
+    try:
+        if pd.isna(v):
+            return False
+    except Exception:
+        pass
+    if isinstance(v, bool):
+        return v is True
+    if isinstance(v, str):
+        s = v.strip().lower()
+        if s == "true":
+            return True
+        if s in ("false", "", "0", "none", "nan", "<na>"):
+            return False
+        # Any other non-empty string is not a valid bool encoding for wave-1
+        return False
+    if isinstance(v, (int, float)):
+        try:
+            if v != v:  # NaN
+                return False
+        except Exception:
+            return False
+        return bool(v)
+    try:
+        return bool(v)
+    except Exception:
+        return False
+
+
 def extra_damage_pricing_multiplier(criteria: dict[str, Any]) -> float:
     """Return pricing-only multiplier for conditional extra damage.
 
@@ -1255,6 +1305,18 @@ def calculate_price(
             if isinstance(_speed_mods, dict):
                 has_walk_speed_mod = (_speed_mods.get("multiply") or {}).get("walk", 1) > 1 or (_speed_mods.get("bonus") or {}).get("walk", 0) or 0 >= 10
 
+            # Wave-1 prose criteria: any temp-HP / HP-max / initiative makes item non-simple
+            # Use NA-safe helpers to avoid pd.NA raising on `or` / bool()
+            _wave1_temp = _wave1_safe_float(criteria.get("temp_hp_avg"), 0.0)
+            has_temp_hp = _wave1_temp > 0 and math.isfinite(_wave1_temp)
+            _wave1_flat = _wave1_safe_float(criteria.get("hp_max_flat"), 0.0)
+            _wave1_per = _wave1_safe_float(criteria.get("hp_max_per_level"), 0.0)
+            has_hp_max = (_wave1_flat > 0 and math.isfinite(_wave1_flat)) or (_wave1_per > 0 and math.isfinite(_wave1_per))
+            _wave1_init_bonus = _wave1_safe_float(criteria.get("initiative_bonus"), 0.0)
+            has_init_bonus = _wave1_init_bonus != 0 and math.isfinite(_wave1_init_bonus)
+            has_init_adv = _wave1_safe_bool(criteria.get("initiative_advantage"))
+            has_wave1 = has_temp_hp or has_hp_max or has_init_bonus or has_init_adv
+
             # Item is "simple" if it only has the bonus and no other major properties
             is_simple_bonus_item = not (
                 has_charges or has_spell_scroll or
@@ -1281,7 +1343,8 @@ def calculate_price(
                 has_conc_save_bonus or
                 has_death_save_adv or
                 has_cond_save_adv or
-                has_walk_speed_mod
+                has_walk_speed_mod or
+                has_wave1
             )
             # Tiered authority: criteria-rich + high divergence forces formula over simple anchor
             _tier_is_rich = criteria_coverage is not None and criteria_coverage >= CRITERIA_RICH_THRESHOLD
@@ -1664,72 +1727,40 @@ def calculate_price(
         additive += 10 * healing_consumable  # was 50
 
     # Temp HP (wave-1): rate × avg × freq multiplier — mirrors healing_daily_hp pattern
-    temp_hp_avg = criteria.get("temp_hp_avg") or 0.0
-    try:
-        temp_hp_avg_f = float(temp_hp_avg)
-    except (TypeError, ValueError):
-        temp_hp_avg_f = 0.0
-    if temp_hp_avg_f and temp_hp_avg_f == temp_hp_avg_f and math.isfinite(temp_hp_avg_f) and temp_hp_avg_f > 0:
+    # NA-safe: pd.NA / NaN via helper (avoids `or` raising on pd.NA)
+    temp_hp_avg_f = _wave1_safe_float(criteria.get("temp_hp_avg"), 0.0)
+    if temp_hp_avg_f > 0 and math.isfinite(temp_hp_avg_f):
         freq = criteria.get("temp_hp_frequency")
         try:
-            freq_str = str(freq).strip().lower() if freq is not None else "unclassified"
+            if freq is None or (isinstance(freq, float) and freq != freq):
+                freq_str = "unclassified"
+            else:
+                try:
+                    if pd.isna(freq):
+                        freq_str = "unclassified"
+                    else:
+                        freq_str = str(freq).strip().lower() or "unclassified"
+                except Exception:
+                    freq_str = str(freq).strip().lower() if freq is not None else "unclassified"
         except Exception:
             freq_str = "unclassified"
         mult = TEMP_HP_FREQ_MULTIPLIER.get(freq_str, TEMP_HP_FREQ_MULTIPLIER["unclassified"])
         additive += TEMP_HP_RATE * temp_hp_avg_f * mult
 
     # HP-max increase (wave-1): rate × (flat + per_level × ref_level) — mirrors healing pattern
-    hp_max_flat = criteria.get("hp_max_flat") or 0
-    hp_max_per_level = criteria.get("hp_max_per_level") or 0
-    try:
-        flat_f = float(hp_max_flat) if hp_max_flat is not None else 0.0
-    except (TypeError, ValueError):
-        flat_f = 0.0
-    try:
-        per_level_f = float(hp_max_per_level) if hp_max_per_level is not None else 0.0
-    except (TypeError, ValueError):
-        per_level_f = 0.0
-    if (flat_f and flat_f == flat_f and math.isfinite(flat_f) and flat_f > 0) or (per_level_f and per_level_f == per_level_f and math.isfinite(per_level_f) and per_level_f > 0):
-        if not (flat_f == flat_f and math.isfinite(flat_f)):
-            flat_f = 0.0
-        if not (per_level_f == per_level_f and math.isfinite(per_level_f)):
-            per_level_f = 0.0
+    flat_f = _wave1_safe_float(criteria.get("hp_max_flat"), 0.0)
+    per_level_f = _wave1_safe_float(criteria.get("hp_max_per_level"), 0.0)
+    if (flat_f > 0 and math.isfinite(flat_f)) or (per_level_f > 0 and math.isfinite(per_level_f)):
         hp_max_total = max(0.0, flat_f) + max(0.0, per_level_f) * HP_MAX_REF_LEVEL
         if hp_max_total > 0:
             additive += HP_MAX_RATE * hp_max_total
 
     # Initiative (wave-1): per-point bonus + flat for advantage — mirrors save_advantage pattern
-    init_bonus = criteria.get("initiative_bonus") or 0
-    try:
-        init_bonus_f = float(init_bonus) if init_bonus is not None else 0.0
-    except (TypeError, ValueError):
-        init_bonus_f = 0.0
-    if init_bonus_f and init_bonus_f == init_bonus_f and math.isfinite(init_bonus_f) and init_bonus_f != 0:
-        # Only positive bonuses add value; negative would be a drawback (not priced here)
+    init_bonus_f = _wave1_safe_float(criteria.get("initiative_bonus"), 0.0)
+    if init_bonus_f != 0 and math.isfinite(init_bonus_f):
         if init_bonus_f > 0:
             additive += INIT_BONUS_RATE * init_bonus_f
-    # Initiative advantage flag — bool check mirrors flight_full / invisibility_atwill pattern
-    init_adv = criteria.get("initiative_advantage")
-    _is_init_adv = False
-    if isinstance(init_adv, bool):
-        _is_init_adv = init_adv is True
-    elif isinstance(init_adv, str):
-        _is_init_adv = init_adv.strip().lower() == "true"
-    elif isinstance(init_adv, (int, float)):
-        # Handle numeric 1/0 from CSV or ML layers; NaN already filtered via truthiness
-        try:
-            if init_adv != init_adv:  # NaN
-                _is_init_adv = False
-            else:
-                _is_init_adv = bool(init_adv)
-        except Exception:
-            _is_init_adv = False
-    else:
-        _is_init_adv = bool(init_adv) if init_adv is not None else False
-        # Guard against string "false" being truthy
-        if isinstance(init_adv, str):
-            _is_init_adv = init_adv.strip().lower() == "true"
-    if _is_init_adv:
+    if _wave1_safe_bool(criteria.get("initiative_advantage")):
         additive += INIT_ADVANTAGE_FLAT
 
     # Tome / manual permanent boost
