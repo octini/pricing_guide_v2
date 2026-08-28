@@ -491,6 +491,78 @@ HP_MAX_REF_LEVEL = 5  # reference character level for per-level HP-max scaling
 INIT_BONUS_RATE = 300  # gp per +1 initiative bonus
 INIT_ADVANTAGE_FLAT = 600  # gp for advantage on initiative
 
+# ─── Stealth-disadvantage removal (option D) ────────────────────────────────
+# User-approved 2026-08-27 (option D of reports/resistance_armor_consistency.md)
+# Parity with stealth_advantage (+400 gp). Heavy-armor stealth disadvantage
+# removal is extracted as stealth_penalty==False on HA (no distinct removal flag
+# exists; removal is the inverse of penalty on heavy armor). NA-safe, armor-gated.
+STEALTH_REMOVAL_RATE = 400
+
+
+def _has_stealth_removal(criteria: dict) -> bool:
+    """NA-safe check: heavy-armor stealth-disadvantage removal present."""
+    # stealth_penalty True = has disadvantage, False = no disadvantage (removal or natural).
+    # Removal only meaningful for heavy armor (HA) where the base always imposes disadvantage.
+    # For MA, disadvantage is only on Half Plate/Scale/Spiked; be conservative: HA-only.
+    val = criteria.get("stealth_penalty", None)
+    # absent key -> not removal (avoids pricing all missing as removal)
+    if "stealth_penalty" not in criteria and val is None:
+        return False
+    try:
+        if pd.isna(val):
+            return False
+    except Exception:
+        pass
+    if val is None:
+        return False
+    # Determine if explicitly no-penalty
+    if isinstance(val, str):
+        s = val.strip().lower()
+        if s in ("false", "0", "no", "none", "nan", "<na>"):
+            is_no_penalty = True
+        elif s in ("true", "1", "yes"):
+            is_no_penalty = False
+        else:
+            return False
+    elif isinstance(val, bool):
+        is_no_penalty = (val is False)
+    elif isinstance(val, (int, float)):
+        try:
+            if val != val:  # NaN
+                return False
+        except Exception:
+            return False
+        is_no_penalty = (int(val) == 0)
+    else:
+        # Unknown type: only bool False counts as removal
+        return False
+    if not is_no_penalty:
+        return False
+    # Armor gate: only heavy armor (HA) encodes removal; MA/LA natural False not priced
+    item_type_raw = criteria.get("item_type_code")
+    try:
+        if pd.isna(item_type_raw):
+            return False
+    except Exception:
+        pass
+    if item_type_raw is None:
+        return False
+    base_type = str(item_type_raw).split("|")[0].strip()
+    if base_type == "HA":
+        return True
+    # For MA, only price Half Plate / Scale / Spiked which normally impose disadvantage
+    if base_type == "MA":
+        name_l = str(criteria.get("name") or "").lower()
+        try:
+            if pd.isna(name_l):
+                return False
+        except Exception:
+            pass
+        if any(kw in name_l for kw in ("half plate", "scale mail", "spiked")):
+            return True
+        return False
+    return False
+
 
 def _wave1_safe_float(v: Any, default: float = 0.0) -> float:
     """NaN/NA-safe float coercion for wave-1 criteria (pd.NA, float('nan'), None → default)."""
@@ -1195,6 +1267,11 @@ def calculate_price(
         if ac_bonus > 0:
             material_armor_price += get_scaled_bonus_additive(AC_BONUS_ADDITIVE, ac_bonus, rarity)
 
+        # Stealth-disadvantage removal (option D) also applies to mithral/adamantine armor
+        # that removes disadvantage (HA False or disadvantaged MA False) — parity with stealth_advantage
+        if _has_stealth_removal(criteria):
+            material_armor_price += STEALTH_REMOVAL_RATE
+
         # Return this price directly, bypassing the normal formula
         floor = RARITY_FLOORS.get(rarity, 1)
         return max(floor, material_armor_price)
@@ -1316,6 +1393,8 @@ def calculate_price(
             has_init_bonus = _wave1_init_bonus != 0 and math.isfinite(_wave1_init_bonus)
             has_init_adv = _wave1_safe_bool(criteria.get("initiative_advantage"))
             has_wave1 = has_temp_hp or has_hp_max or has_init_bonus or has_init_adv
+            # Stealth-disadvantage removal (option D): heavy-armor (and disadvantaged MA) with stealth_penalty==False
+            has_stealth_removal = _has_stealth_removal(criteria)
 
             # Item is "simple" if it only has the bonus and no other major properties
             is_simple_bonus_item = not (
@@ -1344,7 +1423,8 @@ def calculate_price(
                 has_death_save_adv or
                 has_cond_save_adv or
                 has_walk_speed_mod or
-                has_wave1
+                has_wave1 or
+                has_stealth_removal
             )
             # Tiered authority: criteria-rich + high divergence forces formula over simple anchor
             _tier_is_rich = criteria_coverage is not None and criteria_coverage >= CRITERIA_RICH_THRESHOLD
@@ -1762,6 +1842,10 @@ def calculate_price(
             additive += INIT_BONUS_RATE * init_bonus_f
     if _wave1_safe_bool(criteria.get("initiative_advantage")):
         additive += INIT_ADVANTAGE_FLAT
+
+    # Stealth-disadvantage removal (option D): parity with stealth_advantage, NA-safe
+    if _has_stealth_removal(criteria):
+        additive += STEALTH_REMOVAL_RATE
 
     # Tome / manual permanent boost
     if criteria.get("tome_manual_boost"):
