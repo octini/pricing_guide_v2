@@ -21,8 +21,13 @@ def test_daily_format():
 
 
 def test_charges_format_with_frequency():
+    # Current intended behavior (d6b15e1 2026-04-23): for charges, frequency is
+    # charges consumed per cast — higher cost means fewer casts/day and thus
+    # LESS value. Value is dampened via sqrt: spell_value * multiplier / sqrt(freq).
+    # The old linear *freq formula was incorrect for charge costs.
+    import math
     value = calculate_spell_value({"charges": {"3": ["fireball"]}})
-    expected = 3 ** 2 * 500 * 1.0 * 3
+    expected = 3 ** 2 * 500 * 1.0 / math.sqrt(3)
     assert value == expected, f"Expected {expected}, got {value}"
 
 

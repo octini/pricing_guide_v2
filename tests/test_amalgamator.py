@@ -5,13 +5,24 @@ from src.amalgamator import trim_outliers, calculate_weights, fuzzy_match_items
 
 
 def test_trim_outliers_removes_top_and_bottom_2pct():
-    prices = list(range(1, 101))  # 100 items, 1..100
+    """Current intended behavior (b449ba0 2026-04-13): only zero-price joke items
+    removed; the original top/bottom 2% trimming was dropped because it
+    incorrectly removed legitimate expensive items like Rod of Resurrection
+    (MSRP 140k, DMPG 125k). The pct param is retained for signature compat
+    but no longer trims high/low tails. This test verifies zero-price
+    filtering and that all legitimate prices are preserved."""
+    prices = list(range(1, 101))  # 100 items, 1..100 — no zeros
     df = pd.DataFrame({"price_gp": prices})
     trimmed = trim_outliers(df, "price_gp", pct=0.02)
-    # 2% of 100 = 2 items from each end (prices 1,2 and 99,100 removed)
-    assert trimmed["price_gp"].min() >= 3
-    assert trimmed["price_gp"].max() <= 98
-    assert len(trimmed) == 96
+    # No legitimate prices trimmed
+    assert trimmed["price_gp"].min() == 1
+    assert trimmed["price_gp"].max() == 100
+    assert len(trimmed) == 100
+    # Zero-price (joke/cursed) items are the only outliers removed
+    df2 = pd.DataFrame({"price_gp": [0, 0] + list(range(1, 101))})
+    trimmed2 = trim_outliers(df2, "price_gp", pct=0.02)
+    assert 0 not in trimmed2["price_gp"].values
+    assert len(trimmed2) == 100
 
 
 def test_trim_outliers_small_df():
