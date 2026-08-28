@@ -813,7 +813,7 @@ def extract_prose_criteria(description: str) -> dict:
         _daily_pat = r'once per day|per dawn|each dawn|next dawn|once a day'
         _on_kill_pat = r'reduc(?:e|es|ed)\b[^.]{0,60}to 0 hit points'
         _per_action_pat = r'bonus action|as an action|use an action|reaction'
-        # Check sentence first
+        # Sentence-local only — no full-window fallback (prevents cross-sentence misclassification)
         if re.search(_daily_pat, _sentence_window):
             c["temp_hp_frequency"] = "daily"
         elif re.search(_on_kill_pat, _sentence_window):
@@ -821,15 +821,7 @@ def extract_prose_criteria(description: str) -> dict:
         elif re.search(_per_action_pat, _sentence_window):
             c["temp_hp_frequency"] = "per_action"
         else:
-            # Fallback to full window
-            if re.search(_daily_pat, _window):
-                c["temp_hp_frequency"] = "daily"
-            elif re.search(_on_kill_pat, _window):
-                c["temp_hp_frequency"] = "on_kill"
-            elif re.search(_per_action_pat, _window):
-                c["temp_hp_frequency"] = "per_action"
-            else:
-                c["temp_hp_frequency"] = "unclassified"
+            c["temp_hp_frequency"] = "unclassified"
 
     # HP max: "hit point maximum increases by ..."
     _hp_max_match = re.search(r'hit point maximum[^.;]{0,60}?increases? by ([^.;]+)', desc)

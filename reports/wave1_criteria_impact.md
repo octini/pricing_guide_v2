@@ -1,9 +1,9 @@
 # Wave-1 Criteria Impact Report — hop 2 of 2 (calibration ritual, post-Horowitz fixes)
 
-**Commit:** `6004b64` (Horowitz blockers) + this report (hop 2 ritual rerun)
+**Commit:** `6004b64` (Horowitz blockers) + `fix(kh7): sentence-local frequency classification` (this fix, hop 2 rerun)
 **Date:** 2026-08-28
 **Baseline:** `output/pricing_guide.csv` (committed canonical, 4,749 rows, `data/.r2_baseline` 0.8463) — STALE prior to 6004b64; used as guardrail baseline per SEQUENCE
-**Candidate:** `output/pricing_guide_candidate.csv` (SAFE dance 02→05→05b→06→07→09→10, freshly regenerated 2026-08-28 02:57, 4,749 rows, 1.1M)
+**Candidate:** `output/pricing_guide_candidate.csv` (SAFE dance 02→05→05b→06→07→09→10, freshly regenerated 2026-08-28 03:14, 4,749 rows, 1.1M)
 **Criteria matrix:** `data/processed/items_criteria.csv` (fresh after 02, 121 columns, 4,837 rows, +6 wave-1 columns: `temp_hp_avg`, `temp_hp_frequency`, `hp_max_flat`, `hp_max_per_level`, `initiative_bonus`, `initiative_advantage`)
 **Pricing terms:** `src/pricing_engine.py` constants `TEMP_HP_RATE=40`, `HP_MAX_RATE=40`, `HP_MAX_REF_LEVEL=5`, `INIT_BONUS_RATE=300`, `INIT_ADVANTAGE_FLAT=600`, `TEMP_HP_FREQ_MULTIPLIER={per_action:1.0, on_kill:0.5, daily:0.25, unclassified:0.25}` — unchanged (attempt 1 passes, no tuning)
 **ML fingerprint:** `b22382a291023fbf...` (post-retrain, matches `data/processed/coefficients.json`; `check_r2.py` PASS)
@@ -283,13 +283,13 @@ The 6 wave-1 fields (`temp_hp_avg`, `temp_hp_frequency`, `hp_max_flat`, `hp_max_
 | **Previously well-priced** | §9 (WITHOUT new criteria) | **REVIEW-satisfied** — 4,702 without-new rows median 0.00%, mean 0.22%, 4.59% >5% (ML variance only) — no systemic creep |
 | **Candidate output** | `output/pricing_guide_candidate.csv` | 4,749 rows, present, not committed as canonical |
 | **Canonical guard** | `git status` after dance | `output/pricing_guide.csv` and `data/processed/` restored to HEAD via `git checkout -- output/ data/processed/` — verified clean (only `reports/price_creep_guardrail.md` and `output/pricing_guide_candidate.csv` (untracked) remain before this report) |
-| **Tests** | `python3 -m pytest tests/test_wave1_criteria.py -q` (hop 1) | 16 passed; full suite 288 passed / 2 known failures (hop 1 log) — not re-run in this hop per minimal-reads discipline; R² gate is the blocking check |
+| **Tests** | `python3 -m pytest tests/test_wave1_criteria.py -v` | **33 passed** — `python3 -m pytest tests/ -q --ignore=tests/test_hospitality.py` → **305 passed / 2 known rsk failures, zero new** (rerun 2026-08-28 03:14 after sentence-local frequency fix) |
 
 ---
 
 ## 12. Artifacts
 
-- `output/pricing_guide_candidate.csv` — 1.1M, 4,749 rows, generated 2026-08-28 02:57 via SAFE dance (untracked candidate, not canonical)
+- `output/pricing_guide_candidate.csv` — 1.1M, 4,749 rows, generated 2026-08-28 03:14 via SAFE dance after sentence-local frequency fix (untracked candidate, not canonical; guardrail 0.00%/0.19%, 223 >5%, anchors REVIEW 0 FAILs unchanged)
 - `reports/price_creep_guardrail.md` — guardrail report (baseline `output/pricing_guide.csv` vs candidate)
 - `data/processed/coefficients.json` — fingerprint `b22382a291023fbf...`, blended R² 0.9723 (gitignored, restored to matching state after dance)
 - `data/processed/items_criteria.csv` — 121 cols, 4,837 rows, 45 wave-1 carriers (44 pricing rows) — regenerated post-6004b64, then restored to HEAD (stale) via checkout; candidate pricing reflects fresh version

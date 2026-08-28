@@ -65,6 +65,12 @@ def test_temp_hp_adjacent_unrelated_action_does_not_flip_daily():
     assert c["temp_hp_frequency"] == "daily"
 
 
+def test_temp_hp_cross_sentence_fallback_is_unclassified():
+    desc = "You gain 5 temporary hit points. You can use an action to attack."
+    c = extract_prose_criteria(desc)
+    assert c["temp_hp_frequency"] == "unclassified"
+
+
 def test_hp_max_flat():
     desc = "Your hit point maximum increases by 20."
     c = extract_prose_criteria(desc)
