@@ -56,7 +56,7 @@ def override_known_rarity(item: dict, rarity: str) -> str:
     if rarity == "unknown_magic":
         if any(token in raw_text for token in ('"bonusWeapon"', '"bonusAc"', '"attachedSpells"', '"charges"', '"sentient"')):
             return "uncommon"
-        if source in {"ToA", "BGDIA", "WDMM", "SKT", "PotA", "CoS"}:
+        if source in {"ToA", "BGDIA", "SKT", "PotA", "CoS"}:
             return "uncommon"
 
     # unknown items: magical ones → uncommon, adventure herbs/plants → mundane
