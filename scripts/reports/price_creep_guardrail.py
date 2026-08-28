@@ -66,15 +66,11 @@ def _type(row: Row) -> str:
     return _column(row, "Type", "type", "Type Code", "item_type_code") or "unknown"
 
 
-def _has_reference(row: Row) -> bool:
-    raw = _column(row, "Has Reference", "has_reference_source", "Reference Sources", "reference_sources")
-    if raw:
-        return raw.strip().casefold() in {"true", "yes", "1"} or raw.strip() not in {"", "False", "false", "0"}
-    return bool(_column(row, "amalgamated_price", "dsa_price", "msrp_price", "dmpg_price"))
-
-
 def _split_label(row: Row) -> str:
-    return "reference-anchored" if _has_reference(row) else "formula/ML-only"
+    price_source = _column(row, "Price Source", "price_source", "PriceSource").strip()
+    if price_source.casefold().startswith("amalgamated"):
+        return "reference-anchored"
+    return "formula/ML-only"
 
 
 def _is_weapon_type(item_type: str) -> bool:
@@ -175,7 +171,7 @@ def analyze_price_drift(baseline_rows: list[Row], candidate_rows: list[Row]) -> 
                 "candidate_price": candidate_price,
                 "gp_delta": gp_delta,
                 "pct_delta": pct_delta,
-                "reference_split": _split_label(base),
+                "reference_split": _split_label(candidate),
                 "known_good": _is_known_good(_name(base), _type(base)),
             }
         )
