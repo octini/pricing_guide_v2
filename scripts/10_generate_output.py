@@ -1,6 +1,7 @@
 #!/usr/bin/env python3
 """Phase 10: Generate Excel and CSV output"""
 
+import re
 import sys
 import csv
 import pandas as pd
@@ -131,20 +132,41 @@ def main():
     # Reskin items should be priced identically to their original since they have identical mechanics.
     if 'alias' in df.columns:
         name_to_price = dict(zip(df['name'], df['final_price']))
+        lower_name_to_price = {k.lower(): v for k, v in name_to_price.items()}
         alias_copies = 0
+        embedded_copies = 0
+        embedded_pattern = re.compile(r'^(.+)\s*\((.+)\)$')
         for idx, row in df.iterrows():
             alias = row.get('alias', '')
-            if not alias or pd.isna(alias) or str(alias).strip() == '':
+            if alias and not pd.isna(alias) and str(alias).strip():
+                alias_key = str(alias).strip()
+                alias_price = name_to_price.get(alias_key)
+                if alias_price is None:
+                    alias_price = lower_name_to_price.get(alias_key.lower())
+                if alias_price and pd.notna(alias_price) and alias_price > 0:
+                    # Always copy the alias price — reskins have identical mechanics to their original
+                    df.loc[idx, 'final_price'] = alias_price
+                    df.loc[idx, 'price_low'] = round(alias_price * 0.8, 2)
+                    df.loc[idx, 'price_high'] = round(alias_price * 1.2, 2)
+                    alias_copies += 1
                 continue
-            alias_price = name_to_price.get(str(alias).strip())
-            if alias_price and pd.notna(alias_price) and alias_price > 0:
-                # Always copy the alias price — reskins have identical mechanics to their original
-                df.loc[idx, 'final_price'] = alias_price
-                df.loc[idx, 'price_low'] = round(alias_price * 0.8, 2)
-                df.loc[idx, 'price_high'] = round(alias_price * 1.2, 2)
-                alias_copies += 1
+            # Name-embedded reskin detection: "<Name> (Original Item Name)"
+            name = str(row.get('name', ''))
+            m = embedded_pattern.match(name)
+            if m:
+                inner = m.group(2).strip()
+                embedded_price = name_to_price.get(inner)
+                if embedded_price is None:
+                    embedded_price = lower_name_to_price.get(inner.lower())
+                if embedded_price and pd.notna(embedded_price) and embedded_price > 0:
+                    df.loc[idx, 'final_price'] = embedded_price
+                    df.loc[idx, 'price_low'] = round(embedded_price * 0.8, 2)
+                    df.loc[idx, 'price_high'] = round(embedded_price * 1.2, 2)
+                    embedded_copies += 1
         if alias_copies:
             print(f'Copied prices from alias originals to {alias_copies} reskin items')
+        if embedded_copies:
+            print(f'Copied prices from embedded reskins to {embedded_copies} items')
 
     output_rows = []
     for _, row in df.iterrows():
