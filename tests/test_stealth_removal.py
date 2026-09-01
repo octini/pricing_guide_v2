@@ -160,3 +160,44 @@ def test_stealth_removal_simple_item_forcing():
     armor_removal = _base_armor_criteria(stealth_penalty=False, name="Chain Mail", item_type="HA|XPHB")
     armor_penalty = _base_armor_criteria(stealth_penalty=True, name="Chain Mail", item_type="HA|XPHB")
     assert calculate_price(armor_removal) == calculate_price(armor_penalty) + 400
+
+
+def test_mithral_material_path_single_application():
+    """Mithral heavy armor uses the material early-return path (pricing_engine.py:1256-1277).
+    Verify stealth removal adds exactly one +400 via that path, never +800 double-count."""
+    # Mithral HA: material path adds +400 after rarity_mult * attune_bonus.
+    # Pin the real behavior: single +400 vs identical mithral without removal.
+    mithral_without = _base_armor_criteria(stealth_penalty=True, name="Plate Armor", item_type="HA|XPHB")
+    mithral_without["material"] = "mithral"
+    mithral_with = dict(mithral_without)
+    mithral_with["stealth_penalty"] = False
+    price_mithral_without = calculate_price(mithral_without)
+    price_mithral_with = calculate_price(mithral_with)
+    assert price_mithral_with == price_mithral_without + 400, (
+        f"mithral material path should add exactly one +400, got {price_mithral_with} vs {price_mithral_without} diff={price_mithral_with - price_mithral_without}"
+    )
+    # Guard against double counting via both material and additive paths
+    assert price_mithral_with != price_mithral_without + 800
+    # Baseline sanity: identical plain (non-mithral) HA also gets +400 via normal additive path
+    plain_without = _base_armor_criteria(stealth_penalty=True, name="Plate Armor", item_type="HA|XPHB")
+    plain_with = _base_armor_criteria(stealth_penalty=False, name="Plate Armor", item_type="HA|XPHB")
+    assert calculate_price(plain_with) == calculate_price(plain_without) + 400
+    # Material premium must be invariant to stealth flag (no leakage of a second +400)
+    assert (price_mithral_with - calculate_price(plain_with)) == (price_mithral_without - calculate_price(plain_without))
+
+
+def test_stealth_removal_ma_scale_and_spiked_keyword_gating():
+    """Extend MA gating beyond 'half plate' to 'scale mail' and 'spiked' (pricing_engine.py:561)."""
+    for name in ("Scale Mail", "Spiked Armor"):
+        without = _base_armor_criteria(stealth_penalty=True, name=name, item_type="MA|XPHB")
+        with_ = _base_armor_criteria(stealth_penalty=False, name=name, item_type="MA|XPHB")
+        assert calculate_price(with_) == calculate_price(without) + 400, f"{name} should get +400 for False on disadvantaged MA"
+        # Substring/case-insensitive: "Mithral Scale Mail +1" still matches keyword
+        without_var = _base_armor_criteria(stealth_penalty=True, name=f"{name} +1", item_type="MA|XPHB")
+        with_var = _base_armor_criteria(stealth_penalty=False, name=f"{name} +1", item_type="MA|XPHB")
+        assert calculate_price(with_var) == calculate_price(without_var) + 400
+    # Negative: non-disadvantaged MA still not priced
+    for name in ("Breastplate", "Chain Shirt"):
+        without = _base_armor_criteria(stealth_penalty=True, name=name, item_type="MA|XPHB")
+        with_ = _base_armor_criteria(stealth_penalty=False, name=name, item_type="MA|XPHB")
+        assert calculate_price(with_) == calculate_price(without)

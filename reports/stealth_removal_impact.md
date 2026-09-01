@@ -232,7 +232,7 @@ If a future calibration were required, only `STEALTH_REMOVAL_RATE` would be tune
 - `src/pricing_engine.py` — `STEALTH_REMOVAL_RATE` + `_has_stealth_removal` + additive + material-armor path + simple-predicate forcing
 - `tests/test_stealth_removal.py` — 5 tests (400-parity, additive, NA/absent, HA/MA gating, simple-forcing)
 - `reports/stealth_removal_impact.md` — this report
-- `reports/price_creep_guardrail.md` — regenerated (62 rows >5%, max anchor 1.27% REVIEW)
+- `reports/price_creep_guardrail.md` — regenerated (67 rows >5%, max anchor 1.27% REVIEW)
 - `output/pricing_guide_candidate.csv` — 4 749-row candidate (untracked, preserved)
 
 **Next gate:** User sign-off on this report + guardrail (REVIEW accepted) before `mv candidate → canonical` migration.

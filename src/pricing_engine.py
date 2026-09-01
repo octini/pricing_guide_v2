@@ -518,7 +518,9 @@ def _has_stealth_removal(criteria: dict) -> bool:
     # Determine if explicitly no-penalty
     if isinstance(val, str):
         s = val.strip().lower()
-        if s in ("false", "0", "no", "none", "nan", "<na>"):
+        if s in ("", "nan", "<na>"):
+            return False
+        if s in ("false", "0", "no", "none"):
             is_no_penalty = True
         elif s in ("true", "1", "yes"):
             is_no_penalty = False
