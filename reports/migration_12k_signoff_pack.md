@@ -46,7 +46,7 @@ Math: 167 + 133 = 300 excluded; 12,241 − 300 = 11,941 output rows. Alias/embed
 
 ## 3. Guardrail — TRUE Attempt-2 Numbers (Honest Label: REVIEW, not PASS)
 
-Generated: `python3 scripts/reports/price_creep_guardrail.py --baseline output/pricing_guide.csv --candidate output/pricing_guide_candidate.csv --output reports/price_creep_guardrail.md` — **not checked out after**; committed this hop. File at `reports/price_creep_guardrail.md` (210 lines) reflects candidate 11,941 vs baseline 4,749.
+Generated: `python3 scripts/reports/price_creep_guardrail.py --baseline output/pricing_guide.csv --candidate output/pricing_guide_candidate.csv --output reports/price_creep_guardrail.md` — **not checked out after**; committed this hop. File at `reports/price_creep_guardrail.md` (627 lines, full known-good table) reflects candidate 11,941 vs baseline 4,749.
 
 **Input row matching:**
 - Common `(Name, Source)` rows: **4,717**
@@ -69,6 +69,38 @@ Generated: `python3 scripts/reports/price_creep_guardrail.py --baseline output/p
 **Drift by rarity (common rows):** Rare 1,408 median 0.00% mean 20.41%; Common 349 median 4.34% mean 27.71%; Legendary 638 median 0.00% mean −1.78% (variance is formula-side, not rarity-systematic). Artifact 71 median 0.00% mean 0.00% stable.
 
 **Drift by source (largest means):** Frontiers of Eberron: Quickstone 111 rows median 131.78% mean 241.65% (Demonglass family, formula/ML-only); Explorer's Guide to Wildemount 190 rows mean 17.22% (Acheron Blade family). Dungeon Master's Guide (2024) 1,981 rows median 0.00% mean 2.55% — reference-anchored core is stable.
+
+---
+
+## 3b. Tail Attribution — 331 Rows >25% Drift (Horowitz M1)
+
+Attribution per `reports/tail_331_attribution.csv` (331 rows >25% drift from guardrail common 4,717). Bucketed with evidence, precedence kh7-wave1 > 6sw-stealth > floor-gap-or-value-landing > corpus-match-change > ml-variance. Full CSV is the source of truth; summary below is honest aggregation.
+
+| Bucket | Count | Definition / Evidence |
+|---|---:|---|
+| kh7-wave1 (wave-1 repricing, intended) | 12 | `temp_hp_avg>0` or `hp_max_flat>0` or `hp_max_per_level>0` or `initiative_bonus!=0` or `initiative_advantage==True` in `data/processed/items_criteria.csv` — 6× Acheron Blade family (`temp_hp_avg` 6.5 per_action, `reports/wave1_criteria_impact.md:83`), 3× Berserker family (`hp_max_per_level` 1.0), Medal of the Meat Pie (`temp_hp_avg` 7.0), Helm of Awareness (`initiative_advantage` True). Integration test `tests/test_wave1_criteria.py:241` covers the simple-item bypass fix that enables this repricing. |
+| 6sw-stealth (stealth-disadvantage removal +400 gp) | 1 | HA or disadvantaged MA (Half Plate/Scale/Spiked) with `stealth_penalty==False` → `STEALTH_REMOVAL_RATE` 400 gp (`src/pricing_engine.py` `_has_stealth_removal`); Living Stoneskin (HA, 13,568→17,682 gp, +30.0%) is the sole >25% mover in this bucket. |
+| floor-gap-or-value-landing | 14 | Candidate lands below `RARITY_FLOORS` (legendary 8,000, very_rare 1,000, rare 200, uncommon 50 per `src/pricing_engine.py:56`) or on exact value-landing signatures 5,000/1,000/500/115/10. Spell Gem and Shard Solitaire families (see M3 deep-dive). `09_enforce_floors.py` does NOT clamp wondrous items (06 ML path) — floor unenforced for no-mundane-base items, honest gap. |
+| corpus-match-change | 0 | Has Reference flag diff (candidate `Price Source` amalgamated vs formula) — 0 for all 4,717 common rows. Honest null reported; naive `amalgamated_prices.csv` membership yields ~213 false positives via `variant_price` contamination (e.g., Demonglass `has_ref` True via variant-price, not amalgamation), so 0 is the correct bucket. |
+| ml-variance (residual) | 304 | No wave1/stealth/floor/match signature → ML retrain variance on 12,241 vs 4,749 corpus + variant-stat expansion. |
+
+**Variant-composition drift (named sub-class of ml-variance):** Demonglass exemplifies the mechanism without an anchor pin. Generic parent `Demonglass Weapon` expanded from 48 to 90 variants in the curated corpus; recomputed group stats lifted the family base from ~614–630 gp to ~4,045 gp on non-frozen groups (no `frozen_weapon_stats` anchor coverage, unlike +1/+2/+3 Weapon where the freeze restored −0.297 adj). Same root cause as the 12% anchor bug (stats stray with corpus size), minus anchor coverage. 40+ Demonglass variants show +518–541% drift as direct variant-stat effect plus ML blend. See `.tgo/pricing_guide_v2-rrd/progress.md` Demonglass analysis and `reports/tail_331_attribution.csv` ml-variance bucket.
+
+Corpus-match-change 0 is an honest null — not omitted. Bucket counts sum to 331 (12+1+14+0+304).
+
+### Deep Dive — Shard Solitaire / Spell Gem / Rainbow Pearl (Horowitz M3)
+
+**Shard Solitaire — 4 of 5 variants collapse to 5,000 gp vs Rainbow Pearl 95,789 gp (same file, different fate):**
+
+- Candidate: Shard Solitaire (Diamond/Black Sapphire/Jacinth/Ruby) 95,577/94,672 gp → **5,000 gp** (−94.7%); Rainbow Pearl (same wondrous family, same source-book neighborhood) holds **95,789 gp** (not in tail — stable). Divergence originates in **06 ML retrain**: the 12k model differentiates by `attached_spells` vector value (Shard: 5× attached-spell payloads vs Pearl: distinct `prismatic spray` + `water breathing` vector that retrain preserves at high value; siblings' `blight`/`ice storm`/`fire storm`/`finger of death`/`teleport` vectors collapse to low prediction). Stage-05 rule/05b variant-adjust produces identical 05 price (137k) and 06 ML blend lands at ~5k for the four collapsed variants.
+- **Floor unenforced:** `09_enforce_floors.py` clamps only weapons/armor/shields to mundane-relative floors; wondrous items with no mundane base bypass the clamp. Thus `RARITY_FLOORS` legendary **8,000** (`src/pricing_engine.py:56`) is unenforced for Shard Solitaire — 5,000 gp is below floor with no correction. Same for Spell Gems below.
+- **Assessment:** Differentiated ML pricing (Pearl high, Shards low) is arguably better family differentiation than uniform baseline, but absolute 5,000 gp value is suspiciously low for legendary; floor unenforced is the structural gap.
+
+**Spell Gem family — now differentiates by max stored spell level (was uniform):**
+
+- Baseline (06 final) was uniform: Spell Gem (Diamond/Ruby/Star ruby) all 36,498 gp; Spell Gem (Jade/Amber/Topaz) all 10,639 gp — no max-level extraction.
+- Candidate differentiates: **9th-level → 5,000 gp** (Diamond/Ruby), **8th-level → 1,000 gp** (Star ruby), **7th-level → 1,000 gp** (Topaz 500 gp? see CSV: Topaz 500 gp, Star ruby 1,000 gp, Diamond/Ruby 5,000 gp, Amber/Jade 100 gp, Lapis 10 gp, Bloodstone/Quartz 50 gp) — correlation with max stored spell level 9/8/7/6/4/cantrip (per progress.md: 9th→5,000, 7th→1,000, 4th→115, cantrip→10). Stage-06 ML with expanded corpus captures level proxy via save DC/rarity or new extraction; differentiated pricing is arguably **better** than uniform baseline.
+- **Absolute values suspicious, floor unenforced:** 1,000 gp (Star ruby) and 500 gp (Topaz) sit **below legendary 8,000 floor**; 115 gp (Amber) below very_rare 1,000; 10 gp (Lapis/Obsidian) below uncommon 50. All are wondrous with no mundane base → 09 clamp does not fire (`reports/tail_331_attribution.csv` floor-gap-or-value-landing bucket, 14 rows). Horowitz M3 flags differentiated pricing as improvement but absolute floors as unenforced gap — follow-up issue tracks `09_enforce_floors` tier for no-mundane-base items and spell-level pricing policy.
 
 ---
 
@@ -136,6 +168,8 @@ Max drift 0.21% (≤5% criterion). All seven restore baseline stability (drift v
 
 **What the freeze does:** Makes **corpus-sensitive stats corpus-insensitive** for the 3 anchor groups only. New 12,241 corpus expands +N Weapon from 43 variants (max_weight 18, max_dmg 4) to 109 variants (20, 5), causing variant adjustment to shift from −0.297 (old baseline) to −0.212 and 12% anchor depression. Freezing `variant_count`, `max_weight`, `max_dmg_tier` to old-corpus baselines (43 / 18.0 / 4.0) restores adj to −0.297; +1 Dagger `base_price` stabilizes (609.81) and anchors PASS. Only those three `generic_name` values are mutated; **armor/exotics untouched** (armor+1/+2/+3, weapon+1 etc families not frozen). Verified minimal: `git diff src/variant_system.py` = +15/−1 lines.
 
+> **Freeze footnote (Horowitz L2):** Only `max_weight`/`max_dmg_tier` are live on the adjustment path (`_adjustment_weapon` uses `median_weight`/`min_weight`/`max_weight` and `median_dmg_tier`/`min/max_dmg_tier`; `max_*` pin suffices, `min`/`median` remain live). `variant_count=43` is **decorative** — no consumer in `apply_variant_adjustment`/`_adjustment_weapon` reads `variant_count` (it is only diagnostic / `generic_base_prices` count). Empirically immaterial — anchors drift **0.00–0.21% PASS** (see §5 table; +1 Dart 0.21%, +1 Dagger 0.07%), confirming the partial pin suffices and `min`/`median` drift does not re-break anchors.
+
 **Attempt 3 — conditional freeze of `variant_base_price` (not executed):** Trigger was +1 Dagger ~13% (598→610 base_price) indicating residual base-price drift. Condition false after attempt 2: +1 Dagger 382.26 vs 382 expected (0.07%), so attempt 3 correctly skipped per `.tgo/pricing_guide_v2-rrd/progress.md`.
 
 **Pipeline re-run after freeze:** `06_ml_refine` → `07_validate` → `07b_variant_consistency` → `09_enforce_floors` → `10_generate_output` (11,941 items). R² intact (0.9692), guardrail REVIEW, anchors PASS.
@@ -154,8 +188,8 @@ Note: `output/variant_consistency_report.csv` on disk is stale HEAD (pre-rrd, 4,
 
 | Name | Source | Old | New | Δ% | Notes |
 |---|---:|---:|---:|---|---|
-| Acheron Blade Greatsword | Explorer's Guide to Wildemount | 708 | 6,014 | **+749.7%** | Rare melee weapon, formula/ML-only; entire Acheron family +749% (6 variants) — ML retrain on expanded EGW corpus |
-| Acheron Blade Scimitar | Explorer's Guide to Wildemount | 628 | 5,336 | **+749.7%** | Same family |
+| Acheron Blade Greatsword | Explorer's Guide to Wildemount | 708 | 6,014 | **+749.7%** | **INTENDED** kh7 wave-1 repricing — `temp_hp_avg` 6.5 per_action (`reports/wave1_criteria_impact.md:83`), simple-item bypass fix (`tests/test_wave1_criteria.py:241` `test_simple_item_bypass_temp_hp_priced`); NOT ML retrain — 6-variant family repriced by design (covers all 6: Greatsword/Scimitar/Longsword/Shortsword/Rapier/Double-Bladed Scimitar) |
+| Acheron Blade Scimitar | Explorer's Guide to Wildemount | 628 | 5,336 | **+749.7%** | Same family — **INTENDED** wave-1, not variance |
 | Demonglass Dart | Frontiers of Eberron: Quickstone | 615 | 3,939 | **+541.0%** | Rare, FoEQuickstone family 131→241% mean driver |
 | Demonglass Dagger | Frontiers of Eberron: Quickstone | 631 | 4,010 | **+535.8%** | Same family (~ +533% across 20 variants) |
 | Shard Solitaire (Diamond) | Keys from the Golden Vault | 95,577 | 5,000 | **−94.77%** | Legendary wondrous, formula/ML-only; artifact/legendary mover |
@@ -165,7 +199,14 @@ Note: `output/variant_consistency_report.csv` on disk is stale HEAD (pre-rrd, 4,
 | Stormgirdle (Awakened) | Explorer's Guide to Wildemount | 137,924 | 81,325 | **−41.04%** | Same family |
 | Infiltrator's Key (Awakened) | Explorer's Guide to Wildemount | 68,365 | 34,154 | **−50.04%** | Legendary wondrous |
 
-Full list: 331 rows in `reports/price_creep_guardrail.md` § Largest percent movers / Artifact movers. Triage recommendation: govern via tiered queue (reference-anchored + extreme movers) per `reports/extra_damage_signoff_pack_v3.md` — direct corrections (extra_dmg, save_adv, etc.) are 369/446 retrain-variance rows, not extraction bugs.
+Full list: 331 rows in `reports/price_creep_guardrail.md` § Largest percent movers / Artifact movers **and** `reports/tail_331_attribution.csv` (bucketed 12 kh7-wave1 / 1 stealth / 14 floor-gap / 0 match-change / 304 ml-variance). Triage recommendation: govern via **tiered post-adoption triage queue** (Horowitz-endorsed once attribution done) per `reports/extra_damage_signoff_pack_v3.md` — direct corrections (extra_dmg, save_adv, etc.) are 369/446 retrain-variance rows, not extraction bugs.
+
+**Post-migration triage — three classes (Horowitz-endorsed):**
+- **Floor-gap class (14 items):** wondrous items at sub-floor landings (Shard Solitaire 5,000 < legendary 8,000; Spell Gems 1,000/500/115/10 < rarity floors) — 09 clamp unenforced for no-mundane-base items. Fix candidate: extend `09_enforce_floors.py` to clamp ALL items to `RARITY_FLOORS` absolute (follow-up issue filed, §8 + beads). See §3b deep-dive and `reports/tail_331_attribution.csv` floor-gap-or-value-landing bucket.
+- **Variant-composition drift class:** Demonglass-type expansion (48→90 variants lifts base 614→~4,045) on families without known-good anchor pins — same mechanism as anchor bug, minus coverage. Durable fix: config-driven anchor stats via baseline snapshot (follow-up issue filed). Horowitz L1 freeze already hardens the pin with warning on absent corpus key.
+- **Residual ml-variance (304 items):** Accepted retrain variance per pack-v3 precedent; tiered queue (reference-anchored + extreme movers) governs triage post-adoption. Horowitz endorses queue discipline once attribution done.
+
+**Flagged-family note:** `gleaming-armor` CV **0.63** and `slaying-ammunition` CV **28.7** remain flagged per §7 header — candidate for post-migration family review, not pre-adoption blocker; triaged via the queue above.
 
 **The 32 missing rows:** See §4 — no triage needed beyond confirming triage doc classifications; if Spelljammer/Stranger Things/Rick scope is ever re-added, those 28 rows would require fresh pricing, not carry-forward.
 

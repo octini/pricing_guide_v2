@@ -1,0 +1,332 @@
+name,source,old,new,pct,bucket,evidence
+Acheron Blade Greatsword,Explorer's Guide to Wildemount,707.84,6014.24,749.66,kh7-wave1,temp_hp_avg=6.5 | Acheron Blade family
+Acheron Blade Scimitar,Explorer's Guide to Wildemount,628.03,5336.10,749.66,kh7-wave1,temp_hp_avg=6.5 | Acheron Blade family
+Acheron Blade Longsword,Explorer's Guide to Wildemount,652.50,5544.00,749.66,kh7-wave1,temp_hp_avg=6.5 | Acheron Blade family
+Acheron Blade Shortsword,Explorer's Guide to Wildemount,609.97,5182.64,749.65,kh7-wave1,temp_hp_avg=6.5 | Acheron Blade family
+Acheron Blade Rapier,Explorer's Guide to Wildemount,634.44,5390.54,749.65,kh7-wave1,temp_hp_avg=6.5 | Acheron Blade family
+Acheron Blade Double-Bladed Scimitar,Explorer's Guide to Wildemount,683.38,5806.34,749.65,kh7-wave1,temp_hp_avg=6.5 | Acheron Blade family
+Demonglass Dart,Frontiers of Eberron: Quickstone,614.62,3939.44,540.96,ml-variance,no wave1/stealth/floor/match signature → ML retrain / variant-stat / rule-blend variance
+Demonglass Dagger,Frontiers of Eberron: Quickstone,630.64,4009.90,535.85,ml-variance,no wave1/stealth/floor/match signature → ML retrain / variant-stat / rule-blend variance
+Demonglass Blowgun,Frontiers of Eberron: Quickstone,643.00,4084.15,535.17,ml-variance,no wave1/stealth/floor/match signature → ML retrain / variant-stat / rule-blend variance
+Demonglass Club,Frontiers of Eberron: Quickstone,638.65,4045.14,533.39,ml-variance,no wave1/stealth/floor/match signature → ML retrain / variant-stat / rule-blend variance
+Demonglass Handaxe,Frontiers of Eberron: Quickstone,638.65,4045.14,533.39,ml-variance,no wave1/stealth/floor/match signature → ML retrain / variant-stat / rule-blend variance
+Demonglass Shortsword,Frontiers of Eberron: Quickstone,638.65,4045.14,533.39,ml-variance,no wave1/stealth/floor/match signature → ML retrain / variant-stat / rule-blend variance
+Demonglass Javelin,Frontiers of Eberron: Quickstone,638.65,4045.14,533.39,ml-variance,no wave1/stealth/floor/match signature → ML retrain / variant-stat / rule-blend variance
+Demonglass Hooked Shortspear,Frontiers of Eberron: Quickstone,638.65,4045.14,533.39,ml-variance,no wave1/stealth/floor/match signature → ML retrain / variant-stat / rule-blend variance
+Demonglass Shortbow,Frontiers of Eberron: Quickstone,638.65,4045.14,533.39,ml-variance,no wave1/stealth/floor/match signature → ML retrain / variant-stat / rule-blend variance
+Demonglass Light Hammer,Frontiers of Eberron: Quickstone,638.65,4045.14,533.39,ml-variance,no wave1/stealth/floor/match signature → ML retrain / variant-stat / rule-blend variance
+Demonglass Sickle,Frontiers of Eberron: Quickstone,638.65,4045.14,533.39,ml-variance,no wave1/stealth/floor/match signature → ML retrain / variant-stat / rule-blend variance
+Demonglass Hoopak,Frontiers of Eberron: Quickstone,638.65,4045.14,533.39,ml-variance,no wave1/stealth/floor/match signature → ML retrain / variant-stat / rule-blend variance
+Demonglass Spear,Frontiers of Eberron: Quickstone,643.34,4065.75,531.98,ml-variance,no wave1/stealth/floor/match signature → ML retrain / variant-stat / rule-blend variance
+Demonglass Sling,Frontiers of Eberron: Quickstone,643.34,4065.75,531.98,ml-variance,no wave1/stealth/floor/match signature → ML retrain / variant-stat / rule-blend variance
+Demonglass Hand Crossbow,Frontiers of Eberron: Quickstone,643.34,4065.75,531.98,ml-variance,no wave1/stealth/floor/match signature → ML retrain / variant-stat / rule-blend variance
+Demonglass Scimitar,Frontiers of Eberron: Quickstone,643.34,4065.75,531.98,ml-variance,no wave1/stealth/floor/match signature → ML retrain / variant-stat / rule-blend variance
+Demonglass Whip,Frontiers of Eberron: Quickstone,643.34,4065.75,531.98,ml-variance,no wave1/stealth/floor/match signature → ML retrain / variant-stat / rule-blend variance
+Demonglass Quarterstaff,Frontiers of Eberron: Quickstone,646.66,4080.37,530.99,ml-variance,no wave1/stealth/floor/match signature → ML retrain / variant-stat / rule-blend variance
+Demonglass Mace,Frontiers of Eberron: Quickstone,646.66,4080.37,530.99,ml-variance,no wave1/stealth/floor/match signature → ML retrain / variant-stat / rule-blend variance
+Demonglass War Pick,Frontiers of Eberron: Quickstone,663.36,4119.39,520.99,ml-variance,no wave1/stealth/floor/match signature → ML retrain / variant-stat / rule-blend variance
+Demonglass Longbow,Frontiers of Eberron: Quickstone,663.36,4119.39,520.99,ml-variance,no wave1/stealth/floor/match signature → ML retrain / variant-stat / rule-blend variance
+Demonglass Flail,Frontiers of Eberron: Quickstone,663.36,4119.39,520.99,ml-variance,no wave1/stealth/floor/match signature → ML retrain / variant-stat / rule-blend variance
+Demonglass Rapier,Frontiers of Eberron: Quickstone,663.36,4119.39,520.99,ml-variance,no wave1/stealth/floor/match signature → ML retrain / variant-stat / rule-blend variance
+Demonglass Longsword,Frontiers of Eberron: Quickstone,668.05,4140.00,519.71,ml-variance,no wave1/stealth/floor/match signature → ML retrain / variant-stat / rule-blend variance
+Demonglass Yklwa,Frontiers of Eberron: Quickstone,668.05,4140.00,519.71,ml-variance,no wave1/stealth/floor/match signature → ML retrain / variant-stat / rule-blend variance
+Demonglass Morningstar,Frontiers of Eberron: Quickstone,671.37,4154.62,518.83,ml-variance,no wave1/stealth/floor/match signature → ML retrain / variant-stat / rule-blend variance
+Demonglass Trident,Frontiers of Eberron: Quickstone,671.37,4154.62,518.83,ml-variance,no wave1/stealth/floor/match signature → ML retrain / variant-stat / rule-blend variance
+Demonglass Battleaxe,Frontiers of Eberron: Quickstone,671.37,4154.62,518.83,ml-variance,no wave1/stealth/floor/match signature → ML retrain / variant-stat / rule-blend variance
+Demonglass Light Repeating Crossbow,Frontiers of Eberron: Quickstone,673.95,4165.97,518.14,ml-variance,no wave1/stealth/floor/match signature → ML retrain / variant-stat / rule-blend variance
+Demonglass Light Crossbow,Frontiers of Eberron: Quickstone,673.95,4165.97,518.14,ml-variance,no wave1/stealth/floor/match signature → ML retrain / variant-stat / rule-blend variance
+Demonglass Warhammer,Frontiers of Eberron: Quickstone,673.95,4165.97,518.14,ml-variance,no wave1/stealth/floor/match signature → ML retrain / variant-stat / rule-blend variance
+Demonglass Halberd,Frontiers of Eberron: Quickstone,676.05,4175.23,517.59,ml-variance,no wave1/stealth/floor/match signature → ML retrain / variant-stat / rule-blend variance
+Demonglass Glaive,Frontiers of Eberron: Quickstone,676.05,4175.23,517.59,ml-variance,no wave1/stealth/floor/match signature → ML retrain / variant-stat / rule-blend variance
+Demonglass Double-Bladed Scimitar,Frontiers of Eberron: Quickstone,676.05,4175.23,517.59,ml-variance,no wave1/stealth/floor/match signature → ML retrain / variant-stat / rule-blend variance
+Demonglass Lance,Frontiers of Eberron: Quickstone,676.05,4175.23,517.59,ml-variance,no wave1/stealth/floor/match signature → ML retrain / variant-stat / rule-blend variance
+Demonglass Greatclub,Frontiers of Eberron: Quickstone,681.96,4201.20,516.05,ml-variance,no wave1/stealth/floor/match signature → ML retrain / variant-stat / rule-blend variance
+Demonglass Heavy Crossbow,Frontiers of Eberron: Quickstone,688.75,4231.08,514.31,ml-variance,no wave1/stealth/floor/match signature → ML retrain / variant-stat / rule-blend variance
+Demonglass Pike,Frontiers of Eberron: Quickstone,688.75,4231.08,514.31,ml-variance,no wave1/stealth/floor/match signature → ML retrain / variant-stat / rule-blend variance
+Demonglass Greatsword,Frontiers of Eberron: Quickstone,700.76,4249.48,506.41,ml-variance,no wave1/stealth/floor/match signature → ML retrain / variant-stat / rule-blend variance
+Demonglass Greataxe,Frontiers of Eberron: Quickstone,702.54,4257.32,505.99,ml-variance,no wave1/stealth/floor/match signature → ML retrain / variant-stat / rule-blend variance
+Demonglass Maul,Frontiers of Eberron: Quickstone,706.67,4275.45,505.01,ml-variance,no wave1/stealth/floor/match signature → ML retrain / variant-stat / rule-blend variance
+Berserker Battleaxe,Dungeon Master's Guide (2024),617.04,3638.42,489.66,kh7-wave1,hp_max_per_level=1.0
+Berserker Halberd,Dungeon Master's Guide (2024),652.50,3847.50,489.66,kh7-wave1,hp_max_per_level=1.0
+Berserker Greataxe,Dungeon Master's Guide (2024),714.92,4215.55,489.65,kh7-wave1,hp_max_per_level=1.0
+Demonglass Wooden Staff,Frontiers of Eberron: Quickstone,796.66,4215.37,429.13,ml-variance,no wave1/stealth/floor/match signature → ML retrain / variant-stat / rule-blend variance
+Quarterstaff Armblade,Eberron: Rising from the Last War,80.96,301.62,272.55,ml-variance,no wave1/stealth/floor/match signature → ML retrain / variant-stat / rule-blend variance
+Mace Armblade,Eberron: Rising from the Last War,80.96,301.62,272.55,ml-variance,no wave1/stealth/floor/match signature → ML retrain / variant-stat / rule-blend variance
+Lance Armblade,Eberron: Rising from the Last War,88.32,328.56,272.01,ml-variance,no wave1/stealth/floor/match signature → ML retrain / variant-stat / rule-blend variance
+Warhammer Armblade,Eberron: Rising from the Last War,87.71,324.79,270.30,ml-variance,no wave1/stealth/floor/match signature → ML retrain / variant-stat / rule-blend variance
+Whip Armblade,Eberron: Rising from the Last War,80.00,295.67,269.59,ml-variance,no wave1/stealth/floor/match signature → ML retrain / variant-stat / rule-blend variance
+Spear Armblade,Eberron: Rising from the Last War,80.00,295.67,269.59,ml-variance,no wave1/stealth/floor/match signature → ML retrain / variant-stat / rule-blend variance
+Scimitar Armblade,Eberron: Rising from the Last War,80.00,295.67,269.59,ml-variance,no wave1/stealth/floor/match signature → ML retrain / variant-stat / rule-blend variance
+Battleaxe Armblade,Eberron: Rising from the Last War,86.96,320.17,268.18,ml-variance,no wave1/stealth/floor/match signature → ML retrain / variant-stat / rule-blend variance
+Trident Armblade,Eberron: Rising from the Last War,86.96,320.17,268.18,ml-variance,no wave1/stealth/floor/match signature → ML retrain / variant-stat / rule-blend variance
+Morningstar Armblade,Eberron: Rising from the Last War,86.96,320.17,268.18,ml-variance,no wave1/stealth/floor/match signature → ML retrain / variant-stat / rule-blend variance
+Longsword Armblade,Eberron: Rising from the Last War,86.00,314.21,265.36,ml-variance,no wave1/stealth/floor/match signature → ML retrain / variant-stat / rule-blend variance
+Yklwa Armblade,Eberron: Rising from the Last War,86.00,314.21,265.36,ml-variance,no wave1/stealth/floor/match signature → ML retrain / variant-stat / rule-blend variance
+Light Hammer Armblade,Eberron: Rising from the Last War,78.64,287.27,265.30,ml-variance,no wave1/stealth/floor/match signature → ML retrain / variant-stat / rule-blend variance
+Sickle Armblade,Eberron: Rising from the Last War,78.64,287.27,265.30,ml-variance,no wave1/stealth/floor/match signature → ML retrain / variant-stat / rule-blend variance
+Club Armblade,Eberron: Rising from the Last War,78.64,287.27,265.30,ml-variance,no wave1/stealth/floor/match signature → ML retrain / variant-stat / rule-blend variance
+Hooked Shortspear Armblade,Eberron: Rising from the Last War,78.64,287.27,265.30,ml-variance,no wave1/stealth/floor/match signature → ML retrain / variant-stat / rule-blend variance
+Handaxe Armblade,Eberron: Rising from the Last War,78.64,287.27,265.30,ml-variance,no wave1/stealth/floor/match signature → ML retrain / variant-stat / rule-blend variance
+Shortsword Armblade,Eberron: Rising from the Last War,78.64,287.27,265.30,ml-variance,no wave1/stealth/floor/match signature → ML retrain / variant-stat / rule-blend variance
+Javelin Armblade,Eberron: Rising from the Last War,78.64,287.27,265.30,ml-variance,no wave1/stealth/floor/match signature → ML retrain / variant-stat / rule-blend variance
+War Pick Armblade,Eberron: Rising from the Last War,84.64,305.82,261.32,ml-variance,no wave1/stealth/floor/match signature → ML retrain / variant-stat / rule-blend variance
+Flail Armblade,Eberron: Rising from the Last War,84.64,305.82,261.32,ml-variance,no wave1/stealth/floor/match signature → ML retrain / variant-stat / rule-blend variance
+Rapier Armblade,Eberron: Rising from the Last War,84.64,305.82,261.32,ml-variance,no wave1/stealth/floor/match signature → ML retrain / variant-stat / rule-blend variance
+Dagger Armblade,Eberron: Rising from the Last War,76.32,272.92,257.60,ml-variance,no wave1/stealth/floor/match signature → ML retrain / variant-stat / rule-blend variance
+War Staff,Exploring Eberron (2024),89.25,259.52,190.78,ml-variance,no wave1/stealth/floor/match signature → ML retrain / variant-stat / rule-blend variance
+Demonglass Heavy Sentira Lens,Frontiers of Eberron: Quickstone,664.04,1828.08,175.30,ml-variance,no wave1/stealth/floor/match signature → ML retrain / variant-stat / rule-blend variance
+Demonglass Light Sentira Lens,Frontiers of Eberron: Quickstone,649.24,1762.97,171.54,ml-variance,no wave1/stealth/floor/match signature → ML retrain / variant-stat / rule-blend variance
+Demonglass Hand Sentira Lens,Frontiers of Eberron: Quickstone,643.34,1737.00,170.00,ml-variance,no wave1/stealth/floor/match signature → ML retrain / variant-stat / rule-blend variance
+Demonglass Heavy Bayonet,Frontiers of Eberron: Quickstone,655.35,1755.40,167.86,ml-variance,no wave1/stealth/floor/match signature → ML retrain / variant-stat / rule-blend variance
+Staff of the Rooted Hills,Bigby Presents: Glory of the Giants,968.34,2593.40,167.82,ml-variance,no wave1/stealth/floor/match signature → ML retrain / variant-stat / rule-blend variance
+Demonglass Light Bayonet,Frontiers of Eberron: Quickstone,630.64,1681.15,166.58,ml-variance,no wave1/stealth/floor/match signature → ML retrain / variant-stat / rule-blend variance
+Stonebane Dagger,Frontiers of Eberron: Quickstone,697.49,1627.07,133.28,ml-variance,no wave1/stealth/floor/match signature → ML retrain / variant-stat / rule-blend variance
+Stonebane Shortsword,Frontiers of Eberron: Quickstone,710.98,1651.76,132.32,ml-variance,no wave1/stealth/floor/match signature → ML retrain / variant-stat / rule-blend variance
+Stonebane Sickle,Frontiers of Eberron: Quickstone,710.98,1651.76,132.32,ml-variance,no wave1/stealth/floor/match signature → ML retrain / variant-stat / rule-blend variance
+Stonebane Javelin,Frontiers of Eberron: Quickstone,710.98,1651.76,132.32,ml-variance,no wave1/stealth/floor/match signature → ML retrain / variant-stat / rule-blend variance
+Stonebane Club,Frontiers of Eberron: Quickstone,710.98,1651.76,132.32,ml-variance,no wave1/stealth/floor/match signature → ML retrain / variant-stat / rule-blend variance
+Stonebane Light Hammer,Frontiers of Eberron: Quickstone,710.98,1651.76,132.32,ml-variance,no wave1/stealth/floor/match signature → ML retrain / variant-stat / rule-blend variance
+Stonebane Handaxe,Frontiers of Eberron: Quickstone,710.98,1651.76,132.32,ml-variance,no wave1/stealth/floor/match signature → ML retrain / variant-stat / rule-blend variance
+Stonebane Scimitar,Frontiers of Eberron: Quickstone,718.88,1666.21,131.78,ml-variance,no wave1/stealth/floor/match signature → ML retrain / variant-stat / rule-blend variance
+Stonebane Spear,Frontiers of Eberron: Quickstone,718.88,1666.21,131.78,ml-variance,no wave1/stealth/floor/match signature → ML retrain / variant-stat / rule-blend variance
+Stonebane Whip,Frontiers of Eberron: Quickstone,718.88,1666.21,131.78,ml-variance,no wave1/stealth/floor/match signature → ML retrain / variant-stat / rule-blend variance
+Stonebane Quarterstaff,Frontiers of Eberron: Quickstone,724.47,1676.46,131.41,ml-variance,no wave1/stealth/floor/match signature → ML retrain / variant-stat / rule-blend variance
+Stonebane Mace,Frontiers of Eberron: Quickstone,724.47,1676.46,131.41,ml-variance,no wave1/stealth/floor/match signature → ML retrain / variant-stat / rule-blend variance
+Stonebane Flail,Frontiers of Eberron: Quickstone,739.11,1703.25,130.45,ml-variance,no wave1/stealth/floor/match signature → ML retrain / variant-stat / rule-blend variance
+Stonebane Rapier,Frontiers of Eberron: Quickstone,739.11,1703.25,130.45,ml-variance,no wave1/stealth/floor/match signature → ML retrain / variant-stat / rule-blend variance
+Stonebane War Pick,Frontiers of Eberron: Quickstone,739.11,1703.25,130.45,ml-variance,no wave1/stealth/floor/match signature → ML retrain / variant-stat / rule-blend variance
+Stonebane Longsword,Frontiers of Eberron: Quickstone,747.00,1717.69,129.95,ml-variance,no wave1/stealth/floor/match signature → ML retrain / variant-stat / rule-blend variance
+Stonebane Trident,Frontiers of Eberron: Quickstone,752.60,1727.94,129.60,ml-variance,no wave1/stealth/floor/match signature → ML retrain / variant-stat / rule-blend variance
+Stonebane Battleaxe,Frontiers of Eberron: Quickstone,752.60,1727.94,129.60,ml-variance,no wave1/stealth/floor/match signature → ML retrain / variant-stat / rule-blend variance
+Stonebane Morningstar,Frontiers of Eberron: Quickstone,752.60,1727.94,129.60,ml-variance,no wave1/stealth/floor/match signature → ML retrain / variant-stat / rule-blend variance
+Stonebane Warhammer,Frontiers of Eberron: Quickstone,756.94,1735.89,129.33,ml-variance,no wave1/stealth/floor/match signature → ML retrain / variant-stat / rule-blend variance
+Stonebane Glaive,Frontiers of Eberron: Quickstone,760.49,1742.38,129.11,ml-variance,no wave1/stealth/floor/match signature → ML retrain / variant-stat / rule-blend variance
+Stonebane Halberd,Frontiers of Eberron: Quickstone,760.49,1742.38,129.11,ml-variance,no wave1/stealth/floor/match signature → ML retrain / variant-stat / rule-blend variance
+Stonebane Lance,Frontiers of Eberron: Quickstone,760.49,1742.38,129.11,ml-variance,no wave1/stealth/floor/match signature → ML retrain / variant-stat / rule-blend variance
+Stonebane Greatclub,Frontiers of Eberron: Quickstone,770.43,1760.58,128.52,ml-variance,no wave1/stealth/floor/match signature → ML retrain / variant-stat / rule-blend variance
+Stonebane Pike,Frontiers of Eberron: Quickstone,781.87,1781.52,127.85,ml-variance,no wave1/stealth/floor/match signature → ML retrain / variant-stat / rule-blend variance
+Stonebane Greatsword,Frontiers of Eberron: Quickstone,788.61,1793.87,127.47,ml-variance,no wave1/stealth/floor/match signature → ML retrain / variant-stat / rule-blend variance
+Stonebane Greataxe,Frontiers of Eberron: Quickstone,791.61,1799.36,127.30,ml-variance,no wave1/stealth/floor/match signature → ML retrain / variant-stat / rule-blend variance
+Stonebane Maul,Frontiers of Eberron: Quickstone,798.56,1812.06,126.92,ml-variance,no wave1/stealth/floor/match signature → ML retrain / variant-stat / rule-blend variance
+Medal of the Meat Pie,Critical Role: Call of the Netherdeep,99.23,213.58,115.24,kh7-wave1,temp_hp_avg=7.0
+Scythed Arm Blades,Monsters of Drakkenheim,3058.75,6503.68,112.63,ml-variance,no wave1/stealth/floor/match signature → ML retrain / variant-stat / rule-blend variance
+Sunforger,Guildmasters' Guide to Ravnica,3058.75,6503.68,112.63,ml-variance,no wave1/stealth/floor/match signature → ML retrain / variant-stat / rule-blend variance
+Spell Gem (Jade),Out of the Abyss,10639.83,100.00,-99.06,floor-gap-or-value-landing,new 100.00 below very_rare floor 1000
+Spell Gem (Amber),Out of the Abyss,10639.83,115.58,-98.91,floor-gap-or-value-landing,new 115.58 below very_rare floor 1000
+Spell Gem (Lapis lazuli),Out of the Abyss,847.07,10.00,-98.82,floor-gap-or-value-landing,new 10.00 below uncommon floor 50
+Spell Gem (Obsidian),Out of the Abyss,847.07,10.00,-98.82,floor-gap-or-value-landing,new 10.00 below uncommon floor 50
+Spell Gem (Bloodstone),Out of the Abyss,3287.22,50.00,-98.48,floor-gap-or-value-landing,new 50.00 below rare floor 200
+Spell Gem (Quartz),Out of the Abyss,3287.22,50.00,-98.48,floor-gap-or-value-landing,new 50.00 below rare floor 200
+Spell Gem (Star ruby),Out of the Abyss,36498.09,1000.00,-97.26,floor-gap-or-value-landing,new 1000 exact signature 1000 AND below legendary floor 8000 (RARIETY_FLOORS per pricing_engine.py:56)
+Spell Gem (Topaz),Out of the Abyss,10639.83,500.00,-95.30,floor-gap-or-value-landing,new 500.00 below very_rare floor 1000
+Shard Solitaire (Black Sapphire),Keys from the Golden Vault,95577.32,5000.00,-94.77,floor-gap-or-value-landing,new 5000 exact signature 5000 AND below legendary floor 8000 (RARIETY_FLOORS per pricing_engine.py:56)
+Shard Solitaire (Diamond),Keys from the Golden Vault,95577.32,5000.00,-94.77,floor-gap-or-value-landing,new 5000 exact signature 5000 AND below legendary floor 8000 (RARIETY_FLOORS per pricing_engine.py:56)
+Shard Solitaire (Jacinth),Keys from the Golden Vault,94672.13,5000.00,-94.72,floor-gap-or-value-landing,new 5000 exact signature 5000 AND below legendary floor 8000 (RARIETY_FLOORS per pricing_engine.py:56)
+Shard Solitaire (Ruby),Keys from the Golden Vault,94672.13,5000.00,-94.72,floor-gap-or-value-landing,new 5000 exact signature 5000 AND below legendary floor 8000 (RARIETY_FLOORS per pricing_engine.py:56)
+Spell Gem (Diamond),Out of the Abyss,36498.09,5000.00,-86.30,floor-gap-or-value-landing,new 5000 exact signature 5000 AND below legendary floor 8000 (RARIETY_FLOORS per pricing_engine.py:56)
+Spell Gem (Ruby),Out of the Abyss,36498.09,5000.00,-86.30,floor-gap-or-value-landing,new 5000 exact signature 5000 AND below legendary floor 8000 (RARIETY_FLOORS per pricing_engine.py:56)
+Luminous War Pick,Phandelver and Below: The Shattered Obelisk,978.96,1817.56,85.66,ml-variance,no wave1/stealth/floor/match signature → ML retrain / variant-stat / rule-blend variance
+Ruinous Flail,The Book of Many Things,852.18,1527.21,79.21,ml-variance,no wave1/stealth/floor/match signature → ML retrain / variant-stat / rule-blend variance
+Ghallanda Cauldron,Exploring Eberron (2024),79.29,137.84,73.84,ml-variance,no wave1/stealth/floor/match signature → ML retrain / variant-stat / rule-blend variance
+Sword of the Paruns,Guildmasters' Guide to Ravnica,5964.90,1700.83,-71.49,ml-variance,no wave1/stealth/floor/match signature → ML retrain / variant-stat / rule-blend variance
+Wand Sheath,Eberron: Rising from the Last War,77.34,131.39,69.89,ml-variance,no wave1/stealth/floor/match signature → ML retrain / variant-stat / rule-blend variance
+Lucent Destroyer,Bigby Presents: Glory of the Giants,12445.55,3777.24,-69.65,ml-variance,no wave1/stealth/floor/match signature → ML retrain / variant-stat / rule-blend variance
+Thunderbuss,Bigby Presents: Glory of the Giants,5018.69,1529.26,-69.53,ml-variance,no wave1/stealth/floor/match signature → ML retrain / variant-stat / rule-blend variance
+Baleful Talon,The Book of Many Things,4683.12,1587.97,-66.09,ml-variance,no wave1/stealth/floor/match signature → ML retrain / variant-stat / rule-blend variance
+Tankard of Plenty,Hoard of the Dragon Queen,319.68,115.58,-63.85,ml-variance,no wave1/stealth/floor/match signature → ML retrain / variant-stat / rule-blend variance
+Dragon Thighbone Club,Storm King's Thunder,4676.92,1809.39,-61.31,ml-variance,no wave1/stealth/floor/match signature → ML retrain / variant-stat / rule-blend variance
+Falkir's Helm of Pigheadedness,Waterdeep: Dungeon of the Mad Mage,536.35,218.04,-59.35,ml-variance,no wave1/stealth/floor/match signature → ML retrain / variant-stat / rule-blend variance
+Mind Flayer Skull,Waterdeep: Dungeon of the Mad Mage,713.57,291.73,-59.12,ml-variance,no wave1/stealth/floor/match signature → ML retrain / variant-stat / rule-blend variance
+Jade Serpent Staff,Waterdeep: Dungeon of the Mad Mage,713.57,291.73,-59.12,ml-variance,no wave1/stealth/floor/match signature → ML retrain / variant-stat / rule-blend variance
+Piercer,Acquisitions Incorporated,1075.82,1698.92,57.92,ml-variance,no wave1/stealth/floor/match signature → ML retrain / variant-stat / rule-blend variance
+Needle of Mending,Explorer's Guide to Wildemount,1392.85,2166.94,55.58,ml-variance,no wave1/stealth/floor/match signature → ML retrain / variant-stat / rule-blend variance
+Rod of Wild Dominion,Exploring Eberron (2024),9415.66,14647.17,55.56,ml-variance,no wave1/stealth/floor/match signature → ML retrain / variant-stat / rule-blend variance
+Battle Rod,Exploring Eberron (2024),174.85,271.99,55.56,ml-variance,no wave1/stealth/floor/match signature → ML retrain / variant-stat / rule-blend variance
+Shield of the Uven Rune,Waterdeep: Dungeon of the Mad Mage,19239.64,9503.74,-50.60,ml-variance,no wave1/stealth/floor/match signature → ML retrain / variant-stat / rule-blend variance
+Infiltrator's Key (Awakened),Explorer's Guide to Wildemount,68365.19,34153.97,-50.04,ml-variance,no wave1/stealth/floor/match signature → ML retrain / variant-stat / rule-blend variance
+Scale of Kethelrax,Frontiers of Eberron: Quickstone,848.22,1264.37,49.06,ml-variance,no wave1/stealth/floor/match signature → ML retrain / variant-stat / rule-blend variance
+Silvered Shortsword,Dungeon Master's Guide (2024),167.47,246.48,47.18,ml-variance,no wave1/stealth/floor/match signature → ML retrain / variant-stat / rule-blend variance
+Bane Maul,Exploring Eberron (2024),16290.54,8777.04,-46.12,ml-variance,no wave1/stealth/floor/match signature → ML retrain / variant-stat / rule-blend variance
+Bane Greataxe,Exploring Eberron (2024),16148.93,8701.03,-46.12,ml-variance,no wave1/stealth/floor/match signature → ML retrain / variant-stat / rule-blend variance
+Bane Greatsword,Exploring Eberron (2024),16087.74,8668.18,-46.12,ml-variance,no wave1/stealth/floor/match signature → ML retrain / variant-stat / rule-blend variance
+Bane Pike,Exploring Eberron (2024),15950.14,8594.32,-46.12,ml-variance,no wave1/stealth/floor/match signature → ML retrain / variant-stat / rule-blend variance
+Bane Greatclub,Exploring Eberron (2024),15716.79,8469.07,-46.11,ml-variance,no wave1/stealth/floor/match signature → ML retrain / variant-stat / rule-blend variance
+Bane Glaive,Exploring Eberron (2024),15513.99,8360.21,-46.11,ml-variance,no wave1/stealth/floor/match signature → ML retrain / variant-stat / rule-blend variance
+Bane Lance,Exploring Eberron (2024),15513.99,8360.21,-46.11,ml-variance,no wave1/stealth/floor/match signature → ML retrain / variant-stat / rule-blend variance
+Bane Halberd,Exploring Eberron (2024),15513.99,8360.21,-46.11,ml-variance,no wave1/stealth/floor/match signature → ML retrain / variant-stat / rule-blend variance
+Bane Warhammer,Exploring Eberron (2024),15441.60,8321.36,-46.11,ml-variance,no wave1/stealth/floor/match signature → ML retrain / variant-stat / rule-blend variance
+Bane Trident,Exploring Eberron (2024),15353.01,8273.80,-46.11,ml-variance,no wave1/stealth/floor/match signature → ML retrain / variant-stat / rule-blend variance
+Bane Battleaxe,Exploring Eberron (2024),15353.01,8273.80,-46.11,ml-variance,no wave1/stealth/floor/match signature → ML retrain / variant-stat / rule-blend variance
+Bane Morningstar,Exploring Eberron (2024),15353.01,8273.80,-46.11,ml-variance,no wave1/stealth/floor/match signature → ML retrain / variant-stat / rule-blend variance
+Bane Longsword,Exploring Eberron (2024),15238.80,8212.50,-46.11,ml-variance,no wave1/stealth/floor/match signature → ML retrain / variant-stat / rule-blend variance
+Bane Rapier,Exploring Eberron (2024),15077.83,8126.10,-46.11,ml-variance,no wave1/stealth/floor/match signature → ML retrain / variant-stat / rule-blend variance
+Bane War Pick,Exploring Eberron (2024),15077.83,8126.10,-46.11,ml-variance,no wave1/stealth/floor/match signature → ML retrain / variant-stat / rule-blend variance
+Bane Flail,Exploring Eberron (2024),15077.83,8126.10,-46.11,ml-variance,no wave1/stealth/floor/match signature → ML retrain / variant-stat / rule-blend variance
+Bane Mace,Exploring Eberron (2024),14779.26,7965.84,-46.10,ml-variance,no wave1/stealth/floor/match signature → ML retrain / variant-stat / rule-blend variance
+Bane Quarterstaff,Exploring Eberron (2024),14779.26,7965.84,-46.10,ml-variance,no wave1/stealth/floor/match signature → ML retrain / variant-stat / rule-blend variance
+Bane Scimitar,Exploring Eberron (2024),14665.05,7904.53,-46.10,ml-variance,no wave1/stealth/floor/match signature → ML retrain / variant-stat / rule-blend variance
+Bane Whip,Exploring Eberron (2024),14665.05,7904.53,-46.10,ml-variance,no wave1/stealth/floor/match signature → ML retrain / variant-stat / rule-blend variance
+Bane Spear,Exploring Eberron (2024),14665.05,7904.53,-46.10,ml-variance,no wave1/stealth/floor/match signature → ML retrain / variant-stat / rule-blend variance
+Bane Club,Exploring Eberron (2024),14504.08,7818.13,-46.10,ml-variance,no wave1/stealth/floor/match signature → ML retrain / variant-stat / rule-blend variance
+Bane Javelin,Exploring Eberron (2024),14504.08,7818.13,-46.10,ml-variance,no wave1/stealth/floor/match signature → ML retrain / variant-stat / rule-blend variance
+Bane Shortsword,Exploring Eberron (2024),14504.08,7818.13,-46.10,ml-variance,no wave1/stealth/floor/match signature → ML retrain / variant-stat / rule-blend variance
+Bane Light Hammer,Exploring Eberron (2024),14504.08,7818.13,-46.10,ml-variance,no wave1/stealth/floor/match signature → ML retrain / variant-stat / rule-blend variance
+Bane Sickle,Exploring Eberron (2024),14504.08,7818.13,-46.10,ml-variance,no wave1/stealth/floor/match signature → ML retrain / variant-stat / rule-blend variance
+Bane Handaxe,Exploring Eberron (2024),14504.08,7818.13,-46.10,ml-variance,no wave1/stealth/floor/match signature → ML retrain / variant-stat / rule-blend variance
+Bane Dagger,Exploring Eberron (2024),14228.89,7670.42,-46.09,ml-variance,no wave1/stealth/floor/match signature → ML retrain / variant-stat / rule-blend variance
+Stonemaker War Pick,The Book of Many Things,20770.21,11549.15,-44.40,ml-variance,no wave1/stealth/floor/match signature → ML retrain / variant-stat / rule-blend variance
+Rod of the Vonindod,Storm King's Thunder,4156.99,5909.55,42.16,ml-variance,no wave1/stealth/floor/match signature → ML retrain / variant-stat / rule-blend variance
+Helm of Awareness,Eberron: Forge of the Artificer,713.57,1012.87,41.94,kh7-wave1,initiative_advantage=True
+Corpse Slayer Musket,Explorer's Guide to Wildemount,11861.77,6925.93,-41.61,ml-variance,no wave1/stealth/floor/match signature → ML retrain / variant-stat / rule-blend variance
+Corpse Slayer Maul,Explorer's Guide to Wildemount,11861.77,6925.93,-41.61,ml-variance,no wave1/stealth/floor/match signature → ML retrain / variant-stat / rule-blend variance
+Corpse Slayer Greataxe,Explorer's Guide to Wildemount,11791.68,6885.63,-41.61,ml-variance,no wave1/stealth/floor/match signature → ML retrain / variant-stat / rule-blend variance
+Corpse Slayer Greatsword,Explorer's Guide to Wildemount,11761.39,6868.22,-41.60,ml-variance,no wave1/stealth/floor/match signature → ML retrain / variant-stat / rule-blend variance
+Stormgirdle (Awakened),Explorer's Guide to Wildemount,137924.06,81324.66,-41.04,ml-variance,no wave1/stealth/floor/match signature → ML retrain / variant-stat / rule-blend variance
+Corpse Slayer Heavy Crossbow,Explorer's Guide to Wildemount,11557.08,6827.31,-40.93,ml-variance,no wave1/stealth/floor/match signature → ML retrain / variant-stat / rule-blend variance
+Corpse Slayer Pike,Explorer's Guide to Wildemount,11557.08,6827.31,-40.93,ml-variance,no wave1/stealth/floor/match signature → ML retrain / variant-stat / rule-blend variance
+Corpse Slayer Greatclub,Explorer's Guide to Wildemount,11441.58,6760.90,-40.91,ml-variance,no wave1/stealth/floor/match signature → ML retrain / variant-stat / rule-blend variance
+Corpse Slayer Glaive,Explorer's Guide to Wildemount,11341.21,6703.19,-40.90,ml-variance,no wave1/stealth/floor/match signature → ML retrain / variant-stat / rule-blend variance
+Corpse Slayer Double-Bladed Scimitar,Explorer's Guide to Wildemount,11341.21,6703.19,-40.90,ml-variance,no wave1/stealth/floor/match signature → ML retrain / variant-stat / rule-blend variance
+Corpse Slayer Halberd,Explorer's Guide to Wildemount,11341.21,6703.19,-40.90,ml-variance,no wave1/stealth/floor/match signature → ML retrain / variant-stat / rule-blend variance
+Corpse Slayer Lance,Explorer's Guide to Wildemount,11341.21,6703.19,-40.90,ml-variance,no wave1/stealth/floor/match signature → ML retrain / variant-stat / rule-blend variance
+Corpse Slayer Warhammer,Explorer's Guide to Wildemount,11305.38,6682.59,-40.89,ml-variance,no wave1/stealth/floor/match signature → ML retrain / variant-stat / rule-blend variance
+Corpse Slayer Light Repeating Crossbow,Explorer's Guide to Wildemount,11305.38,6682.59,-40.89,ml-variance,no wave1/stealth/floor/match signature → ML retrain / variant-stat / rule-blend variance
+Corpse Slayer Light Crossbow,Explorer's Guide to Wildemount,11305.38,6682.59,-40.89,ml-variance,no wave1/stealth/floor/match signature → ML retrain / variant-stat / rule-blend variance
+Corpse Slayer Trident,Explorer's Guide to Wildemount,11261.53,6657.38,-40.88,ml-variance,no wave1/stealth/floor/match signature → ML retrain / variant-stat / rule-blend variance
+Corpse Slayer Battleaxe,Explorer's Guide to Wildemount,11261.53,6657.38,-40.88,ml-variance,no wave1/stealth/floor/match signature → ML retrain / variant-stat / rule-blend variance
+Corpse Slayer Morningstar,Explorer's Guide to Wildemount,11261.53,6657.38,-40.88,ml-variance,no wave1/stealth/floor/match signature → ML retrain / variant-stat / rule-blend variance
+Corpse Slayer Yklwa,Explorer's Guide to Wildemount,11205.00,6624.88,-40.88,ml-variance,no wave1/stealth/floor/match signature → ML retrain / variant-stat / rule-blend variance
+Corpse Slayer Longsword,Explorer's Guide to Wildemount,11205.00,6624.88,-40.88,ml-variance,no wave1/stealth/floor/match signature → ML retrain / variant-stat / rule-blend variance
+Corpse Slayer Pistol,Explorer's Guide to Wildemount,11205.00,6624.88,-40.88,ml-variance,no wave1/stealth/floor/match signature → ML retrain / variant-stat / rule-blend variance
+Corpse Slayer War Pick,Explorer's Guide to Wildemount,11125.33,6579.07,-40.86,ml-variance,no wave1/stealth/floor/match signature → ML retrain / variant-stat / rule-blend variance
+Corpse Slayer Longbow,Explorer's Guide to Wildemount,11125.33,6579.07,-40.86,ml-variance,no wave1/stealth/floor/match signature → ML retrain / variant-stat / rule-blend variance
+Corpse Slayer Rapier,Explorer's Guide to Wildemount,11125.33,6579.07,-40.86,ml-variance,no wave1/stealth/floor/match signature → ML retrain / variant-stat / rule-blend variance
+Corpse Slayer Flail,Explorer's Guide to Wildemount,11125.33,6579.07,-40.86,ml-variance,no wave1/stealth/floor/match signature → ML retrain / variant-stat / rule-blend variance
+Corpse Slayer Blowgun,Explorer's Guide to Wildemount,10989.12,6500.76,-40.84,ml-variance,no wave1/stealth/floor/match signature → ML retrain / variant-stat / rule-blend variance
+Pearl of Undead Detection,Waterdeep: Dungeon of the Mad Mage,628.14,375.04,-40.29,ml-variance,no wave1/stealth/floor/match signature → ML retrain / variant-stat / rule-blend variance
+Corpse Slayer Quarterstaff,Explorer's Guide to Wildemount,10841.34,6492.36,-40.11,ml-variance,no wave1/stealth/floor/match signature → ML retrain / variant-stat / rule-blend variance
+Corpse Slayer Mace,Explorer's Guide to Wildemount,10841.34,6492.36,-40.11,ml-variance,no wave1/stealth/floor/match signature → ML retrain / variant-stat / rule-blend variance
+Corpse Slayer Hand Crossbow,Explorer's Guide to Wildemount,10784.81,6459.85,-40.10,ml-variance,no wave1/stealth/floor/match signature → ML retrain / variant-stat / rule-blend variance
+Corpse Slayer Scimitar,Explorer's Guide to Wildemount,10784.81,6459.85,-40.10,ml-variance,no wave1/stealth/floor/match signature → ML retrain / variant-stat / rule-blend variance
+Corpse Slayer Whip,Explorer's Guide to Wildemount,10784.81,6459.85,-40.10,ml-variance,no wave1/stealth/floor/match signature → ML retrain / variant-stat / rule-blend variance
+Corpse Slayer Spear,Explorer's Guide to Wildemount,10784.81,6459.85,-40.10,ml-variance,no wave1/stealth/floor/match signature → ML retrain / variant-stat / rule-blend variance
+Corpse Slayer Sling,Explorer's Guide to Wildemount,10784.81,6459.85,-40.10,ml-variance,no wave1/stealth/floor/match signature → ML retrain / variant-stat / rule-blend variance
+Corpse Slayer Shortbow,Explorer's Guide to Wildemount,10705.14,6414.05,-40.08,ml-variance,no wave1/stealth/floor/match signature → ML retrain / variant-stat / rule-blend variance
+Corpse Slayer Hoopak,Explorer's Guide to Wildemount,10705.14,6414.05,-40.08,ml-variance,no wave1/stealth/floor/match signature → ML retrain / variant-stat / rule-blend variance
+Corpse Slayer Shortsword,Explorer's Guide to Wildemount,10705.14,6414.05,-40.08,ml-variance,no wave1/stealth/floor/match signature → ML retrain / variant-stat / rule-blend variance
+Corpse Slayer Club,Explorer's Guide to Wildemount,10705.14,6414.05,-40.08,ml-variance,no wave1/stealth/floor/match signature → ML retrain / variant-stat / rule-blend variance
+Corpse Slayer Sickle,Explorer's Guide to Wildemount,10705.14,6414.05,-40.08,ml-variance,no wave1/stealth/floor/match signature → ML retrain / variant-stat / rule-blend variance
+Corpse Slayer Light Hammer,Explorer's Guide to Wildemount,10705.14,6414.05,-40.08,ml-variance,no wave1/stealth/floor/match signature → ML retrain / variant-stat / rule-blend variance
+Corpse Slayer Handaxe,Explorer's Guide to Wildemount,10705.14,6414.05,-40.08,ml-variance,no wave1/stealth/floor/match signature → ML retrain / variant-stat / rule-blend variance
+Corpse Slayer Javelin,Explorer's Guide to Wildemount,10705.14,6414.05,-40.08,ml-variance,no wave1/stealth/floor/match signature → ML retrain / variant-stat / rule-blend variance
+Corpse Slayer Hooked Shortspear,Explorer's Guide to Wildemount,10705.14,6414.05,-40.08,ml-variance,no wave1/stealth/floor/match signature → ML retrain / variant-stat / rule-blend variance
+Corpse Slayer Dagger,Explorer's Guide to Wildemount,10568.93,6335.73,-40.05,ml-variance,no wave1/stealth/floor/match signature → ML retrain / variant-stat / rule-blend variance
+Corpse Slayer Dart,Explorer's Guide to Wildemount,10296.52,6179.11,-39.99,ml-variance,no wave1/stealth/floor/match signature → ML retrain / variant-stat / rule-blend variance
+Slumbering Scaled Ornament,Fizban's Treasury of Dragons,731.93,1021.07,39.50,ml-variance,no wave1/stealth/floor/match signature → ML retrain / variant-stat / rule-blend variance
+Professor Skant,Icewind Dale: Rime of the Frostmaiden,4043.48,5635.06,39.36,ml-variance,no wave1/stealth/floor/match signature → ML retrain / variant-stat / rule-blend variance
+Gulthias Staff,Curse of Strahd,3437.96,4765.78,38.62,ml-variance,no wave1/stealth/floor/match signature → ML retrain / variant-stat / rule-blend variance
+Pendant of Prismatic Protection,Monsters of Drakkenheim,821.98,1137.02,38.33,ml-variance,no wave1/stealth/floor/match signature → ML retrain / variant-stat / rule-blend variance
+Professor Orb,Waterdeep: Dungeon of the Mad Mage,3846.29,5315.44,38.20,ml-variance,no wave1/stealth/floor/match signature → ML retrain / variant-stat / rule-blend variance
+Spider Staff,Phandelver and Below: The Shattered Obelisk,3023.74,4177.06,38.14,ml-variance,no wave1/stealth/floor/match signature → ML retrain / variant-stat / rule-blend variance
+Stirring Scaled Ornament,Fizban's Treasury of Dragons,3675.89,5071.64,37.97,ml-variance,no wave1/stealth/floor/match signature → ML retrain / variant-stat / rule-blend variance
+Pyroconverger,Guildmasters' Guide to Ravnica,557.55,766.29,37.44,ml-variance,no wave1/stealth/floor/match signature → ML retrain / variant-stat / rule-blend variance
+Holy Symbol of Ravenkind,Curse of Strahd,47695.03,65422.12,37.17,ml-variance,no wave1/stealth/floor/match signature → ML retrain / variant-stat / rule-blend variance
+Silvered Heavy Sentira Lens,Dungeon Master's Guide (2024),204.69,280.34,36.96,ml-variance,no wave1/stealth/floor/match signature → ML retrain / variant-stat / rule-blend variance
+Stormgirdle (Exalted),Explorer's Guide to Wildemount,182999.52,116110.55,-36.55,ml-variance,no wave1/stealth/floor/match signature → ML retrain / variant-stat / rule-blend variance
+Woodcutter's Axe,The Wild Beyond the Witchlight,8598.11,5455.50,-36.55,ml-variance,no wave1/stealth/floor/match signature → ML retrain / variant-stat / rule-blend variance
+Orb of the Stein Rune,Storm King's Thunder,3654.91,4985.05,36.39,ml-variance,no wave1/stealth/floor/match signature → ML retrain / variant-stat / rule-blend variance
+Silvered Light Sentira Lens,Dungeon Master's Guide (2024),199.93,272.52,36.31,ml-variance,no wave1/stealth/floor/match signature → ML retrain / variant-stat / rule-blend variance
+Silvered Quarterstaff,Dungeon Master's Guide (2024),199.10,271.16,36.19,ml-variance,no wave1/stealth/floor/match signature → ML retrain / variant-stat / rule-blend variance
+Silvered Mace,Dungeon Master's Guide (2024),199.10,271.16,36.19,ml-variance,no wave1/stealth/floor/match signature → ML retrain / variant-stat / rule-blend variance
+Jewel of Three Prayers (Exalted),Critical Role: Call of the Netherdeep,48526.74,66044.04,36.10,ml-variance,no wave1/stealth/floor/match signature → ML retrain / variant-stat / rule-blend variance
+Silvered Whip,Dungeon Master's Guide (2024),198.03,269.41,36.05,ml-variance,no wave1/stealth/floor/match signature → ML retrain / variant-stat / rule-blend variance
+Silvered Hand Crossbow,Dungeon Master's Guide (2024),198.03,269.41,36.05,ml-variance,no wave1/stealth/floor/match signature → ML retrain / variant-stat / rule-blend variance
+Silvered Sling,Dungeon Master's Guide (2024),198.03,269.41,36.05,ml-variance,no wave1/stealth/floor/match signature → ML retrain / variant-stat / rule-blend variance
+Silvered Hand Sentira Lens,Dungeon Master's Guide (2024),198.03,269.41,36.05,ml-variance,no wave1/stealth/floor/match signature → ML retrain / variant-stat / rule-blend variance
+Silvered Spear,Dungeon Master's Guide (2024),198.03,269.41,36.05,ml-variance,no wave1/stealth/floor/match signature → ML retrain / variant-stat / rule-blend variance
+Silvered Scimitar,Dungeon Master's Guide (2024),198.03,269.41,36.05,ml-variance,no wave1/stealth/floor/match signature → ML retrain / variant-stat / rule-blend variance
+Silvered Heavy Crossbow,Dungeon Master's Guide (2024),212.64,289.26,36.03,ml-variance,no wave1/stealth/floor/match signature → ML retrain / variant-stat / rule-blend variance
+Silvered Pike,Dungeon Master's Guide (2024),212.64,289.26,36.03,ml-variance,no wave1/stealth/floor/match signature → ML retrain / variant-stat / rule-blend variance
+Silvered Light Hammer,Dungeon Master's Guide (2024),196.52,266.93,35.83,ml-variance,no wave1/stealth/floor/match signature → ML retrain / variant-stat / rule-blend variance
+Silvered Sickle,Dungeon Master's Guide (2024),196.52,266.93,35.83,ml-variance,no wave1/stealth/floor/match signature → ML retrain / variant-stat / rule-blend variance
+Silvered Handaxe,Dungeon Master's Guide (2024),196.52,266.93,35.83,ml-variance,no wave1/stealth/floor/match signature → ML retrain / variant-stat / rule-blend variance
+Silvered Club,Dungeon Master's Guide (2024),196.52,266.93,35.83,ml-variance,no wave1/stealth/floor/match signature → ML retrain / variant-stat / rule-blend variance
+Silvered Hooked Shortspear,Dungeon Master's Guide (2024),196.52,266.93,35.83,ml-variance,no wave1/stealth/floor/match signature → ML retrain / variant-stat / rule-blend variance
+Silvered Shortbow,Dungeon Master's Guide (2024),196.52,266.93,35.83,ml-variance,no wave1/stealth/floor/match signature → ML retrain / variant-stat / rule-blend variance
+Silvered Hoopak,Dungeon Master's Guide (2024),196.52,266.93,35.83,ml-variance,no wave1/stealth/floor/match signature → ML retrain / variant-stat / rule-blend variance
+Silvered Javelin,Dungeon Master's Guide (2024),196.52,266.93,35.83,ml-variance,no wave1/stealth/floor/match signature → ML retrain / variant-stat / rule-blend variance
+Final Messenger,Exploring Eberron (2024),2013.73,1292.64,-35.81,ml-variance,no wave1/stealth/floor/match signature → ML retrain / variant-stat / rule-blend variance
+Silvered Greatclub,Dungeon Master's Guide (2024),210.46,285.67,35.74,ml-variance,no wave1/stealth/floor/match signature → ML retrain / variant-stat / rule-blend variance
+Silverquill Primer,Strixhaven: A Curriculum of Chaos,1017.32,1378.74,35.53,ml-variance,no wave1/stealth/floor/match signature → ML retrain / variant-stat / rule-blend variance
+Prismari Primer,Strixhaven: A Curriculum of Chaos,1017.32,1378.74,35.53,ml-variance,no wave1/stealth/floor/match signature → ML retrain / variant-stat / rule-blend variance
+Witherbloom Primer,Strixhaven: A Curriculum of Chaos,1017.32,1378.74,35.53,ml-variance,no wave1/stealth/floor/match signature → ML retrain / variant-stat / rule-blend variance
+Quandrix Primer,Strixhaven: A Curriculum of Chaos,1017.32,1378.74,35.53,ml-variance,no wave1/stealth/floor/match signature → ML retrain / variant-stat / rule-blend variance
+Lorehold Primer,Strixhaven: A Curriculum of Chaos,1017.32,1378.74,35.53,ml-variance,no wave1/stealth/floor/match signature → ML retrain / variant-stat / rule-blend variance
+Silvered Halberd,Dungeon Master's Guide (2024),208.56,282.55,35.48,ml-variance,no wave1/stealth/floor/match signature → ML retrain / variant-stat / rule-blend variance
+Silvered Lance,Dungeon Master's Guide (2024),208.56,282.55,35.48,ml-variance,no wave1/stealth/floor/match signature → ML retrain / variant-stat / rule-blend variance
+Silvered Glaive,Dungeon Master's Guide (2024),208.56,282.55,35.48,ml-variance,no wave1/stealth/floor/match signature → ML retrain / variant-stat / rule-blend variance
+Silvered Double-Bladed Scimitar,Dungeon Master's Guide (2024),208.56,282.55,35.48,ml-variance,no wave1/stealth/floor/match signature → ML retrain / variant-stat / rule-blend variance
+Silvered Dagger,Dungeon Master's Guide (2024),193.95,262.70,35.45,ml-variance,no wave1/stealth/floor/match signature → ML retrain / variant-stat / rule-blend variance
+Silvered Light Bayonet,Dungeon Master's Guide (2024),193.95,262.70,35.45,ml-variance,no wave1/stealth/floor/match signature → ML retrain / variant-stat / rule-blend variance
+Silvered Light Repeating Crossbow,Dungeon Master's Guide (2024),207.88,281.44,35.39,ml-variance,no wave1/stealth/floor/match signature → ML retrain / variant-stat / rule-blend variance
+Silvered Light Crossbow,Dungeon Master's Guide (2024),207.88,281.44,35.39,ml-variance,no wave1/stealth/floor/match signature → ML retrain / variant-stat / rule-blend variance
+Silvered Warhammer,Dungeon Master's Guide (2024),207.88,281.44,35.39,ml-variance,no wave1/stealth/floor/match signature → ML retrain / variant-stat / rule-blend variance
+Silvered Greataxe,Dungeon Master's Guide (2024),223.47,302.48,35.36,ml-variance,no wave1/stealth/floor/match signature → ML retrain / variant-stat / rule-blend variance
+Silvered Battleaxe,Dungeon Master's Guide (2024),207.05,280.08,35.27,ml-variance,no wave1/stealth/floor/match signature → ML retrain / variant-stat / rule-blend variance
+Silvered Trident,Dungeon Master's Guide (2024),207.05,280.08,35.27,ml-variance,no wave1/stealth/floor/match signature → ML retrain / variant-stat / rule-blend variance
+Silvered Morningstar,Dungeon Master's Guide (2024),207.05,280.08,35.27,ml-variance,no wave1/stealth/floor/match signature → ML retrain / variant-stat / rule-blend variance
+Silvered Longsword,Dungeon Master's Guide (2024),205.98,278.32,35.12,ml-variance,no wave1/stealth/floor/match signature → ML retrain / variant-stat / rule-blend variance
+Silvered Yklwa,Dungeon Master's Guide (2024),205.98,278.32,35.12,ml-variance,no wave1/stealth/floor/match signature → ML retrain / variant-stat / rule-blend variance
+Silvered War Pick,Dungeon Master's Guide (2024),204.47,275.85,34.91,ml-variance,no wave1/stealth/floor/match signature → ML retrain / variant-stat / rule-blend variance
+Silvered Flail,Dungeon Master's Guide (2024),204.47,275.85,34.91,ml-variance,no wave1/stealth/floor/match signature → ML retrain / variant-stat / rule-blend variance
+Silvered Longbow,Dungeon Master's Guide (2024),204.47,275.85,34.91,ml-variance,no wave1/stealth/floor/match signature → ML retrain / variant-stat / rule-blend variance
+Silvered Rapier,Dungeon Master's Guide (2024),204.47,275.85,34.91,ml-variance,no wave1/stealth/floor/match signature → ML retrain / variant-stat / rule-blend variance
+Silvered Maul,Dungeon Master's Guide (2024),218.40,294.59,34.89,ml-variance,no wave1/stealth/floor/match signature → ML retrain / variant-stat / rule-blend variance
+Infiltrator's Key (Exalted),Explorer's Guide to Wildemount,92051.56,60110.06,-34.70,ml-variance,no wave1/stealth/floor/match signature → ML retrain / variant-stat / rule-blend variance
+Silvered Dart,Dungeon Master's Guide (2024),188.79,254.24,34.67,ml-variance,no wave1/stealth/floor/match signature → ML retrain / variant-stat / rule-blend variance
+Silvered Greatsword,Dungeon Master's Guide (2024),216.51,291.47,34.62,ml-variance,no wave1/stealth/floor/match signature → ML retrain / variant-stat / rule-blend variance
+Bookmark,Tomb of Annihilation,63572.80,41597.77,-34.57,ml-variance,no wave1/stealth/floor/match signature → ML retrain / variant-stat / rule-blend variance
+Silvered Heavy Bayonet,Dungeon Master's Guide (2024),201.90,271.62,34.53,ml-variance,no wave1/stealth/floor/match signature → ML retrain / variant-stat / rule-blend variance
+Silvered Blowgun,Dungeon Master's Guide (2024),201.90,271.62,34.53,ml-variance,no wave1/stealth/floor/match signature → ML retrain / variant-stat / rule-blend variance
+Quickstone Boomstick,Frontiers of Eberron: Quickstone,1190.90,1601.12,34.45,ml-variance,no wave1/stealth/floor/match signature → ML retrain / variant-stat / rule-blend variance
+Robe of Serpents,Storm King's Thunder,607.55,816.29,34.36,ml-variance,no wave1/stealth/floor/match signature → ML retrain / variant-stat / rule-blend variance
+Wayfarer's Boots,Bigby Presents: Glory of the Giants,4285.74,5726.72,33.62,ml-variance,no wave1/stealth/floor/match signature → ML retrain / variant-stat / rule-blend variance
+Ascendant Scaled Ornament,Fizban's Treasury of Dragons,45706.23,61031.85,33.53,ml-variance,no wave1/stealth/floor/match signature → ML retrain / variant-stat / rule-blend variance
+Spies' Murmur,Guildmasters' Guide to Ravnica,647.55,856.29,32.24,ml-variance,no wave1/stealth/floor/match signature → ML retrain / variant-stat / rule-blend variance
+Earworm,Eberron: Rising from the Last War,413.19,541.40,31.03,ml-variance,no wave1/stealth/floor/match signature → ML retrain / variant-stat / rule-blend variance
+Barrier Tattoo (Small),Tasha's Cauldron of Everything,731.93,958.07,30.90,ml-variance,no wave1/stealth/floor/match signature → ML retrain / variant-stat / rule-blend variance
+Slumbering Dragon Vessel,Fizban's Treasury of Dragons,731.93,958.07,30.90,ml-variance,no wave1/stealth/floor/match signature → ML retrain / variant-stat / rule-blend variance
+Tongueworm,Exploring Eberron (2024),731.93,958.07,30.90,ml-variance,no wave1/stealth/floor/match signature → ML retrain / variant-stat / rule-blend variance
+Fabulist Gem,The Book of Many Things,731.93,958.07,30.90,ml-variance,no wave1/stealth/floor/match signature → ML retrain / variant-stat / rule-blend variance
+Throwing Scarab,Exploring Eberron (2024),731.93,958.07,30.90,ml-variance,no wave1/stealth/floor/match signature → ML retrain / variant-stat / rule-blend variance
+Wandering Eye,Exploring Eberron (2024),731.93,958.07,30.90,ml-variance,no wave1/stealth/floor/match signature → ML retrain / variant-stat / rule-blend variance
+Thayan Spell Tattoo,Forgotten Realms: Heroes of Faerûn,731.93,958.07,30.90,ml-variance,no wave1/stealth/floor/match signature → ML retrain / variant-stat / rule-blend variance
+Gorgon Hide Mail,Frontiers of Eberron: Quickstone,731.93,958.07,30.90,ml-variance,no wave1/stealth/floor/match signature → ML retrain / variant-stat / rule-blend variance
+Living Stoneskin,Frontiers of Eberron: Quickstone,13568.91,17682.21,30.31,6sw-stealth,HA/disadvantaged-MA armor with stealth_penalty=False → +400 (STEALTH_REMOVAL_RATE) | _has_stealth_removal True
+Spellburrow,Exploring Eberron (2024),763.43,989.57,29.62,ml-variance,no wave1/stealth/floor/match signature → ML retrain / variant-stat / rule-blend variance
+Skymetal Staff,Dungeons of Drakkenheim,9815.65,12685.11,29.23,ml-variance,no wave1/stealth/floor/match signature → ML retrain / variant-stat / rule-blend variance
+"Carpet of Flying, 3 ft. × 5 ft.",Dungeon Master's Guide (2024),15671.77,11131.58,-28.97,ml-variance,no wave1/stealth/floor/match signature → ML retrain / variant-stat / rule-blend variance
+"Carpet of Flying, 6 ft. × 9 ft.",Dungeon Master's Guide (2024),15671.77,11131.58,-28.97,ml-variance,no wave1/stealth/floor/match signature → ML retrain / variant-stat / rule-blend variance
+"Carpet of Flying, 5 ft. × 7 ft.",Dungeon Master's Guide (2024),15671.77,11131.58,-28.97,ml-variance,no wave1/stealth/floor/match signature → ML retrain / variant-stat / rule-blend variance
+"Carpet of Flying, 4 ft. × 6 ft.",Dungeon Master's Guide (2024),15671.77,11131.58,-28.97,ml-variance,no wave1/stealth/floor/match signature → ML retrain / variant-stat / rule-blend variance
+Bracers of Arc Lightning,Monsters of Drakkenheim,9864.37,12720.59,28.95,ml-variance,no wave1/stealth/floor/match signature → ML retrain / variant-stat / rule-blend variance
+Thurimbar Rod,Exploring Eberron (2024),131.87,170.02,28.93,ml-variance,no wave1/stealth/floor/match signature → ML retrain / variant-stat / rule-blend variance
+Flashdraw Wand,Frontiers of Eberron: Quickstone,745.56,959.63,28.71,ml-variance,no wave1/stealth/floor/match signature → ML retrain / variant-stat / rule-blend variance
+Crawling Gauntlet,Exploring Eberron (2024),892.83,1143.13,28.03,ml-variance,no wave1/stealth/floor/match signature → ML retrain / variant-stat / rule-blend variance
+Staff of Ruling,Quests from the Infinite Staircase,3459.02,4426.72,27.98,ml-variance,no wave1/stealth/floor/match signature → ML retrain / variant-stat / rule-blend variance
+Pixie Dust,The Wild Beyond the Witchlight,1641.47,1185.50,-27.78,ml-variance,no wave1/stealth/floor/match signature → ML retrain / variant-stat / rule-blend variance
+Faerie Dust,Storm King's Thunder,1641.47,1185.50,-27.78,ml-variance,no wave1/stealth/floor/match signature → ML retrain / variant-stat / rule-blend variance
+Docent,Eberron: Rising from the Last War,4175.25,5311.08,27.20,ml-variance,no wave1/stealth/floor/match signature → ML retrain / variant-stat / rule-blend variance
+Trident of Fish Command,Dungeon Master's Guide (2024),442.29,560.22,26.66,ml-variance,no wave1/stealth/floor/match signature → ML retrain / variant-stat / rule-blend variance
+Dodecahedron of Doom,Waterdeep: Dungeon of the Mad Mage,4411.92,5580.98,26.50,kh7-wave1,temp_hp_avg=5.5
+Sage's Signet (Songbird),The Book of Many Things,6964.94,8788.06,26.18,ml-variance,no wave1/stealth/floor/match signature → ML retrain / variant-stat / rule-blend variance
+Sage's Signet (Serpent),The Book of Many Things,6964.94,8788.06,26.18,ml-variance,no wave1/stealth/floor/match signature → ML retrain / variant-stat / rule-blend variance
+Ring of Puzzler's Wit,The Book of Many Things,954.77,1204.51,26.16,ml-variance,no wave1/stealth/floor/match signature → ML retrain / variant-stat / rule-blend variance
+Helm of the Gods,Mythic Odysseys of Theros,2939.16,3707.27,26.13,ml-variance,no wave1/stealth/floor/match signature → ML retrain / variant-stat / rule-blend variance
+"Shaarat'doovol, the Blade of Truth",Exploring Eberron (2024),213000.19,268189.82,25.91,ml-variance,no wave1/stealth/floor/match signature → ML retrain / variant-stat / rule-blend variance
+Dagger of Blindsight,Waterdeep: Dungeon of the Mad Mage,3774.02,4741.72,25.64,ml-variance,no wave1/stealth/floor/match signature → ML retrain / variant-stat / rule-blend variance
+Hammer of Runic Focus,The Book of Many Things,42857.96,53808.65,25.55,ml-variance,no wave1/stealth/floor/match signature → ML retrain / variant-stat / rule-blend variance
+Repulsion Shield,Eberron: Forge of the Artificer,1272.69,1597.16,25.49,ml-variance,no wave1/stealth/floor/match signature → ML retrain / variant-stat / rule-blend variance
+Donjon's Sundering Sphere,The Book of Many Things,2453.25,3078.50,25.49,ml-variance,no wave1/stealth/floor/match signature → ML retrain / variant-stat / rule-blend variance
+Orb of Skoraeus,Bigby Presents: Glory of the Giants,39179.66,49116.60,25.36,ml-variance,no wave1/stealth/floor/match signature → ML retrain / variant-stat / rule-blend variance
+Ruidium Shield,Critical Role: Call of the Netherdeep,18332.68,22933.54,25.10,ml-variance,no wave1/stealth/floor/match signature → ML retrain / variant-stat / rule-blend variance

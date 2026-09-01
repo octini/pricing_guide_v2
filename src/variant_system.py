@@ -17,11 +17,14 @@ Sections:
 """
 
 import json
+import logging
 import math
 import re
 
 import pandas as pd
 from typing import Optional, Tuple
+
+logger = logging.getLogger(__name__)
 
 
 # =============================================================================
@@ -183,6 +186,8 @@ def compute_generic_group_stats(mapping_df: pd.DataFrame) -> pd.DataFrame:
         if mask.any():
             for col, val in frozen.items():
                 df.loc[mask, col] = val
+        else:
+            logger.warning("Frozen variant group %s absent from corpus — freeze inert", gname)
     return df
 
 
