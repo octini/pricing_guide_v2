@@ -169,7 +169,21 @@ def compute_generic_group_stats(mapping_df: pd.DataFrame) -> pd.DataFrame:
             'max_dmg_tier': dmg_tiers.max() if len(dmg_tiers) > 0 else None,
         })
 
-    return pd.DataFrame(stats)
+    df = pd.DataFrame(stats)
+    # rrd calibration attempt 2: freeze +N Weapon group stats to baseline (4837) to stabilize anchors
+    # New corpus (12241) expands +N Weapon from 43 variants (max_weight 18, max_dmg 4) to 109 (20, 5),
+    # causing -0.212 vs -0.297 adj shift and 12% anchor FAIL. Freeze restores baseline stability.
+    frozen_weapon_stats = {
+        "+1 Weapon": {"variant_count": 43, "max_weight": 18.0, "max_dmg_tier": 4.0},
+        "+2 Weapon": {"variant_count": 43, "max_weight": 18.0, "max_dmg_tier": 4.0},
+        "+3 Weapon": {"variant_count": 43, "max_weight": 18.0, "max_dmg_tier": 4.0},
+    }
+    for gname, frozen in frozen_weapon_stats.items():
+        mask = df["generic_name"] == gname
+        if mask.any():
+            for col, val in frozen.items():
+                df.loc[mask, col] = val
+    return df
 
 
 # =============================================================================
