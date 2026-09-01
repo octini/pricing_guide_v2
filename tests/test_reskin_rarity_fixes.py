@@ -132,7 +132,8 @@ def test_embedded_reskin_data_frame_copy():
 
 
 def test_only_piwafwi_in_current_data_matches_embedded():
-    """Audit: in trimmed_5etools_list.json only Piwafwi (Cloak of Elvenkind) has paren inner matching a known item."""
+    """Audit: curated corpus (commit d43bc38, 12,241 items) has 22 embedded-reskin matches;
+    Piwafwi (Cloak of Elvenkind) must be among them and inherit Elvenkind pricing."""
     import json
     with open("trimmed_5etools_list.json", encoding="utf-8") as f:
         raw = json.load(f)
@@ -148,4 +149,13 @@ def test_only_piwafwi_in_current_data_matches_embedded():
                 matches.append(it.get("name"))
             elif inner.lower() in {n.lower() for n in names}:
                 matches.append(f"{it.get('name')} (case-insensitive)")
-    assert matches == ["Piwafwi (Cloak of Elvenkind)"]
+    # Piwafwi must be among the embedded-reskin matches (alias inheritance CORRECT per 9ih verified behavior)
+    assert "Piwafwi (Cloak of Elvenkind)" in matches, f"Piwafwi missing from embedded matches: {sorted(matches)}"
+    # Curated 12,241-item corpus (commit d43bc38) legitimately contains 22 embedded-reskin matches
+    # e.g. "Masks of the Sacred Beasts (Mule)", Spell Gem family, etc. — detection code is correct.
+    assert len(matches) == 22, f"expected 22 embedded matches for curated corpus d43bc38, got {len(matches)}: {sorted(matches)}"
+    # Verify Piwafwi inherits Elvenkind pricing via embedded-reskin logic
+    assert _get_embedded_price("Piwafwi (Cloak of Elvenkind)", {"Cloak of Elvenkind": 4068.75}) == 4068.75
+    # Negative case: Alchemy Jug (Blue) must NOT be considered an embedded reskin (Blue is not an item)
+    assert "Alchemy Jug (Blue)" not in matches
+    assert _get_embedded_price("Alchemy Jug (Blue)", {"Cloak of Elvenkind": 4068.75, "Alchemy Jug": 2767.9}) is None
