@@ -1,6 +1,6 @@
 # D&D 5e Item Pricing Guide v2 — Project Context
 
-**Last updated:** 2026-08-27
+**Last updated:** 2026-09-02 (wave-1.5 adoption f598b97 → 11,941 rows; see `docs/HANDOFF.md`)
 **Working directory:** `/Users/ryan/opencode/TTRPG/pricing_guide_v2/`
 **Spec:** `docs/superpowers/specs/2026-04-06-dnd-pricing-guide-design.md` (April scope superseded — see below)
 **Tracker:** beads (`bd ready` is authoritative)
@@ -19,24 +19,24 @@ Original April scope — 9,422 items via `items-sublist-data.json` (Standard + D
 
 | File | Count | Role |
 |------|-------|------|
-| `trimmed_5etools_list.json` | **4,837** | **Canonical** pipeline input (curated) |
+| `2026_07_12_item_list.json` | **12,241** | **Canonical** pipeline input (curated, adopted 2026-09-01 at f598b97; see `docs/HANDOFF.md`) |
+| `trimmed_5etools_list.json` | 4,837 | Legacy — superseded (pre-migration canonical) |
 | `items-sublist-data.json` | 9,422 | Legacy — do not use |
-| `2026_07_12_item_list.json` | **12,243** | Expansion — audited, approved-pending-migration (see `pricing_guide_v2-9xv`); expect ~12k output rows post-migration |
 | `items-sublist.md` | — | Prose descriptions for NLP extraction (must align with canonical list) |
 | `~/Downloads/DMPG.pdf` | — | Discerning Merchant's Price Guide (external guide) |
 | External | — | DSA + MSRP Google Sheets (external guides) |
 
-### Funnel (canonical)
+### Funnel (canonical — adopted 2026-09-01, see `docs/HANDOFF.md`)
 
 ```
-trimmed_5etools_list.json (4,837)
+2026_07_12_item_list.json (12,241)
   → pipeline (01–09, 11)
-  → 10_generate_output excludes generic variants + dedupes identical Name/Price/Type
+  → 10_generate_output excludes 167 generic variants + dedupes 133 identical Name/Price/Type
      (prefers 2024 core books: DMG2024, PHB2024)
-  → 4,749 output rows
+  → 11,941 output rows (11942 lines incl header)
 ```
 
-Expansion funnel will be ~12,243 → ~12k rows (same exclusions/dedupe).
+Legacy funnel was `trimmed_5etools_list.json` (4,837 → 4,749); superseded at 93cd09e → f598b97.
 
 ---
 
@@ -176,14 +176,14 @@ Helper: `src/pricing_engine.extra_damage_pricing_multiplier()`.
 ## Current State
 
 - **Live board is authoritative:** `bd ready` / `bd list` — do not trust this doc for issue status.
-- **Next milestone:** 12k migration gate — `pricing_guide_v2-kxc` (re-audit board, go/no-go) → `pricing_guide_v2-9xv` (big-bang migration to `2026_07_12_item_list.json`). Curation decisions from `pricing_guide_v2-1mv` audit apply (exclude QftIS Concussion/Sleep grenades; keep fantasy airships/skyships; nested generics via "Multiple variations of this item exist"; commodities at official values; Renaissance cap; exclude space/modern/future sources).
+- **Current baseline:** adopted wave-1.5 at **f598b97** (2026-09-01) — 12,241 → 11,941 rows, median 0.00%, 373 tests, Horowitz R1–R3 remediated; outputs regenerated 2026-09-02 (CSV/XLSX/HTML consistent). See `docs/HANDOFF.md` for adoption summary + honest open-items (Needler floor-clamped, 994 variance, triage queue). Next: `pricing_guide_v2-sr1` UI revamp; rrd stays OPEN for tiered triage.
 
 ---
 
 ## Prior Project Reference
 
 Located at `/Users/ryan/opencode/TTRPG/pricing_guide_2/`
-- Had 2,766 items (this project canonical: 4,837; expansion: 12,243)
+- Had 2,766 items (this project canonical: 12,241 → 11,941 adopted at f598b97; prior canonical 4,837 → 4,749 superseded)
 - Achieved R²=0.6639, significant outlier problems
 - Good reference for: criteria extraction logic, fuzzy matching, DSA/MSRP/DMPG ingestion scripts
 - Do NOT copy prices or algorithm weights — start fresh
