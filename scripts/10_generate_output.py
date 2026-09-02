@@ -133,6 +133,9 @@ def main():
     if 'alias' in df.columns:
         name_to_price = dict(zip(df['name'], df['final_price']))
         lower_name_to_price = {k.lower(): v for k, v in name_to_price.items()}
+        # Magic-only inheritance: inner must be magic (rarity not mundane/none) and have computed price
+        name_to_rarity = dict(zip(df['name'], df['rarity']))
+        lower_name_to_rarity = {k.lower(): v for k, v in name_to_rarity.items()}
         alias_copies = 0
         embedded_copies = 0
         embedded_pattern = re.compile(r'^(.+)\s*\((.+)\)$')
@@ -150,11 +153,19 @@ def main():
                     df.loc[idx, 'price_high'] = round(alias_price * 1.2, 2)
                     alias_copies += 1
                 continue
-            # Name-embedded reskin detection: "<Name> (Original Item Name)"
+            # Name-embedded reskin detection: "<Name> (Original Item Name)" — magic-only inheritance
             name = str(row.get('name', ''))
             m = embedded_pattern.match(name)
             if m:
                 inner = m.group(2).strip()
+                inner_rarity = name_to_rarity.get(inner)
+                if inner_rarity is None:
+                    inner_rarity = lower_name_to_rarity.get(inner.lower())
+                if inner_rarity is None or pd.isna(inner_rarity):
+                    continue
+                inner_rarity_norm = str(inner_rarity).strip().lower().replace(" ", "_")
+                if inner_rarity_norm in ("mundane", "none", ""):
+                    continue
                 embedded_price = name_to_price.get(inner)
                 if embedded_price is None:
                     embedded_price = lower_name_to_price.get(inner.lower())

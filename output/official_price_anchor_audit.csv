@@ -1,419 +1,1000 @@
 name,source,rarity,type,official_price_gp,rule_price,official_anchor_ratio,ml_price,pre_anchor_final_price,anchored_final_price,official_anchor_tier,official_anchor_delta
-Windskiff,FRAiF,rare,,4000.0,4866.0,1.2165,3458.984,3951.439526,4173.2,near_agreement_official_heavy,221.760474
-Mechanical Wonder (Domestic),FRAiF,uncommon,,400.0,750.0,1.875,701.89716,718.733151,591.239891,moderate_disagreement_blended,-127.49326
-Pearl of Undead Detection,WDMM,uncommon,OTH,500.0,750.0,1.5,701.89716,718.733151,631.239891,moderate_disagreement_blended,-87.49326
-Dancing Monkey Fruit,ToA,uncommon,OTH,5.0,1150.0,230.0,701.89716,858.733151,773.359836,high_disagreement_computed_heavy,-85.373315
-Statuette of Saint Markovia,CoS,uncommon,OTH,250.0,1250.0,5.0,820.4261,970.776956,898.699261,high_disagreement_computed_heavy,-72.077696
-Dagger of Guitar Solos,WDMM,uncommon,M,750.0,750.0,1.0,682.2222,705.944449,750.0,near_agreement_official_heavy,44.055551
-Arcanaloth's Music Box,ToA,uncommon,OTH,750.0,750.0,1.0,701.89716,718.733151,750.0,near_agreement_official_heavy,31.266849
-Potion of Healing,XDMG,common,P|XPHB,50.0,58.75,1.175,101.63039,65.182058,51.75,near_agreement_official_heavy,-13.432058
-Spell Scroll (Level 1),XDMG,common,SC|XPHB,50.0,75.0,1.5,128.62677,75.0,65.0,moderate_disagreement_blended,-10.0
-Spell Scroll (Cantrip),XDMG,common,SC|XPHB,30.0,25.0,0.833333,128.62677,25.0,29.0,near_agreement_official_heavy,4.0
-Ball Bearing,PHB,mundane,G,0.001,0.001,1.0,84.59741,0.01,0.001,near_agreement_official_heavy,-0.009
-Sling Bullet,XPHB,mundane,A|XPHB,0.002,0.002,1.0,36.354607,0.01,0.002,near_agreement_official_heavy,-0.008
-Byeshk Greatclub,ExploringEberron24,common,M|XPHB,400.2,400.2,1.0,377.76895,400.2,400.2,near_agreement_official_heavy,0.0
-Byeshk Javelin,ExploringEberron24,common,M|XPHB,400.5,400.5,1.0,377.76895,400.5,400.5,near_agreement_official_heavy,0.0
-Byeshk Quarterstaff,ExploringEberron24,common,M|XPHB,400.2,400.2,1.0,377.76895,400.2,400.2,near_agreement_official_heavy,0.0
-Dungeoneer's Pack,XPHB,mundane,G|XPHB,12.0,12.0,1.0,84.59741,12.0,12.0,near_agreement_official_heavy,0.0
-Pan Flute,XPHB,mundane,INS|XPHB,12.0,12.0,1.0,138.90181,12.0,12.0,near_agreement_official_heavy,0.0
-Drum,XPHB,mundane,INS|XPHB,6.0,6.0,1.0,138.90181,6.0,6.0,near_agreement_official_heavy,0.0
-Cloves,XDMG,mundane,TG|XDMG,3.0,3.0,1.0,84.59741,3.0,3.0,near_agreement_official_heavy,0.0
-Firearm Bullets (10),XPHB,mundane,A|XPHB,3.0,3.0,1.0,36.354607,3.0,3.0,near_agreement_official_heavy,0.0
-Heavy Bayonet,ChroniclesOfEberron,mundane,M,3.0,3.0,1.0,105.7234,3.0,3.0,near_agreement_official_heavy,0.0
-Horn,XPHB,mundane,INS|XPHB,3.0,3.0,1.0,138.90181,3.0,3.0,near_agreement_official_heavy,0.0
-Pig,XDMG,mundane,TG|XDMG,3.0,3.0,1.0,84.59741,3.0,3.0,near_agreement_official_heavy,0.0
-Theki Root,EGW,mundane,G,3.0,3.0,1.0,84.59741,3.0,3.0,near_agreement_official_heavy,0.0
-Basket,XPHB,mundane,G|XPHB,0.4,0.4,1.0,84.59741,0.4,0.4,near_agreement_official_heavy,0.0
-Ale (gallon),PHB,mundane,FD,0.2,0.2,1.0,84.59741,0.2,0.2,near_agreement_official_heavy,0.0
-Common Wine (bottle),XPHB,mundane,FD|XPHB,0.2,0.2,1.0,84.59741,0.2,0.2,near_agreement_official_heavy,0.0
-Greatclub,XPHB,mundane,M|XPHB,0.2,0.2,1.0,105.7234,0.2,0.2,near_agreement_official_heavy,0.0
-Mess Kit,PHB,mundane,G,0.2,0.2,1.0,84.59741,0.2,0.2,near_agreement_official_heavy,0.0
-Paper,XPHB,mundane,G|XPHB,0.2,0.2,1.0,84.59741,0.2,0.2,near_agreement_official_heavy,0.0
-Quarterstaff,XPHB,mundane,M|XPHB,0.2,0.2,1.0,105.7234,0.2,0.2,near_agreement_official_heavy,0.0
-Sling Bullets (20),XPHB,mundane,A|XPHB,0.2,0.2,1.0,36.354607,0.2,0.2,near_agreement_official_heavy,0.0
-Waterskin,XPHB,mundane,G|XPHB,0.2,0.2,1.0,84.59741,0.2,0.2,near_agreement_official_heavy,0.0
-Basic Fishing Equipment,AAG,mundane,G,0.1,0.1,1.0,176.69727,0.1,0.1,near_agreement_official_heavy,0.0
-Canvas (1 sq. yd.),XDMG,mundane,TG|XDMG,0.1,0.1,1.0,84.59741,0.1,0.1,near_agreement_official_heavy,0.0
-Cheese (wedge),XPHB,mundane,FD|XPHB,0.1,0.1,1.0,84.59741,0.1,0.1,near_agreement_official_heavy,0.0
-Club,XPHB,mundane,M|XPHB,0.1,0.1,1.0,105.7234,0.1,0.1,near_agreement_official_heavy,0.0
-Dice Set,XPHB,mundane,GS|XPHB,0.1,0.1,1.0,84.59741,0.1,0.1,near_agreement_official_heavy,0.0
-Hoopak,DSotDQ,mundane,M,0.1,0.1,1.0,105.7234,0.1,0.1,near_agreement_official_heavy,0.0
-Insect Repellent (block of incense),ToA,mundane,G,0.1,0.1,1.0,85.59914,0.1,0.1,near_agreement_official_heavy,0.0
-Iron,XDMG,mundane,TG|XDMG,0.1,0.1,1.0,84.59741,0.1,0.1,near_agreement_official_heavy,0.0
-Iron Spike,XPHB,mundane,G|XPHB,0.1,0.1,1.0,84.59741,0.1,0.1,near_agreement_official_heavy,0.0
-Ladder,XPHB,mundane,G|XPHB,0.1,0.1,1.0,84.59741,0.1,0.1,near_agreement_official_heavy,0.0
-Oil,XPHB,mundane,G|XPHB,0.1,0.1,1.0,84.59741,0.1,0.1,near_agreement_official_heavy,0.0
-Parchment,XPHB,mundane,G|XPHB,0.1,0.1,1.0,84.59741,0.1,0.1,near_agreement_official_heavy,0.0
-Sling,XPHB,mundane,R|XPHB,0.1,0.1,1.0,84.59741,0.1,0.1,near_agreement_official_heavy,0.0
-String,XPHB,mundane,G|XPHB,0.1,0.1,1.0,84.59741,0.1,0.1,near_agreement_official_heavy,0.0
-Arrow,XPHB,mundane,A|XPHB,0.05,0.05,1.0,36.354607,0.05,0.05,near_agreement_official_heavy,0.0
-Bolt,XPHB,mundane,A|XPHB,0.05,0.05,1.0,36.354607,0.05,0.05,near_agreement_official_heavy,0.0
-Bucket,XPHB,mundane,G|XPHB,0.05,0.05,1.0,84.59741,0.05,0.05,near_agreement_official_heavy,0.0
-Caltrop,PHB,mundane,G,0.05,0.05,1.0,84.59741,0.05,0.05,near_agreement_official_heavy,0.0
-Dart,XPHB,mundane,R|XPHB,0.05,0.05,1.0,84.59741,0.05,0.05,near_agreement_official_heavy,0.0
-Feed (per day),XPHB,mundane,TAH|XPHB,0.05,0.05,1.0,84.59741,0.05,0.05,near_agreement_official_heavy,0.0
-Piton,PHB,mundane,G,0.05,0.05,1.0,84.59741,0.05,0.05,near_agreement_official_heavy,0.0
-Pole,XPHB,mundane,G|XPHB,0.05,0.05,1.0,84.59741,0.05,0.05,near_agreement_official_heavy,0.0
-Salt,XDMG,mundane,TG|XDMG,0.05,0.05,1.0,84.59741,0.05,0.05,near_agreement_official_heavy,0.0
-Signal Whistle,XPHB,mundane,G|XPHB,0.05,0.05,1.0,84.59741,0.05,0.05,near_agreement_official_heavy,0.0
-Stabling (per day),XPHB,mundane,TAH|XPHB,0.05,0.05,1.0,84.59741,0.05,0.05,near_agreement_official_heavy,0.0
-Abacus,PHB,mundane,G,2.0,2.0,1.0,84.59741,2.0,2.0,near_agreement_official_heavy,0.0
-Acid,XPHB,mundane,G|XPHB,25.0,25.0,1.0,84.59741,25.0,25.0,near_agreement_official_heavy,0.0
-Adamantine Bar,WDH,mundane,TG,1000.0,1000.0,1.0,84.59741,1000.0,1000.0,near_agreement_official_heavy,0.0
-Airship,XPHB,mundane,AIR|XPHB,40000.0,40000.0,1.0,84.59741,40000.0,40000.0,near_agreement_official_heavy,0.0
-Alchemist's Fire,XPHB,mundane,G|XPHB,50.0,50.0,1.0,84.59741,50.0,50.0,near_agreement_official_heavy,0.0
-Alchemist's Supplies,XPHB,mundane,AT|XPHB,50.0,50.0,1.0,84.59741,50.0,50.0,near_agreement_official_heavy,0.0
-Ale (mug),XPHB,mundane,FD|XPHB,0.04,0.04,1.0,84.59741,0.04,0.04,near_agreement_official_heavy,0.0
-Amulet,XPHB,mundane,SCF|XPHB,5.0,5.0,1.0,95.86299,5.0,5.0,near_agreement_official_heavy,0.0
-Antitoxin,XPHB,mundane,G|XPHB,50.0,50.0,1.0,84.59741,50.0,50.0,near_agreement_official_heavy,0.0
-Arrows (20),XPHB,mundane,A|XPHB,1.0,1.0,1.0,36.354607,1.0,1.0,near_agreement_official_heavy,0.0
-Assassin's Blood,XDMG,mundane,G|XPHB,150.0,150.0,1.0,84.59741,150.0,150.0,near_agreement_official_heavy,0.0
-Axe Beak,FRHoF,mundane,MNT|XPHB,50.0,50.0,1.0,84.59741,50.0,50.0,near_agreement_official_heavy,0.0
-Backpack,XPHB,mundane,G|XPHB,2.0,2.0,1.0,84.59741,2.0,2.0,near_agreement_official_heavy,0.0
-Bagpipes,XPHB,mundane,INS|XPHB,30.0,30.0,1.0,138.90181,30.0,30.0,near_agreement_official_heavy,0.0
-Ball Bearings,XPHB,mundane,G|XPHB,1.0,1.0,1.0,84.59741,1.0,1.0,near_agreement_official_heavy,0.0
-Bandore,FRHoF,mundane,INS|XPHB,65.0,65.0,1.0,138.90181,65.0,65.0,near_agreement_official_heavy,0.0
-Barrel,XPHB,mundane,G|XPHB,2.0,2.0,1.0,84.59741,2.0,2.0,near_agreement_official_heavy,0.0
-Basic Poison,XPHB,mundane,G|XPHB,100.0,100.0,1.0,145.95433,100.0,100.0,near_agreement_official_heavy,0.0
-Battleaxe,XPHB,mundane,M|XPHB,10.0,10.0,1.0,105.7234,10.0,10.0,near_agreement_official_heavy,0.0
-Bedroll,XPHB,mundane,G|XPHB,1.0,1.0,1.0,84.59741,1.0,1.0,near_agreement_official_heavy,0.0
-Bell,XPHB,mundane,G|XPHB,1.0,1.0,1.0,84.59741,1.0,1.0,near_agreement_official_heavy,0.0
-Bit and bridle,PHB,mundane,TAH,2.0,2.0,1.0,84.59741,2.0,2.0,near_agreement_official_heavy,0.0
-Black Sap,EGW,mundane,G,300.0,300.0,1.0,84.59741,300.0,300.0,near_agreement_official_heavy,0.0
-Blanket,XPHB,mundane,G|XPHB,0.5,0.5,1.0,84.59741,0.5,0.5,near_agreement_official_heavy,0.0
-Blight Ichor,EGW,mundane,G,200.0,200.0,1.0,84.59741,200.0,200.0,near_agreement_official_heavy,0.0
-Block and Tackle,XPHB,mundane,G|XPHB,1.0,1.0,1.0,84.59741,1.0,1.0,near_agreement_official_heavy,0.0
-Blowgun,XPHB,mundane,R|XPHB,10.0,10.0,1.0,84.59741,10.0,10.0,near_agreement_official_heavy,0.0
-Bolts (20),XPHB,mundane,A|XPHB,1.0,1.0,1.0,36.354607,1.0,1.0,near_agreement_official_heavy,0.0
-Bomb,XDMG,mundane,EXP|XDMG,100.0,100.0,1.0,84.59741,100.0,100.0,near_agreement_official_heavy,0.0
-Bombard,AAG,mundane,SPC|AAG,50000.0,50000.0,1.0,84.59741,50000.0,50000.0,near_agreement_official_heavy,0.0
-Book,XPHB,mundane,G|XPHB,25.0,25.0,1.0,84.59741,25.0,25.0,near_agreement_official_heavy,0.0
-Bread (loaf),XPHB,mundane,FD|XPHB,0.02,0.02,1.0,84.59741,0.02,0.02,near_agreement_official_heavy,0.0
-Breastplate,XPHB,mundane,MA|XPHB,400.0,400.0,1.0,142.8004,400.0,400.0,near_agreement_official_heavy,0.0
-Breastplate Barding,PHB,mundane,TAH,1600.0,1600.0,1.0,84.59741,1600.0,1600.0,near_agreement_official_heavy,0.0
-Brewer's Supplies,XPHB,mundane,AT|XPHB,20.0,20.0,1.0,84.59741,20.0,20.0,near_agreement_official_heavy,0.0
-Bright Fungal Cloak,FRHoF,mundane,G|XPHB,25.0,25.0,1.0,84.59741,25.0,25.0,near_agreement_official_heavy,0.0
-Bullseye Lantern,XPHB,mundane,G|XPHB,10.0,10.0,1.0,84.59741,10.0,10.0,near_agreement_official_heavy,0.0
-Burglar's Pack,XPHB,mundane,G|XPHB,16.0,16.0,1.0,84.59741,16.0,16.0,near_agreement_official_heavy,0.0
-Burnt Othur Fumes,XDMG,mundane,G|XPHB,500.0,500.0,1.0,84.59741,500.0,500.0,near_agreement_official_heavy,0.0
-Byeshk Battleaxe,ExploringEberron24,common,M|XPHB,410.0,410.0,1.0,377.76895,410.0,410.0,near_agreement_official_heavy,0.0
-Byeshk Club,ExploringEberron24,common,M|XPHB,400.1,400.1,1.0,377.76895,400.1,400.1,near_agreement_official_heavy,0.0
-Byeshk Dagger,ExploringEberron24,common,M|XPHB,402.0,402.0,1.0,377.76895,402.0,402.0,near_agreement_official_heavy,0.0
-Byeshk Flail,ExploringEberron24,common,M|XPHB,410.0,410.0,1.0,377.76895,410.0,410.0,near_agreement_official_heavy,0.0
-Byeshk Glaive,ExploringEberron24,common,M|XPHB,420.0,420.0,1.0,377.76895,420.0,420.0,near_agreement_official_heavy,0.0
-Byeshk Greataxe,ExploringEberron24,common,M|XPHB,430.0,430.0,1.0,377.76895,430.0,430.0,near_agreement_official_heavy,0.0
-Byeshk Greatsword,ExploringEberron24,common,M|XPHB,450.0,450.0,1.0,377.76895,450.0,450.0,near_agreement_official_heavy,0.0
-Byeshk Halberd,ExploringEberron24,common,M|XPHB,420.0,420.0,1.0,377.76895,420.0,420.0,near_agreement_official_heavy,0.0
-Byeshk Handaxe,ExploringEberron24,common,M|XPHB,405.0,405.0,1.0,377.76895,405.0,405.0,near_agreement_official_heavy,0.0
-Byeshk Lance,ExploringEberron24,common,M|XPHB,410.0,410.0,1.0,377.76895,410.0,410.0,near_agreement_official_heavy,0.0
-Byeshk Light Hammer,ExploringEberron24,common,M|XPHB,402.0,402.0,1.0,377.76895,402.0,402.0,near_agreement_official_heavy,0.0
-Byeshk Longsword,ExploringEberron24,common,M|XPHB,415.0,415.0,1.0,377.76895,415.0,415.0,near_agreement_official_heavy,0.0
-Byeshk Mace,ExploringEberron24,common,M|XPHB,405.0,405.0,1.0,377.76895,405.0,405.0,near_agreement_official_heavy,0.0
-Byeshk Maul,ExploringEberron24,common,M|XPHB,410.0,410.0,1.0,377.76895,410.0,410.0,near_agreement_official_heavy,0.0
-Byeshk Morningstar,ExploringEberron24,common,M|XPHB,415.0,415.0,1.0,377.76895,415.0,415.0,near_agreement_official_heavy,0.0
-Byeshk Pike,ExploringEberron24,common,M|XPHB,405.0,405.0,1.0,377.76895,405.0,405.0,near_agreement_official_heavy,0.0
-Byeshk Rapier,ExploringEberron24,common,M|XPHB,425.0,425.0,1.0,377.76895,425.0,425.0,near_agreement_official_heavy,0.0
-Byeshk Scimitar,ExploringEberron24,common,M|XPHB,425.0,425.0,1.0,377.76895,425.0,425.0,near_agreement_official_heavy,0.0
-Byeshk Shortsword,ExploringEberron24,common,M|XPHB,410.0,410.0,1.0,377.76895,410.0,410.0,near_agreement_official_heavy,0.0
-Byeshk Sickle,ExploringEberron24,common,M|XPHB,401.0,401.0,1.0,377.76895,401.0,401.0,near_agreement_official_heavy,0.0
-Byeshk Spear,ExploringEberron24,common,M|XPHB,401.0,401.0,1.0,377.76895,401.0,401.0,near_agreement_official_heavy,0.0
-Byeshk Trident,ExploringEberron24,common,M|XPHB,405.0,405.0,1.0,377.76895,405.0,405.0,near_agreement_official_heavy,0.0
-Byeshk War Pick,ExploringEberron24,common,M|XPHB,405.0,405.0,1.0,377.76895,405.0,405.0,near_agreement_official_heavy,0.0
-Byeshk Warhammer,ExploringEberron24,common,M|XPHB,415.0,415.0,1.0,377.76895,415.0,415.0,near_agreement_official_heavy,0.0
-Byeshk Whip,ExploringEberron24,common,M|XPHB,402.0,402.0,1.0,377.76895,402.0,402.0,near_agreement_official_heavy,0.0
-Calligrapher's Supplies,XPHB,mundane,AT|XPHB,10.0,10.0,1.0,84.59741,10.0,10.0,near_agreement_official_heavy,0.0
-Caltrops,XPHB,mundane,G|XPHB,1.0,1.0,1.0,84.59741,1.0,1.0,near_agreement_official_heavy,0.0
-Camel,XPHB,mundane,MNT|XPHB,50.0,50.0,1.0,84.59741,50.0,50.0,near_agreement_official_heavy,0.0
-Candle,XPHB,mundane,G|XPHB,0.01,0.01,1.0,84.59741,0.01,0.01,near_agreement_official_heavy,0.0
-Canoe,ToA,mundane,SHP,50.0,50.0,1.0,84.59741,50.0,50.0,near_agreement_official_heavy,0.0
-Carpenter's Tools,XPHB,mundane,AT|XPHB,8.0,8.0,1.0,84.59741,8.0,8.0,near_agreement_official_heavy,0.0
-Carriage,XPHB,mundane,VEH|XPHB,100.0,100.0,1.0,84.59741,100.0,100.0,near_agreement_official_heavy,0.0
-Carrion Crawler Mucus,XDMG,mundane,G|XPHB,200.0,200.0,1.0,84.59741,200.0,200.0,near_agreement_official_heavy,0.0
-Cart,XPHB,mundane,VEH|XPHB,15.0,15.0,1.0,84.59741,15.0,15.0,near_agreement_official_heavy,0.0
-Cartographer's Tools,XPHB,mundane,AT|XPHB,15.0,15.0,1.0,84.59741,15.0,15.0,near_agreement_official_heavy,0.0
-Chain,XPHB,mundane,G|XPHB,5.0,5.0,1.0,84.59741,5.0,5.0,near_agreement_official_heavy,0.0
-Chain Mail,XPHB,mundane,HA|XPHB,75.0,75.0,1.0,162.43518,75.0,75.0,near_agreement_official_heavy,0.0
-Chain Mail Barding,PHB,mundane,TAH,300.0,300.0,1.0,84.59741,300.0,300.0,near_agreement_official_heavy,0.0
-Chain Shirt,XPHB,mundane,MA|XPHB,50.0,50.0,1.0,142.8004,50.0,50.0,near_agreement_official_heavy,0.0
-Chain Shirt Barding,PHB,mundane,TAH,200.0,200.0,1.0,84.59741,200.0,200.0,near_agreement_official_heavy,0.0
-Chalk (1 piece),PHB,mundane,G,0.01,0.01,1.0,84.59741,0.01,0.01,near_agreement_official_heavy,0.0
-Chariot,XPHB,mundane,VEH|XPHB,250.0,250.0,1.0,84.59741,250.0,250.0,near_agreement_official_heavy,0.0
-Chest,XPHB,mundane,G|XPHB,5.0,5.0,1.0,84.59741,5.0,5.0,near_agreement_official_heavy,0.0
-Chicken,XDMG,mundane,TG|XDMG,0.02,0.02,1.0,84.59741,0.02,0.02,near_agreement_official_heavy,0.0
-Chip,MonstersOfDrakkenheim,mundane,Dele|MonstersOfDrakkenheim,10.0,10.0,1.0,166.60088,10.0,10.0,near_agreement_official_heavy,0.0
-Chunk of Meat,PHB,mundane,FD,0.3,0.3,1.0,84.59741,0.3,0.3,near_agreement_official_heavy,0.0
-Cinnamon,XDMG,mundane,TG|XDMG,2.0,2.0,1.0,84.59741,2.0,2.0,near_agreement_official_heavy,0.0
-Cittern,FRHoF,mundane,INS|XPHB,65.0,65.0,1.0,138.90181,65.0,65.0,near_agreement_official_heavy,0.0
-Climber's Kit,XPHB,mundane,G|XPHB,25.0,25.0,1.0,84.59741,25.0,25.0,near_agreement_official_heavy,0.0
-"Clothing, cold weather",IDRotF,mundane,G,10.0,10.0,1.0,84.59741,10.0,10.0,near_agreement_official_heavy,0.0
-Cobbler's Tools,XPHB,mundane,AT|XPHB,5.0,5.0,1.0,84.59741,5.0,5.0,near_agreement_official_heavy,0.0
-Common Clothes,PHB,mundane,G,0.5,0.5,1.0,84.59741,0.5,0.5,near_agreement_official_heavy,0.0
-Component Pouch,XPHB,mundane,G|XPHB,25.0,25.0,1.0,84.59741,25.0,25.0,near_agreement_official_heavy,0.0
-Cook's Utensils,XPHB,mundane,AT|XPHB,1.0,1.0,1.0,84.59741,1.0,1.0,near_agreement_official_heavy,0.0
-Copper,XDMG,mundane,TG|XDMG,0.5,0.5,1.0,84.59741,0.5,0.5,near_agreement_official_heavy,0.0
-Costume,XPHB,mundane,G|XPHB,5.0,5.0,1.0,84.59741,5.0,5.0,near_agreement_official_heavy,0.0
-Cotton Cloth (1 sq. yd.),XDMG,mundane,TG|XDMG,0.5,0.5,1.0,84.59741,0.5,0.5,near_agreement_official_heavy,0.0
-Covered Wagon,FRHoF,mundane,VEH|XPHB,250.0,250.0,1.0,84.59741,250.0,250.0,near_agreement_official_heavy,0.0
-Cow,XDMG,mundane,TG|XDMG,10.0,10.0,1.0,84.59741,10.0,10.0,near_agreement_official_heavy,0.0
-Crampons,IDRotF,mundane,G,2.0,2.0,1.0,84.59741,2.0,2.0,near_agreement_official_heavy,0.0
-Crossbow Bolt Case,XPHB,mundane,G|XPHB,1.0,1.0,1.0,84.59741,1.0,1.0,near_agreement_official_heavy,0.0
-Crowbar,XPHB,mundane,G|XPHB,2.0,2.0,1.0,84.59741,2.0,2.0,near_agreement_official_heavy,0.0
-Crystal,MonstersOfDrakkenheim,mundane,Dele|MonstersOfDrakkenheim,1000.0,1000.0,1.0,166.60088,1000.0,1000.0,near_agreement_official_heavy,0.0
-Crystal,XPHB,mundane,SCF|XPHB,10.0,10.0,1.0,95.86299,10.0,10.0,near_agreement_official_heavy,0.0
-Dagger,XPHB,mundane,M|XPHB,2.0,2.0,1.0,105.7234,2.0,2.0,near_agreement_official_heavy,0.0
-Damselfly Ship,AAG,mundane,SPC|AAG,20000.0,20000.0,1.0,84.59741,20000.0,20000.0,near_agreement_official_heavy,0.0
-Deathdance,FRAiF,mundane,G|XPHB,200.0,200.0,1.0,84.59741,200.0,200.0,near_agreement_official_heavy,0.0
-Desert Clothing,FRHoF,mundane,G|XPHB,10.0,10.0,1.0,84.59741,10.0,10.0,near_agreement_official_heavy,0.0
-Devil Mask,FRHoF,mundane,G|XPHB,25.0,25.0,1.0,84.59741,25.0,25.0,near_agreement_official_heavy,0.0
-Diplomat's Pack,XPHB,mundane,G|XPHB,39.0,39.0,1.0,84.59741,39.0,39.0,near_agreement_official_heavy,0.0
-Disguise Kit,XPHB,mundane,T|XPHB,25.0,25.0,1.0,84.59741,25.0,25.0,near_agreement_official_heavy,0.0
-Dogsled,IDRotF,mundane,VEH,20.0,20.0,1.0,84.59741,20.0,20.0,near_agreement_official_heavy,0.0
-Donkey,PHB,mundane,MNT,8.0,8.0,1.0,84.59741,8.0,8.0,near_agreement_official_heavy,0.0
-Double-Bladed Scimitar,ERLW,mundane,M,100.0,100.0,1.0,105.7234,100.0,100.0,near_agreement_official_heavy,0.0
-Draft Horse,XPHB,mundane,MNT|XPHB,50.0,50.0,1.0,84.59741,50.0,50.0,near_agreement_official_heavy,0.0
-Dragonchess Set,XPHB,mundane,GS|XPHB,1.0,1.0,1.0,84.59741,1.0,1.0,near_agreement_official_heavy,0.0
-Dulcimer,XPHB,mundane,INS|XPHB,25.0,25.0,1.0,138.90181,25.0,25.0,near_agreement_official_heavy,0.0
-Elephant,XPHB,mundane,MNT|XPHB,200.0,200.0,1.0,84.59741,200.0,200.0,near_agreement_official_heavy,0.0
-Emblem,XPHB,mundane,SCF|XPHB,5.0,5.0,1.0,95.86299,5.0,5.0,near_agreement_official_heavy,0.0
-Entertainer's Pack,XPHB,mundane,G|XPHB,40.0,40.0,1.0,84.59741,40.0,40.0,near_agreement_official_heavy,0.0
-Essence of Ether,XDMG,mundane,G|XPHB,300.0,300.0,1.0,84.59741,300.0,300.0,near_agreement_official_heavy,0.0
-Exotic Saddle,XPHB,mundane,TAH|XPHB,60.0,60.0,1.0,84.59741,60.0,60.0,near_agreement_official_heavy,0.0
-Explorer's Pack,XPHB,mundane,G|XPHB,10.0,10.0,1.0,84.59741,10.0,10.0,near_agreement_official_heavy,0.0
-Ffolk Sailing Ship,FRAiF,mundane,SHP|XPHB,20000.0,20000.0,1.0,84.59741,20000.0,20000.0,near_agreement_official_heavy,0.0
-Fine Clothes,XPHB,mundane,G|XPHB,15.0,15.0,1.0,84.59741,15.0,15.0,near_agreement_official_heavy,0.0
-Fine Wine (bottle),XPHB,mundane,FD|XPHB,10.0,10.0,1.0,84.59741,10.0,10.0,near_agreement_official_heavy,0.0
-Firearm Bullet,XPHB,mundane,A|XPHB,0.3,0.3,1.0,36.354607,0.3,0.3,near_agreement_official_heavy,0.0
-Fishing Tackle,PHB,mundane,G,1.0,1.0,1.0,84.59741,1.0,1.0,near_agreement_official_heavy,0.0
-Flail,XPHB,mundane,M|XPHB,10.0,10.0,1.0,105.7234,10.0,10.0,near_agreement_official_heavy,0.0
-Flask,XPHB,mundane,G|XPHB,0.02,0.02,1.0,84.59741,0.02,0.02,near_agreement_official_heavy,0.0
-Flour,XDMG,mundane,TG|XDMG,0.02,0.02,1.0,84.59741,0.02,0.02,near_agreement_official_heavy,0.0
-Flute,XPHB,mundane,INS|XPHB,2.0,2.0,1.0,138.90181,2.0,2.0,near_agreement_official_heavy,0.0
-Flying Fish Ship,AAG,mundane,SPC|AAG,20000.0,20000.0,1.0,84.59741,20000.0,20000.0,near_agreement_official_heavy,0.0
-Flying Snake,FRHoF,mundane,MNT|XPHB,25.0,25.0,1.0,84.59741,25.0,25.0,near_agreement_official_heavy,0.0
-Forgery Kit,XPHB,mundane,T|XPHB,15.0,15.0,1.0,84.59741,15.0,15.0,near_agreement_official_heavy,0.0
-Fragment,MonstersOfDrakkenheim,mundane,Dele|MonstersOfDrakkenheim,100.0,100.0,1.0,166.60088,100.0,100.0,near_agreement_official_heavy,0.0
-Galley,XPHB,mundane,SHP|XPHB,30000.0,30000.0,1.0,84.59741,30000.0,30000.0,near_agreement_official_heavy,0.0
-Garb of Light and Shadow,FRHoF,mundane,G|XPHB,50.0,50.0,1.0,84.59741,50.0,50.0,near_agreement_official_heavy,0.0
-Genie Robe,FRHoF,mundane,G|XPHB,50.0,50.0,1.0,84.59741,50.0,50.0,near_agreement_official_heavy,0.0
-Geode,MonstersOfDrakkenheim,mundane,Dele|MonstersOfDrakkenheim,5000.0,5000.0,1.0,166.60088,5000.0,5000.0,near_agreement_official_heavy,0.0
-Ginger,XDMG,mundane,TG|XDMG,1.0,1.0,1.0,84.59741,1.0,1.0,near_agreement_official_heavy,0.0
-Glaive,XPHB,mundane,M|XPHB,20.0,20.0,1.0,105.7234,20.0,20.0,near_agreement_official_heavy,0.0
-Glass Bottle,XPHB,mundane,G|XPHB,2.0,2.0,1.0,84.59741,2.0,2.0,near_agreement_official_heavy,0.0
-Glassblower's Tools,XPHB,mundane,AT|XPHB,30.0,30.0,1.0,84.59741,30.0,30.0,near_agreement_official_heavy,0.0
-Goat,XDMG,mundane,TG|XDMG,1.0,1.0,1.0,84.59741,1.0,1.0,near_agreement_official_heavy,0.0
-Gold,XDMG,mundane,TG|XDMG,50.0,50.0,1.0,84.59741,50.0,50.0,near_agreement_official_heavy,0.0
-Grappling Hook,XPHB,mundane,G|XPHB,2.0,2.0,1.0,84.59741,2.0,2.0,near_agreement_official_heavy,0.0
-Greataxe,XPHB,mundane,M|XPHB,30.0,30.0,1.0,105.7234,30.0,30.0,near_agreement_official_heavy,0.0
-Greatsword,XPHB,mundane,M|XPHB,50.0,50.0,1.0,105.7234,50.0,50.0,near_agreement_official_heavy,0.0
-Gunpowder (keg),XDMG,mundane,EXP|XDMG,250.0,250.0,1.0,84.59741,250.0,250.0,near_agreement_official_heavy,0.0
-Gunpowder (powder horn),XDMG,mundane,EXP|XDMG,35.0,35.0,1.0,84.59741,35.0,35.0,near_agreement_official_heavy,0.0
-Halberd,XPHB,mundane,M|XPHB,20.0,20.0,1.0,105.7234,20.0,20.0,near_agreement_official_heavy,0.0
-Half Plate Armor,XPHB,mundane,MA|XPHB,750.0,750.0,1.0,142.8004,750.0,750.0,near_agreement_official_heavy,0.0
-Half Plate Barding,PHB,mundane,TAH,3000.0,3000.0,1.0,84.59741,3000.0,3000.0,near_agreement_official_heavy,0.0
-Hammer,PHB,mundane,G,1.0,1.0,1.0,84.59741,1.0,1.0,near_agreement_official_heavy,0.0
-Hammerhead Ship,AAG,mundane,SPC|AAG,40000.0,40000.0,1.0,84.59741,40000.0,40000.0,near_agreement_official_heavy,0.0
-Hand Crossbow,XPHB,mundane,R|XPHB,75.0,75.0,1.0,84.59741,75.0,75.0,near_agreement_official_heavy,0.0
-Hand Sentira Lens,ChroniclesOfEberron,mundane,R,150.0,150.0,1.0,84.59741,150.0,150.0,near_agreement_official_heavy,0.0
-Handaxe,XPHB,mundane,M|XPHB,5.0,5.0,1.0,105.7234,5.0,5.0,near_agreement_official_heavy,0.0
-Healer's Kit,XPHB,mundane,G|XPHB,5.0,5.0,1.0,84.59741,5.0,5.0,near_agreement_official_heavy,0.0
-Heavy Crossbow,XPHB,mundane,R|XPHB,50.0,50.0,1.0,84.59741,50.0,50.0,near_agreement_official_heavy,0.0
-Heavy Sentira Lens,ChroniclesOfEberron,mundane,R,100.0,100.0,1.0,84.59741,100.0,100.0,near_agreement_official_heavy,0.0
-Herbalism Kit,XPHB,mundane,T|XPHB,5.0,5.0,1.0,84.59741,5.0,5.0,near_agreement_official_heavy,0.0
-Hide Armor,XPHB,mundane,MA|XPHB,10.0,10.0,1.0,142.8004,10.0,10.0,near_agreement_official_heavy,0.0
-Hide Barding,PHB,mundane,TAH,40.0,40.0,1.0,84.59741,40.0,40.0,near_agreement_official_heavy,0.0
-Holy Water,XPHB,mundane,G|XPHB,25.0,25.0,1.0,84.59741,25.0,25.0,near_agreement_official_heavy,0.0
-Hooded Lantern,XPHB,mundane,G|XPHB,5.0,5.0,1.0,84.59741,5.0,5.0,near_agreement_official_heavy,0.0
-Hourglass,PHB,mundane,G,25.0,25.0,1.0,84.59741,25.0,25.0,near_agreement_official_heavy,0.0
-Hunting Trap,XPHB,mundane,G|XPHB,5.0,5.0,1.0,84.59741,5.0,5.0,near_agreement_official_heavy,0.0
-Ink,XPHB,mundane,G|XPHB,10.0,10.0,1.0,84.59741,10.0,10.0,near_agreement_official_heavy,0.0
-Ink Pen,XPHB,mundane,G|XPHB,0.02,0.02,1.0,84.59741,0.02,0.02,near_agreement_official_heavy,0.0
-Insect Repellent (greasy salve),ToA,mundane,G,1.0,1.0,1.0,96.496254,1.0,1.0,near_agreement_official_heavy,0.0
-Iron Pot,XPHB,mundane,G|XPHB,2.0,2.0,1.0,84.59741,2.0,2.0,near_agreement_official_heavy,0.0
-Iron Spikes,XPHB,mundane,G|XPHB,1.0,1.0,1.0,84.59741,1.0,1.0,near_agreement_official_heavy,0.0
-Javelin,XPHB,mundane,M|XPHB,0.5,0.5,1.0,105.7234,0.5,0.5,near_agreement_official_heavy,0.0
-Jeweler's Tools,XPHB,mundane,AT|XPHB,25.0,25.0,1.0,84.59741,25.0,25.0,near_agreement_official_heavy,0.0
-Jug,XPHB,mundane,G|XPHB,0.02,0.02,1.0,84.59741,0.02,0.02,near_agreement_official_heavy,0.0
-Keelboat,XPHB,mundane,SHP|XPHB,3000.0,3000.0,1.0,84.59741,3000.0,3000.0,near_agreement_official_heavy,0.0
-Lamp,XPHB,mundane,G|XPHB,0.5,0.5,1.0,84.59741,0.5,0.5,near_agreement_official_heavy,0.0
-Lamprey Ship,AAG,mundane,SPC|AAG,20000.0,20000.0,1.0,84.59741,20000.0,20000.0,near_agreement_official_heavy,0.0
-Lance,XPHB,mundane,M|XPHB,10.0,10.0,1.0,105.7234,10.0,10.0,near_agreement_official_heavy,0.0
-Leather Armor,XPHB,mundane,LA|XPHB,10.0,10.0,1.0,125.595474,10.0,10.0,near_agreement_official_heavy,0.0
-Leather Barding,PHB,mundane,TAH,40.0,40.0,1.0,84.59741,40.0,40.0,near_agreement_official_heavy,0.0
-Leatherworker's Tools,XPHB,mundane,AT|XPHB,5.0,5.0,1.0,84.59741,5.0,5.0,near_agreement_official_heavy,0.0
-Light Bayonet,ChroniclesOfEberron,mundane,M,2.0,2.0,1.0,105.7234,2.0,2.0,near_agreement_official_heavy,0.0
-Light Crossbow,XPHB,mundane,R|XPHB,25.0,25.0,1.0,84.59741,25.0,25.0,near_agreement_official_heavy,0.0
-Light Hammer,XPHB,mundane,M|XPHB,2.0,2.0,1.0,105.7234,2.0,2.0,near_agreement_official_heavy,0.0
-Light Sentira Lens,ChroniclesOfEberron,mundane,R,50.0,50.0,1.0,84.59741,50.0,50.0,near_agreement_official_heavy,0.0
-Linen (1 sq. yd.),XDMG,mundane,TG|XDMG,5.0,5.0,1.0,84.59741,5.0,5.0,near_agreement_official_heavy,0.0
-Living Ship,AAG,mundane,SPC|AAG,25000.0,25000.0,1.0,96.03325,25000.0,25000.0,near_agreement_official_heavy,0.0
-Lock,XPHB,mundane,G|XPHB,10.0,10.0,1.0,84.59741,10.0,10.0,near_agreement_official_heavy,0.0
-Locking Spellbook,FRHoF,mundane,G|XPHB,35.0,35.0,1.0,84.59741,35.0,35.0,near_agreement_official_heavy,0.0
-Lolth's Sting,XDMG,mundane,G|XPHB,200.0,200.0,1.0,84.59741,200.0,200.0,near_agreement_official_heavy,0.0
-Longbow,XPHB,mundane,R|XPHB,50.0,50.0,1.0,84.59741,50.0,50.0,near_agreement_official_heavy,0.0
-Longship,XPHB,mundane,SHP|XPHB,10000.0,10000.0,1.0,84.59741,10000.0,10000.0,near_agreement_official_heavy,0.0
-Longsword,XPHB,mundane,M|XPHB,15.0,15.0,1.0,105.7234,15.0,15.0,near_agreement_official_heavy,0.0
-Lute,XPHB,mundane,INS|XPHB,35.0,35.0,1.0,138.90181,35.0,35.0,near_agreement_official_heavy,0.0
-Lyre,XPHB,mundane,INS|XPHB,30.0,30.0,1.0,138.90181,30.0,30.0,near_agreement_official_heavy,0.0
-Mace,XPHB,mundane,M|XPHB,5.0,5.0,1.0,105.7234,5.0,5.0,near_agreement_official_heavy,0.0
-Magnifying Glass,XPHB,mundane,G|XPHB,100.0,100.0,1.0,84.59741,100.0,100.0,near_agreement_official_heavy,0.0
-Malice,XDMG,mundane,G|XPHB,250.0,250.0,1.0,84.59741,250.0,250.0,near_agreement_official_heavy,0.0
-Manacles,XPHB,mundane,G|XPHB,2.0,2.0,1.0,84.59741,2.0,2.0,near_agreement_official_heavy,0.0
-Map,XPHB,mundane,G|XPHB,1.0,1.0,1.0,84.59741,1.0,1.0,near_agreement_official_heavy,0.0
-Map or Scroll Case,XPHB,mundane,G|XPHB,1.0,1.0,1.0,84.59741,1.0,1.0,near_agreement_official_heavy,0.0
-Mason's Tools,XPHB,mundane,AT|XPHB,10.0,10.0,1.0,84.59741,10.0,10.0,near_agreement_official_heavy,0.0
-Mastiff,XPHB,mundane,MNT|XPHB,25.0,25.0,1.0,84.59741,25.0,25.0,near_agreement_official_heavy,0.0
-Maul,XPHB,mundane,M|XPHB,10.0,10.0,1.0,105.7234,10.0,10.0,near_agreement_official_heavy,0.0
-Menga leaves (1 ounce),ToA,mundane,G,2.0,2.0,1.0,84.59741,2.0,2.0,near_agreement_official_heavy,0.0
-Merchant's Scale,PHB,mundane,G,5.0,5.0,1.0,84.59741,5.0,5.0,near_agreement_official_heavy,0.0
-Midnight Tears,XDMG,mundane,G|XPHB,1500.0,1500.0,1.0,84.59741,1500.0,1500.0,near_agreement_official_heavy,0.0
-Military Saddle,XPHB,mundane,TAH|XPHB,20.0,20.0,1.0,84.59741,20.0,20.0,near_agreement_official_heavy,0.0
-Miner's Pick,PHB,mundane,G,2.0,2.0,1.0,84.59741,2.0,2.0,near_agreement_official_heavy,0.0
-Mirror,XPHB,mundane,G|XPHB,5.0,5.0,1.0,84.59741,5.0,5.0,near_agreement_official_heavy,0.0
-Monster Camouflage,FRHoF,mundane,G|XPHB,50.0,50.0,1.0,84.59741,50.0,50.0,near_agreement_official_heavy,0.0
-Monster Hunter's Pack,VRGR,mundane,G,33.0,33.0,1.0,84.59741,33.0,33.0,near_agreement_official_heavy,0.0
-Moorbounder,EGW,mundane,MNT,400.0,400.0,1.0,84.59741,400.0,400.0,near_agreement_official_heavy,0.0
-Morningstar,XPHB,mundane,M|XPHB,15.0,15.0,1.0,105.7234,15.0,15.0,near_agreement_official_heavy,0.0
-Mule,XPHB,mundane,MNT|XPHB,8.0,8.0,1.0,84.59741,8.0,8.0,near_agreement_official_heavy,0.0
-Muroosa Balm,EGW,mundane,G,100.0,100.0,1.0,84.59741,100.0,100.0,near_agreement_official_heavy,0.0
-Musket,XPHB,mundane,R|XPHB,500.0,500.0,1.0,84.59741,500.0,500.0,near_agreement_official_heavy,0.0
-Nautiloid,AAG,mundane,SPC|AAG,50000.0,50000.0,1.0,84.59741,50000.0,50000.0,near_agreement_official_heavy,0.0
-Navigator's Tools,XPHB,mundane,T|XPHB,25.0,25.0,1.0,84.59741,25.0,25.0,near_agreement_official_heavy,0.0
-Needle,XPHB,mundane,A|XPHB,0.02,0.02,1.0,36.354607,0.02,0.02,near_agreement_official_heavy,0.0
-Needles (50),XPHB,mundane,A|XPHB,1.0,1.0,1.0,36.354607,1.0,1.0,near_agreement_official_heavy,0.0
-Net,XPHB,mundane,G|XPHB,1.0,1.0,1.0,84.59741,1.0,1.0,near_agreement_official_heavy,0.0
-Nightspider,AAG,mundane,SPC|AAG,50000.0,50000.0,1.0,84.59741,50000.0,50000.0,near_agreement_official_heavy,0.0
-Norlander Longship,FRAiF,mundane,SHP|XPHB,20000.0,20000.0,1.0,84.59741,20000.0,20000.0,near_agreement_official_heavy,0.0
-Oil of Taggit,XDMG,mundane,G|XPHB,400.0,400.0,1.0,84.59741,400.0,400.0,near_agreement_official_heavy,0.0
-Olisuba Leaf,EGW,mundane,G,50.0,50.0,1.0,84.59741,50.0,50.0,near_agreement_official_heavy,0.0
-Orb,XPHB,mundane,SCF|XPHB,20.0,20.0,1.0,95.86299,20.0,20.0,near_agreement_official_heavy,0.0
-Ox,XDMG,mundane,TG|XDMG,15.0,15.0,1.0,84.59741,15.0,15.0,near_agreement_official_heavy,0.0
-Pack Saddle,PHB,mundane,TAH,5.0,5.0,1.0,84.59741,5.0,5.0,near_agreement_official_heavy,0.0
-Padded Armor,XPHB,mundane,LA|XPHB,5.0,5.0,1.0,125.595474,5.0,5.0,near_agreement_official_heavy,0.0
-Padded Barding,PHB,mundane,TAH,20.0,20.0,1.0,84.59741,20.0,20.0,near_agreement_official_heavy,0.0
-Painter's Supplies,XPHB,mundane,AT|XPHB,10.0,10.0,1.0,84.59741,10.0,10.0,near_agreement_official_heavy,0.0
-Pale Tincture,XDMG,mundane,G|XPHB,250.0,250.0,1.0,84.59741,250.0,250.0,near_agreement_official_heavy,0.0
-Pepper,XDMG,mundane,TG|XDMG,2.0,2.0,1.0,84.59741,2.0,2.0,near_agreement_official_heavy,0.0
-Perfume,XPHB,mundane,G|XPHB,5.0,5.0,1.0,84.59741,5.0,5.0,near_agreement_official_heavy,0.0
-Pike,XPHB,mundane,M|XPHB,5.0,5.0,1.0,105.7234,5.0,5.0,near_agreement_official_heavy,0.0
-Pistol,XPHB,mundane,R|XPHB,250.0,250.0,1.0,84.59741,250.0,250.0,near_agreement_official_heavy,0.0
-Pitcher,PHB,mundane,G,0.02,0.02,1.0,84.59741,0.02,0.02,near_agreement_official_heavy,0.0
-Plate Armor,XPHB,mundane,HA|XPHB,1500.0,1500.0,1.0,162.43518,1500.0,1500.0,near_agreement_official_heavy,0.0
-Plate Barding,PHB,mundane,TAH,6000.0,6000.0,1.0,84.59741,6000.0,6000.0,near_agreement_official_heavy,0.0
-Platinum,XDMG,mundane,TG|XDMG,500.0,500.0,1.0,84.59741,500.0,500.0,near_agreement_official_heavy,0.0
-Playing Cards,XPHB,mundane,GS|XPHB,0.5,0.5,1.0,84.59741,0.5,0.5,near_agreement_official_heavy,0.0
-Poisoner's Kit,XPHB,mundane,T|XPHB,50.0,50.0,1.0,84.59741,50.0,50.0,near_agreement_official_heavy,0.0
-Pony,XPHB,mundane,MNT|XPHB,30.0,30.0,1.0,84.59741,30.0,30.0,near_agreement_official_heavy,0.0
-Portable Ram,XPHB,mundane,G|XPHB,4.0,4.0,1.0,84.59741,4.0,4.0,near_agreement_official_heavy,0.0
-Potter's Tools,XPHB,mundane,AT|XPHB,10.0,10.0,1.0,84.59741,10.0,10.0,near_agreement_official_heavy,0.0
-Pouch,XPHB,mundane,G|XPHB,0.5,0.5,1.0,84.59741,0.5,0.5,near_agreement_official_heavy,0.0
-Prespra,FRAiF,mundane,G|XPHB,300.0,300.0,1.0,84.59741,300.0,300.0,near_agreement_official_heavy,0.0
-Pride Silk,EGW,mundane,G,100.0,100.0,1.0,84.59741,100.0,100.0,near_agreement_official_heavy,0.0
-Pride Silk Outfit,EGW,mundane,G,500.0,500.0,1.0,84.59741,500.0,500.0,near_agreement_official_heavy,0.0
-Priest's Pack,XPHB,mundane,G|XPHB,33.0,33.0,1.0,84.59741,33.0,33.0,near_agreement_official_heavy,0.0
-Purple Worm Poison,XDMG,mundane,G|XPHB,2000.0,2000.0,1.0,84.59741,2000.0,2000.0,near_agreement_official_heavy,0.0
-Quiver,XPHB,mundane,G|XPHB,1.0,1.0,1.0,84.59741,1.0,1.0,near_agreement_official_heavy,0.0
-Rain Catcher,ToA,mundane,G,1.0,1.0,1.0,84.59741,1.0,1.0,near_agreement_official_heavy,0.0
-Rapier,XPHB,mundane,M|XPHB,25.0,25.0,1.0,105.7234,25.0,25.0,near_agreement_official_heavy,0.0
-Rations,XPHB,mundane,G|XPHB,0.5,0.5,1.0,84.59741,0.5,0.5,near_agreement_official_heavy,0.0
-Reliquary,XPHB,mundane,SCF|XPHB,5.0,5.0,1.0,95.86299,5.0,5.0,near_agreement_official_heavy,0.0
-Riding Horse,XPHB,mundane,MNT|XPHB,75.0,75.0,1.0,84.59741,75.0,75.0,near_agreement_official_heavy,0.0
-Riding Saddle,XPHB,mundane,TAH|XPHB,10.0,10.0,1.0,84.59741,10.0,10.0,near_agreement_official_heavy,0.0
-Ring Mail,XPHB,mundane,HA|XPHB,30.0,30.0,1.0,162.43518,30.0,30.0,near_agreement_official_heavy,0.0
-Ring Mail Barding,PHB,mundane,TAH,120.0,120.0,1.0,84.59741,120.0,120.0,near_agreement_official_heavy,0.0
-Robe,XPHB,mundane,G|XPHB,1.0,1.0,1.0,84.59741,1.0,1.0,near_agreement_official_heavy,0.0
-Rod,XPHB,mundane,SCF|XPHB,10.0,10.0,1.0,95.86299,10.0,10.0,near_agreement_official_heavy,0.0
-Rope,XPHB,mundane,G|XPHB,1.0,1.0,1.0,84.59741,1.0,1.0,near_agreement_official_heavy,0.0
-Rowboat,XPHB,mundane,SHP|XPHB,50.0,50.0,1.0,84.59741,50.0,50.0,near_agreement_official_heavy,0.0
-Rusted Hulk,FRAiF,mundane,SHP|XPHB,50000.0,50000.0,1.0,84.59741,50000.0,50000.0,near_agreement_official_heavy,0.0
-Ryath Root,ToA,mundane,G,50.0,50.0,1.0,84.59741,50.0,50.0,near_agreement_official_heavy,0.0
-Sack,XPHB,mundane,G|XPHB,0.01,0.01,1.0,84.59741,0.01,0.01,near_agreement_official_heavy,0.0
-Saddlebags,PHB,mundane,TAH,4.0,4.0,1.0,84.59741,4.0,4.0,near_agreement_official_heavy,0.0
-Saffron,XDMG,mundane,TG|XDMG,15.0,15.0,1.0,84.59741,15.0,15.0,near_agreement_official_heavy,0.0
-Sailing Ship,XPHB,mundane,SHP|XPHB,10000.0,10000.0,1.0,84.59741,10000.0,10000.0,near_agreement_official_heavy,0.0
-Scale Mail,XPHB,mundane,MA|XPHB,50.0,50.0,1.0,142.8004,50.0,50.0,near_agreement_official_heavy,0.0
-Scale Mail Barding,PHB,mundane,TAH,200.0,200.0,1.0,84.59741,200.0,200.0,near_agreement_official_heavy,0.0
-Scholar's Pack,XPHB,mundane,G|XPHB,40.0,40.0,1.0,84.59741,40.0,40.0,near_agreement_official_heavy,0.0
-Scimitar,XPHB,mundane,M|XPHB,25.0,25.0,1.0,105.7234,25.0,25.0,near_agreement_official_heavy,0.0
-Scorpion Ship,AAG,mundane,SPC|AAG,25000.0,25000.0,1.0,84.59741,25000.0,25000.0,near_agreement_official_heavy,0.0
-Sealing Wax,PHB,mundane,G,0.5,0.5,1.0,84.59741,0.5,0.5,near_agreement_official_heavy,0.0
-Serpent Venom,XDMG,mundane,G|XPHB,200.0,200.0,1.0,84.59741,200.0,200.0,near_agreement_official_heavy,0.0
-Shard,MonstersOfDrakkenheim,mundane,Dele|MonstersOfDrakkenheim,500.0,500.0,1.0,166.60088,500.0,500.0,near_agreement_official_heavy,0.0
-Shawm,XPHB,mundane,INS|XPHB,2.0,2.0,1.0,138.90181,2.0,2.0,near_agreement_official_heavy,0.0
-Sheep,XDMG,mundane,TG|XDMG,2.0,2.0,1.0,84.59741,2.0,2.0,near_agreement_official_heavy,0.0
-Shield,XPHB,mundane,S|XPHB,10.0,10.0,1.0,107.313416,10.0,10.0,near_agreement_official_heavy,0.0
-Shortbow,XPHB,mundane,R|XPHB,25.0,25.0,1.0,84.59741,25.0,25.0,near_agreement_official_heavy,0.0
-Shortsword,XPHB,mundane,M|XPHB,10.0,10.0,1.0,105.7234,10.0,10.0,near_agreement_official_heavy,0.0
-Shovel,XPHB,mundane,G|XPHB,2.0,2.0,1.0,84.59741,2.0,2.0,near_agreement_official_heavy,0.0
-Shrike Ship,AAG,mundane,SPC|AAG,20000.0,20000.0,1.0,84.59741,20000.0,20000.0,near_agreement_official_heavy,0.0
-Sickle,XPHB,mundane,M|XPHB,1.0,1.0,1.0,105.7234,1.0,1.0,near_agreement_official_heavy,0.0
-Signet Ring,PHB,mundane,G,5.0,5.0,1.0,84.59741,5.0,5.0,near_agreement_official_heavy,0.0
-Silk,XDMG,mundane,TG|XDMG,10.0,10.0,1.0,84.59741,10.0,10.0,near_agreement_official_heavy,0.0
-Silk Rope (50 feet),PHB,mundane,G,10.0,10.0,1.0,84.59741,10.0,10.0,near_agreement_official_heavy,0.0
-Silver,XDMG,mundane,TG|XDMG,5.0,5.0,1.0,84.59741,5.0,5.0,near_agreement_official_heavy,0.0
-Sinda berries (10),ToA,mundane,G,5.0,5.0,1.0,84.59741,5.0,5.0,near_agreement_official_heavy,0.0
-Skyship,EGW,mundane,AIR|DMG,100000.0,100000.0,1.0,84.59741,100000.0,100000.0,near_agreement_official_heavy,0.0
-Sled,XPHB,mundane,VEH|XPHB,20.0,20.0,1.0,84.59741,20.0,20.0,near_agreement_official_heavy,0.0
-Sled Dog,FRHoF,mundane,MNT|XPHB,50.0,50.0,1.0,84.59741,50.0,50.0,near_agreement_official_heavy,0.0
-Sledgehammer,PHB,mundane,G,2.0,2.0,1.0,84.59741,2.0,2.0,near_agreement_official_heavy,0.0
-Smith's Tools,XPHB,mundane,AT|XPHB,20.0,20.0,1.0,84.59741,20.0,20.0,near_agreement_official_heavy,0.0
-Smoke Grenade,XDMG,mundane,EXP|XDMG,50.0,50.0,1.0,84.59741,50.0,50.0,near_agreement_official_heavy,0.0
-Snowshoes,IDRotF,mundane,G,2.0,2.0,1.0,84.59741,2.0,2.0,near_agreement_official_heavy,0.0
-Soap,PHB,mundane,G,0.02,0.02,1.0,84.59741,0.02,0.02,near_agreement_official_heavy,0.0
-Soothsalts,EGW,mundane,G,150.0,150.0,1.0,84.59741,150.0,150.0,near_agreement_official_heavy,0.0
-Space Galleon,AAG,mundane,SPC|AAG,30000.0,30000.0,1.0,84.59741,30000.0,30000.0,near_agreement_official_heavy,0.0
-Spear,XPHB,mundane,M|XPHB,1.0,1.0,1.0,105.7234,1.0,1.0,near_agreement_official_heavy,0.0
-Spellbook,PHB,mundane,G,50.0,50.0,1.0,84.59741,50.0,50.0,near_agreement_official_heavy,0.0
-Spiked Armor,SCAG,mundane,MA,75.0,75.0,1.0,142.8004,75.0,75.0,near_agreement_official_heavy,0.0
-Spiked Barding,PHB,mundane,TAH,300.0,300.0,1.0,84.59741,300.0,300.0,near_agreement_official_heavy,0.0
-Splint Armor,XPHB,mundane,HA|XPHB,200.0,200.0,1.0,162.43518,200.0,200.0,near_agreement_official_heavy,0.0
-Splint Barding,PHB,mundane,TAH,800.0,800.0,1.0,84.59741,800.0,800.0,near_agreement_official_heavy,0.0
-Sprig of Mistletoe,XPHB,mundane,SCF|XPHB,1.0,1.0,1.0,95.86299,1.0,1.0,near_agreement_official_heavy,0.0
-Spyglass,XPHB,mundane,G|XPHB,1000.0,1000.0,1.0,84.59741,1000.0,1000.0,near_agreement_official_heavy,0.0
-Squid Ship,AAG,mundane,SPC|AAG,25000.0,25000.0,1.0,84.59741,25000.0,25000.0,near_agreement_official_heavy,0.0
-Staff,XPHB,mundane,SCF|XPHB,5.0,5.0,1.0,95.86299,5.0,5.0,near_agreement_official_heavy,0.0
-Star Moth,AAG,mundane,SPC|AAG,40000.0,40000.0,1.0,84.59741,40000.0,40000.0,near_agreement_official_heavy,0.0
-Steel Jaws,FoEQuickstone,mundane,M|XPHB,10.0,10.0,1.0,105.7234,10.0,10.0,near_agreement_official_heavy,0.0
-Studded Leather Armor,XPHB,mundane,LA|XPHB,45.0,45.0,1.0,125.595474,45.0,45.0,near_agreement_official_heavy,0.0
-Studded Leather Barding,PHB,mundane,TAH,180.0,180.0,1.0,84.59741,180.0,180.0,near_agreement_official_heavy,0.0
-Tankard,PHB,mundane,G,0.02,0.02,1.0,84.59741,0.02,0.02,near_agreement_official_heavy,0.0
-Tent,XPHB,mundane,G|XPHB,2.0,2.0,1.0,84.59741,2.0,2.0,near_agreement_official_heavy,0.0
-Thieves' Tools,XPHB,mundane,T|XPHB,25.0,25.0,1.0,84.59741,25.0,25.0,near_agreement_official_heavy,0.0
-Three-Dragon Ante Set,XPHB,mundane,GS|XPHB,1.0,1.0,1.0,84.59741,1.0,1.0,near_agreement_official_heavy,0.0
-Tinderbox,XPHB,mundane,G|XPHB,0.5,0.5,1.0,84.59741,0.5,0.5,near_agreement_official_heavy,0.0
-Tinker's Tools,XPHB,mundane,AT|XPHB,50.0,50.0,1.0,84.59741,50.0,50.0,near_agreement_official_heavy,0.0
-Torch,XPHB,mundane,G|XPHB,0.01,0.01,1.0,84.59741,0.01,0.01,near_agreement_official_heavy,0.0
-Torpor,XDMG,mundane,G|XPHB,600.0,600.0,1.0,84.59741,600.0,600.0,near_agreement_official_heavy,0.0
-Totem,PHB,mundane,SCF,1.0,1.0,1.0,95.86299,1.0,1.0,near_agreement_official_heavy,0.0
-Traveler's Clothes,XPHB,mundane,G|XPHB,2.0,2.0,1.0,84.59741,2.0,2.0,near_agreement_official_heavy,0.0
-Trident,XPHB,mundane,M|XPHB,5.0,5.0,1.0,105.7234,5.0,5.0,near_agreement_official_heavy,0.0
-Truth Serum,XDMG,mundane,G|XPHB,150.0,150.0,1.0,84.59741,150.0,150.0,near_agreement_official_heavy,0.0
-Turtle Ship,AAG,mundane,SPC|AAG,40000.0,40000.0,1.0,84.59741,40000.0,40000.0,near_agreement_official_heavy,0.0
-Ulcrun,FRAiF,mundane,G|XPHB,1000.0,1000.0,1.0,84.59741,1000.0,1000.0,near_agreement_official_heavy,0.0
-Vial,XPHB,mundane,G|XPHB,1.0,1.0,1.0,84.59741,1.0,1.0,near_agreement_official_heavy,0.0
-Viol,XPHB,mundane,INS|XPHB,30.0,30.0,1.0,138.90181,30.0,30.0,near_agreement_official_heavy,0.0
-Wagon,XPHB,mundane,VEH|XPHB,35.0,35.0,1.0,84.59741,35.0,35.0,near_agreement_official_heavy,0.0
-Wand,XPHB,mundane,SCF|XPHB,10.0,10.0,1.0,95.86299,10.0,10.0,near_agreement_official_heavy,0.0
-War Pick,XPHB,mundane,M|XPHB,5.0,5.0,1.0,105.7234,5.0,5.0,near_agreement_official_heavy,0.0
-Warhammer,XPHB,mundane,M|XPHB,15.0,15.0,1.0,105.7234,15.0,15.0,near_agreement_official_heavy,0.0
-Warhorse,XPHB,mundane,MNT|XPHB,400.0,400.0,1.0,84.59741,400.0,400.0,near_agreement_official_heavy,0.0
-Warm Fungal Clothing,FRHoF,mundane,G|XPHB,15.0,15.0,1.0,84.59741,15.0,15.0,near_agreement_official_heavy,0.0
-Warship,XPHB,mundane,SHP|XPHB,25000.0,25000.0,1.0,84.59741,25000.0,25000.0,near_agreement_official_heavy,0.0
-Wasp Ship,AAG,mundane,SPC|AAG,20000.0,20000.0,1.0,84.59741,20000.0,20000.0,near_agreement_official_heavy,0.0
-Weaver's Tools,XPHB,mundane,AT|XPHB,1.0,1.0,1.0,84.59741,1.0,1.0,near_agreement_official_heavy,0.0
-Whaleboat,FRAiF,mundane,SHP|XPHB,500.0,500.0,1.0,84.59741,500.0,500.0,near_agreement_official_heavy,0.0
-Wheat,XDMG,mundane,TG|XDMG,0.01,0.01,1.0,84.59741,0.01,0.01,near_agreement_official_heavy,0.0
-Whetstone,PHB,mundane,G,0.01,0.01,1.0,84.59741,0.01,0.01,near_agreement_official_heavy,0.0
-Whip,XPHB,mundane,M|XPHB,2.0,2.0,1.0,105.7234,2.0,2.0,near_agreement_official_heavy,0.0
-Wildroot,ToA,mundane,G,25.0,25.0,1.0,84.59741,25.0,25.0,near_agreement_official_heavy,0.0
-Willowshade Oil,EGW,mundane,G,30.0,30.0,1.0,84.59741,30.0,30.0,near_agreement_official_heavy,0.0
-Winter Camouflage,FRHoF,mundane,G|XPHB,50.0,50.0,1.0,100.283424,50.0,50.0,near_agreement_official_heavy,0.0
-Woodcarver's Tools,XPHB,mundane,AT|XPHB,1.0,1.0,1.0,84.59741,1.0,1.0,near_agreement_official_heavy,0.0
-Wooden Staff,XPHB,mundane,SCF|XPHB,5.0,5.0,1.0,95.86299,5.0,5.0,near_agreement_official_heavy,0.0
-Wukka Nut,ToA,mundane,G,1.0,1.0,1.0,84.59741,1.0,1.0,near_agreement_official_heavy,0.0
-Wyvern Poison,XDMG,mundane,G|XPHB,1200.0,1200.0,1.0,84.59741,1200.0,1200.0,near_agreement_official_heavy,0.0
-Yahcha,ToA,mundane,G,1.0,1.0,1.0,84.59741,1.0,1.0,near_agreement_official_heavy,0.0
-Yarting,FRHoF,mundane,INS|XPHB,40.0,40.0,1.0,138.90181,40.0,40.0,near_agreement_official_heavy,0.0
-Yellow Death,FRAiF,mundane,G|XPHB,150.0,150.0,1.0,84.59741,150.0,150.0,near_agreement_official_heavy,0.0
-Yew Wand,XPHB,mundane,SCF|XPHB,10.0,10.0,1.0,95.86299,10.0,10.0,near_agreement_official_heavy,0.0
-Yklwa,ToA,mundane,M,1.0,1.0,1.0,105.7234,1.0,1.0,near_agreement_official_heavy,0.0
-Zabou,ToA,mundane,G,10.0,10.0,1.0,84.59741,10.0,10.0,near_agreement_official_heavy,0.0
+Residuum Enchanting Slate,TalDoreiCampaignSettingReborn,unknown_magic,T,20000.0,750.0,0.0375,46.888676,292.977639,16150.0,near_agreement_official_heavy,15857.022361
+Spirit Cleaver,GriffonsSaddlebag2,legendary,M,2.0,35880.0,17940.0,14138.983,21748.339209,19573.705288,high_disagreement_computed_heavy,-2174.633921
++3 Adamantine Vertebrae Sword,CallfromtheDeep,very_rare,M,500.6,87750.0,175.289652,16675.916,14792.387402,13363.208662,high_disagreement_computed_heavy,-1429.17874
++3 Adamantine Fan,CallfromtheDeep,very_rare,M,500.02,29900.0,59.797608,13968.157,14386.22373,12997.603357,high_disagreement_computed_heavy,-1388.620373
++3 Adamantine Butterfly Staff,CallfromtheDeep,very_rare,M,500.04,29900.0,59.795216,13968.157,14386.22373,12997.605357,high_disagreement_computed_heavy,-1388.618373
++3 Adamantine Club,CallfromtheDeep,very_rare,M|XPHB,500.1,29900.0,59.788042,13968.157,14386.22373,12997.611357,high_disagreement_computed_heavy,-1388.612373
++3 Adamantine Hoopak,CallfromtheDeep,very_rare,M,500.1,29900.0,59.788042,13968.157,14386.22373,12997.611357,high_disagreement_computed_heavy,-1388.612373
++3 Adamantine Iron Tea Kettle,CallfromtheDeep,very_rare,M,500.1,29900.0,59.788042,13968.157,14386.22373,12997.611357,high_disagreement_computed_heavy,-1388.612373
++3 Adamantine Greatclub,CallfromtheDeep,very_rare,M|XPHB,500.2,29900.0,59.77609,13968.157,14386.22373,12997.621357,high_disagreement_computed_heavy,-1388.602373
++3 Adamantine Quarterstaff,CallfromtheDeep,very_rare,M|XPHB,500.2,29900.0,59.77609,13968.157,14386.22373,12997.621357,high_disagreement_computed_heavy,-1388.602373
++3 Adamantine Frying Pan,CallfromtheDeep,very_rare,M,500.3,29900.0,59.764142,13968.157,14386.22373,12997.631357,high_disagreement_computed_heavy,-1388.592373
++3 Adamantine Shovel,CallfromtheDeep,very_rare,M,500.3,29900.0,59.764142,13968.157,14386.22373,12997.631357,high_disagreement_computed_heavy,-1388.592373
++3 Adamantine Javelin,CallfromtheDeep,very_rare,M|XPHB,500.5,29900.0,59.74026,13968.157,14386.22373,12997.651357,high_disagreement_computed_heavy,-1388.572373
++3 Adamantine Umbrella,CallfromtheDeep,very_rare,M,500.5,29900.0,59.74026,13968.157,14386.22373,12997.651357,high_disagreement_computed_heavy,-1388.572373
++3 Adamantine Candlemaker's Club,CallfromtheDeep,very_rare,M,500.7,29900.0,59.716397,13968.157,14386.22373,12997.671357,high_disagreement_computed_heavy,-1388.552373
++3 Adamantine Shepherd Crook,CallfromtheDeep,very_rare,M,500.7,29900.0,59.716397,13968.157,14386.22373,12997.671357,high_disagreement_computed_heavy,-1388.552373
++3 Adamantine Boat Oar,CallfromtheDeep,very_rare,M,500.8,29900.0,59.704473,13968.157,14386.22373,12997.681357,high_disagreement_computed_heavy,-1388.542373
++3 Adamantine Bellow Flute,CallfromtheDeep,very_rare,M,501.0,29900.0,59.680639,13968.157,14386.22373,12997.701357,high_disagreement_computed_heavy,-1388.522373
++3 Adamantine Brass Knuckles,CallfromtheDeep,very_rare,M|XPHB,501.0,29900.0,59.680639,13968.157,14386.22373,12997.701357,high_disagreement_computed_heavy,-1388.522373
++3 Adamantine Sickle,CallfromtheDeep,very_rare,M|XPHB,501.0,29900.0,59.680639,13968.157,14386.22373,12997.701357,high_disagreement_computed_heavy,-1388.522373
++3 Adamantine Spear,CallfromtheDeep,very_rare,M|XPHB,501.0,29900.0,59.680639,13968.157,14386.22373,12997.701357,high_disagreement_computed_heavy,-1388.522373
++3 Adamantine Tapper Sack,CallfromtheDeep,very_rare,M,501.0,29900.0,59.680639,13968.157,14386.22373,12997.701357,high_disagreement_computed_heavy,-1388.522373
++3 Adamantine Yklwa,CallfromtheDeep,very_rare,M,501.0,29900.0,59.680639,13968.157,14386.22373,12997.701357,high_disagreement_computed_heavy,-1388.522373
++3 Adamantine Boomerang,CallfromtheDeep,very_rare,M,502.0,29900.0,59.561753,13968.157,14386.22373,12997.801357,high_disagreement_computed_heavy,-1388.422373
++3 Adamantine Dagger,CallfromtheDeep,very_rare,M|XPHB,502.0,29900.0,59.561753,13968.157,14386.22373,12997.801357,high_disagreement_computed_heavy,-1388.422373
++3 Adamantine Field Spear,CallfromtheDeep,very_rare,M,502.0,29900.0,59.561753,13968.157,14386.22373,12997.801357,high_disagreement_computed_heavy,-1388.422373
++3 Adamantine Light Hammer,CallfromtheDeep,very_rare,M|XPHB,502.0,29900.0,59.561753,13968.157,14386.22373,12997.801357,high_disagreement_computed_heavy,-1388.422373
++3 Adamantine Punch Knife,CallfromtheDeep,very_rare,M|XPHB,502.0,29900.0,59.561753,13968.157,14386.22373,12997.801357,high_disagreement_computed_heavy,-1388.422373
++3 Adamantine Whip,CallfromtheDeep,very_rare,M|XPHB,502.0,29900.0,59.561753,13968.157,14386.22373,12997.801357,high_disagreement_computed_heavy,-1388.422373
++3 Adamantine Hand Claws,CallfromtheDeep,very_rare,M|XPHB,503.0,29900.0,59.44334,13968.157,14386.22373,12997.901357,high_disagreement_computed_heavy,-1388.322373
++3 Adamantine Dandelion Spear,CallfromtheDeep,very_rare,M,505.0,29900.0,59.207921,13968.157,14386.22373,12998.101357,high_disagreement_computed_heavy,-1388.122373
++3 Adamantine Handaxe,CallfromtheDeep,very_rare,M|XPHB,505.0,29900.0,59.207921,13968.157,14386.22373,12998.101357,high_disagreement_computed_heavy,-1388.122373
++3 Adamantine Mace,CallfromtheDeep,very_rare,M|XPHB,505.0,29900.0,59.207921,13968.157,14386.22373,12998.101357,high_disagreement_computed_heavy,-1388.122373
++3 Adamantine Pike,CallfromtheDeep,very_rare,M|XPHB,505.0,29900.0,59.207921,13968.157,14386.22373,12998.101357,high_disagreement_computed_heavy,-1388.122373
++3 Adamantine Trident,CallfromtheDeep,very_rare,M|XPHB,505.0,29900.0,59.207921,13968.157,14386.22373,12998.101357,high_disagreement_computed_heavy,-1388.122373
++3 Adamantine Vaulter's Axe,CallfromtheDeep,very_rare,M,505.0,29900.0,59.207921,13968.157,14386.22373,12998.101357,high_disagreement_computed_heavy,-1388.122373
++3 Adamantine War Pick,CallfromtheDeep,very_rare,M|XPHB,505.0,29900.0,59.207921,13968.157,14386.22373,12998.101357,high_disagreement_computed_heavy,-1388.122373
++3 Adamantine Battleaxe,CallfromtheDeep,very_rare,M|XPHB,510.0,29900.0,58.627451,13968.157,14386.22373,12998.601357,high_disagreement_computed_heavy,-1387.622373
++3 Adamantine Flail,CallfromtheDeep,very_rare,M|XPHB,510.0,29900.0,58.627451,13968.157,14386.22373,12998.601357,high_disagreement_computed_heavy,-1387.622373
++3 Adamantine Lance,CallfromtheDeep,very_rare,M|XPHB,510.0,29900.0,58.627451,13968.157,14386.22373,12998.601357,high_disagreement_computed_heavy,-1387.622373
++3 Adamantine Maul,CallfromtheDeep,very_rare,M|XPHB,510.0,29900.0,58.627451,13968.157,14386.22373,12998.601357,high_disagreement_computed_heavy,-1387.622373
++3 Adamantine Shortsword,CallfromtheDeep,very_rare,M|XPHB,510.0,29900.0,58.627451,13968.157,14386.22373,12998.601357,high_disagreement_computed_heavy,-1387.622373
++3 Adamantine Steel Jaws,CallfromtheDeep,very_rare,M|XPHB,510.0,29900.0,58.627451,13968.157,14386.22373,12998.601357,high_disagreement_computed_heavy,-1387.622373
++3 Adamantine Lom Lom Dagger,CallfromtheDeep,very_rare,M,515.0,29900.0,58.058252,13968.157,14386.22373,12999.101357,high_disagreement_computed_heavy,-1387.122373
++3 Adamantine Longsword,CallfromtheDeep,very_rare,M|XPHB,515.0,29900.0,58.058252,13968.157,14386.22373,12999.101357,high_disagreement_computed_heavy,-1387.122373
++3 Adamantine Morningstar,CallfromtheDeep,very_rare,M|XPHB,515.0,29900.0,58.058252,13968.157,14386.22373,12999.101357,high_disagreement_computed_heavy,-1387.122373
++3 Adamantine Warhammer,CallfromtheDeep,very_rare,M|XPHB,515.0,29900.0,58.058252,13968.157,14386.22373,12999.101357,high_disagreement_computed_heavy,-1387.122373
++3 Adamantine Glaive,CallfromtheDeep,very_rare,M|XPHB,520.0,29900.0,57.5,13968.157,14386.22373,12999.601357,high_disagreement_computed_heavy,-1386.622373
++3 Adamantine Halberd,CallfromtheDeep,very_rare,M|XPHB,520.0,29900.0,57.5,13968.157,14386.22373,12999.601357,high_disagreement_computed_heavy,-1386.622373
++3 Adamantine Rapier,CallfromtheDeep,very_rare,M|XPHB,525.0,29900.0,56.952381,13968.157,14386.22373,13000.101357,high_disagreement_computed_heavy,-1386.122373
++3 Adamantine Scimitar,CallfromtheDeep,very_rare,M|XPHB,525.0,29900.0,56.952381,13968.157,14386.22373,13000.101357,high_disagreement_computed_heavy,-1386.122373
++3 Adamantine Greataxe,CallfromtheDeep,very_rare,M|XPHB,530.0,29900.0,56.415094,13968.157,14386.22373,13000.601357,high_disagreement_computed_heavy,-1385.622373
++3 Adamantine Secret Stone Sword,CallfromtheDeep,very_rare,M,530.0,29900.0,56.415094,13968.157,14386.22373,13000.601357,high_disagreement_computed_heavy,-1385.622373
++3 Adamantine Greatsword,CallfromtheDeep,very_rare,M|XPHB,550.0,29900.0,54.363636,13968.157,14386.22373,13002.601357,high_disagreement_computed_heavy,-1383.622373
++3 Adamantine Dart,CallfromtheDeep,very_rare,R|XPHB,500.05,29900.0,59.794021,13441.171,14307.175635,12926.463071,high_disagreement_computed_heavy,-1380.712563
++3 Adamantine Sling,CallfromtheDeep,very_rare,R|XPHB,500.1,29900.0,59.788042,13441.171,14307.175635,12926.468071,high_disagreement_computed_heavy,-1380.707563
++3 Adamantine Blowgun,CallfromtheDeep,very_rare,R|XPHB,510.0,29900.0,58.627451,13441.171,14307.175635,12927.458071,high_disagreement_computed_heavy,-1379.717563
++3 Adamantine Double-Bladed Scimitar,CallfromtheDeep,very_rare,M,600.0,29900.0,49.833333,13968.157,14386.22373,13007.601357,high_disagreement_computed_heavy,-1378.622373
++3 Adamantine Drive Shaft,CallfromtheDeep,very_rare,M,600.0,29900.0,49.833333,13968.157,14386.22373,13007.601357,high_disagreement_computed_heavy,-1378.622373
++3 Adamantine Nakudama Bubble Rod,CallfromtheDeep,very_rare,R,522.0,29900.0,57.279693,13441.171,14307.175635,12928.658071,high_disagreement_computed_heavy,-1378.517563
++3 Adamantine Light Crossbow,CallfromtheDeep,very_rare,R|XPHB,525.0,29900.0,56.952381,13441.171,14307.175635,12928.958071,high_disagreement_computed_heavy,-1378.217563
++3 Adamantine Shortbow,CallfromtheDeep,very_rare,R|XPHB,525.0,29900.0,56.952381,13441.171,14307.175635,12928.958071,high_disagreement_computed_heavy,-1378.217563
++3 Adamantine Heavy Crossbow,CallfromtheDeep,very_rare,R|XPHB,550.0,29900.0,54.363636,13441.171,14307.175635,12931.458071,high_disagreement_computed_heavy,-1375.717563
++3 Adamantine Longbow,CallfromtheDeep,very_rare,R|XPHB,550.0,29900.0,54.363636,13441.171,14307.175635,12931.458071,high_disagreement_computed_heavy,-1375.717563
++3 Adamantine Hand Crossbow,CallfromtheDeep,very_rare,R|XPHB,575.0,29900.0,52.0,13441.171,14307.175635,12933.958071,high_disagreement_computed_heavy,-1373.217563
++3 Adamantine Blackpowder Pistol,CallfromtheDeep,very_rare,R|XPHB,700.0,29900.0,42.714286,13441.171,14307.175635,12946.458071,high_disagreement_computed_heavy,-1360.717563
++3 Adamantine Punching Dagger,CallfromtheDeep,very_rare,M|XPHB,800.0,29900.0,37.375,13968.157,14386.22373,13027.601357,high_disagreement_computed_heavy,-1358.622373
++3 Adamantine Returning Club,CallfromtheDeep,very_rare,M|XPHB,800.0,29900.0,37.375,13968.157,14386.22373,13027.601357,high_disagreement_computed_heavy,-1358.622373
++3 Adamantine Pistol,CallfromtheDeep,very_rare,R|XPHB,750.0,29900.0,39.866667,13441.171,14307.175635,12951.458071,high_disagreement_computed_heavy,-1355.717563
++3 Adamantine Gladiator Net,CallfromtheDeep,very_rare,M|XPHB,850.0,29900.0,35.176471,13968.157,14386.22373,13032.601357,high_disagreement_computed_heavy,-1353.622373
++3 Adamantine Parrying Dagger,CallfromtheDeep,very_rare,M|XPHB,850.0,29900.0,35.176471,13968.157,14386.22373,13032.601357,high_disagreement_computed_heavy,-1353.622373
++3 Adamantine Dragon Pistol,CallfromtheDeep,very_rare,R|XPHB,850.0,29900.0,35.176471,13441.171,14307.175635,12961.458071,high_disagreement_computed_heavy,-1345.717563
++3 Adamantine Composite Shortbow,CallfromtheDeep,very_rare,R|XPHB,900.0,29900.0,33.222222,13441.171,14307.175635,12966.458071,high_disagreement_computed_heavy,-1340.717563
++3 Adamantine Catchpole,CallfromtheDeep,very_rare,M|XPHB,1000.0,29900.0,29.9,13968.157,14386.22373,13047.601357,high_disagreement_computed_heavy,-1338.622373
++3 Adamantine Cavalry Flail,CallfromtheDeep,very_rare,M|XPHB,1000.0,29900.0,29.9,13968.157,14386.22373,13047.601357,high_disagreement_computed_heavy,-1338.622373
++3 Adamantine Cavalry Hammer,CallfromtheDeep,very_rare,M|XPHB,1000.0,29900.0,29.9,13968.157,14386.22373,13047.601357,high_disagreement_computed_heavy,-1338.622373
++3 Adamantine Cavalry Pick,CallfromtheDeep,very_rare,M|XPHB,1000.0,29900.0,29.9,13968.157,14386.22373,13047.601357,high_disagreement_computed_heavy,-1338.622373
++3 Adamantine Chakram,CallfromtheDeep,very_rare,M|XPHB,1000.0,29900.0,29.9,13968.157,14386.22373,13047.601357,high_disagreement_computed_heavy,-1338.622373
++3 Adamantine Claymore,CallfromtheDeep,very_rare,M|XPHB,1000.0,29900.0,29.9,13968.157,14386.22373,13047.601357,high_disagreement_computed_heavy,-1338.622373
++3 Adamantine Double Blade,CallfromtheDeep,very_rare,M|XPHB,1000.0,29900.0,29.9,13968.157,14386.22373,13047.601357,high_disagreement_computed_heavy,-1338.622373
++3 Adamantine Double Spear,CallfromtheDeep,very_rare,M|XPHB,1000.0,29900.0,29.9,13968.157,14386.22373,13047.601357,high_disagreement_computed_heavy,-1338.622373
++3 Adamantine Elite Rapier,CallfromtheDeep,very_rare,M|XPHB,1000.0,29900.0,29.9,13968.157,14386.22373,13047.601357,high_disagreement_computed_heavy,-1338.622373
++3 Adamantine Fighting Chain,CallfromtheDeep,very_rare,M|XPHB,1000.0,29900.0,29.9,13968.157,14386.22373,13047.601357,high_disagreement_computed_heavy,-1338.622373
+"+3 Adamantine Fighting Chain, Hook",CallfromtheDeep,very_rare,M|XPHB,1000.0,29900.0,29.9,13968.157,14386.22373,13047.601357,high_disagreement_computed_heavy,-1338.622373
+"+3 Adamantine Fighting Chain, Sickle",CallfromtheDeep,very_rare,M|XPHB,1000.0,29900.0,29.9,13968.157,14386.22373,13047.601357,high_disagreement_computed_heavy,-1338.622373
++3 Adamantine Knightly Lance,CallfromtheDeep,very_rare,M|XPHB,1000.0,29900.0,29.9,13968.157,14386.22373,13047.601357,high_disagreement_computed_heavy,-1338.622373
++3 Adamantine Military Fork,CallfromtheDeep,very_rare,M|XPHB,1000.0,29900.0,29.9,13968.157,14386.22373,13047.601357,high_disagreement_computed_heavy,-1338.622373
++3 Adamantine Polearm,CallfromtheDeep,very_rare,M|XPHB,1000.0,29900.0,29.9,13968.157,14386.22373,13047.601357,high_disagreement_computed_heavy,-1338.622373
++3 Adamantine Sabre,CallfromtheDeep,very_rare,M|XPHB,1000.0,29900.0,29.9,13968.157,14386.22373,13047.601357,high_disagreement_computed_heavy,-1338.622373
++3 Adamantine Sheathed Staff,CallfromtheDeep,very_rare,M|XPHB,1000.0,29900.0,29.9,13968.157,14386.22373,13047.601357,high_disagreement_computed_heavy,-1338.622373
++3 Adamantine Side-handle Baton,CallfromtheDeep,very_rare,M|XPHB,1000.0,29900.0,29.9,13968.157,14386.22373,13047.601357,high_disagreement_computed_heavy,-1338.622373
++3 Adamantine Blackpowder Rifle,CallfromtheDeep,very_rare,R|XPHB,1000.0,29900.0,29.9,13441.171,14307.175635,12976.458071,high_disagreement_computed_heavy,-1330.717563
+"+3 Adamantine Blunderbuss, Hand",CallfromtheDeep,very_rare,R|XPHB,1000.0,29900.0,29.9,13441.171,14307.175635,12976.458071,high_disagreement_computed_heavy,-1330.717563
++3 Adamantine Musket,CallfromtheDeep,very_rare,R|XPHB,1000.0,29900.0,29.9,13441.171,14307.175635,12976.458071,high_disagreement_computed_heavy,-1330.717563
+"+3 Adamantine Repeater Crossbow, Hand",CallfromtheDeep,very_rare,R|XPHB,1000.0,29900.0,29.9,13441.171,14307.175635,12976.458071,high_disagreement_computed_heavy,-1330.717563
+"+3 Adamantine Fighting Chain, Brutal",CallfromtheDeep,very_rare,M|XPHB,1250.0,29900.0,23.92,13968.157,14386.22373,13072.601357,high_disagreement_computed_heavy,-1313.622373
++3 Adamantine Guardian Poleaxe,CallfromtheDeep,very_rare,M|XPHB,1250.0,29900.0,23.92,13968.157,14386.22373,13072.601357,high_disagreement_computed_heavy,-1313.622373
++3 Adamantine Knightly Sword,CallfromtheDeep,very_rare,M|XPHB,1250.0,29900.0,23.92,13968.157,14386.22373,13072.601357,high_disagreement_computed_heavy,-1313.622373
++3 Adamantine Wrath Axe,CallfromtheDeep,very_rare,M|XPHB,1250.0,29900.0,23.92,13968.157,14386.22373,13072.601357,high_disagreement_computed_heavy,-1313.622373
++3 Adamantine Wrath Maul,CallfromtheDeep,very_rare,M|XPHB,1250.0,29900.0,23.92,13968.157,14386.22373,13072.601357,high_disagreement_computed_heavy,-1313.622373
++3 Adamantine Arbalest,CallfromtheDeep,very_rare,R|XPHB,1250.0,29900.0,23.92,13441.171,14307.175635,13001.458071,high_disagreement_computed_heavy,-1305.717563
++3 Adamantine Blunderbuss,CallfromtheDeep,very_rare,R|XPHB,1250.0,29900.0,23.92,13441.171,14307.175635,13001.458071,high_disagreement_computed_heavy,-1305.717563
++3 Adamantine Composite Longbow,CallfromtheDeep,very_rare,R|XPHB,1250.0,29900.0,23.92,13441.171,14307.175635,13001.458071,high_disagreement_computed_heavy,-1305.717563
++3 Adamantine Dragon Rifle,CallfromtheDeep,very_rare,R|XPHB,1250.0,29900.0,23.92,13441.171,14307.175635,13001.458071,high_disagreement_computed_heavy,-1305.717563
++3 Adamantine Flame Bellows,CallfromtheDeep,very_rare,R|XPHB,1250.0,29900.0,23.92,13441.171,14307.175635,13001.458071,high_disagreement_computed_heavy,-1305.717563
++3 Adamantine Repeater Crossbow,CallfromtheDeep,very_rare,R|XPHB,1250.0,29900.0,23.92,13441.171,14307.175635,13001.458071,high_disagreement_computed_heavy,-1305.717563
++3 Adamantine Repeater Slinger,CallfromtheDeep,very_rare,R|XPHB,1250.0,29900.0,23.92,13441.171,14307.175635,13001.458071,high_disagreement_computed_heavy,-1305.717563
+"+3 Adamantine Repeater Crossbow, Heavy",CallfromtheDeep,very_rare,R|XPHB,1500.0,29900.0,19.933333,13441.171,14307.175635,13026.458071,high_disagreement_computed_heavy,-1280.717563
++1 Adamantine Repeater Needler,CallfromtheDeep,uncommon,R|XPHB,1000.0,362.5,0.3625,511.53323,104.677985,872.5,near_agreement_official_heavy,767.822015
+"+1 Adamantine Repeater Crossbow, Heavy",CallfromtheDeep,uncommon,R|XPHB,1500.0,615.0,0.41,511.53323,599.479985,1323.0,near_agreement_official_heavy,723.520015
+Viper Khopesh,GriffonsSaddlebag2,rare,M,25.0,9250.0,370.0,5807.2256,7012.196313,6313.476682,high_disagreement_computed_heavy,-698.719631
++1 Adamantine Arbalest,CallfromtheDeep,uncommon,R|XPHB,1250.0,615.0,0.492,511.53323,599.479985,1123.0,near_agreement_official_heavy,523.520015
++1 Adamantine Blunderbuss,CallfromtheDeep,uncommon,R|XPHB,1250.0,615.0,0.492,511.53323,599.479985,1123.0,near_agreement_official_heavy,523.520015
++1 Adamantine Composite Longbow,CallfromtheDeep,uncommon,R|XPHB,1250.0,615.0,0.492,511.53323,599.479985,1123.0,near_agreement_official_heavy,523.520015
++1 Adamantine Dragon Rifle,CallfromtheDeep,uncommon,R|XPHB,1250.0,615.0,0.492,511.53323,599.479985,1123.0,near_agreement_official_heavy,523.520015
++1 Adamantine Flame Bellows,CallfromtheDeep,uncommon,R|XPHB,1250.0,615.0,0.492,511.53323,599.479985,1123.0,near_agreement_official_heavy,523.520015
++1 Adamantine Repeater Crossbow,CallfromtheDeep,uncommon,R|XPHB,1250.0,615.0,0.492,511.53323,599.479985,1123.0,near_agreement_official_heavy,523.520015
++1 Adamantine Repeater Slinger,CallfromtheDeep,uncommon,R|XPHB,1250.0,615.0,0.492,511.53323,599.479985,1123.0,near_agreement_official_heavy,523.520015
+"+1 Adamantine Fighting Chain, Brutal",CallfromtheDeep,uncommon,M|XPHB,1250.0,615.0,0.492,560.5117,606.826758,1123.0,near_agreement_official_heavy,516.173242
++1 Adamantine Guardian Poleaxe,CallfromtheDeep,uncommon,M|XPHB,1250.0,615.0,0.492,560.5117,606.826758,1123.0,near_agreement_official_heavy,516.173242
++1 Adamantine Knightly Sword,CallfromtheDeep,uncommon,M|XPHB,1250.0,615.0,0.492,560.5117,606.826758,1123.0,near_agreement_official_heavy,516.173242
++1 Adamantine Wrath Axe,CallfromtheDeep,uncommon,M|XPHB,1250.0,615.0,0.492,560.5117,606.826758,1123.0,near_agreement_official_heavy,516.173242
++1 Adamantine Wrath Maul,CallfromtheDeep,uncommon,M|XPHB,1250.0,615.0,0.492,560.5117,606.826758,1123.0,near_agreement_official_heavy,516.173242
+Zeal,TalDoreiCampaignSettingReborn,unknown,IDG|TalDoreiCampaignSettingReborn,150.0,5251.0,35.006667,87.49524,5251.0,4740.9,high_disagreement_computed_heavy,-510.1
+Dagger of Guitar Solos,WDMM,unknown_magic,M,750.0,750.0,1.0,64.09089,304.159078,750.0,near_agreement_official_heavy,445.840922
+Travel Wok,ObojimaTallGrass,rare,M,0.3,9285.0,30950.0,1022.94727,3914.665723,3523.22915,high_disagreement_computed_heavy,-391.436572
++1 Adamantine Blackpowder Rifle,CallfromtheDeep,uncommon,R|XPHB,1000.0,615.0,0.615,511.53323,599.479985,923.0,near_agreement_official_heavy,323.520015
+"+1 Adamantine Blunderbuss, Hand",CallfromtheDeep,uncommon,R|XPHB,1000.0,615.0,0.615,511.53323,599.479985,923.0,near_agreement_official_heavy,323.520015
++1 Adamantine Musket,CallfromtheDeep,uncommon,R|XPHB,1000.0,615.0,0.615,511.53323,599.479985,923.0,near_agreement_official_heavy,323.520015
+"+1 Adamantine Repeater Crossbow, Hand",CallfromtheDeep,uncommon,R|XPHB,1000.0,615.0,0.615,511.53323,599.479985,923.0,near_agreement_official_heavy,323.520015
++1 Adamantine Catchpole,CallfromtheDeep,uncommon,M|XPHB,1000.0,615.0,0.615,560.5117,606.826758,923.0,near_agreement_official_heavy,316.173242
++1 Adamantine Cavalry Flail,CallfromtheDeep,uncommon,M|XPHB,1000.0,615.0,0.615,560.5117,606.826758,923.0,near_agreement_official_heavy,316.173242
++1 Adamantine Cavalry Hammer,CallfromtheDeep,uncommon,M|XPHB,1000.0,615.0,0.615,560.5117,606.826758,923.0,near_agreement_official_heavy,316.173242
++1 Adamantine Cavalry Pick,CallfromtheDeep,uncommon,M|XPHB,1000.0,615.0,0.615,560.5117,606.826758,923.0,near_agreement_official_heavy,316.173242
++1 Adamantine Chakram,CallfromtheDeep,uncommon,M|XPHB,1000.0,615.0,0.615,560.5117,606.826758,923.0,near_agreement_official_heavy,316.173242
++1 Adamantine Claymore,CallfromtheDeep,uncommon,M|XPHB,1000.0,615.0,0.615,560.5117,606.826758,923.0,near_agreement_official_heavy,316.173242
++1 Adamantine Double Blade,CallfromtheDeep,uncommon,M|XPHB,1000.0,615.0,0.615,560.5117,606.826758,923.0,near_agreement_official_heavy,316.173242
++1 Adamantine Double Spear,CallfromtheDeep,uncommon,M|XPHB,1000.0,615.0,0.615,560.5117,606.826758,923.0,near_agreement_official_heavy,316.173242
++1 Adamantine Elite Rapier,CallfromtheDeep,uncommon,M|XPHB,1000.0,615.0,0.615,560.5117,606.826758,923.0,near_agreement_official_heavy,316.173242
++1 Adamantine Fighting Chain,CallfromtheDeep,uncommon,M|XPHB,1000.0,615.0,0.615,560.5117,606.826758,923.0,near_agreement_official_heavy,316.173242
+"+1 Adamantine Fighting Chain, Hook",CallfromtheDeep,uncommon,M|XPHB,1000.0,615.0,0.615,560.5117,606.826758,923.0,near_agreement_official_heavy,316.173242
+"+1 Adamantine Fighting Chain, Sickle",CallfromtheDeep,uncommon,M|XPHB,1000.0,615.0,0.615,560.5117,606.826758,923.0,near_agreement_official_heavy,316.173242
++1 Adamantine Knightly Lance,CallfromtheDeep,uncommon,M|XPHB,1000.0,615.0,0.615,560.5117,606.826758,923.0,near_agreement_official_heavy,316.173242
++1 Adamantine Military Fork,CallfromtheDeep,uncommon,M|XPHB,1000.0,615.0,0.615,560.5117,606.826758,923.0,near_agreement_official_heavy,316.173242
++1 Adamantine Polearm,CallfromtheDeep,uncommon,M|XPHB,1000.0,615.0,0.615,560.5117,606.826758,923.0,near_agreement_official_heavy,316.173242
++1 Adamantine Sabre,CallfromtheDeep,uncommon,M|XPHB,1000.0,615.0,0.615,560.5117,606.826758,923.0,near_agreement_official_heavy,316.173242
++1 Adamantine Sheathed Staff,CallfromtheDeep,uncommon,M|XPHB,1000.0,615.0,0.615,560.5117,606.826758,923.0,near_agreement_official_heavy,316.173242
++1 Adamantine Side-handle Baton,CallfromtheDeep,uncommon,M|XPHB,1000.0,615.0,0.615,560.5117,606.826758,923.0,near_agreement_official_heavy,316.173242
+Residuum,TalDoreiCampaignSettingReborn,unknown_magic,TG,500.0,500.0,1.0,46.888676,205.477639,500.0,exact_commodity_official_price,294.522361
++1 Adamantine Composite Shortbow,CallfromtheDeep,uncommon,R|XPHB,900.0,615.0,0.683333,511.53323,599.479985,843.0,near_agreement_official_heavy,243.520015
++1 Adamantine Dragon Pistol,CallfromtheDeep,uncommon,R|XPHB,850.0,615.0,0.723529,511.53323,599.479985,803.0,near_agreement_official_heavy,203.520015
++1 Adamantine Gladiator Net,CallfromtheDeep,uncommon,M|XPHB,850.0,615.0,0.723529,560.5117,606.826758,803.0,near_agreement_official_heavy,196.173242
++1 Adamantine Parrying Dagger,CallfromtheDeep,uncommon,M|XPHB,850.0,615.0,0.723529,560.5117,606.826758,803.0,near_agreement_official_heavy,196.173242
+Windskiff,FRAiF,rare,,4000.0,4866.0,1.2165,4079.3816,4354.698035,4173.2,near_agreement_official_heavy,-181.498035
+Umbrella of Shielding,ObojimaTallGrass,uncommon,M,0.5,3459.375,6918.75,918.0499,1807.513702,1626.812332,high_disagreement_computed_heavy,-180.70137
+Mechanical Wonder (Domestic),FRAiF,uncommon,,400.0,750.0,1.875,848.2967,813.89285,648.33571,moderate_disagreement_blended,-165.55714
++1 Adamantine Punching Dagger,CallfromtheDeep,uncommon,M|XPHB,800.0,615.0,0.76875,560.5117,606.826758,763.0,near_agreement_official_heavy,156.173242
++1 Adamantine Returning Club,CallfromtheDeep,uncommon,M|XPHB,800.0,615.0,0.76875,560.5117,606.826758,763.0,near_agreement_official_heavy,156.173242
++3 Adamantine Repeater Needler,CallfromtheDeep,very_rare,R|XPHB,1000.0,29900.0,29.9,13441.171,2556.673635,2401.006271,high_disagreement_computed_heavy,-155.667363
++1 Adamantine Pistol,CallfromtheDeep,uncommon,R|XPHB,750.0,615.0,0.82,511.53323,599.479985,723.0,near_agreement_official_heavy,123.520015
++1 Adamantine Vertebrae Sword,CallfromtheDeep,uncommon,M,500.6,615.0,1.228526,727.63586,631.89538,523.48,near_agreement_official_heavy,-108.41538
+Scorpion Lasher,GriffonsSaddlebag2,uncommon,M,2.0,675.0,337.5,1051.5865,919.781256,828.00313,high_disagreement_computed_heavy,-91.778126
++1 Adamantine Fan,CallfromtheDeep,uncommon,M,500.02,615.0,1.229951,560.5117,606.826758,523.016,near_agreement_official_heavy,-83.810758
++1 Adamantine Butterfly Staff,CallfromtheDeep,uncommon,M,500.04,615.0,1.229902,560.5117,606.826758,523.032,near_agreement_official_heavy,-83.794758
++1 Adamantine Club,CallfromtheDeep,uncommon,M|XPHB,500.1,615.0,1.229754,560.5117,606.826758,523.08,near_agreement_official_heavy,-83.746758
++1 Adamantine Hoopak,CallfromtheDeep,uncommon,M,500.1,615.0,1.229754,560.5117,606.826758,523.08,near_agreement_official_heavy,-83.746758
++1 Adamantine Iron Tea Kettle,CallfromtheDeep,uncommon,M,500.1,615.0,1.229754,560.5117,606.826758,523.08,near_agreement_official_heavy,-83.746758
++1 Adamantine Greatclub,CallfromtheDeep,uncommon,M|XPHB,500.2,615.0,1.229508,560.5117,606.826758,523.16,near_agreement_official_heavy,-83.666758
++1 Adamantine Quarterstaff,CallfromtheDeep,uncommon,M|XPHB,500.2,615.0,1.229508,560.5117,606.826758,523.16,near_agreement_official_heavy,-83.666758
++1 Adamantine Frying Pan,CallfromtheDeep,uncommon,M,500.3,615.0,1.229262,560.5117,606.826758,523.24,near_agreement_official_heavy,-83.586758
++1 Adamantine Shovel,CallfromtheDeep,uncommon,M,500.3,615.0,1.229262,560.5117,606.826758,523.24,near_agreement_official_heavy,-83.586758
++1 Adamantine Blackpowder Pistol,CallfromtheDeep,uncommon,R|XPHB,700.0,615.0,0.878571,511.53323,599.479985,683.0,near_agreement_official_heavy,83.520015
++1 Adamantine Javelin,CallfromtheDeep,uncommon,M|XPHB,500.5,615.0,1.228771,560.5117,606.826758,523.4,near_agreement_official_heavy,-83.426758
++1 Adamantine Umbrella,CallfromtheDeep,uncommon,M,500.5,615.0,1.228771,560.5117,606.826758,523.4,near_agreement_official_heavy,-83.426758
++1 Adamantine Candlemaker's Club,CallfromtheDeep,uncommon,M,500.7,615.0,1.22828,560.5117,606.826758,523.56,near_agreement_official_heavy,-83.266758
++1 Adamantine Shepherd Crook,CallfromtheDeep,uncommon,M,500.7,615.0,1.22828,560.5117,606.826758,523.56,near_agreement_official_heavy,-83.266758
++1 Adamantine Boat Oar,CallfromtheDeep,uncommon,M,500.8,615.0,1.228035,560.5117,606.826758,523.64,near_agreement_official_heavy,-83.186758
++1 Adamantine Bellow Flute,CallfromtheDeep,uncommon,M,501.0,615.0,1.227545,560.5117,606.826758,523.8,near_agreement_official_heavy,-83.026758
++1 Adamantine Brass Knuckles,CallfromtheDeep,uncommon,M|XPHB,501.0,615.0,1.227545,560.5117,606.826758,523.8,near_agreement_official_heavy,-83.026758
++1 Adamantine Sickle,CallfromtheDeep,uncommon,M|XPHB,501.0,615.0,1.227545,560.5117,606.826758,523.8,near_agreement_official_heavy,-83.026758
++1 Adamantine Spear,CallfromtheDeep,uncommon,M|XPHB,501.0,615.0,1.227545,560.5117,606.826758,523.8,near_agreement_official_heavy,-83.026758
++1 Adamantine Tapper Sack,CallfromtheDeep,uncommon,M,501.0,615.0,1.227545,560.5117,606.826758,523.8,near_agreement_official_heavy,-83.026758
++1 Adamantine Yklwa,CallfromtheDeep,uncommon,M,501.0,615.0,1.227545,560.5117,606.826758,523.8,near_agreement_official_heavy,-83.026758
+Pearl of Undead Detection,WDMM,unknown_magic,OTH,500.0,750.0,1.5,46.888676,292.977639,375.786584,moderate_disagreement_blended,82.808944
++1 Adamantine Boomerang,CallfromtheDeep,uncommon,M,502.0,615.0,1.2251,560.5117,606.826758,524.6,near_agreement_official_heavy,-82.226758
++1 Adamantine Dagger,CallfromtheDeep,uncommon,M|XPHB,502.0,615.0,1.2251,560.5117,606.826758,524.6,near_agreement_official_heavy,-82.226758
++1 Adamantine Field Spear,CallfromtheDeep,uncommon,M,502.0,615.0,1.2251,560.5117,606.826758,524.6,near_agreement_official_heavy,-82.226758
++1 Adamantine Light Hammer,CallfromtheDeep,uncommon,M|XPHB,502.0,615.0,1.2251,560.5117,606.826758,524.6,near_agreement_official_heavy,-82.226758
++1 Adamantine Punch Knife,CallfromtheDeep,uncommon,M|XPHB,502.0,615.0,1.2251,560.5117,606.826758,524.6,near_agreement_official_heavy,-82.226758
++1 Adamantine Whip,CallfromtheDeep,uncommon,M|XPHB,502.0,615.0,1.2251,560.5117,606.826758,524.6,near_agreement_official_heavy,-82.226758
++1 Adamantine Hand Claws,CallfromtheDeep,uncommon,M|XPHB,503.0,615.0,1.222664,560.5117,606.826758,525.4,near_agreement_official_heavy,-81.426758
+Dancing Monkey Fruit,ToA,uncommon,OTH,5.0,750.0,150.0,848.2967,813.89285,733.003565,high_disagreement_computed_heavy,-80.889285
++1 Adamantine Dandelion Spear,CallfromtheDeep,uncommon,M,505.0,615.0,1.217822,560.5117,606.826758,527.0,near_agreement_official_heavy,-79.826758
++1 Adamantine Handaxe,CallfromtheDeep,uncommon,M|XPHB,505.0,615.0,1.217822,560.5117,606.826758,527.0,near_agreement_official_heavy,-79.826758
++1 Adamantine Mace,CallfromtheDeep,uncommon,M|XPHB,505.0,615.0,1.217822,560.5117,606.826758,527.0,near_agreement_official_heavy,-79.826758
++1 Adamantine Pike,CallfromtheDeep,uncommon,M|XPHB,505.0,615.0,1.217822,560.5117,606.826758,527.0,near_agreement_official_heavy,-79.826758
++1 Adamantine Trident,CallfromtheDeep,uncommon,M|XPHB,505.0,615.0,1.217822,560.5117,606.826758,527.0,near_agreement_official_heavy,-79.826758
++1 Adamantine Vaulter's Axe,CallfromtheDeep,uncommon,M,505.0,615.0,1.217822,560.5117,606.826758,527.0,near_agreement_official_heavy,-79.826758
++1 Adamantine War Pick,CallfromtheDeep,uncommon,M|XPHB,505.0,615.0,1.217822,560.5117,606.826758,527.0,near_agreement_official_heavy,-79.826758
++1 Adamantine Dart,CallfromtheDeep,uncommon,R|XPHB,500.05,615.0,1.229877,511.53323,599.479985,523.04,near_agreement_official_heavy,-76.439985
++1 Adamantine Sling,CallfromtheDeep,uncommon,R|XPHB,500.1,615.0,1.229754,511.53323,599.479985,523.08,near_agreement_official_heavy,-76.399985
++1 Adamantine Battleaxe,CallfromtheDeep,uncommon,M|XPHB,510.0,615.0,1.205882,560.5117,606.826758,531.0,near_agreement_official_heavy,-75.826758
++1 Adamantine Flail,CallfromtheDeep,uncommon,M|XPHB,510.0,615.0,1.205882,560.5117,606.826758,531.0,near_agreement_official_heavy,-75.826758
++1 Adamantine Lance,CallfromtheDeep,uncommon,M|XPHB,510.0,615.0,1.205882,560.5117,606.826758,531.0,near_agreement_official_heavy,-75.826758
++1 Adamantine Maul,CallfromtheDeep,uncommon,M|XPHB,510.0,615.0,1.205882,560.5117,606.826758,531.0,near_agreement_official_heavy,-75.826758
++1 Adamantine Shortsword,CallfromtheDeep,uncommon,M|XPHB,510.0,615.0,1.205882,560.5117,606.826758,531.0,near_agreement_official_heavy,-75.826758
++1 Adamantine Steel Jaws,CallfromtheDeep,uncommon,M|XPHB,510.0,615.0,1.205882,560.5117,606.826758,531.0,near_agreement_official_heavy,-75.826758
+Statuette of Saint Markovia,CoS,uncommon,OTH,250.0,1250.0,5.0,848.2967,988.89285,915.003565,high_disagreement_computed_heavy,-73.889285
++1 Adamantine Lom Lom Dagger,CallfromtheDeep,uncommon,M,515.0,615.0,1.194175,560.5117,606.826758,535.0,near_agreement_official_heavy,-71.826758
++1 Adamantine Longsword,CallfromtheDeep,uncommon,M|XPHB,515.0,615.0,1.194175,560.5117,606.826758,535.0,near_agreement_official_heavy,-71.826758
++1 Adamantine Morningstar,CallfromtheDeep,uncommon,M|XPHB,515.0,615.0,1.194175,560.5117,606.826758,535.0,near_agreement_official_heavy,-71.826758
++1 Adamantine Warhammer,CallfromtheDeep,uncommon,M|XPHB,515.0,615.0,1.194175,560.5117,606.826758,535.0,near_agreement_official_heavy,-71.826758
+Oloore Root Teabag,TalDoreiCampaignSettingReborn,uncommon,IDG|TalDoreiCampaignSettingReborn,100.0,750.0,7.5,848.2967,813.89285,742.503565,high_disagreement_computed_heavy,-71.389285
++1 Adamantine Blowgun,CallfromtheDeep,uncommon,R|XPHB,510.0,615.0,1.205882,511.53323,599.479985,531.0,near_agreement_official_heavy,-68.479985
++1 Adamantine Glaive,CallfromtheDeep,uncommon,M|XPHB,520.0,615.0,1.182692,560.5117,606.826758,539.0,near_agreement_official_heavy,-67.826758
++1 Adamantine Halberd,CallfromtheDeep,uncommon,M|XPHB,520.0,615.0,1.182692,560.5117,606.826758,539.0,near_agreement_official_heavy,-67.826758
+Arcanaloth's Music Box,ToA,uncommon,OTH,750.0,750.0,1.0,848.2967,813.89285,750.0,near_agreement_official_heavy,-63.89285
++1 Adamantine Rapier,CallfromtheDeep,uncommon,M|XPHB,525.0,615.0,1.171429,560.5117,606.826758,543.0,near_agreement_official_heavy,-63.826758
++1 Adamantine Scimitar,CallfromtheDeep,uncommon,M|XPHB,525.0,615.0,1.171429,560.5117,606.826758,543.0,near_agreement_official_heavy,-63.826758
++1 Adamantine Greataxe,CallfromtheDeep,uncommon,M|XPHB,530.0,615.0,1.160377,560.5117,606.826758,547.0,near_agreement_official_heavy,-59.826758
++1 Adamantine Secret Stone Sword,CallfromtheDeep,uncommon,M,530.0,615.0,1.160377,560.5117,606.826758,547.0,near_agreement_official_heavy,-59.826758
++1 Adamantine Nakudama Bubble Rod,CallfromtheDeep,uncommon,R,522.0,615.0,1.178161,511.53323,599.479985,540.6,near_agreement_official_heavy,-58.879985
++1 Adamantine Light Crossbow,CallfromtheDeep,uncommon,R|XPHB,525.0,615.0,1.171429,511.53323,599.479985,543.0,near_agreement_official_heavy,-56.479985
++1 Adamantine Shortbow,CallfromtheDeep,uncommon,R|XPHB,525.0,615.0,1.171429,511.53323,599.479985,543.0,near_agreement_official_heavy,-56.479985
++1 Adamantine Greatsword,CallfromtheDeep,uncommon,M|XPHB,550.0,615.0,1.118182,560.5117,606.826758,563.0,near_agreement_official_heavy,-43.826758
++1 Adamantine Heavy Crossbow,CallfromtheDeep,uncommon,R|XPHB,550.0,615.0,1.118182,511.53323,599.479985,563.0,near_agreement_official_heavy,-36.479985
++1 Adamantine Longbow,CallfromtheDeep,uncommon,R|XPHB,550.0,615.0,1.118182,511.53323,599.479985,563.0,near_agreement_official_heavy,-36.479985
+Cursed Gold Coin,CallfromtheDeep,unknown_magic,$|DMG,1.0,637.5,637.5,47.804367,254.197839,228.878055,high_disagreement_computed_heavy,-25.319784
++1 Adamantine Hand Crossbow,CallfromtheDeep,uncommon,R|XPHB,575.0,615.0,1.069565,511.53323,599.479985,583.0,near_agreement_official_heavy,-16.479985
+Cloud-Touched Boomerang,ObojimaTallGrass,common,M,2.0,90.0,45.0,183.60939,150.846104,135.961493,high_disagreement_computed_heavy,-14.88461
+Spell Scroll (Level 1),XDMG,common,SC|XPHB,50.0,75.0,1.5,110.128654,75.0,65.0,moderate_disagreement_blended,-10.0
+Potion of Healing,XDMG,common,P|XPHB,50.0,58.75,1.175,65.781685,59.804753,51.75,near_agreement_official_heavy,-8.054753
+Spell Scroll (Cantrip),XDMG,common,SC|XPHB,30.0,25.0,0.833333,110.128654,25.0,29.0,near_agreement_official_heavy,4.0
++1 Adamantine Double-Bladed Scimitar,CallfromtheDeep,uncommon,M,600.0,615.0,1.025,560.5117,606.826758,603.0,near_agreement_official_heavy,-3.826758
++1 Adamantine Drive Shaft,CallfromtheDeep,uncommon,M,600.0,615.0,1.025,560.5117,606.826758,603.0,near_agreement_official_heavy,-3.826758
+Ball Bearing,PHB,mundane,G,0.001,0.001,1.0,46.888676,0.01,0.001,near_agreement_official_heavy,-0.009
+Sling Bullet,XPHB,mundane,A|XPHB,0.002,0.002,1.0,15.704034,0.01,0.002,near_agreement_official_heavy,-0.008
+Byeshk Greatclub,ExploringEberron24,common,M|XPHB,400.2,400.2,1.0,601.8118,400.2,400.2,near_agreement_official_heavy,0.0
+Byeshk Hand Claws,ExploringEberron24,common,M|XPHB,403.0,403.0,1.0,601.8118,403.0,403.0,near_agreement_official_heavy,0.0
+Byeshk Javelin,ExploringEberron24,common,M|XPHB,400.5,400.5,1.0,601.8118,400.5,400.5,near_agreement_official_heavy,0.0
+Byeshk Quarterstaff,ExploringEberron24,common,M|XPHB,400.2,400.2,1.0,601.8118,400.2,400.2,near_agreement_official_heavy,0.0
+Dungeoneer's Pack,XPHB,mundane,G|XPHB,12.0,12.0,1.0,46.888676,12.0,12.0,near_agreement_official_heavy,0.0
+Pan Flute,XPHB,mundane,INS|XPHB,12.0,12.0,1.0,96.666466,12.0,12.0,near_agreement_official_heavy,0.0
+Traveler's Lantern,HumblewoodTales,mundane,G,12.0,12.0,1.0,46.888676,12.0,12.0,near_agreement_official_heavy,0.0
+Drum,XPHB,mundane,INS|XPHB,6.0,6.0,1.0,96.666466,6.0,6.0,near_agreement_official_heavy,0.0
+Firearm Bullets (10),XPHB,mundane,A|XPHB,3.0,3.0,1.0,15.704034,3.0,3.0,near_agreement_official_heavy,0.0
+Hand Claws,Pugilist2024,mundane,M|XPHB,3.0,3.0,1.0,64.09089,3.0,3.0,near_agreement_official_heavy,0.0
+Heavy Bayonet,ChroniclesOfEberron,mundane,M,3.0,3.0,1.0,64.09089,3.0,3.0,near_agreement_official_heavy,0.0
+Horn,XPHB,mundane,INS|XPHB,3.0,3.0,1.0,96.666466,3.0,3.0,near_agreement_official_heavy,0.0
+Theki Root,EGW,mundane,G,3.0,3.0,1.0,46.888676,3.0,3.0,near_agreement_official_heavy,0.0
+Boat Oar,ObojimaTallGrass,mundane,M,0.8,0.8,1.0,64.09089,0.8,0.8,near_agreement_official_heavy,0.0
+Basket,XPHB,mundane,G|XPHB,0.4,0.4,1.0,46.888676,0.4,0.4,near_agreement_official_heavy,0.0
+Ale (gallon),PHB,mundane,FD,0.2,0.2,1.0,46.888676,0.2,0.2,near_agreement_official_heavy,0.0
+Common Wine (bottle),XPHB,mundane,FD|XPHB,0.2,0.2,1.0,46.888676,0.2,0.2,near_agreement_official_heavy,0.0
+Greatclub,XPHB,mundane,M|XPHB,0.2,0.2,1.0,64.09089,0.2,0.2,near_agreement_official_heavy,0.0
+Mess Kit,PHB,mundane,G,0.2,0.2,1.0,46.888676,0.2,0.2,near_agreement_official_heavy,0.0
+Paper,XPHB,mundane,G|XPHB,0.2,0.2,1.0,46.888676,0.2,0.2,near_agreement_official_heavy,0.0
+Quarterstaff,XPHB,mundane,M|XPHB,0.2,0.2,1.0,64.09089,0.2,0.2,near_agreement_official_heavy,0.0
+Sling Bullets (20),XPHB,mundane,A|XPHB,0.2,0.2,1.0,15.704034,0.2,0.2,near_agreement_official_heavy,0.0
+Waterskin,XPHB,mundane,G|XPHB,0.2,0.2,1.0,46.888676,0.2,0.2,near_agreement_official_heavy,0.0
+"Arrow, Ranging",GrimHollowPG24,mundane,A|XPHB,0.1,0.1,1.0,15.704034,0.1,0.1,near_agreement_official_heavy,0.0
+"Arrow, Slashing",GrimHollowPG24,mundane,A|XPHB,0.1,0.1,1.0,15.704034,0.1,0.1,near_agreement_official_heavy,0.0
+"Arrow, Whistling",GrimHollowPG24,mundane,A|XPHB,0.1,0.1,1.0,15.704034,0.1,0.1,near_agreement_official_heavy,0.0
+"Bolt, Ranging",GrimHollowPG24,mundane,A|XPHB,0.1,0.1,1.0,15.704034,0.1,0.1,near_agreement_official_heavy,0.0
+"Bolt, Slashing",GrimHollowPG24,mundane,A|XPHB,0.1,0.1,1.0,15.704034,0.1,0.1,near_agreement_official_heavy,0.0
+"Bolt, Whistling",GrimHollowPG24,mundane,A|XPHB,0.1,0.1,1.0,15.704034,0.1,0.1,near_agreement_official_heavy,0.0
+Cheese (wedge),XPHB,mundane,FD|XPHB,0.1,0.1,1.0,46.888676,0.1,0.1,near_agreement_official_heavy,0.0
+Club,XPHB,mundane,M|XPHB,0.1,0.1,1.0,64.09089,0.1,0.1,near_agreement_official_heavy,0.0
+Dice Set,XPHB,mundane,GS|XPHB,0.1,0.1,1.0,46.888676,0.1,0.1,near_agreement_official_heavy,0.0
+Hoopak,DSotDQ,mundane,M,0.1,0.1,1.0,64.09089,0.1,0.1,near_agreement_official_heavy,0.0
+Insect Repellent (block of incense),ToA,mundane,G,0.1,0.1,1.0,72.772446,0.1,0.1,near_agreement_official_heavy,0.0
+Iron Spike,XPHB,mundane,G|XPHB,0.1,0.1,1.0,46.888676,0.1,0.1,near_agreement_official_heavy,0.0
+Iron Tea Kettle,ObojimaTallGrass,mundane,M,0.1,0.1,1.0,64.09089,0.1,0.1,near_agreement_official_heavy,0.0
+Ladder,XPHB,mundane,G|XPHB,0.1,0.1,1.0,46.888676,0.1,0.1,near_agreement_official_heavy,0.0
+Oil,XPHB,mundane,G|XPHB,0.1,0.1,1.0,46.888676,0.1,0.1,near_agreement_official_heavy,0.0
+Parchment,XPHB,mundane,G|XPHB,0.1,0.1,1.0,46.888676,0.1,0.1,near_agreement_official_heavy,0.0
+Shot,ValdaGunslinger,mundane,A|XPHB,0.1,0.1,1.0,15.704034,0.1,0.1,near_agreement_official_heavy,0.0
+Sling,XPHB,mundane,R|XPHB,0.1,0.1,1.0,46.888676,0.1,0.1,near_agreement_official_heavy,0.0
+String,XPHB,mundane,G|XPHB,0.1,0.1,1.0,46.888676,0.1,0.1,near_agreement_official_heavy,0.0
+Arrow,XPHB,mundane,A|XPHB,0.05,0.05,1.0,15.704034,0.05,0.05,near_agreement_official_heavy,0.0
+"Arrow, Bludgeoning",GrimHollowPG24,mundane,A|XPHB,0.05,0.05,1.0,15.704034,0.05,0.05,near_agreement_official_heavy,0.0
+Bolt,XPHB,mundane,A|XPHB,0.05,0.05,1.0,15.704034,0.05,0.05,near_agreement_official_heavy,0.0
+"Bolt, Bludgeoning",GrimHollowPG24,mundane,A|XPHB,0.05,0.05,1.0,15.704034,0.05,0.05,near_agreement_official_heavy,0.0
+Bucket,XPHB,mundane,G|XPHB,0.05,0.05,1.0,46.888676,0.05,0.05,near_agreement_official_heavy,0.0
+Caltrop,PHB,mundane,G,0.05,0.05,1.0,46.888676,0.05,0.05,near_agreement_official_heavy,0.0
+Dart,XPHB,mundane,R|XPHB,0.05,0.05,1.0,46.888676,0.05,0.05,near_agreement_official_heavy,0.0
+Feed (per day),XPHB,mundane,TAH|XPHB,0.05,0.05,1.0,46.888676,0.05,0.05,near_agreement_official_heavy,0.0
+Piton,PHB,mundane,G,0.05,0.05,1.0,46.888676,0.05,0.05,near_agreement_official_heavy,0.0
+Pole,XPHB,mundane,G|XPHB,0.05,0.05,1.0,46.888676,0.05,0.05,near_agreement_official_heavy,0.0
+Signal Whistle,XPHB,mundane,G|XPHB,0.05,0.05,1.0,46.888676,0.05,0.05,near_agreement_official_heavy,0.0
+"Sling Bullet, Ranging",GrimHollowPG24,mundane,A|XPHB,0.05,0.05,1.0,15.704034,0.05,0.05,near_agreement_official_heavy,0.0
+"Sling Bullet, Whistling",GrimHollowPG24,mundane,A|XPHB,0.05,0.05,1.0,15.704034,0.05,0.05,near_agreement_official_heavy,0.0
+Stabling (per day),XPHB,mundane,TAH|XPHB,0.05,0.05,1.0,46.888676,0.05,0.05,near_agreement_official_heavy,0.0
+Abacus,PHB,mundane,G,2.0,2.0,1.0,46.888676,2.0,2.0,near_agreement_official_heavy,0.0
+Acid,XPHB,mundane,G|XPHB,25.0,25.0,1.0,46.888676,25.0,25.0,near_agreement_official_heavy,0.0
+Adamantine Bar,WDH,mundane,TG,1000.0,1000.0,1.0,50.26564,1000.0,1000.0,exact_commodity_official_price,0.0
+Airship,XPHB,mundane,AIR|XPHB,40000.0,40000.0,1.0,46.888676,40000.0,40000.0,near_agreement_official_heavy,0.0
+Alchemist's Fire,XPHB,mundane,G|XPHB,50.0,50.0,1.0,46.888676,50.0,50.0,near_agreement_official_heavy,0.0
+Alchemist's Supplies,XPHB,mundane,AT|XPHB,50.0,50.0,1.0,46.888676,50.0,50.0,near_agreement_official_heavy,0.0
+Ale (mug),XPHB,mundane,FD|XPHB,0.04,0.04,1.0,46.888676,0.04,0.04,near_agreement_official_heavy,0.0
+Alexandrite,XDMG,mundane,$G|XDMG,500.0,500.0,1.0,46.888676,500.0,500.0,exact_commodity_official_price,0.0
+Amber,XDMG,mundane,$G|XDMG,100.0,100.0,1.0,46.888676,100.0,100.0,exact_commodity_official_price,0.0
+Amethyst,XDMG,mundane,$G|XDMG,100.0,100.0,1.0,46.888676,100.0,100.0,exact_commodity_official_price,0.0
+Amulet,XPHB,mundane,SCF|XPHB,5.0,5.0,1.0,57.44107,5.0,5.0,near_agreement_official_heavy,0.0
+Angel's Bane,CallfromtheDeep,mundane,SHP,15000.0,15000.0,1.0,46.888676,15000.0,15000.0,near_agreement_official_heavy,0.0
+Antitoxin,XPHB,mundane,G|XPHB,50.0,50.0,1.0,46.888676,50.0,50.0,near_agreement_official_heavy,0.0
+Aquamarine,XDMG,mundane,$G|XDMG,500.0,500.0,1.0,46.888676,500.0,500.0,exact_commodity_official_price,0.0
+Arbalest,GrimHollowPG24,mundane,R|XPHB,750.0,750.0,1.0,46.888676,750.0,750.0,near_agreement_official_heavy,0.0
+"Arrow, Acid",GrimHollowPG24,mundane,A|XPHB,75.0,75.0,1.0,15.704034,75.0,75.0,near_agreement_official_heavy,0.0
+"Arrow, Alchemist's Fire",GrimHollowPG24,mundane,A|XPHB,75.0,75.0,1.0,15.704034,75.0,75.0,near_agreement_official_heavy,0.0
+"Arrow, Armor-Piercing",GrimHollowPG24,mundane,A|XPHB,20.0,20.0,1.0,15.704034,20.0,20.0,near_agreement_official_heavy,0.0
+"Arrow, Blessed",GrimHollowPG24,mundane,A|XPHB,20.0,20.0,1.0,15.704034,20.0,20.0,near_agreement_official_heavy,0.0
+"Arrow, Brutal",GrimHollowPG24,mundane,A|XPHB,20.0,20.0,1.0,15.704034,20.0,20.0,near_agreement_official_heavy,0.0
+"Arrow, Desecrated",GrimHollowPG24,mundane,A|XPHB,20.0,20.0,1.0,15.704034,20.0,20.0,near_agreement_official_heavy,0.0
+"Arrow, Holy Water",GrimHollowPG24,mundane,A|XPHB,75.0,75.0,1.0,15.704034,75.0,75.0,near_agreement_official_heavy,0.0
+"Arrow, Incendiary",GrimHollowPG24,mundane,A|XPHB,20.0,20.0,1.0,15.862116,20.0,20.0,near_agreement_official_heavy,0.0
+"Arrow, War Oil",GrimHollowPG24,mundane,A|XPHB,75.0,75.0,1.0,26.541391,75.0,75.0,near_agreement_official_heavy,0.0
+Arrows (20),XPHB,mundane,A|XPHB,1.0,1.0,1.0,15.704034,1.0,1.0,near_agreement_official_heavy,0.0
+Assassin's Blood,XDMG,mundane,G|XPHB,150.0,150.0,1.0,46.888676,150.0,150.0,near_agreement_official_heavy,0.0
+Axe Beak,FRHoF,mundane,MNT|XPHB,50.0,50.0,1.0,46.888676,50.0,50.0,near_agreement_official_heavy,0.0
+Azurite,XDMG,mundane,$G|XDMG,10.0,10.0,1.0,46.888676,10.0,10.0,exact_commodity_official_price,0.0
+Backpack,XPHB,mundane,G|XPHB,2.0,2.0,1.0,46.888676,2.0,2.0,near_agreement_official_heavy,0.0
+Bagpipes,XPHB,mundane,INS|XPHB,30.0,30.0,1.0,96.666466,30.0,30.0,near_agreement_official_heavy,0.0
+Ball Bearings,XPHB,mundane,G|XPHB,1.0,1.0,1.0,46.888676,1.0,1.0,near_agreement_official_heavy,0.0
+Banded Agate,XDMG,mundane,$G|XDMG,10.0,10.0,1.0,46.888676,10.0,10.0,exact_commodity_official_price,0.0
+Bandore,FRHoF,mundane,INS|XPHB,65.0,65.0,1.0,96.666466,65.0,65.0,near_agreement_official_heavy,0.0
+Bark Armor,ObojimaTallGrass,mundane,LA,8.0,8.0,1.0,55.541374,8.0,8.0,near_agreement_official_heavy,0.0
+Barrel,XPHB,mundane,G|XPHB,2.0,2.0,1.0,46.888676,2.0,2.0,near_agreement_official_heavy,0.0
+Basic Poison,XPHB,mundane,G|XPHB,100.0,100.0,1.0,66.37948,100.0,100.0,near_agreement_official_heavy,0.0
+Battleaxe,XPHB,mundane,M|XPHB,10.0,10.0,1.0,64.09089,10.0,10.0,near_agreement_official_heavy,0.0
+Beast Whistle,HumblewoodTales,mundane,G,20.0,20.0,1.0,46.888676,20.0,20.0,near_agreement_official_heavy,0.0
+Bedroll,XPHB,mundane,G|XPHB,1.0,1.0,1.0,46.888676,1.0,1.0,near_agreement_official_heavy,0.0
+Bejeweled gold bracelet,XDMG,mundane,$A|XDMG,250.0,250.0,1.0,46.888676,250.0,250.0,exact_commodity_official_price,0.0
+Bejeweled ivory drinking horn with gold filigree,XDMG,mundane,$A|XDMG,7500.0,7500.0,1.0,46.888676,7500.0,7500.0,exact_commodity_official_price,0.0
+Bell,XPHB,mundane,G|XPHB,1.0,1.0,1.0,46.888676,1.0,1.0,near_agreement_official_heavy,0.0
+Bellow Flute,ObojimaTallGrass,mundane,M,1.0,1.0,1.0,64.09089,1.0,1.0,near_agreement_official_heavy,0.0
+Bellows Cannister,GrimHollowPG24,mundane,A|XPHB,0.25,0.25,1.0,15.704034,0.25,0.25,near_agreement_official_heavy,0.0
+Bireme,CallfromtheDeep,mundane,SHP,5000.0,5000.0,1.0,46.888676,5000.0,5000.0,near_agreement_official_heavy,0.0
+Bit and bridle,PHB,mundane,TAH,2.0,2.0,1.0,46.888676,2.0,2.0,near_agreement_official_heavy,0.0
+Black Opal,XDMG,mundane,$G|XDMG,1000.0,1000.0,1.0,46.888676,1000.0,1000.0,exact_commodity_official_price,0.0
+Black Pearl,XDMG,mundane,$G|XDMG,500.0,500.0,1.0,46.888676,500.0,500.0,exact_commodity_official_price,0.0
+Black Sap,EGW,mundane,G,300.0,300.0,1.0,46.888676,300.0,300.0,near_agreement_official_heavy,0.0
+Black Sapphire,XDMG,mundane,$G|XDMG,5000.0,5000.0,1.0,46.888676,5000.0,5000.0,exact_commodity_official_price,0.0
+Black velvet mask stitched with silver thread,XDMG,mundane,$A|XDMG,25.0,25.0,1.0,46.888676,25.0,25.0,exact_commodity_official_price,0.0
+Blackpowder Pistol,GrimHollowPG24,mundane,R|XPHB,200.0,200.0,1.0,46.888676,200.0,200.0,near_agreement_official_heavy,0.0
+Blackpowder Rifle,GrimHollowPG24,mundane,R|XPHB,500.0,500.0,1.0,46.888676,500.0,500.0,near_agreement_official_heavy,0.0
+Blanket,XPHB,mundane,G|XPHB,0.5,0.5,1.0,46.888676,0.5,0.5,near_agreement_official_heavy,0.0
+Blessed Stake,GrimHollowPG24,mundane,AdvEq,250.0,250.0,1.0,46.888676,250.0,250.0,near_agreement_official_heavy,0.0
+Blight Ichor,EGW,mundane,G,200.0,200.0,1.0,46.888676,200.0,200.0,near_agreement_official_heavy,0.0
+Block and Tackle,XPHB,mundane,G|XPHB,1.0,1.0,1.0,46.888676,1.0,1.0,near_agreement_official_heavy,0.0
+Bloodstone,XDMG,mundane,$G|XDMG,50.0,50.0,1.0,46.888676,50.0,50.0,exact_commodity_official_price,0.0
+Blowgun,XPHB,mundane,R|XPHB,10.0,10.0,1.0,46.888676,10.0,10.0,near_agreement_official_heavy,0.0
+Blue Quartz,XDMG,mundane,$G|XDMG,10.0,10.0,1.0,46.888676,10.0,10.0,exact_commodity_official_price,0.0
+Blue Sapphire,XDMG,mundane,$G|XDMG,1000.0,1000.0,1.0,46.888676,1000.0,1000.0,exact_commodity_official_price,0.0
+Blue Spinel,XDMG,mundane,$G|XDMG,500.0,500.0,1.0,46.888676,500.0,500.0,exact_commodity_official_price,0.0
+Blunderbuss,GrimHollowPG24,mundane,R|XPHB,750.0,750.0,1.0,46.888676,750.0,750.0,near_agreement_official_heavy,0.0
+Blunderbuss,HelianasGuidetoMonsterHunting,mundane,MF,150.0,150.0,1.0,46.888676,150.0,150.0,near_agreement_official_heavy,0.0
+Blunderbuss,ValdaGunslinger,mundane,R|XPHB,750.0,750.0,1.0,46.888676,750.0,750.0,near_agreement_official_heavy,0.0
+"Blunderbuss, Hand",GrimHollowPG24,mundane,R|XPHB,500.0,500.0,1.0,46.888676,500.0,500.0,near_agreement_official_heavy,0.0
+Boarding Axe,HumblewoodTales,mundane,M,8.0,8.0,1.0,64.09089,8.0,8.0,near_agreement_official_heavy,0.0
+"Bolt, Acid",GrimHollowPG24,mundane,A|XPHB,75.0,75.0,1.0,15.704034,75.0,75.0,near_agreement_official_heavy,0.0
+"Bolt, Alchemist's Fire",GrimHollowPG24,mundane,A|XPHB,75.0,75.0,1.0,15.704034,75.0,75.0,near_agreement_official_heavy,0.0
+"Bolt, Armor-Piercing",GrimHollowPG24,mundane,A|XPHB,20.0,20.0,1.0,15.704034,20.0,20.0,near_agreement_official_heavy,0.0
+"Bolt, Blessed",GrimHollowPG24,mundane,A|XPHB,20.0,20.0,1.0,15.704034,20.0,20.0,near_agreement_official_heavy,0.0
+"Bolt, Brutal",GrimHollowPG24,mundane,A|XPHB,20.0,20.0,1.0,15.704034,20.0,20.0,near_agreement_official_heavy,0.0
+"Bolt, Desecrated",GrimHollowPG24,mundane,A|XPHB,20.0,20.0,1.0,15.704034,20.0,20.0,near_agreement_official_heavy,0.0
+"Bolt, Holy Water",GrimHollowPG24,mundane,A|XPHB,75.0,75.0,1.0,15.704034,75.0,75.0,near_agreement_official_heavy,0.0
+"Bolt, Incendiary",GrimHollowPG24,mundane,A|XPHB,20.0,20.0,1.0,15.862116,20.0,20.0,near_agreement_official_heavy,0.0
+"Bolt, War Oil",GrimHollowPG24,mundane,A|XPHB,75.0,75.0,1.0,26.541391,75.0,75.0,near_agreement_official_heavy,0.0
+Bolts (20),XPHB,mundane,A|XPHB,1.0,1.0,1.0,15.704034,1.0,1.0,near_agreement_official_heavy,0.0
+Bomb,XDMG,mundane,EXP|XDMG,100.0,100.0,1.0,46.888676,100.0,100.0,near_agreement_official_heavy,0.0
+Book,XPHB,mundane,G|XPHB,25.0,25.0,1.0,46.888676,25.0,25.0,near_agreement_official_heavy,0.0
+Boomerang,ObojimaTallGrass,mundane,M,2.0,2.0,1.0,64.09089,2.0,2.0,near_agreement_official_heavy,0.0
+Bottle stopper cork embossed with gold leaf and set with amethysts,XDMG,mundane,$A|XDMG,750.0,750.0,1.0,46.888676,750.0,750.0,exact_commodity_official_price,0.0
+Box of turquoise animal figurines,XDMG,mundane,$A|XDMG,250.0,250.0,1.0,46.888676,250.0,250.0,exact_commodity_official_price,0.0
+Brass Knuckles,Pugilist2024,mundane,M|XPHB,1.0,1.0,1.0,64.09089,1.0,1.0,near_agreement_official_heavy,0.0
+Brass mug with jade inlay,XDMG,mundane,$A|XDMG,250.0,250.0,1.0,46.888676,250.0,250.0,exact_commodity_official_price,0.0
+Bread (loaf),XPHB,mundane,FD|XPHB,0.02,0.02,1.0,46.888676,0.02,0.02,near_agreement_official_heavy,0.0
+Breastplate,XPHB,mundane,MA|XPHB,400.0,400.0,1.0,63.604954,400.0,400.0,near_agreement_official_heavy,0.0
+Breastplate Barding,PHB,mundane,TAH,1600.0,1600.0,1.0,46.888676,1600.0,1600.0,near_agreement_official_heavy,0.0
+Breath of Beleth,GrimHollowPG24,mundane,AdvEq,150.0,150.0,1.0,46.888676,150.0,150.0,near_agreement_official_heavy,0.0
+Breath of the Wind-Touched Jerbeen Figurine,HumblewoodTales,mundane,$A|DMG,5.0,5.0,1.0,46.888676,5.0,5.0,exact_commodity_official_price,0.0
+Brewer's Supplies,XPHB,mundane,AT|XPHB,20.0,20.0,1.0,46.888676,20.0,20.0,near_agreement_official_heavy,0.0
+Bright Fungal Cloak,FRHoF,mundane,G|XPHB,25.0,25.0,1.0,46.888676,25.0,25.0,near_agreement_official_heavy,0.0
+Bronze crown,XDMG,mundane,$A|XDMG,250.0,250.0,1.0,46.888676,250.0,250.0,exact_commodity_official_price,0.0
+Buckler,GrimHollowPG24,mundane,AdvEq,20.0,20.0,1.0,46.888676,20.0,20.0,near_agreement_official_heavy,0.0
+Bullet,ValdaGunslinger,mundane,A|XPHB,0.3,0.3,1.0,15.704034,0.3,0.3,near_agreement_official_heavy,0.0
+Bullseye Lantern,XPHB,mundane,G|XPHB,10.0,10.0,1.0,46.888676,10.0,10.0,near_agreement_official_heavy,0.0
+Bundle of sheet music representing the lost dirges of a famous composer,XDMG,mundane,$A|XDMG,750.0,750.0,1.0,46.888676,750.0,750.0,exact_commodity_official_price,0.0
+Burglar's Pack,XPHB,mundane,G|XPHB,16.0,16.0,1.0,46.888676,16.0,16.0,near_agreement_official_heavy,0.0
+Burnt Othur Fumes,XDMG,mundane,G|XPHB,500.0,500.0,1.0,46.888676,500.0,500.0,near_agreement_official_heavy,0.0
+Butterfly Staff,ObojimaTallGrass,mundane,M,0.04,0.04,1.0,64.09089,0.04,0.04,near_agreement_official_heavy,0.0
+Byeshk Battleaxe,ExploringEberron24,common,M|XPHB,410.0,410.0,1.0,601.8118,410.0,410.0,near_agreement_official_heavy,0.0
+Byeshk Brass Knuckles,ExploringEberron24,common,M|XPHB,401.0,401.0,1.0,601.8118,401.0,401.0,near_agreement_official_heavy,0.0
+Byeshk Catchpole,ExploringEberron24,common,M|XPHB,900.0,900.0,1.0,601.8118,900.0,900.0,near_agreement_official_heavy,0.0
+Byeshk Cavalry Flail,ExploringEberron24,common,M|XPHB,900.0,900.0,1.0,554.07184,900.0,900.0,near_agreement_official_heavy,0.0
+Byeshk Cavalry Hammer,ExploringEberron24,common,M|XPHB,900.0,900.0,1.0,601.8118,900.0,900.0,near_agreement_official_heavy,0.0
+Byeshk Cavalry Pick,ExploringEberron24,common,M|XPHB,900.0,900.0,1.0,601.8118,900.0,900.0,near_agreement_official_heavy,0.0
+Byeshk Chakram,ExploringEberron24,common,M|XPHB,900.0,900.0,1.0,601.8118,900.0,900.0,near_agreement_official_heavy,0.0
+Byeshk Claymore,ExploringEberron24,common,M|XPHB,900.0,900.0,1.0,601.8118,900.0,900.0,near_agreement_official_heavy,0.0
+Byeshk Club,ExploringEberron24,common,M|XPHB,400.1,400.1,1.0,601.8118,400.1,400.1,near_agreement_official_heavy,0.0
+Byeshk Dagger,ExploringEberron24,common,M|XPHB,402.0,402.0,1.0,601.8118,402.0,402.0,near_agreement_official_heavy,0.0
+Byeshk Double Blade,ExploringEberron24,common,M|XPHB,900.0,900.0,1.0,601.8118,900.0,900.0,near_agreement_official_heavy,0.0
+Byeshk Double Spear,ExploringEberron24,common,M|XPHB,900.0,900.0,1.0,601.8118,900.0,900.0,near_agreement_official_heavy,0.0
+Byeshk Elite Rapier,ExploringEberron24,common,M|XPHB,900.0,900.0,1.0,554.07184,900.0,900.0,near_agreement_official_heavy,0.0
+Byeshk Fighting Chain,ExploringEberron24,common,M|XPHB,900.0,900.0,1.0,601.8118,900.0,900.0,near_agreement_official_heavy,0.0
+"Byeshk Fighting Chain, Brutal",ExploringEberron24,common,M|XPHB,1150.0,1150.0,1.0,601.8118,1150.0,1150.0,near_agreement_official_heavy,0.0
+"Byeshk Fighting Chain, Hook",ExploringEberron24,common,M|XPHB,900.0,900.0,1.0,601.8118,900.0,900.0,near_agreement_official_heavy,0.0
+"Byeshk Fighting Chain, Sickle",ExploringEberron24,common,M|XPHB,900.0,900.0,1.0,601.8118,900.0,900.0,near_agreement_official_heavy,0.0
+Byeshk Flail,ExploringEberron24,common,M|XPHB,410.0,410.0,1.0,601.8118,410.0,410.0,near_agreement_official_heavy,0.0
+Byeshk Gladiator Net,ExploringEberron24,common,M|XPHB,750.0,750.0,1.0,601.8118,750.0,750.0,near_agreement_official_heavy,0.0
+Byeshk Glaive,ExploringEberron24,common,M|XPHB,420.0,420.0,1.0,601.8118,420.0,420.0,near_agreement_official_heavy,0.0
+Byeshk Greataxe,ExploringEberron24,common,M|XPHB,430.0,430.0,1.0,601.8118,430.0,430.0,near_agreement_official_heavy,0.0
+Byeshk Greatsword,ExploringEberron24,common,M|XPHB,450.0,450.0,1.0,601.8118,450.0,450.0,near_agreement_official_heavy,0.0
+Byeshk Guardian Poleaxe,ExploringEberron24,common,M|XPHB,1150.0,1150.0,1.0,601.8118,1150.0,1150.0,near_agreement_official_heavy,0.0
+Byeshk Halberd,ExploringEberron24,common,M|XPHB,420.0,420.0,1.0,601.8118,420.0,420.0,near_agreement_official_heavy,0.0
+Byeshk Handaxe,ExploringEberron24,common,M|XPHB,405.0,405.0,1.0,601.8118,405.0,405.0,near_agreement_official_heavy,0.0
+Byeshk Knightly Lance,ExploringEberron24,common,M|XPHB,900.0,900.0,1.0,601.8118,900.0,900.0,near_agreement_official_heavy,0.0
+Byeshk Knightly Sword,ExploringEberron24,common,M|XPHB,1150.0,1150.0,1.0,601.8118,1150.0,1150.0,near_agreement_official_heavy,0.0
+Byeshk Lance,ExploringEberron24,common,M|XPHB,410.0,410.0,1.0,601.8118,410.0,410.0,near_agreement_official_heavy,0.0
+Byeshk Light Hammer,ExploringEberron24,common,M|XPHB,402.0,402.0,1.0,601.8118,402.0,402.0,near_agreement_official_heavy,0.0
+Byeshk Longsword,ExploringEberron24,common,M|XPHB,415.0,415.0,1.0,601.8118,415.0,415.0,near_agreement_official_heavy,0.0
+Byeshk Mace,ExploringEberron24,common,M|XPHB,405.0,405.0,1.0,601.8118,405.0,405.0,near_agreement_official_heavy,0.0
+Byeshk Maul,ExploringEberron24,common,M|XPHB,410.0,410.0,1.0,601.8118,410.0,410.0,near_agreement_official_heavy,0.0
+Byeshk Military Fork,ExploringEberron24,common,M|XPHB,900.0,900.0,1.0,601.8118,900.0,900.0,near_agreement_official_heavy,0.0
+Byeshk Morningstar,ExploringEberron24,common,M|XPHB,415.0,415.0,1.0,601.8118,415.0,415.0,near_agreement_official_heavy,0.0
+Byeshk Parrying Dagger,ExploringEberron24,common,M|XPHB,750.0,750.0,1.0,601.8118,750.0,750.0,near_agreement_official_heavy,0.0
+Byeshk Pike,ExploringEberron24,common,M|XPHB,405.0,405.0,1.0,601.8118,405.0,405.0,near_agreement_official_heavy,0.0
+Byeshk Polearm,ExploringEberron24,common,M|XPHB,900.0,900.0,1.0,601.8118,900.0,900.0,near_agreement_official_heavy,0.0
+Byeshk Punch Knife,ExploringEberron24,common,M|XPHB,402.0,402.0,1.0,601.8118,402.0,402.0,near_agreement_official_heavy,0.0
+Byeshk Punching Dagger,ExploringEberron24,common,M|XPHB,700.0,700.0,1.0,601.8118,700.0,700.0,near_agreement_official_heavy,0.0
+Byeshk Rapier,ExploringEberron24,common,M|XPHB,425.0,425.0,1.0,601.8118,425.0,425.0,near_agreement_official_heavy,0.0
+Byeshk Returning Club,ExploringEberron24,common,M|XPHB,700.0,700.0,1.0,601.8118,700.0,700.0,near_agreement_official_heavy,0.0
+Byeshk Sabre,ExploringEberron24,common,M|XPHB,900.0,900.0,1.0,554.07184,900.0,900.0,near_agreement_official_heavy,0.0
+Byeshk Scimitar,ExploringEberron24,common,M|XPHB,425.0,425.0,1.0,601.8118,425.0,425.0,near_agreement_official_heavy,0.0
+Byeshk Sheathed Staff,ExploringEberron24,common,M|XPHB,900.0,900.0,1.0,601.8118,900.0,900.0,near_agreement_official_heavy,0.0
+Byeshk Shortsword,ExploringEberron24,common,M|XPHB,410.0,410.0,1.0,601.8118,410.0,410.0,near_agreement_official_heavy,0.0
+Byeshk Sickle,ExploringEberron24,common,M|XPHB,401.0,401.0,1.0,601.8118,401.0,401.0,near_agreement_official_heavy,0.0
+Byeshk Side-handle Baton,ExploringEberron24,common,M|XPHB,900.0,900.0,1.0,554.07184,900.0,900.0,near_agreement_official_heavy,0.0
+Byeshk Spear,ExploringEberron24,common,M|XPHB,401.0,401.0,1.0,601.8118,401.0,401.0,near_agreement_official_heavy,0.0
+Byeshk Steel Jaws,ExploringEberron24,common,M|XPHB,410.0,410.0,1.0,601.8118,410.0,410.0,near_agreement_official_heavy,0.0
+Byeshk Trident,ExploringEberron24,common,M|XPHB,405.0,405.0,1.0,601.8118,405.0,405.0,near_agreement_official_heavy,0.0
+Byeshk War Pick,ExploringEberron24,common,M|XPHB,405.0,405.0,1.0,601.8118,405.0,405.0,near_agreement_official_heavy,0.0
+Byeshk Warhammer,ExploringEberron24,common,M|XPHB,415.0,415.0,1.0,601.8118,415.0,415.0,near_agreement_official_heavy,0.0
+Byeshk Whip,ExploringEberron24,common,M|XPHB,402.0,402.0,1.0,601.8118,402.0,402.0,near_agreement_official_heavy,0.0
+Byeshk Wrath Axe,ExploringEberron24,common,M|XPHB,1150.0,1150.0,1.0,601.8118,1150.0,1150.0,near_agreement_official_heavy,0.0
+Byeshk Wrath Maul,ExploringEberron24,common,M|XPHB,1150.0,1150.0,1.0,601.8118,1150.0,1150.0,near_agreement_official_heavy,0.0
+Calligrapher's Supplies,XPHB,mundane,AT|XPHB,10.0,10.0,1.0,46.888676,10.0,10.0,near_agreement_official_heavy,0.0
+Caltrops,XPHB,mundane,G|XPHB,1.0,1.0,1.0,46.888676,1.0,1.0,near_agreement_official_heavy,0.0
+Camel,XPHB,mundane,MNT|XPHB,50.0,50.0,1.0,46.888676,50.0,50.0,near_agreement_official_heavy,0.0
+Candle,XPHB,mundane,G|XPHB,0.01,0.01,1.0,46.888676,0.01,0.01,near_agreement_official_heavy,0.0
+Candlemaker's Club,ObojimaTallGrass,mundane,M,0.7,0.7,1.0,64.09089,0.7,0.7,near_agreement_official_heavy,0.0
+Cannonball,ValdaGunslinger,mundane,A|XPHB,5.0,5.0,1.0,15.704034,5.0,5.0,near_agreement_official_heavy,0.0
+Canoe,ToA,mundane,SHP,50.0,50.0,1.0,46.888676,50.0,50.0,near_agreement_official_heavy,0.0
+Canvas (1 sq. yd.),XDMG,mundane,TG|XDMG,0.1,0.1,1.0,46.888676,0.1,0.1,exact_commodity_official_price,0.0
+Caravel,CallfromtheDeep,mundane,SHP,15000.0,15000.0,1.0,46.888676,15000.0,15000.0,near_agreement_official_heavy,0.0
+Carnelian,XDMG,mundane,$G|XDMG,50.0,50.0,1.0,46.888676,50.0,50.0,exact_commodity_official_price,0.0
+Carpenter's Tools,XPHB,mundane,AT|XPHB,8.0,8.0,1.0,46.888676,8.0,8.0,near_agreement_official_heavy,0.0
+Carriage,XPHB,mundane,VEH|XPHB,100.0,100.0,1.0,46.888676,100.0,100.0,near_agreement_official_heavy,0.0
+Carrion Crawler Mucus,XDMG,mundane,G|XPHB,200.0,200.0,1.0,46.888676,200.0,200.0,near_agreement_official_heavy,0.0
+Cart,XPHB,mundane,VEH|XPHB,15.0,15.0,1.0,46.888676,15.0,15.0,near_agreement_official_heavy,0.0
+Cartographer's Tools,XPHB,mundane,AT|XPHB,15.0,15.0,1.0,46.888676,15.0,15.0,near_agreement_official_heavy,0.0
+Carved bone statuette,XDMG,mundane,$A|XDMG,25.0,25.0,1.0,46.888676,25.0,25.0,exact_commodity_official_price,0.0
+Carved ivory statuette,XDMG,mundane,$A|XDMG,250.0,250.0,1.0,46.888676,250.0,250.0,exact_commodity_official_price,0.0
+Carved wooden harp with ivory inlay and zircon gems,XDMG,mundane,$A|XDMG,750.0,750.0,1.0,46.888676,750.0,750.0,exact_commodity_official_price,0.0
+Catchpole,GrimHollowPG24,mundane,M|XPHB,500.0,500.0,1.0,64.09089,500.0,500.0,near_agreement_official_heavy,0.0
+Cavalry Flail,GrimHollowPG24,mundane,M|XPHB,500.0,500.0,1.0,64.09089,500.0,500.0,near_agreement_official_heavy,0.0
+Cavalry Hammer,GrimHollowPG24,mundane,M|XPHB,500.0,500.0,1.0,64.09089,500.0,500.0,near_agreement_official_heavy,0.0
+Cavalry Pick,GrimHollowPG24,mundane,M|XPHB,500.0,500.0,1.0,64.09089,500.0,500.0,near_agreement_official_heavy,0.0
+Ceremonial gold armor with black pearls,XDMG,mundane,$A|XDMG,7500.0,7500.0,1.0,46.888676,7500.0,7500.0,exact_commodity_official_price,0.0
+Chain,XPHB,mundane,G|XPHB,5.0,5.0,1.0,46.888676,5.0,5.0,near_agreement_official_heavy,0.0
+Chain Mail,XPHB,mundane,HA|XPHB,75.0,75.0,1.0,89.04899,75.0,75.0,near_agreement_official_heavy,0.0
+Chain Mail Barding,PHB,mundane,TAH,300.0,300.0,1.0,46.888676,300.0,300.0,near_agreement_official_heavy,0.0
+Chain Shirt,XPHB,mundane,MA|XPHB,50.0,50.0,1.0,63.604954,50.0,50.0,near_agreement_official_heavy,0.0
+Chain Shirt Barding,PHB,mundane,TAH,200.0,200.0,1.0,46.888676,200.0,200.0,near_agreement_official_heavy,0.0
+Chakram,GrimHollowPG24,mundane,M|XPHB,500.0,500.0,1.0,64.09089,500.0,500.0,near_agreement_official_heavy,0.0
+Chalcedony,XDMG,mundane,$G|XDMG,50.0,50.0,1.0,46.888676,50.0,50.0,exact_commodity_official_price,0.0
+Chalk (1 piece),PHB,mundane,G,0.01,0.01,1.0,46.888676,0.01,0.01,near_agreement_official_heavy,0.0
+Chariot,XPHB,mundane,VEH|XPHB,250.0,250.0,1.0,46.888676,250.0,250.0,near_agreement_official_heavy,0.0
+Chest,XPHB,mundane,G|XPHB,5.0,5.0,1.0,46.888676,5.0,5.0,near_agreement_official_heavy,0.0
+Chicken,XDMG,mundane,TG|XDMG,0.02,0.02,1.0,46.888676,0.02,0.02,exact_commodity_official_price,0.0
+Chip,MonstersOfDrakkenheim,mundane,Dele|MonstersOfDrakkenheim,10.0,10.0,1.0,46.888676,10.0,10.0,near_agreement_official_heavy,0.0
+Chrysoberyl,XDMG,mundane,$G|XDMG,100.0,100.0,1.0,46.888676,100.0,100.0,exact_commodity_official_price,0.0
+Chrysoprase,XDMG,mundane,$G|XDMG,50.0,50.0,1.0,46.888676,50.0,50.0,exact_commodity_official_price,0.0
+Chunk of Meat,PHB,mundane,FD,0.3,0.3,1.0,46.888676,0.3,0.3,near_agreement_official_heavy,0.0
+Cinnamon,XDMG,mundane,TG|XDMG,2.0,2.0,1.0,46.888676,2.0,2.0,exact_commodity_official_price,0.0
+Citrine,XDMG,mundane,$G|XDMG,50.0,50.0,1.0,46.888676,50.0,50.0,exact_commodity_official_price,0.0
+Cittern,FRHoF,mundane,INS|XPHB,65.0,65.0,1.0,96.666466,65.0,65.0,near_agreement_official_heavy,0.0
+Claymore,GrimHollowPG24,mundane,M|XPHB,500.0,500.0,1.0,64.09089,500.0,500.0,near_agreement_official_heavy,0.0
+Climber's Kit,XPHB,mundane,G|XPHB,25.0,25.0,1.0,46.888676,25.0,25.0,near_agreement_official_heavy,0.0
+Cloth-of-gold vestments,XDMG,mundane,$A|XDMG,25.0,25.0,1.0,46.888676,25.0,25.0,exact_commodity_official_price,0.0
+"Clothing, cold weather",IDRotF,mundane,G,10.0,10.0,1.0,46.888676,10.0,10.0,near_agreement_official_heavy,0.0
+Cloves,XDMG,mundane,TG|XDMG,3.0,3.0,1.0,46.888676,3.0,3.0,exact_commodity_official_price,0.0
+Coaster,CallfromtheDeep,mundane,SHP,15000.0,15000.0,1.0,46.888676,15000.0,15000.0,near_agreement_official_heavy,0.0
+Cobbler's Tools,XPHB,mundane,AT|XPHB,5.0,5.0,1.0,46.888676,5.0,5.0,near_agreement_official_heavy,0.0
+Cog,CallfromtheDeep,mundane,SHP,10000.0,10000.0,1.0,46.888676,10000.0,10000.0,near_agreement_official_heavy,0.0
+Common Clothes,PHB,mundane,G,0.5,0.5,1.0,46.888676,0.5,0.5,near_agreement_official_heavy,0.0
+Component Pouch,XPHB,mundane,G|XPHB,25.0,25.0,1.0,46.888676,25.0,25.0,near_agreement_official_heavy,0.0
+Composite Longbow,GrimHollowPG24,mundane,R|XPHB,750.0,750.0,1.0,46.888676,750.0,750.0,near_agreement_official_heavy,0.0
+Composite Shortbow,GrimHollowPG24,mundane,R|XPHB,400.0,400.0,1.0,46.888676,400.0,400.0,near_agreement_official_heavy,0.0
+Concealed Blade,GrimHollowPG24,mundane,AdvEq,50.0,50.0,1.0,46.888676,50.0,50.0,near_agreement_official_heavy,0.0
+Cook's Utensils,XPHB,mundane,AT|XPHB,1.0,1.0,1.0,46.888676,1.0,1.0,near_agreement_official_heavy,0.0
+Copper,XDMG,mundane,TG|XDMG,0.5,0.5,1.0,46.888676,0.5,0.5,exact_commodity_official_price,0.0
+Copper (cp),PHB,mundane,$C,0.01,0.01,1.0,46.888676,0.01,0.01,exact_commodity_official_price,0.0
+Copper Alms-Coin,GGR,mundane,$C,0.01,0.01,1.0,46.888676,0.01,0.01,exact_commodity_official_price,0.0
+Copper Zib,GGR,mundane,$C,0.01,0.01,1.0,46.888676,0.01,0.01,exact_commodity_official_price,0.0
+Copper chalice with silver filigree,XDMG,mundane,$A|XDMG,25.0,25.0,1.0,46.888676,25.0,25.0,exact_commodity_official_price,0.0
+Coracle,CallfromtheDeep,mundane,SHP,20.0,20.0,1.0,46.888676,20.0,20.0,near_agreement_official_heavy,0.0
+Coral,XDMG,mundane,$G|XDMG,100.0,100.0,1.0,46.888676,100.0,100.0,exact_commodity_official_price,0.0
+Costume,XPHB,mundane,G|XPHB,5.0,5.0,1.0,46.888676,5.0,5.0,near_agreement_official_heavy,0.0
+Cotton Cloth (1 sq. yd.),XDMG,mundane,TG|XDMG,0.5,0.5,1.0,46.888676,0.5,0.5,exact_commodity_official_price,0.0
+Covered Wagon,FRHoF,mundane,VEH|XPHB,250.0,250.0,1.0,46.888676,250.0,250.0,near_agreement_official_heavy,0.0
+Cow,XDMG,mundane,TG|XDMG,10.0,10.0,1.0,46.888676,10.0,10.0,exact_commodity_official_price,0.0
+Crampons,IDRotF,mundane,G,2.0,2.0,1.0,46.888676,2.0,2.0,near_agreement_official_heavy,0.0
+Crossbow Bolt Case,XPHB,mundane,G|XPHB,1.0,1.0,1.0,46.888676,1.0,1.0,near_agreement_official_heavy,0.0
+Crowbar,XPHB,mundane,G|XPHB,2.0,2.0,1.0,46.888676,2.0,2.0,near_agreement_official_heavy,0.0
+Crystal,MonstersOfDrakkenheim,mundane,Dele|MonstersOfDrakkenheim,1000.0,1000.0,1.0,46.888676,1000.0,1000.0,near_agreement_official_heavy,0.0
+Crystal,XPHB,mundane,SCF|XPHB,10.0,10.0,1.0,57.44107,10.0,10.0,near_agreement_official_heavy,0.0
+Dagger,XPHB,mundane,M|XPHB,2.0,2.0,1.0,64.09089,2.0,2.0,near_agreement_official_heavy,0.0
+Dandelion Spear,ObojimaTallGrass,mundane,M,5.0,5.0,1.0,64.09089,5.0,5.0,near_agreement_official_heavy,0.0
+Deathdance,FRAiF,mundane,G|XPHB,200.0,200.0,1.0,46.888676,200.0,200.0,near_agreement_official_heavy,0.0
+Desert Clothing,FRHoF,mundane,G|XPHB,10.0,10.0,1.0,46.888676,10.0,10.0,near_agreement_official_heavy,0.0
+Designer Clothes,HumblewoodTales,mundane,G|XPHB,30.0,30.0,1.0,46.888676,30.0,30.0,near_agreement_official_heavy,0.0
+"Detailed, life-sized dragonborn skull cast in electrum",XDMG,mundane,$A|XDMG,750.0,750.0,1.0,46.888676,750.0,750.0,exact_commodity_official_price,0.0
+Devil Mask,FRHoF,mundane,G|XPHB,25.0,25.0,1.0,46.888676,25.0,25.0,near_agreement_official_heavy,0.0
+Diamond,XDMG,mundane,$G|XDMG,5000.0,5000.0,1.0,46.888676,5000.0,5000.0,exact_commodity_official_price,0.0
+Diplomat's Pack,XPHB,mundane,G|XPHB,39.0,39.0,1.0,46.888676,39.0,39.0,near_agreement_official_heavy,0.0
+Disguise Kit,XPHB,mundane,T|XPHB,25.0,25.0,1.0,46.888676,25.0,25.0,near_agreement_official_heavy,0.0
+Divers Armor,ObojimaTallGrass,mundane,HA,2000.0,2000.0,1.0,89.04899,2000.0,2000.0,near_agreement_official_heavy,0.0
+Dogsled,IDRotF,mundane,VEH,20.0,20.0,1.0,46.888676,20.0,20.0,near_agreement_official_heavy,0.0
+Donkey,PHB,mundane,MNT,8.0,8.0,1.0,46.888676,8.0,8.0,near_agreement_official_heavy,0.0
+Double Blade,GrimHollowPG24,mundane,M|XPHB,500.0,500.0,1.0,64.09089,500.0,500.0,near_agreement_official_heavy,0.0
+Double Spear,GrimHollowPG24,mundane,M|XPHB,500.0,500.0,1.0,64.09089,500.0,500.0,near_agreement_official_heavy,0.0
+Double-Bladed Scimitar,ERLW,mundane,M,100.0,100.0,1.0,64.09089,100.0,100.0,near_agreement_official_heavy,0.0
+Draft Horse,XPHB,mundane,MNT|XPHB,50.0,50.0,1.0,46.888676,50.0,50.0,near_agreement_official_heavy,0.0
+Dragon,WDH,mundane,$C,1.0,1.0,1.0,46.888676,1.0,1.0,exact_commodity_official_price,0.0
+Dragon Pistol,GrimHollowPG24,mundane,R|XPHB,350.0,350.0,1.0,46.888676,350.0,350.0,near_agreement_official_heavy,0.0
+Dragon Rifle,GrimHollowPG24,mundane,R|XPHB,750.0,750.0,1.0,46.888676,750.0,750.0,near_agreement_official_heavy,0.0
+Dragon Shot,GrimHollowPG24,mundane,A|XPHB,0.25,0.25,1.0,15.704034,0.25,0.25,near_agreement_official_heavy,0.0
+Dragonchess Set,XPHB,mundane,GS|XPHB,1.0,1.0,1.0,46.888676,1.0,1.0,near_agreement_official_heavy,0.0
+Drive Shaft,ObojimaTallGrass,mundane,M,100.0,100.0,1.0,64.09089,100.0,100.0,near_agreement_official_heavy,0.0
+Dulcimer,XPHB,mundane,INS|XPHB,25.0,25.0,1.0,96.666466,25.0,25.0,near_agreement_official_heavy,0.0
+Dustbloom Spices,HumblewoodTales,mundane,TG,5.0,5.0,1.0,46.888676,5.0,5.0,exact_commodity_official_price,0.0
+Dynamite,TalDoreiCampaignSettingReborn,mundane,EXP|DMG,100.0,100.0,1.0,46.888676,100.0,100.0,near_agreement_official_heavy,0.0
+Elderberry Everwine,HumblewoodTales,mundane,LTG|HumblewoodTales,25.0,25.0,1.0,46.888676,25.0,25.0,near_agreement_official_heavy,0.0
+Electrum (ep),PHB,mundane,$C,0.5,0.5,1.0,46.888676,0.5,0.5,exact_commodity_official_price,0.0
+Electrum 50-Zib Coin,GGR,mundane,$C,0.5,0.5,1.0,46.888676,0.5,0.5,exact_commodity_official_price,0.0
+Elephant,XPHB,mundane,MNT|XPHB,200.0,200.0,1.0,46.888676,200.0,200.0,near_agreement_official_heavy,0.0
+Elite Rapier,GrimHollowPG24,mundane,M|XPHB,500.0,500.0,1.0,64.09089,500.0,500.0,near_agreement_official_heavy,0.0
+Emblem,XPHB,mundane,SCF|XPHB,5.0,5.0,1.0,57.44107,5.0,5.0,near_agreement_official_heavy,0.0
+Embroidered glove set with jewel chips,XDMG,mundane,$A|XDMG,2500.0,2500.0,1.0,46.888676,2500.0,2500.0,exact_commodity_official_price,0.0
+Embroidered silk and velvet mantle set with numerous moonstones,XDMG,mundane,$A|XDMG,2500.0,2500.0,1.0,46.888676,2500.0,2500.0,exact_commodity_official_price,0.0
+Embroidered silk handkerchief,XDMG,mundane,$A|XDMG,25.0,25.0,1.0,46.888676,25.0,25.0,exact_commodity_official_price,0.0
+Emerald,XDMG,mundane,$G|XDMG,1000.0,1000.0,1.0,46.888676,1000.0,1000.0,exact_commodity_official_price,0.0
+Entertainer's Pack,XPHB,mundane,G|XPHB,40.0,40.0,1.0,46.888676,40.0,40.0,near_agreement_official_heavy,0.0
+Essence of Ether,XDMG,mundane,G|XPHB,300.0,300.0,1.0,46.888676,300.0,300.0,near_agreement_official_heavy,0.0
+Exotic Saddle,XPHB,mundane,TAH|XPHB,60.0,60.0,1.0,46.888676,60.0,60.0,near_agreement_official_heavy,0.0
+Explorer's Pack,XPHB,mundane,G|XPHB,10.0,10.0,1.0,46.888676,10.0,10.0,near_agreement_official_heavy,0.0
+Eye Agate,XDMG,mundane,$G|XDMG,10.0,10.0,1.0,46.888676,10.0,10.0,exact_commodity_official_price,0.0
+Eye patch decorated with tiny blue sapphires and moonstones,XDMG,mundane,$A|XDMG,2500.0,2500.0,1.0,46.888676,2500.0,2500.0,exact_commodity_official_price,0.0
+Fan,ObojimaTallGrass,mundane,M,0.02,0.02,1.0,64.09089,0.02,0.02,near_agreement_official_heavy,0.0
+Ffolk Sailing Ship,FRAiF,mundane,SHP|XPHB,20000.0,20000.0,1.0,46.888676,20000.0,20000.0,near_agreement_official_heavy,0.0
+Field Spear,ObojimaTallGrass,mundane,M,2.0,2.0,1.0,64.09089,2.0,2.0,near_agreement_official_heavy,0.0
+Fighting Chain,GrimHollowPG24,mundane,M|XPHB,500.0,500.0,1.0,64.09089,500.0,500.0,near_agreement_official_heavy,0.0
+"Fighting Chain, Brutal",GrimHollowPG24,mundane,M|XPHB,750.0,750.0,1.0,64.09089,750.0,750.0,near_agreement_official_heavy,0.0
+"Fighting Chain, Hook",GrimHollowPG24,mundane,M|XPHB,500.0,500.0,1.0,64.09089,500.0,500.0,near_agreement_official_heavy,0.0
+"Fighting Chain, Sickle",GrimHollowPG24,mundane,M|XPHB,500.0,500.0,1.0,64.09089,500.0,500.0,near_agreement_official_heavy,0.0
+Fine Clothes,XPHB,mundane,G|XPHB,15.0,15.0,1.0,46.888676,15.0,15.0,near_agreement_official_heavy,0.0
+Fine Wine (bottle),XPHB,mundane,FD|XPHB,10.0,10.0,1.0,46.888676,10.0,10.0,near_agreement_official_heavy,0.0
+Fine gold chain set with a fire opal,XDMG,mundane,$A|XDMG,2500.0,2500.0,1.0,46.888676,2500.0,2500.0,exact_commodity_official_price,0.0
+Fingerprint Kit,CthulhuTorchlight,mundane,T|XPHB,25.0,25.0,1.0,46.888676,25.0,25.0,near_agreement_official_heavy,0.0
+Fire Bomb,GrimHollowPG24,mundane,AdvEq,100.0,100.0,1.0,46.888676,100.0,100.0,near_agreement_official_heavy,0.0
+Fire Opal,XDMG,mundane,$G|XDMG,1000.0,1000.0,1.0,46.888676,1000.0,1000.0,exact_commodity_official_price,0.0
+Firearm Bullet,XPHB,mundane,A|XPHB,0.3,0.3,1.0,15.704034,0.3,0.3,near_agreement_official_heavy,0.0
+Firelance Venom,HumblewoodTales,mundane,G,300.0,300.0,1.0,46.888676,300.0,300.0,near_agreement_official_heavy,0.0
+Fishing Tackle,PHB,mundane,G,1.0,1.0,1.0,46.888676,1.0,1.0,near_agreement_official_heavy,0.0
+Flail,XPHB,mundane,M|XPHB,10.0,10.0,1.0,64.09089,10.0,10.0,near_agreement_official_heavy,0.0
+Flame Bellows,GrimHollowPG24,mundane,R|XPHB,750.0,750.0,1.0,46.888676,750.0,750.0,near_agreement_official_heavy,0.0
+Flare,ValdaGunslinger,mundane,A|XPHB,1.0,1.0,1.0,15.704034,1.0,1.0,near_agreement_official_heavy,0.0
+Flask,XPHB,mundane,G|XPHB,0.02,0.02,1.0,46.888676,0.02,0.02,near_agreement_official_heavy,0.0
+Flour,XDMG,mundane,TG|XDMG,0.02,0.02,1.0,46.888676,0.02,0.02,exact_commodity_official_price,0.0
+Flute,XPHB,mundane,INS|XPHB,2.0,2.0,1.0,96.666466,2.0,2.0,near_agreement_official_heavy,0.0
+Flying Snake,FRHoF,mundane,MNT|XPHB,25.0,25.0,1.0,46.888676,25.0,25.0,near_agreement_official_heavy,0.0
+Forgery Kit,XPHB,mundane,T|XPHB,15.0,15.0,1.0,46.888676,15.0,15.0,near_agreement_official_heavy,0.0
+Fragment,MonstersOfDrakkenheim,mundane,Dele|MonstersOfDrakkenheim,100.0,100.0,1.0,46.888676,100.0,100.0,near_agreement_official_heavy,0.0
+Frying Pan,ObojimaTallGrass,mundane,M,0.3,0.3,1.0,64.09089,0.3,0.3,near_agreement_official_heavy,0.0
+Galleon,CallfromtheDeep,mundane,SHP,15000.0,15000.0,1.0,46.888676,15000.0,15000.0,near_agreement_official_heavy,0.0
+Galley,CallfromtheDeep,mundane,SHP,30000.0,30000.0,1.0,46.888676,30000.0,30000.0,near_agreement_official_heavy,0.0
+Galley,XPHB,mundane,SHP|XPHB,30000.0,30000.0,1.0,46.888676,30000.0,30000.0,near_agreement_official_heavy,0.0
+Garb of Light and Shadow,FRHoF,mundane,G|XPHB,50.0,50.0,1.0,46.888676,50.0,50.0,near_agreement_official_heavy,0.0
+Gargath Wool Clothes,HumblewoodTales,mundane,G,10.0,10.0,1.0,46.888676,10.0,10.0,near_agreement_official_heavy,0.0
+Garnet,XDMG,mundane,$G|XDMG,100.0,100.0,1.0,46.888676,100.0,100.0,exact_commodity_official_price,0.0
+Gasparian Tree Nuts,HumblewoodTales,mundane,TG,2.0,2.0,1.0,46.888676,2.0,2.0,exact_commodity_official_price,0.0
+Genie Robe,FRHoF,mundane,G|XPHB,50.0,50.0,1.0,46.888676,50.0,50.0,near_agreement_official_heavy,0.0
+Geode,MonstersOfDrakkenheim,mundane,Dele|MonstersOfDrakkenheim,5000.0,5000.0,1.0,46.888676,5000.0,5000.0,near_agreement_official_heavy,0.0
+Gift of the Wind-Touched Jerbeen Figurine,HumblewoodTales,mundane,$A|DMG,10.0,10.0,1.0,46.888676,10.0,10.0,exact_commodity_official_price,0.0
+Gilded royal coach or funeral barge,XDMG,mundane,$A|XDMG,7500.0,7500.0,1.0,46.888676,7500.0,7500.0,exact_commodity_official_price,0.0
+Ginger,XDMG,mundane,TG|XDMG,1.0,1.0,1.0,46.888676,1.0,1.0,exact_commodity_official_price,0.0
+Gladiator Net,GrimHollowPG24,mundane,M|XPHB,350.0,350.0,1.0,64.09089,350.0,350.0,near_agreement_official_heavy,0.0
+Glaive,XPHB,mundane,M|XPHB,20.0,20.0,1.0,64.09089,20.0,20.0,near_agreement_official_heavy,0.0
+Glass Bottle,XPHB,mundane,G|XPHB,2.0,2.0,1.0,46.888676,2.0,2.0,near_agreement_official_heavy,0.0
+Glassblower's Tools,XPHB,mundane,AT|XPHB,30.0,30.0,1.0,46.888676,30.0,30.0,near_agreement_official_heavy,0.0
+Gluebomb,TalDoreiCampaignSettingReborn,mundane,EXP|DMG,50.0,50.0,1.0,46.888676,50.0,50.0,near_agreement_official_heavy,0.0
+Goat,XDMG,mundane,TG|XDMG,1.0,1.0,1.0,46.888676,1.0,1.0,exact_commodity_official_price,0.0
+Gold,XDMG,mundane,TG|XDMG,50.0,50.0,1.0,46.888676,50.0,50.0,exact_commodity_official_price,0.0
+Gold (gp),PHB,mundane,$C,1.0,1.0,1.0,46.888676,1.0,1.0,exact_commodity_official_price,0.0
+Gold 5-Zino Coin,GGR,mundane,$C,5.0,5.0,1.0,46.888676,5.0,5.0,exact_commodity_official_price,0.0
+Gold Bar (5-pound),XDMG,mundane,TB|XDMG,250.0,250.0,1.0,46.888676,250.0,250.0,exact_commodity_official_price,0.0
+Gold Zino,GGR,mundane,$C,1.0,1.0,1.0,46.888676,1.0,1.0,exact_commodity_official_price,0.0
+Gold birdcage with electrum filigree,XDMG,mundane,$A|XDMG,250.0,250.0,1.0,46.888676,250.0,250.0,exact_commodity_official_price,0.0
+Gold bracelet,XDMG,mundane,$A|XDMG,25.0,25.0,1.0,46.888676,25.0,25.0,exact_commodity_official_price,0.0
+Gold circlet set with four aquamarines,XDMG,mundane,$A|XDMG,2500.0,2500.0,1.0,46.888676,2500.0,2500.0,exact_commodity_official_price,0.0
+Gold comb shaped like a dragon with red garnets as eyes,XDMG,mundane,$A|XDMG,750.0,750.0,1.0,46.888676,750.0,750.0,exact_commodity_official_price,0.0
+Gold cup set with emeralds,XDMG,mundane,$A|XDMG,7500.0,7500.0,1.0,46.888676,7500.0,7500.0,exact_commodity_official_price,0.0
+Gold idol,XDMG,mundane,$A|XDMG,750.0,750.0,1.0,46.888676,750.0,750.0,exact_commodity_official_price,0.0
+Gold jewelry box with platinum filigree,XDMG,mundane,$A|XDMG,7500.0,7500.0,1.0,46.888676,7500.0,7500.0,exact_commodity_official_price,0.0
+Gold locket with a painted portrait inside,XDMG,mundane,$A|XDMG,25.0,25.0,1.0,46.888676,25.0,25.0,exact_commodity_official_price,0.0
+Gold music box,XDMG,mundane,$A|XDMG,2500.0,2500.0,1.0,46.888676,2500.0,2500.0,exact_commodity_official_price,0.0
+Gold ring set with bloodstones,XDMG,mundane,$A|XDMG,250.0,250.0,1.0,46.888676,250.0,250.0,exact_commodity_official_price,0.0
+Gold statuette set with rubies,XDMG,mundane,$A|XDMG,7500.0,7500.0,1.0,46.888676,7500.0,7500.0,exact_commodity_official_price,0.0
+Grace of the Wind-Touched Jerbeen Figurine,HumblewoodTales,mundane,$A|DMG,50.0,50.0,1.0,46.888676,50.0,50.0,exact_commodity_official_price,0.0
+Grappling Gun,GrimHollowPG24,mundane,AdvEq,200.0,200.0,1.0,46.888676,200.0,200.0,near_agreement_official_heavy,0.0
+Grappling Hook,XPHB,mundane,G|XPHB,2.0,2.0,1.0,46.888676,2.0,2.0,near_agreement_official_heavy,0.0
+Greataxe,XPHB,mundane,M|XPHB,30.0,30.0,1.0,64.09089,30.0,30.0,near_agreement_official_heavy,0.0
+Greatsword,XPHB,mundane,M|XPHB,50.0,50.0,1.0,64.09089,50.0,50.0,near_agreement_official_heavy,0.0
+Guardian Poleaxe,GrimHollowPG24,mundane,M|XPHB,750.0,750.0,1.0,64.09089,750.0,750.0,near_agreement_official_heavy,0.0
+Gunpowder (keg),XDMG,mundane,EXP|XDMG,250.0,250.0,1.0,46.888676,250.0,250.0,near_agreement_official_heavy,0.0
+Gunpowder (powder horn),XDMG,mundane,EXP|XDMG,35.0,35.0,1.0,46.888676,35.0,35.0,near_agreement_official_heavy,0.0
+Halberd,XPHB,mundane,M|XPHB,20.0,20.0,1.0,64.09089,20.0,20.0,near_agreement_official_heavy,0.0
+Half Plate Armor,XPHB,mundane,MA|XPHB,750.0,750.0,1.0,63.604954,750.0,750.0,near_agreement_official_heavy,0.0
+Half Plate Barding,PHB,mundane,TAH,3000.0,3000.0,1.0,46.888676,3000.0,3000.0,near_agreement_official_heavy,0.0
+Hammer,PHB,mundane,G,1.0,1.0,1.0,46.888676,1.0,1.0,near_agreement_official_heavy,0.0
+Hand Crossbow,XPHB,mundane,R|XPHB,75.0,75.0,1.0,46.888676,75.0,75.0,near_agreement_official_heavy,0.0
+Hand Sentira Lens,ChroniclesOfEberron,mundane,R,150.0,150.0,1.0,46.888676,150.0,150.0,near_agreement_official_heavy,0.0
+Hand Tommybow (2),HelianasGuidetoMonsterHunting,mundane,R,150.0,150.0,1.0,46.888676,150.0,150.0,near_agreement_official_heavy,0.0
+Hand Tommybow (3),HelianasGuidetoMonsterHunting,mundane,R,225.0,225.0,1.0,46.888676,225.0,225.0,near_agreement_official_heavy,0.0
+Hand Tommybow (4),HelianasGuidetoMonsterHunting,mundane,R,300.0,300.0,1.0,46.888676,300.0,300.0,near_agreement_official_heavy,0.0
+Hand Tommybow (5),HelianasGuidetoMonsterHunting,mundane,R,375.0,375.0,1.0,46.888676,375.0,375.0,near_agreement_official_heavy,0.0
+Hand Tommybow (6),HelianasGuidetoMonsterHunting,mundane,R,450.0,450.0,1.0,46.888676,450.0,450.0,near_agreement_official_heavy,0.0
+Handaxe,XPHB,mundane,M|XPHB,5.0,5.0,1.0,64.09089,5.0,5.0,near_agreement_official_heavy,0.0
+Handheld mirror set in a painted wooden frame,XDMG,mundane,$A|XDMG,25.0,25.0,1.0,46.888676,25.0,25.0,exact_commodity_official_price,0.0
+Harbor Moon,WDH,mundane,$C,50.0,50.0,1.0,46.888676,50.0,50.0,exact_commodity_official_price,0.0
+Healer's Kit,XPHB,mundane,G|XPHB,5.0,5.0,1.0,46.888676,5.0,5.0,near_agreement_official_heavy,0.0
+Heavy Crossbow,XPHB,mundane,R|XPHB,50.0,50.0,1.0,46.888676,50.0,50.0,near_agreement_official_heavy,0.0
+Heavy Sentira Lens,ChroniclesOfEberron,mundane,R,100.0,100.0,1.0,46.888676,100.0,100.0,near_agreement_official_heavy,0.0
+Heavy Tommybow (2),HelianasGuidetoMonsterHunting,mundane,R,100.0,100.0,1.0,46.888676,100.0,100.0,near_agreement_official_heavy,0.0
+Heavy Tommybow (3),HelianasGuidetoMonsterHunting,mundane,R,150.0,150.0,1.0,46.888676,150.0,150.0,near_agreement_official_heavy,0.0
+Heavy Tommybow (4),HelianasGuidetoMonsterHunting,mundane,R,200.0,200.0,1.0,46.888676,200.0,200.0,near_agreement_official_heavy,0.0
+Heavy Tommybow (5),HelianasGuidetoMonsterHunting,mundane,R,250.0,250.0,1.0,46.888676,250.0,250.0,near_agreement_official_heavy,0.0
+Heavy Tommybow (6),HelianasGuidetoMonsterHunting,mundane,R,300.0,300.0,1.0,46.888676,300.0,300.0,near_agreement_official_heavy,0.0
+Hematite,XDMG,mundane,$G|XDMG,10.0,10.0,1.0,46.888676,10.0,10.0,exact_commodity_official_price,0.0
+Herbalism Kit,XPHB,mundane,T|XPHB,5.0,5.0,1.0,46.888676,5.0,5.0,near_agreement_official_heavy,0.0
+Hide Armor,XPHB,mundane,MA|XPHB,10.0,10.0,1.0,63.604954,10.0,10.0,near_agreement_official_heavy,0.0
+Hide Barding,PHB,mundane,TAH,40.0,40.0,1.0,46.888676,40.0,40.0,near_agreement_official_heavy,0.0
+Holy Water,XPHB,mundane,G|XPHB,25.0,25.0,1.0,46.888676,25.0,25.0,near_agreement_official_heavy,0.0
+Hooded Lantern,XPHB,mundane,G|XPHB,5.0,5.0,1.0,46.888676,5.0,5.0,near_agreement_official_heavy,0.0
+Hourglass,PHB,mundane,G,25.0,25.0,1.0,46.888676,25.0,25.0,near_agreement_official_heavy,0.0
+Hunter's Breastplate,GrimHollowPG24,mundane,AdvEq,900.0,900.0,1.0,46.888676,900.0,900.0,near_agreement_official_heavy,0.0
+Hunter's Chain Mail,GrimHollowPG24,mundane,AdvEq,575.0,575.0,1.0,46.888676,575.0,575.0,near_agreement_official_heavy,0.0
+Hunter's Chain Shirt,GrimHollowPG24,mundane,AdvEq,550.0,550.0,1.0,46.888676,550.0,550.0,near_agreement_official_heavy,0.0
+Hunter's Half Plate Armor,GrimHollowPG24,mundane,AdvEq,1250.0,1250.0,1.0,46.888676,1250.0,1250.0,near_agreement_official_heavy,0.0
+Hunter's Hide Armor,GrimHollowPG24,mundane,AdvEq,510.0,510.0,1.0,46.888676,510.0,510.0,near_agreement_official_heavy,0.0
+Hunter's Leather Armor,GrimHollowPG24,mundane,AdvEq,510.0,510.0,1.0,46.888676,510.0,510.0,near_agreement_official_heavy,0.0
+Hunter's Padded Armor,GrimHollowPG24,mundane,AdvEq,505.0,505.0,1.0,46.888676,505.0,505.0,near_agreement_official_heavy,0.0
+Hunter's Plate Armor,GrimHollowPG24,mundane,AdvEq,2000.0,2000.0,1.0,46.888676,2000.0,2000.0,near_agreement_official_heavy,0.0
+Hunter's Ring Mail,GrimHollowPG24,mundane,AdvEq,530.0,530.0,1.0,46.888676,530.0,530.0,near_agreement_official_heavy,0.0
+Hunter's Scale Mail,GrimHollowPG24,mundane,AdvEq,550.0,550.0,1.0,46.888676,550.0,550.0,near_agreement_official_heavy,0.0
+Hunter's Splint Armor,GrimHollowPG24,mundane,AdvEq,700.0,700.0,1.0,46.888676,700.0,700.0,near_agreement_official_heavy,0.0
+Hunter's Studded Leather Armor,GrimHollowPG24,mundane,AdvEq,545.0,545.0,1.0,46.888676,545.0,545.0,near_agreement_official_heavy,0.0
+Hunting Trap,XPHB,mundane,G|XPHB,5.0,5.0,1.0,46.888676,5.0,5.0,near_agreement_official_heavy,0.0
+Imported Fruits,HumblewoodTales,mundane,TG,3.0,3.0,1.0,46.888676,3.0,3.0,exact_commodity_official_price,0.0
+Ink,XPHB,mundane,G|XPHB,10.0,10.0,1.0,46.888676,10.0,10.0,near_agreement_official_heavy,0.0
+Ink Pen,XPHB,mundane,G|XPHB,0.02,0.02,1.0,46.888676,0.02,0.02,near_agreement_official_heavy,0.0
+Insect Repellent (greasy salve),ToA,mundane,G,1.0,1.0,1.0,130.68573,1.0,1.0,near_agreement_official_heavy,0.0
+Iron,XDMG,mundane,TG|XDMG,0.1,0.1,1.0,46.888676,0.1,0.1,exact_commodity_official_price,0.0
+Iron Net,GrimHollowPG24,mundane,AdvEq,150.0,150.0,1.0,46.888676,150.0,150.0,near_agreement_official_heavy,0.0
+Iron Pot,XPHB,mundane,G|XPHB,2.0,2.0,1.0,46.888676,2.0,2.0,near_agreement_official_heavy,0.0
+Iron Spikes,XPHB,mundane,G|XPHB,1.0,1.0,1.0,46.888676,1.0,1.0,near_agreement_official_heavy,0.0
+Jacinth,XDMG,mundane,$G|XDMG,5000.0,5000.0,1.0,46.888676,5000.0,5000.0,exact_commodity_official_price,0.0
+Jade,XDMG,mundane,$G|XDMG,100.0,100.0,1.0,46.888676,100.0,100.0,exact_commodity_official_price,0.0
+Jade game board with gold playing pieces,XDMG,mundane,$A|XDMG,7500.0,7500.0,1.0,46.888676,7500.0,7500.0,exact_commodity_official_price,0.0
+Jasper,XDMG,mundane,$G|XDMG,50.0,50.0,1.0,46.888676,50.0,50.0,exact_commodity_official_price,0.0
+Javelin,XPHB,mundane,M|XPHB,0.5,0.5,1.0,64.09089,0.5,0.5,near_agreement_official_heavy,0.0
+Jet,XDMG,mundane,$G|XDMG,100.0,100.0,1.0,46.888676,100.0,100.0,exact_commodity_official_price,0.0
+Jeweled anklet,XDMG,mundane,$A|XDMG,2500.0,2500.0,1.0,46.888676,2500.0,2500.0,exact_commodity_official_price,0.0
+Jeweled gold crown,XDMG,mundane,$A|XDMG,7500.0,7500.0,1.0,46.888676,7500.0,7500.0,exact_commodity_official_price,0.0
+Jeweled platinum ring,XDMG,mundane,$A|XDMG,7500.0,7500.0,1.0,46.888676,7500.0,7500.0,exact_commodity_official_price,0.0
+Jeweler's Tools,XPHB,mundane,AT|XPHB,25.0,25.0,1.0,46.888676,25.0,25.0,near_agreement_official_heavy,0.0
+Jug,XPHB,mundane,G|XPHB,0.02,0.02,1.0,46.888676,0.02,0.02,near_agreement_official_heavy,0.0
+Keelboat,CallfromtheDeep,mundane,SHP,3000.0,3000.0,1.0,46.888676,3000.0,3000.0,near_agreement_official_heavy,0.0
+Keelboat,XPHB,mundane,SHP|XPHB,3000.0,3000.0,1.0,46.888676,3000.0,3000.0,near_agreement_official_heavy,0.0
+Knightly Lance,GrimHollowPG24,mundane,M|XPHB,500.0,500.0,1.0,64.09089,500.0,500.0,near_agreement_official_heavy,0.0
+Knightly Sword,GrimHollowPG24,mundane,M|XPHB,750.0,750.0,1.0,64.09089,750.0,750.0,near_agreement_official_heavy,0.0
+Lamp,XPHB,mundane,G|XPHB,0.5,0.5,1.0,46.888676,0.5,0.5,near_agreement_official_heavy,0.0
+Lance,XPHB,mundane,M|XPHB,10.0,10.0,1.0,64.09089,10.0,10.0,near_agreement_official_heavy,0.0
+Lapis Lazuli,XDMG,mundane,$G|XDMG,10.0,10.0,1.0,46.888676,10.0,10.0,exact_commodity_official_price,0.0
+Leather Armor,XPHB,mundane,LA|XPHB,10.0,10.0,1.0,55.541374,10.0,10.0,near_agreement_official_heavy,0.0
+Leather Barding,PHB,mundane,TAH,40.0,40.0,1.0,46.888676,40.0,40.0,near_agreement_official_heavy,0.0
+Leatherworker's Tools,XPHB,mundane,AT|XPHB,5.0,5.0,1.0,46.888676,5.0,5.0,near_agreement_official_heavy,0.0
+Light Bayonet,ChroniclesOfEberron,mundane,M,2.0,2.0,1.0,64.09089,2.0,2.0,near_agreement_official_heavy,0.0
+Light Crossbow,XPHB,mundane,R|XPHB,25.0,25.0,1.0,46.888676,25.0,25.0,near_agreement_official_heavy,0.0
+Light Hammer,XPHB,mundane,M|XPHB,2.0,2.0,1.0,64.09089,2.0,2.0,near_agreement_official_heavy,0.0
+Light Sentira Lens,ChroniclesOfEberron,mundane,R,50.0,50.0,1.0,46.888676,50.0,50.0,near_agreement_official_heavy,0.0
+Light Tommybow (2),HelianasGuidetoMonsterHunting,mundane,R,50.0,50.0,1.0,46.888676,50.0,50.0,near_agreement_official_heavy,0.0
+Light Tommybow (3),HelianasGuidetoMonsterHunting,mundane,R,75.0,75.0,1.0,46.888676,75.0,75.0,near_agreement_official_heavy,0.0
+Light Tommybow (4),HelianasGuidetoMonsterHunting,mundane,R,100.0,100.0,1.0,46.888676,100.0,100.0,near_agreement_official_heavy,0.0
+Light Tommybow (5),HelianasGuidetoMonsterHunting,mundane,R,125.0,125.0,1.0,46.888676,125.0,125.0,near_agreement_official_heavy,0.0
+Light Tommybow (6),HelianasGuidetoMonsterHunting,mundane,R,150.0,150.0,1.0,46.888676,150.0,150.0,near_agreement_official_heavy,0.0
+Linen (1 sq. yd.),XDMG,mundane,TG|XDMG,5.0,5.0,1.0,46.888676,5.0,5.0,exact_commodity_official_price,0.0
+Lock,XPHB,mundane,G|XPHB,10.0,10.0,1.0,46.888676,10.0,10.0,near_agreement_official_heavy,0.0
+Locking Spellbook,FRHoF,mundane,G|XPHB,35.0,35.0,1.0,46.888676,35.0,35.0,near_agreement_official_heavy,0.0
+Lolth's Sting,XDMG,mundane,G|XPHB,200.0,200.0,1.0,46.888676,200.0,200.0,near_agreement_official_heavy,0.0
+Lom Lom Dagger,ObojimaTallGrass,mundane,M,15.0,15.0,1.0,64.09089,15.0,15.0,near_agreement_official_heavy,0.0
+Longbow,XPHB,mundane,R|XPHB,50.0,50.0,1.0,46.888676,50.0,50.0,near_agreement_official_heavy,0.0
+Longship,CallfromtheDeep,mundane,SHP,10000.0,10000.0,1.0,46.888676,10000.0,10000.0,near_agreement_official_heavy,0.0
+Longship,XPHB,mundane,SHP|XPHB,10000.0,10000.0,1.0,46.888676,10000.0,10000.0,near_agreement_official_heavy,0.0
+Longsword,XPHB,mundane,M|XPHB,15.0,15.0,1.0,64.09089,15.0,15.0,near_agreement_official_heavy,0.0
+Lute,XPHB,mundane,INS|XPHB,35.0,35.0,1.0,96.666466,35.0,35.0,near_agreement_official_heavy,0.0
+Lyre,XPHB,mundane,INS|XPHB,30.0,30.0,1.0,96.666466,30.0,30.0,near_agreement_official_heavy,0.0
+Mace,XPHB,mundane,M|XPHB,5.0,5.0,1.0,64.09089,5.0,5.0,near_agreement_official_heavy,0.0
+Magazine,GrimHollowPG24,mundane,G|XPHB,5.0,5.0,1.0,46.888676,5.0,5.0,near_agreement_official_heavy,0.0
+Magnifying Glass,XPHB,mundane,G|XPHB,100.0,100.0,1.0,46.888676,100.0,100.0,near_agreement_official_heavy,0.0
+Malachite,XDMG,mundane,$G|XDMG,10.0,10.0,1.0,46.888676,10.0,10.0,exact_commodity_official_price,0.0
+Malice,XDMG,mundane,G|XPHB,250.0,250.0,1.0,46.888676,250.0,250.0,near_agreement_official_heavy,0.0
+Manacles,XPHB,mundane,G|XPHB,2.0,2.0,1.0,46.888676,2.0,2.0,near_agreement_official_heavy,0.0
+Map,XPHB,mundane,G|XPHB,1.0,1.0,1.0,46.888676,1.0,1.0,near_agreement_official_heavy,0.0
+Map or Scroll Case,XPHB,mundane,G|XPHB,1.0,1.0,1.0,46.888676,1.0,1.0,near_agreement_official_heavy,0.0
+Mason's Tools,XPHB,mundane,AT|XPHB,10.0,10.0,1.0,46.888676,10.0,10.0,near_agreement_official_heavy,0.0
+Mastercraft Instrument,GrimHollowPG24,mundane,AdvEq,250.0,250.0,1.0,46.888676,250.0,250.0,near_agreement_official_heavy,0.0
+Mastiff,XPHB,mundane,MNT|XPHB,25.0,25.0,1.0,46.888676,25.0,25.0,near_agreement_official_heavy,0.0
+Maul,XPHB,mundane,M|XPHB,10.0,10.0,1.0,64.09089,10.0,10.0,near_agreement_official_heavy,0.0
+Menga leaves (1 ounce),ToA,mundane,G,2.0,2.0,1.0,46.888676,2.0,2.0,near_agreement_official_heavy,0.0
+Merchant's Scale,PHB,mundane,G,5.0,5.0,1.0,46.888676,5.0,5.0,near_agreement_official_heavy,0.0
+Midnight Tears,XDMG,mundane,G|XPHB,1500.0,1500.0,1.0,46.888676,1500.0,1500.0,near_agreement_official_heavy,0.0
+Military Fork,GrimHollowPG24,mundane,M|XPHB,500.0,500.0,1.0,64.09089,500.0,500.0,near_agreement_official_heavy,0.0
+Military Saddle,XPHB,mundane,TAH|XPHB,20.0,20.0,1.0,46.888676,20.0,20.0,near_agreement_official_heavy,0.0
+Miner's Pick,PHB,mundane,G,2.0,2.0,1.0,46.888676,2.0,2.0,near_agreement_official_heavy,0.0
+Mirror,XPHB,mundane,G|XPHB,5.0,5.0,1.0,46.888676,5.0,5.0,near_agreement_official_heavy,0.0
+Monster Camouflage,FRHoF,mundane,G|XPHB,50.0,50.0,1.0,46.888676,50.0,50.0,near_agreement_official_heavy,0.0
+Monster Hunter's Pack,VRGR,mundane,G,33.0,33.0,1.0,46.888676,33.0,33.0,near_agreement_official_heavy,0.0
+Moonstone,XDMG,mundane,$G|XDMG,50.0,50.0,1.0,46.888676,50.0,50.0,exact_commodity_official_price,0.0
+Moorbounder,EGW,mundane,MNT,400.0,400.0,1.0,46.888676,400.0,400.0,near_agreement_official_heavy,0.0
+Morningstar,XPHB,mundane,M|XPHB,15.0,15.0,1.0,64.09089,15.0,15.0,near_agreement_official_heavy,0.0
+Moss Agate,XDMG,mundane,$G|XDMG,10.0,10.0,1.0,46.888676,10.0,10.0,exact_commodity_official_price,0.0
+Mule,XPHB,mundane,MNT|XPHB,8.0,8.0,1.0,46.888676,8.0,8.0,near_agreement_official_heavy,0.0
+Muroosa Balm,EGW,mundane,G,100.0,100.0,1.0,46.888676,100.0,100.0,near_agreement_official_heavy,0.0
+Musket,HelianasGuidetoMonsterHunting,mundane,MF,100.0,100.0,1.0,46.888676,100.0,100.0,near_agreement_official_heavy,0.0
+Musket,ValdaGunslinger,mundane,R|XPHB,500.0,500.0,1.0,46.888676,500.0,500.0,near_agreement_official_heavy,0.0
+Musket,XPHB,mundane,R|XPHB,500.0,500.0,1.0,46.888676,500.0,500.0,near_agreement_official_heavy,0.0
+Nakudama Bubble Rod,ObojimaTallGrass,mundane,R,22.0,22.0,1.0,46.888676,22.0,22.0,near_agreement_official_heavy,0.0
+Navigator's Tools,XPHB,mundane,T|XPHB,25.0,25.0,1.0,46.888676,25.0,25.0,near_agreement_official_heavy,0.0
+Necklace string of small pink pearls,XDMG,mundane,$A|XDMG,2500.0,2500.0,1.0,46.888676,2500.0,2500.0,exact_commodity_official_price,0.0
+Needle,XPHB,mundane,A|XPHB,0.02,0.02,1.0,15.704034,0.02,0.02,near_agreement_official_heavy,0.0
+Needles (50),XPHB,mundane,A|XPHB,1.0,1.0,1.0,15.704034,1.0,1.0,near_agreement_official_heavy,0.0
+Net,XPHB,mundane,G|XPHB,1.0,1.0,1.0,46.888676,1.0,1.0,near_agreement_official_heavy,0.0
+Nib,WDH,mundane,$C,0.01,0.01,1.0,46.888676,0.01,0.01,exact_commodity_official_price,0.0
+Noble's Jewelry,HumblewoodTales,mundane,LTG|HumblewoodTales,150.0,150.0,1.0,46.888676,150.0,150.0,near_agreement_official_heavy,0.0
+Noisemaker,GrimHollowPG24,mundane,AdvEq,50.0,50.0,1.0,46.888676,50.0,50.0,near_agreement_official_heavy,0.0
+Norlander Longship,FRAiF,mundane,SHP|XPHB,20000.0,20000.0,1.0,46.888676,20000.0,20000.0,near_agreement_official_heavy,0.0
+Obsidian,XDMG,mundane,$G|XDMG,10.0,10.0,1.0,46.888676,10.0,10.0,exact_commodity_official_price,0.0
+Obsidian statuette with gold fittings and inlay,XDMG,mundane,$A|XDMG,750.0,750.0,1.0,46.888676,750.0,750.0,exact_commodity_official_price,0.0
+Oil of Taggit,XDMG,mundane,G|XPHB,400.0,400.0,1.0,46.888676,400.0,400.0,near_agreement_official_heavy,0.0
+Old masterpiece painting,XDMG,mundane,$A|XDMG,2500.0,2500.0,1.0,46.888676,2500.0,2500.0,exact_commodity_official_price,0.0
+Olisuba Leaf,EGW,mundane,G,50.0,50.0,1.0,46.888676,50.0,50.0,near_agreement_official_heavy,0.0
+Onyx,XDMG,mundane,$G|XDMG,50.0,50.0,1.0,46.888676,50.0,50.0,exact_commodity_official_price,0.0
+Opal,XDMG,mundane,$G|XDMG,1000.0,1000.0,1.0,46.888676,1000.0,1000.0,exact_commodity_official_price,0.0
+Orb,XPHB,mundane,SCF|XPHB,20.0,20.0,1.0,57.44107,20.0,20.0,near_agreement_official_heavy,0.0
+Ox,XDMG,mundane,TG|XDMG,15.0,15.0,1.0,46.888676,15.0,15.0,exact_commodity_official_price,0.0
+Pack Saddle,PHB,mundane,TAH,5.0,5.0,1.0,46.888676,5.0,5.0,near_agreement_official_heavy,0.0
+Padded Armor,XPHB,mundane,LA|XPHB,5.0,5.0,1.0,55.541374,5.0,5.0,near_agreement_official_heavy,0.0
+Padded Barding,PHB,mundane,TAH,20.0,20.0,1.0,46.888676,20.0,20.0,near_agreement_official_heavy,0.0
+Painted gold war mask,XDMG,mundane,$A|XDMG,750.0,750.0,1.0,46.888676,750.0,750.0,exact_commodity_official_price,0.0
+Painter's Supplies,XPHB,mundane,AT|XPHB,10.0,10.0,1.0,46.888676,10.0,10.0,near_agreement_official_heavy,0.0
+Pair of engraved bone dice,XDMG,mundane,$A|XDMG,25.0,25.0,1.0,46.888676,25.0,25.0,exact_commodity_official_price,0.0
+Pale Tincture,XDMG,mundane,G|XPHB,250.0,250.0,1.0,46.888676,250.0,250.0,near_agreement_official_heavy,0.0
+Paper Cartridge Bullet,GrimHollowPG24,mundane,A|XPHB,0.15,0.15,1.0,15.704034,0.15,0.15,near_agreement_official_heavy,0.0
+"Paper Cartridge Bullet, Armor-Piercing",GrimHollowPG24,mundane,A|XPHB,50.0,50.0,1.0,15.704034,50.0,50.0,near_agreement_official_heavy,0.0
+"Paper Cartridge Bullet, Blessed",GrimHollowPG24,mundane,A|XPHB,50.0,50.0,1.0,15.704034,50.0,50.0,near_agreement_official_heavy,0.0
+"Paper Cartridge Bullet, Brutal",GrimHollowPG24,mundane,A|XPHB,50.0,50.0,1.0,15.704034,50.0,50.0,near_agreement_official_heavy,0.0
+"Paper Cartridge Bullet, Desecrated",GrimHollowPG24,mundane,A|XPHB,50.0,50.0,1.0,15.704034,50.0,50.0,near_agreement_official_heavy,0.0
+"Paper Cartridge Bullet, Incendiary",GrimHollowPG24,mundane,A|XPHB,50.0,50.0,1.0,15.862116,50.0,50.0,near_agreement_official_heavy,0.0
+Parrying Dagger,GrimHollowPG24,mundane,M|XPHB,350.0,350.0,1.0,64.09089,350.0,350.0,near_agreement_official_heavy,0.0
+Pearl,XDMG,mundane,$G|XDMG,100.0,100.0,1.0,46.888676,100.0,100.0,exact_commodity_official_price,0.0
+Pepper,XDMG,mundane,TG|XDMG,2.0,2.0,1.0,46.888676,2.0,2.0,exact_commodity_official_price,0.0
+Perfume,HumblewoodTales,mundane,LTG|HumblewoodTales,20.0,20.0,1.0,46.888676,20.0,20.0,near_agreement_official_heavy,0.0
+Perfume,XPHB,mundane,G|XPHB,5.0,5.0,1.0,46.888676,5.0,5.0,near_agreement_official_heavy,0.0
+Peridot,XDMG,mundane,$G|XDMG,500.0,500.0,1.0,46.888676,500.0,500.0,exact_commodity_official_price,0.0
+Pig,XDMG,mundane,TG|XDMG,3.0,3.0,1.0,46.888676,3.0,3.0,exact_commodity_official_price,0.0
+Pike,XPHB,mundane,M|XPHB,5.0,5.0,1.0,64.09089,5.0,5.0,near_agreement_official_heavy,0.0
+Pistol,HelianasGuidetoMonsterHunting,mundane,MF,200.0,200.0,1.0,46.888676,200.0,200.0,near_agreement_official_heavy,0.0
+Pistol,ValdaGunslinger,mundane,R|XPHB,250.0,250.0,1.0,46.888676,250.0,250.0,near_agreement_official_heavy,0.0
+Pistol,XPHB,mundane,R|XPHB,250.0,250.0,1.0,46.888676,250.0,250.0,near_agreement_official_heavy,0.0
+Pitcher,PHB,mundane,G,0.02,0.02,1.0,46.888676,0.02,0.02,near_agreement_official_heavy,0.0
+Plainscow,TalDoreiCampaignSettingReborn,mundane,MNT,200.0,200.0,1.0,46.888676,200.0,200.0,near_agreement_official_heavy,0.0
+Plate Armor,XPHB,mundane,HA|XPHB,1500.0,1500.0,1.0,89.04899,1500.0,1500.0,near_agreement_official_heavy,0.0
+Plate Barding,PHB,mundane,TAH,6000.0,6000.0,1.0,46.888676,6000.0,6000.0,near_agreement_official_heavy,0.0
+Platinum,XDMG,mundane,TG|XDMG,500.0,500.0,1.0,46.888676,500.0,500.0,exact_commodity_official_price,0.0
+Platinum (pp),PHB,mundane,$C,10.0,10.0,1.0,46.888676,10.0,10.0,exact_commodity_official_price,0.0
+Platinum 10-Zino Coin,GGR,mundane,$C,10.0,10.0,1.0,46.888676,10.0,10.0,exact_commodity_official_price,0.0
+Platinum 100-Zino Coin,GGR,mundane,$C,100.0,100.0,1.0,46.888676,100.0,100.0,exact_commodity_official_price,0.0
+Platinum bracelet set with an emerald,XDMG,mundane,$A|XDMG,2500.0,2500.0,1.0,46.888676,2500.0,2500.0,exact_commodity_official_price,0.0
+Playing Cards,XPHB,mundane,GS|XPHB,0.5,0.5,1.0,46.888676,0.5,0.5,near_agreement_official_heavy,0.0
+Poisoner's Kit,XPHB,mundane,T|XPHB,50.0,50.0,1.0,46.888676,50.0,50.0,near_agreement_official_heavy,0.0
+Polearm,GrimHollowPG24,mundane,M|XPHB,500.0,500.0,1.0,64.09089,500.0,500.0,near_agreement_official_heavy,0.0
+Pony,XPHB,mundane,MNT|XPHB,30.0,30.0,1.0,46.888676,30.0,30.0,near_agreement_official_heavy,0.0
+Portable Ram,XPHB,mundane,G|XPHB,4.0,4.0,1.0,46.888676,4.0,4.0,near_agreement_official_heavy,0.0
+Pot Lid,ObojimaTallGrass,mundane,S,1.0,1.0,1.0,45.2996,1.0,1.0,near_agreement_official_heavy,0.0
+Potter's Tools,XPHB,mundane,AT|XPHB,10.0,10.0,1.0,46.888676,10.0,10.0,near_agreement_official_heavy,0.0
+Pouch,XPHB,mundane,G|XPHB,0.5,0.5,1.0,46.888676,0.5,0.5,near_agreement_official_heavy,0.0
+Prespra,FRAiF,mundane,G|XPHB,300.0,300.0,1.0,46.888676,300.0,300.0,near_agreement_official_heavy,0.0
+Pride Silk,EGW,mundane,G,100.0,100.0,1.0,46.888676,100.0,100.0,near_agreement_official_heavy,0.0
+Pride Silk Outfit,EGW,mundane,G,500.0,500.0,1.0,46.888676,500.0,500.0,near_agreement_official_heavy,0.0
+Priest's Pack,XPHB,mundane,G|XPHB,33.0,33.0,1.0,46.888676,33.0,33.0,near_agreement_official_heavy,0.0
+Prosthetics,GrimHollowPG24,mundane,AdvEq,500.0,500.0,1.0,46.888676,500.0,500.0,near_agreement_official_heavy,0.0
+Punch Knife,Pugilist2024,mundane,M|XPHB,2.0,2.0,1.0,64.09089,2.0,2.0,near_agreement_official_heavy,0.0
+Punching Dagger,GrimHollowPG24,mundane,M|XPHB,300.0,300.0,1.0,64.09089,300.0,300.0,near_agreement_official_heavy,0.0
+Purple Worm Poison,XDMG,mundane,G|XPHB,2000.0,2000.0,1.0,46.888676,2000.0,2000.0,near_agreement_official_heavy,0.0
+Quartz,XDMG,mundane,$G|XDMG,50.0,50.0,1.0,46.888676,50.0,50.0,exact_commodity_official_price,0.0
+Quiver,XPHB,mundane,G|XPHB,1.0,1.0,1.0,46.888676,1.0,1.0,near_agreement_official_heavy,0.0
+Rain Catcher,ToA,mundane,G,1.0,1.0,1.0,46.888676,1.0,1.0,near_agreement_official_heavy,0.0
+Rapier,XPHB,mundane,M|XPHB,25.0,25.0,1.0,64.09089,25.0,25.0,near_agreement_official_heavy,0.0
+Rations,XPHB,mundane,G|XPHB,0.5,0.5,1.0,46.888676,0.5,0.5,near_agreement_official_heavy,0.0
+Reliquary,XPHB,mundane,SCF|XPHB,5.0,5.0,1.0,57.44107,5.0,5.0,near_agreement_official_heavy,0.0
+Repeater Crossbow,GrimHollowPG24,mundane,R|XPHB,750.0,750.0,1.0,46.888676,750.0,750.0,near_agreement_official_heavy,0.0
+"Repeater Crossbow, Hand",GrimHollowPG24,mundane,R|XPHB,500.0,500.0,1.0,46.888676,500.0,500.0,near_agreement_official_heavy,0.0
+"Repeater Crossbow, Heavy",GrimHollowPG24,mundane,R|XPHB,1000.0,1000.0,1.0,46.888676,1000.0,1000.0,near_agreement_official_heavy,0.0
+Repeater Needler,GrimHollowPG24,mundane,R|XPHB,500.0,500.0,1.0,46.888676,500.0,500.0,near_agreement_official_heavy,0.0
+Repeater Slinger,GrimHollowPG24,mundane,R|XPHB,750.0,750.0,1.0,46.888676,750.0,750.0,near_agreement_official_heavy,0.0
+Retractable Shield,GrimHollowPG24,mundane,AdvEq,300.0,300.0,1.0,59.268105,300.0,300.0,near_agreement_official_heavy,0.0
+Returning Club,GrimHollowPG24,mundane,M|XPHB,300.0,300.0,1.0,64.09089,300.0,300.0,near_agreement_official_heavy,0.0
+Revolver,HelianasGuidetoMonsterHunting,mundane,MF,750.0,750.0,1.0,46.888676,750.0,750.0,near_agreement_official_heavy,0.0
+Rhodochrosite,XDMG,mundane,$G|XDMG,10.0,10.0,1.0,46.888676,10.0,10.0,exact_commodity_official_price,0.0
+Riding Horse,XPHB,mundane,MNT|XPHB,75.0,75.0,1.0,46.888676,75.0,75.0,near_agreement_official_heavy,0.0
+Riding Saddle,XPHB,mundane,TAH|XPHB,10.0,10.0,1.0,46.888676,10.0,10.0,near_agreement_official_heavy,0.0
+Rifle,HelianasGuidetoMonsterHunting,mundane,MF,1000.0,1000.0,1.0,46.888676,1000.0,1000.0,near_agreement_official_heavy,0.0
+Ring Mail,XPHB,mundane,HA|XPHB,30.0,30.0,1.0,89.04899,30.0,30.0,near_agreement_official_heavy,0.0
+Ring Mail Barding,PHB,mundane,TAH,120.0,120.0,1.0,46.888676,120.0,120.0,near_agreement_official_heavy,0.0
+Robe,XPHB,mundane,G|XPHB,1.0,1.0,1.0,46.888676,1.0,1.0,near_agreement_official_heavy,0.0
+Rod,XPHB,mundane,SCF|XPHB,10.0,10.0,1.0,57.44107,10.0,10.0,near_agreement_official_heavy,0.0
+Rope,XPHB,mundane,G|XPHB,1.0,1.0,1.0,46.888676,1.0,1.0,near_agreement_official_heavy,0.0
+Rowboat,CallfromtheDeep,mundane,SHP,50.0,50.0,1.0,46.888676,50.0,50.0,near_agreement_official_heavy,0.0
+Rowboat,XPHB,mundane,SHP|XPHB,50.0,50.0,1.0,46.888676,50.0,50.0,near_agreement_official_heavy,0.0
+Ruby,XDMG,mundane,$G|XDMG,5000.0,5000.0,1.0,46.888676,5000.0,5000.0,exact_commodity_official_price,0.0
+Rusted Hulk,FRAiF,mundane,SHP|XPHB,50000.0,50000.0,1.0,46.888676,50000.0,50000.0,near_agreement_official_heavy,0.0
+Ryath Root,ToA,mundane,G,50.0,50.0,1.0,46.888676,50.0,50.0,near_agreement_official_heavy,0.0
+Sabre,GrimHollowPG24,mundane,M|XPHB,500.0,500.0,1.0,64.09089,500.0,500.0,near_agreement_official_heavy,0.0
+Sack,XPHB,mundane,G|XPHB,0.01,0.01,1.0,46.888676,0.01,0.01,near_agreement_official_heavy,0.0
+Saddlebags,PHB,mundane,TAH,4.0,4.0,1.0,46.888676,4.0,4.0,near_agreement_official_heavy,0.0
+Saffron,XDMG,mundane,TG|XDMG,15.0,15.0,1.0,46.888676,15.0,15.0,exact_commodity_official_price,0.0
+Sailing Ship,CallfromtheDeep,mundane,SHP,10000.0,10000.0,1.0,46.888676,10000.0,10000.0,near_agreement_official_heavy,0.0
+Sailing Ship,XPHB,mundane,SHP|XPHB,10000.0,10000.0,1.0,46.888676,10000.0,10000.0,near_agreement_official_heavy,0.0
+Salt,XDMG,mundane,TG|XDMG,0.05,0.05,1.0,46.888676,0.05,0.05,exact_commodity_official_price,0.0
+Sardonyx,XDMG,mundane,$G|XDMG,50.0,50.0,1.0,46.888676,50.0,50.0,exact_commodity_official_price,0.0
+Scale Mail,XPHB,mundane,MA|XPHB,50.0,50.0,1.0,63.604954,50.0,50.0,near_agreement_official_heavy,0.0
+Scale Mail Barding,PHB,mundane,TAH,200.0,200.0,1.0,46.888676,200.0,200.0,near_agreement_official_heavy,0.0
+Scarlet Marpenoth,CallfromtheDeep,mundane,SHP,15000.0,15000.0,1.0,46.888676,15000.0,15000.0,near_agreement_official_heavy,0.0
+Scholar's Pack,XPHB,mundane,G|XPHB,40.0,40.0,1.0,46.888676,40.0,40.0,near_agreement_official_heavy,0.0
+Scimitar,XPHB,mundane,M|XPHB,25.0,25.0,1.0,64.09089,25.0,25.0,near_agreement_official_heavy,0.0
+Scumweed Armor,ObojimaTallGrass,mundane,MA,60.0,60.0,1.0,63.604954,60.0,60.0,near_agreement_official_heavy,0.0
+Sealing Wax,PHB,mundane,G,0.5,0.5,1.0,46.888676,0.5,0.5,near_agreement_official_heavy,0.0
+Secret Stone Sword,ObojimaTallGrass,mundane,M,30.0,30.0,1.0,64.09089,30.0,30.0,near_agreement_official_heavy,0.0
+Seeing Glass,GrimHollowPG24,mundane,AdvEq,300.0,300.0,1.0,97.542595,300.0,300.0,near_agreement_official_heavy,0.0
+Serpent Venom,XDMG,mundane,G|XPHB,200.0,200.0,1.0,46.888676,200.0,200.0,near_agreement_official_heavy,0.0
+Set of gold nesting dolls,XDMG,mundane,$A|XDMG,7500.0,7500.0,1.0,46.888676,7500.0,7500.0,exact_commodity_official_price,0.0
+Shadowsteel Focus,GrimHollowPG24,mundane,AdvEq,500.0,500.0,1.0,46.888676,500.0,500.0,near_agreement_official_heavy,0.0
+Shard,MonstersOfDrakkenheim,mundane,Dele|MonstersOfDrakkenheim,500.0,500.0,1.0,46.888676,500.0,500.0,near_agreement_official_heavy,0.0
+Shard,WDH,mundane,$C,0.1,0.1,1.0,46.888676,0.1,0.1,exact_commodity_official_price,0.0
+Shawm,XPHB,mundane,INS|XPHB,2.0,2.0,1.0,96.666466,2.0,2.0,near_agreement_official_heavy,0.0
+Sheathed Staff,GrimHollowPG24,mundane,M|XPHB,500.0,500.0,1.0,64.09089,500.0,500.0,near_agreement_official_heavy,0.0
+Sheep,XDMG,mundane,TG|XDMG,2.0,2.0,1.0,46.888676,2.0,2.0,exact_commodity_official_price,0.0
+Shell,ValdaGunslinger,mundane,A|XPHB,0.5,0.5,1.0,15.704034,0.5,0.5,near_agreement_official_heavy,0.0
+Shepherd Crook,ObojimaTallGrass,mundane,M,0.7,0.7,1.0,64.09089,0.7,0.7,near_agreement_official_heavy,0.0
+Shield,XPHB,mundane,S|XPHB,10.0,10.0,1.0,45.2996,10.0,10.0,near_agreement_official_heavy,0.0
+Shortbow,XPHB,mundane,R|XPHB,25.0,25.0,1.0,46.888676,25.0,25.0,near_agreement_official_heavy,0.0
+Shortsword,XPHB,mundane,M|XPHB,10.0,10.0,1.0,64.09089,10.0,10.0,near_agreement_official_heavy,0.0
+Shovel,ObojimaTallGrass,mundane,M,0.3,0.3,1.0,64.09089,0.3,0.3,near_agreement_official_heavy,0.0
+Shovel,XPHB,mundane,G|XPHB,2.0,2.0,1.0,46.888676,2.0,2.0,near_agreement_official_heavy,0.0
+Sickle,XPHB,mundane,M|XPHB,1.0,1.0,1.0,64.09089,1.0,1.0,near_agreement_official_heavy,0.0
+Side-handle Baton,GrimHollowPG24,mundane,M|XPHB,500.0,500.0,1.0,64.09089,500.0,500.0,near_agreement_official_heavy,0.0
+Signet Ring,PHB,mundane,G,5.0,5.0,1.0,46.888676,5.0,5.0,near_agreement_official_heavy,0.0
+Silk,XDMG,mundane,TG|XDMG,10.0,10.0,1.0,46.888676,10.0,10.0,exact_commodity_official_price,0.0
+Silk Rope (50 feet),PHB,mundane,G,10.0,10.0,1.0,46.888676,10.0,10.0,near_agreement_official_heavy,0.0
+Silk vestments with gold embroidery,XDMG,mundane,$A|XDMG,250.0,250.0,1.0,46.888676,250.0,250.0,exact_commodity_official_price,0.0
+Silver,XDMG,mundane,TG|XDMG,5.0,5.0,1.0,46.888676,5.0,5.0,exact_commodity_official_price,0.0
+Silver (sp),PHB,mundane,$C,0.1,0.1,1.0,46.888676,0.1,0.1,exact_commodity_official_price,0.0
+Silver 25-Zib Coin,GGR,mundane,$C,0.25,0.25,1.0,46.888676,0.25,0.25,exact_commodity_official_price,0.0
+Silver Bar (2-pound),XDMG,mundane,TB|XDMG,10.0,10.0,1.0,46.888676,10.0,10.0,exact_commodity_official_price,0.0
+Silver Bar (5-pound),XDMG,mundane,TB|XDMG,25.0,25.0,1.0,46.888676,25.0,25.0,exact_commodity_official_price,0.0
+Silver and gold brooch,XDMG,mundane,$A|XDMG,750.0,750.0,1.0,46.888676,750.0,750.0,exact_commodity_official_price,0.0
+Silver chalice set with moonstones,XDMG,mundane,$A|XDMG,750.0,750.0,1.0,46.888676,750.0,750.0,exact_commodity_official_price,0.0
+Silver ewer,XDMG,mundane,$A|XDMG,25.0,25.0,1.0,46.888676,25.0,25.0,exact_commodity_official_price,0.0
+Silver necklace with a gemstone pendant,XDMG,mundane,$A|XDMG,250.0,250.0,1.0,46.888676,250.0,250.0,exact_commodity_official_price,0.0
+Sinda berries (10),ToA,mundane,G,5.0,5.0,1.0,46.888676,5.0,5.0,near_agreement_official_heavy,0.0
+Skyship,EGW,mundane,AIR|DMG,100000.0,100000.0,1.0,46.888676,100000.0,100000.0,near_agreement_official_heavy,0.0
+Skyship,TalDoreiCampaignSettingReborn,mundane,AIR|DMG,100000.0,100000.0,1.0,46.888676,100000.0,100000.0,near_agreement_official_heavy,0.0
+Sled,XPHB,mundane,VEH|XPHB,20.0,20.0,1.0,46.888676,20.0,20.0,near_agreement_official_heavy,0.0
+Sled Dog,FRHoF,mundane,MNT|XPHB,50.0,50.0,1.0,46.888676,50.0,50.0,near_agreement_official_heavy,0.0
+Sledgehammer,PHB,mundane,G,2.0,2.0,1.0,46.888676,2.0,2.0,near_agreement_official_heavy,0.0
+"Sling Bullet, Acid",GrimHollowPG24,mundane,A|XPHB,75.0,75.0,1.0,15.704034,75.0,75.0,near_agreement_official_heavy,0.0
+"Sling Bullet, Alchemist's Fire",GrimHollowPG24,mundane,A|XPHB,75.0,75.0,1.0,15.704034,75.0,75.0,near_agreement_official_heavy,0.0
+"Sling Bullet, Armor-Piercing",GrimHollowPG24,mundane,A|XPHB,20.0,20.0,1.0,15.704034,20.0,20.0,near_agreement_official_heavy,0.0
+"Sling Bullet, Blessed",GrimHollowPG24,mundane,A|XPHB,20.0,20.0,1.0,15.704034,20.0,20.0,near_agreement_official_heavy,0.0
+"Sling Bullet, Brutal",GrimHollowPG24,mundane,A|XPHB,20.0,20.0,1.0,15.704034,20.0,20.0,near_agreement_official_heavy,0.0
+"Sling Bullet, Desecrated",GrimHollowPG24,mundane,A|XPHB,20.0,20.0,1.0,15.704034,20.0,20.0,near_agreement_official_heavy,0.0
+"Sling Bullet, Holy Water",GrimHollowPG24,mundane,A|XPHB,75.0,75.0,1.0,15.704034,75.0,75.0,near_agreement_official_heavy,0.0
+"Sling Bullet, Incendiary",GrimHollowPG24,mundane,A|XPHB,20.0,20.0,1.0,15.862116,20.0,20.0,near_agreement_official_heavy,0.0
+"Sling Bullet, Piercing",GrimHollowPG24,mundane,A|XPHB,0.01,0.01,1.0,15.704034,0.01,0.01,near_agreement_official_heavy,0.0
+"Sling Bullet, War Oil",GrimHollowPG24,mundane,A|XPHB,75.0,75.0,1.0,26.541391,75.0,75.0,near_agreement_official_heavy,0.0
+Smith's Tools,XPHB,mundane,AT|XPHB,20.0,20.0,1.0,46.888676,20.0,20.0,near_agreement_official_heavy,0.0
+Smoke Bomb,GrimHollowPG24,mundane,AdvEq,50.0,50.0,1.0,46.888676,50.0,50.0,near_agreement_official_heavy,0.0
+Smoke Grenade,XDMG,mundane,EXP|XDMG,50.0,50.0,1.0,46.888676,50.0,50.0,near_agreement_official_heavy,0.0
+Snowshoes,IDRotF,mundane,G,2.0,2.0,1.0,46.888676,2.0,2.0,near_agreement_official_heavy,0.0
+Soap,PHB,mundane,G,0.02,0.02,1.0,46.888676,0.02,0.02,near_agreement_official_heavy,0.0
+Soothsalts,EGW,mundane,G,150.0,150.0,1.0,46.888676,150.0,150.0,near_agreement_official_heavy,0.0
+Spear,XPHB,mundane,M|XPHB,1.0,1.0,1.0,64.09089,1.0,1.0,near_agreement_official_heavy,0.0
+Spellbook,PHB,mundane,G,50.0,50.0,1.0,46.888676,50.0,50.0,near_agreement_official_heavy,0.0
+Spiked Armor,SCAG,mundane,MA,75.0,75.0,1.0,63.604954,75.0,75.0,near_agreement_official_heavy,0.0
+Spiked Barding,PHB,mundane,TAH,300.0,300.0,1.0,46.888676,300.0,300.0,near_agreement_official_heavy,0.0
+Spinel,XDMG,mundane,$G|XDMG,100.0,100.0,1.0,46.888676,100.0,100.0,exact_commodity_official_price,0.0
+Spinosaurus,ToB1-2023,mundane,MNT,2000.0,2000.0,1.0,46.888676,2000.0,2000.0,near_agreement_official_heavy,0.0
+Splint Armor,XPHB,mundane,HA|XPHB,200.0,200.0,1.0,89.04899,200.0,200.0,near_agreement_official_heavy,0.0
+Splint Barding,PHB,mundane,TAH,800.0,800.0,1.0,46.888676,800.0,800.0,near_agreement_official_heavy,0.0
+Sprig of Mistletoe,XPHB,mundane,SCF|XPHB,1.0,1.0,1.0,57.44107,1.0,1.0,near_agreement_official_heavy,0.0
+Spyglass,XPHB,mundane,G|XPHB,1000.0,1000.0,1.0,46.888676,1000.0,1000.0,near_agreement_official_heavy,0.0
+Staff,XPHB,mundane,SCF|XPHB,5.0,5.0,1.0,57.44107,5.0,5.0,near_agreement_official_heavy,0.0
+Star Ruby,XDMG,mundane,$G|XDMG,1000.0,1000.0,1.0,46.888676,1000.0,1000.0,exact_commodity_official_price,0.0
+Star Sapphire,XDMG,mundane,$G|XDMG,1000.0,1000.0,1.0,46.888676,1000.0,1000.0,exact_commodity_official_price,0.0
+Star rose quartz,XDMG,mundane,$G|XDMG,50.0,50.0,1.0,46.888676,50.0,50.0,exact_commodity_official_price,0.0
+Steel Jaws,FoEQuickstone,mundane,M|XPHB,10.0,10.0,1.0,64.09089,10.0,10.0,near_agreement_official_heavy,0.0
+Steppe Rations,HumblewoodTales,mundane,G,25.0,25.0,1.0,46.888676,25.0,25.0,near_agreement_official_heavy,0.0
+Stink Bomb,TalDoreiCampaignSettingReborn,mundane,EXP|DMG,25.0,25.0,1.0,46.888676,25.0,25.0,near_agreement_official_heavy,0.0
+Stitching Needle,GrimHollowPG24,mundane,AdvEq,250.0,250.0,1.0,46.888676,250.0,250.0,near_agreement_official_heavy,0.0
+Studded Leather Armor,XPHB,mundane,LA|XPHB,45.0,45.0,1.0,55.541374,45.0,45.0,near_agreement_official_heavy,0.0
+Studded Leather Barding,PHB,mundane,TAH,180.0,180.0,1.0,46.888676,180.0,180.0,near_agreement_official_heavy,0.0
+Sun,WDH,mundane,$C,10.0,10.0,1.0,46.888676,10.0,10.0,exact_commodity_official_price,0.0
+Surgeon's Tools,HelianasGuidetoMonsterHunting,mundane,T,50.0,50.0,1.0,46.888676,50.0,50.0,near_agreement_official_heavy,0.0
+Tankard,PHB,mundane,G,0.02,0.02,1.0,46.888676,0.02,0.02,near_agreement_official_heavy,0.0
+Taol,WDH,mundane,$C,2.0,2.0,1.0,46.888676,2.0,2.0,exact_commodity_official_price,0.0
+Tapper Sack,ObojimaTallGrass,mundane,M,1.0,1.0,1.0,64.09089,1.0,1.0,near_agreement_official_heavy,0.0
+Tea,HumblewoodTales,mundane,LTG|HumblewoodTales,5.0,5.0,1.0,46.888676,5.0,5.0,near_agreement_official_heavy,0.0
+Tent,XPHB,mundane,G|XPHB,2.0,2.0,1.0,46.888676,2.0,2.0,near_agreement_official_heavy,0.0
+The Voyage,CallfromtheDeep,mundane,SHP,15000.0,15000.0,1.0,46.888676,15000.0,15000.0,near_agreement_official_heavy,0.0
+Thieves' Tools,XPHB,mundane,T|XPHB,25.0,25.0,1.0,46.888676,25.0,25.0,near_agreement_official_heavy,0.0
+Three-Dragon Ante Set,XPHB,mundane,GS|XPHB,1.0,1.0,1.0,46.888676,1.0,1.0,near_agreement_official_heavy,0.0
+Tiger Eye,XDMG,mundane,$G|XDMG,10.0,10.0,1.0,46.888676,10.0,10.0,exact_commodity_official_price,0.0
+Tinderbox,XPHB,mundane,G|XPHB,0.5,0.5,1.0,46.888676,0.5,0.5,near_agreement_official_heavy,0.0
+Tinker's Tools,XPHB,mundane,AT|XPHB,50.0,50.0,1.0,46.888676,50.0,50.0,near_agreement_official_heavy,0.0
+Topaz,XDMG,mundane,$G|XDMG,500.0,500.0,1.0,46.888676,500.0,500.0,exact_commodity_official_price,0.0
+Torch,XPHB,mundane,G|XPHB,0.01,0.01,1.0,46.888676,0.01,0.01,near_agreement_official_heavy,0.0
+Torpor,XDMG,mundane,G|XPHB,600.0,600.0,1.0,46.888676,600.0,600.0,near_agreement_official_heavy,0.0
+Totem,PHB,mundane,SCF,1.0,1.0,1.0,57.44107,1.0,1.0,near_agreement_official_heavy,0.0
+Tourmaline,XDMG,mundane,$G|XDMG,100.0,100.0,1.0,46.888676,100.0,100.0,exact_commodity_official_price,0.0
+Tower Shield,GrimHollowPG24,mundane,AdvEq,200.0,200.0,1.0,65.60915,200.0,200.0,near_agreement_official_heavy,0.0
+Traveler's Clothes,XPHB,mundane,G|XPHB,2.0,2.0,1.0,46.888676,2.0,2.0,near_agreement_official_heavy,0.0
+Traveler's Guide,HumblewoodTales,mundane,G,25.0,25.0,1.0,46.888676,25.0,25.0,near_agreement_official_heavy,0.0
+Trident,XPHB,mundane,M|XPHB,5.0,5.0,1.0,64.09089,5.0,5.0,near_agreement_official_heavy,0.0
+Truth Serum,XDMG,mundane,G|XPHB,150.0,150.0,1.0,46.888676,150.0,150.0,near_agreement_official_heavy,0.0
+Turquoise,XDMG,mundane,$G|XDMG,10.0,10.0,1.0,46.888676,10.0,10.0,exact_commodity_official_price,0.0
+Twinblades,HelianasGuidetoMonsterHunting,mundane,M,75.0,75.0,1.0,64.09089,75.0,75.0,near_agreement_official_heavy,0.0
+Twinshot Hand Crossbow,HumblewoodTales,mundane,R,85.0,85.0,1.0,46.888676,85.0,85.0,near_agreement_official_heavy,0.0
+Ulcrun,FRAiF,mundane,G|XPHB,1000.0,1000.0,1.0,46.888676,1000.0,1000.0,near_agreement_official_heavy,0.0
+Umbrella,ObojimaTallGrass,mundane,M,0.5,0.5,1.0,64.09089,0.5,0.5,near_agreement_official_heavy,0.0
+Vaulter's Axe,ObojimaTallGrass,mundane,M,5.0,5.0,1.0,64.09089,5.0,5.0,near_agreement_official_heavy,0.0
+Vertebrae Sword,ObojimaTallGrass,mundane,M,0.6,0.6,1.0,134.7059,0.6,0.6,near_agreement_official_heavy,0.0
+Vial,XPHB,mundane,G|XPHB,1.0,1.0,1.0,46.888676,1.0,1.0,near_agreement_official_heavy,0.0
+Viol,XPHB,mundane,INS|XPHB,30.0,30.0,1.0,96.666466,30.0,30.0,near_agreement_official_heavy,0.0
+Wagon,XPHB,mundane,VEH|XPHB,35.0,35.0,1.0,46.888676,35.0,35.0,near_agreement_official_heavy,0.0
+Wand,XPHB,mundane,SCF|XPHB,10.0,10.0,1.0,57.44107,10.0,10.0,near_agreement_official_heavy,0.0
+War Pick,XPHB,mundane,M|XPHB,5.0,5.0,1.0,64.09089,5.0,5.0,near_agreement_official_heavy,0.0
+Warhammer,XPHB,mundane,M|XPHB,15.0,15.0,1.0,64.09089,15.0,15.0,near_agreement_official_heavy,0.0
+Warhorse,XPHB,mundane,MNT|XPHB,400.0,400.0,1.0,46.888676,400.0,400.0,near_agreement_official_heavy,0.0
+Warm Fungal Clothing,FRHoF,mundane,G|XPHB,15.0,15.0,1.0,46.888676,15.0,15.0,near_agreement_official_heavy,0.0
+Warship,CallfromtheDeep,mundane,SHP,25000.0,25000.0,1.0,46.888676,25000.0,25000.0,near_agreement_official_heavy,0.0
+Warship,XPHB,mundane,SHP|XPHB,25000.0,25000.0,1.0,46.888676,25000.0,25000.0,near_agreement_official_heavy,0.0
+Watcher's Candle,GrimHollowPG24,mundane,AdvEq,250.0,250.0,1.0,46.888676,250.0,250.0,near_agreement_official_heavy,0.0
+Weaver's Tools,XPHB,mundane,AT|XPHB,1.0,1.0,1.0,46.888676,1.0,1.0,near_agreement_official_heavy,0.0
+Well-made tapestry that is 10 feet by 10 feet,XDMG,mundane,$A|XDMG,250.0,250.0,1.0,46.888676,250.0,250.0,exact_commodity_official_price,0.0
+Whaleboat,FRAiF,mundane,SHP|XPHB,500.0,500.0,1.0,46.888676,500.0,500.0,near_agreement_official_heavy,0.0
+Wheat,XDMG,mundane,TG|XDMG,0.01,0.01,1.0,46.888676,0.01,0.01,exact_commodity_official_price,0.0
+Whetstone,PHB,mundane,G,0.01,0.01,1.0,46.888676,0.01,0.01,near_agreement_official_heavy,0.0
+Whip,XPHB,mundane,M|XPHB,2.0,2.0,1.0,64.09089,2.0,2.0,near_agreement_official_heavy,0.0
+Wildroot,ToA,mundane,G,25.0,25.0,1.0,46.888676,25.0,25.0,near_agreement_official_heavy,0.0
+Willowshade Oil,EGW,mundane,G,30.0,30.0,1.0,46.888676,30.0,30.0,near_agreement_official_heavy,0.0
+Winter Camouflage,FRHoF,mundane,G|XPHB,50.0,50.0,1.0,46.888676,50.0,50.0,near_agreement_official_heavy,0.0
+Witchboard,CthulhuTorchlight,mundane,T|XPHB,15.0,15.0,1.0,46.888676,15.0,15.0,near_agreement_official_heavy,0.0
+Woodcarver's Tools,XPHB,mundane,AT|XPHB,1.0,1.0,1.0,46.888676,1.0,1.0,near_agreement_official_heavy,0.0
+Wooden Staff,XPHB,mundane,SCF|XPHB,5.0,5.0,1.0,57.44107,5.0,5.0,near_agreement_official_heavy,0.0
+Wrath Axe,GrimHollowPG24,mundane,M|XPHB,750.0,750.0,1.0,64.09089,750.0,750.0,near_agreement_official_heavy,0.0
+Wrath Maul,GrimHollowPG24,mundane,M|XPHB,750.0,750.0,1.0,64.09089,750.0,750.0,near_agreement_official_heavy,0.0
+Wukka Nut,ToA,mundane,G,1.0,1.0,1.0,46.888676,1.0,1.0,near_agreement_official_heavy,0.0
+Wyvern Poison,XDMG,mundane,G|XPHB,1200.0,1200.0,1.0,46.888676,1200.0,1200.0,near_agreement_official_heavy,0.0
+Yahcha,ToA,mundane,G,1.0,1.0,1.0,46.888676,1.0,1.0,near_agreement_official_heavy,0.0
+Yarting,FRHoF,mundane,INS|XPHB,40.0,40.0,1.0,96.666466,40.0,40.0,near_agreement_official_heavy,0.0
+Yellow Death,FRAiF,mundane,G|XPHB,150.0,150.0,1.0,46.888676,150.0,150.0,near_agreement_official_heavy,0.0
+Yellow Sapphire,XDMG,mundane,$G|XDMG,1000.0,1000.0,1.0,46.888676,1000.0,1000.0,exact_commodity_official_price,0.0
+Yew Wand,XPHB,mundane,SCF|XPHB,10.0,10.0,1.0,57.44107,10.0,10.0,near_agreement_official_heavy,0.0
+Yklwa,ToA,mundane,M,1.0,1.0,1.0,64.09089,1.0,1.0,near_agreement_official_heavy,0.0
+Zabou,ToA,mundane,G,10.0,10.0,1.0,46.888676,10.0,10.0,near_agreement_official_heavy,0.0
+Zircon,XDMG,mundane,$G|XDMG,50.0,50.0,1.0,46.888676,50.0,50.0,exact_commodity_official_price,0.0

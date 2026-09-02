@@ -14,6 +14,7 @@ Approach:
 
 import sys
 import re
+import ast
 import pandas as pd
 from pathlib import Path
 
@@ -35,6 +36,19 @@ except Exception:
         "unknown": 1,
         "varies": 10,
     }
+
+try:
+    from src.pricing_engine import WEAPON_BONUS_VALUES, SPELL_SCROLL_PRICES  # family-min + battery parity
+    from src.spell_data import get_spell_level
+    # Mirror src.pricing_engine._family_min_for_criteria / _battery_min_for_criteria for final gate — see pricing_engine.py
+    _FAMILY_IMPORTED = True
+except Exception:
+    WEAPON_BONUS_VALUES = {1: 725, 2: 3400, 3: 14950}
+    SPELL_SCROLL_PRICES = {0: 25, 1: 75, 2: 150, 3: 300, 4: 1500, 5: 3000, 6: 8500, 7: 20000, 8: 45000, 9: 100000}
+    _FAMILY_IMPORTED = False
+
+    def get_spell_level(name):  # type: ignore
+        return None
 
 
 INPUT_CSV = Path('data/processed/items_validated.csv')
@@ -254,6 +268,192 @@ def _is_consumable_modifier_row(row) -> bool:
         return True
     # G + oil/ointment is intentionally NOT exempt per spec (only the four types above); do not return True here.
     return False
+
+
+def _family_min_for_row(row) -> float | None:
+    """Family-flat minimum for magic weapons (+1/+2/+3) — mirror src.pricing_engine._family_min_for_criteria."""
+    try:
+        wb = row.get("weapon_bonus")
+        if wb is None or pd.isna(wb):  # type: ignore[arg-type]
+            return None
+        try:
+            wb_int = int(float(wb))  # type: ignore[arg-type]
+        except Exception:
+            return None
+        if wb_int not in WEAPON_BONUS_VALUES:
+            return None
+        # ammunition never gets family-min
+        try:
+            if pd.notna(row.get("is_ammunition")) and bool(row.get("is_ammunition")):  # type: ignore[arg-type]
+                return None
+        except Exception:
+            if row.get("is_ammunition") is True:
+                return None
+        item_type_code = str(row.get("item_type_code", "") or "").split("|")[0].strip()
+        if item_type_code not in ("M", "R"):
+            return None
+        rarity = str(row.get("rarity", "unknown") or "unknown").lower().replace(" ", "_")
+        rarity_mults = {"uncommon": 0.5, "rare": 1.0, "very_rare": 2.0, "legendary": 3.0, "artifact": 4.0, "common": 0.25, "mundane": 0.25}
+        mult = rarity_mults.get(rarity, 1.0)
+        family_raw = float(WEAPON_BONUS_VALUES[wb_int]) * mult
+        req_attune = str(row.get("req_attune", "none") or "none").strip().lower()
+        if req_attune == "open":
+            attune_mod = 0.90
+        elif req_attune == "class":
+            attune_mod = 0.80
+        else:
+            attune_mod = 1.0
+        return family_raw * attune_mod
+    except Exception:
+        return None
+
+
+def _battery_min_for_row(row) -> float | None:
+    """Scroll-parity battery floor — mirror src.pricing_engine._battery_min_for_criteria."""
+    try:
+        battery_level = None
+        sb = row.get("spell_battery_max_level")
+        if sb is not None:
+            try:
+                if not pd.isna(sb):  # type: ignore[arg-type]
+                    lvl = int(float(sb))  # type: ignore[arg-type]
+                    if 0 <= lvl <= 9:
+                        battery_level = lvl
+            except Exception:
+                pass
+        if battery_level is None:
+            charges_raw = row.get("charges")
+            charges_val = None
+            if charges_raw is not None:
+                try:
+                    if pd.isna(charges_raw):  # type: ignore[arg-type]
+                        charges_val = None
+                    elif isinstance(charges_raw, str):
+                        m = re.search(r"(\d+)", charges_raw)
+                        if m:
+                            charges_val = int(m.group(1))
+                    else:
+                        charges_val = int(float(charges_raw))  # type: ignore[arg-type]
+                except Exception:
+                    charges_val = None
+            if charges_val and charges_val > 0:
+                attached = row.get("attached_spells")
+                if attached is not None:
+                    try:
+                        if pd.isna(attached):  # type: ignore[arg-type]
+                            attached = None
+                    except Exception:
+                        pass
+                    if attached is not None:
+                        parsed = None
+                        try:
+                            if isinstance(attached, str):
+                                s = attached.strip()
+                                if s and s not in ("", "[]", "nan"):
+                                    parsed = ast.literal_eval(s)
+                                else:
+                                    parsed = []
+                            else:
+                                parsed = attached
+                        except Exception:
+                            parsed = None
+                        has = False
+                        levels: list[int] = []
+                        if isinstance(parsed, dict):
+                            for k, upd in parsed.items():
+                                if k in ("ability", "choose", "options"):
+                                    continue
+                                if isinstance(upd, list):
+                                    if len(upd) > 0:
+                                        has = True
+                                    for sp in upd:
+                                        lvl = get_spell_level(sp)
+                                        if lvl is not None and lvl >= 0:
+                                            levels.append(lvl)
+                                elif isinstance(upd, dict):
+                                    for freq, spells in upd.items():
+                                        if isinstance(spells, list) and len(spells) > 0:
+                                            has = True
+                                        if isinstance(spells, list):
+                                            for sp in spells:
+                                                lvl = get_spell_level(sp)
+                                                if lvl is not None and lvl >= 0:
+                                                    levels.append(lvl)
+                        elif isinstance(parsed, list):
+                            if len(parsed) > 0:
+                                has = True
+                            for sp in parsed:
+                                lvl = get_spell_level(sp)
+                                if lvl is not None and lvl >= 0:
+                                    levels.append(lvl)
+                        if has and levels:
+                            battery_level = max(levels)
+        if battery_level is not None:
+            price = SPELL_SCROLL_PRICES.get(battery_level)
+            return float(price) if price is not None else None
+    except Exception:
+        return None
+    return None
+
+
+def apply_final_guarantees(df):
+    """Path-independent final gate post-blend: final_price = max(final_price, (a) absolute floor, (b) family-min, (c) battery parity).
+
+    (a) uses existing official/consumable exemptions; (b) family-min uses official exemption; (c) battery uses official exemption only (no consumable exemption — gems are wondrous).
+    Extends apply_absolute_rarity_floor semantics for the final gate — see pricing_engine helpers.
+    """
+    adjustments: list[dict] = []
+    for idx, row in df.iterrows():
+        rarity_raw = row.get("rarity", "")
+        try:
+            if pd.isna(rarity_raw):  # type: ignore[arg-type]
+                continue
+        except Exception:
+            pass
+        if not isinstance(rarity_raw, str):
+            rarity_raw = str(rarity_raw)
+        rarity_key = rarity_raw.lower().replace(" ", "_")
+        final = row.get("final_price", 0)
+        try:
+            if pd.isna(final):  # type: ignore[arg-type]
+                continue
+        except Exception:
+            pass
+        try:
+            current = float(final)  # type: ignore[arg-type]
+        except (TypeError, ValueError):
+            continue
+        if not current or current <= 0:
+            continue
+        # compute target as max of all floors
+        target = current
+        # (a) absolute floor with both exemptions
+        floor = ABSOLUTE_RARITY_FLOORS.get(rarity_key)
+        if floor is not None and not _is_official_price_row(row) and not _is_consumable_modifier_row(row):
+            if float(floor) > target:
+                target = float(floor)
+        # (b) family-min (official exemption only; ammunition already excluded in helper)
+        fam = _family_min_for_row(row)
+        if fam is not None and not _is_official_price_row(row):
+            if fam > target:
+                target = fam
+        # (c) battery parity (official exemption only, no consumable exemption)
+        batt = _battery_min_for_row(row)
+        if batt is not None and not _is_official_price_row(row):
+            if batt > target:
+                target = batt
+        if target > current + 0.01:
+            old_price = current
+            df.loc[idx, "final_price"] = round(target, 2)
+            adjustments.append({
+                "name": row.get("name", ""),
+                "rarity": rarity_raw,
+                "old_price": old_price,
+                "new_price": float(target),
+                "floor": float(target),
+                "kind": "final_gate",
+            })
+    return adjustments
 
 
 def apply_absolute_rarity_floor(df):
@@ -519,6 +719,19 @@ def main():
     # NOTE: Variant spacing is already applied in script 05b.
     # Do NOT re-apply here — it compounds multipliers on every run (non-idempotent).
     # See commit history for details on this fix.
+
+    # --- Final guarantees gate (path-independent) — post-blend max of (a) absolute floor, (b) family-min, (c) battery parity ---
+    final_gate_adjustments = apply_final_guarantees(df)
+    if final_gate_adjustments:
+        print(f"\n=== FINAL GUARANTEES GATE (PATH-INDEPENDENT) ===")
+        print(f"Total final-gate adjustments: {len(final_gate_adjustments)}")
+        for adj in sorted(final_gate_adjustments, key=lambda x: (x["rarity"], x["old_price"]))[:60]:
+            print(f"  {adj['name']:45s} | {adj['rarity']:15s} | {adj['old_price']:>10.2f} -> {adj['new_price']:>10.2f} gp (final gate)")
+        if len(final_gate_adjustments) > 60:
+            print(f"  ... and {len(final_gate_adjustments)-60} more")
+    else:
+        print(f"\n=== FINAL GUARANTEES GATE (PATH-INDEPENDENT) ===")
+        print(f"Total final-gate adjustments: 0")
 
     # Override ML quantile-based price bands with flat ±20% range.
     # Rationale: ML quantile bounds were too wide for common items (>50% range)
