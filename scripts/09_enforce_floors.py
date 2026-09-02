@@ -15,6 +15,7 @@ Approach:
 import sys
 import re
 import ast
+import math
 import pandas as pd
 from pathlib import Path
 
@@ -270,6 +271,50 @@ def _is_consumable_modifier_row(row) -> bool:
     return False
 
 
+def _is_amalgamated_row(row) -> bool:
+    """Hop C5: True when row has valid amalgamated reference (multi/solo).
+
+    Mirrors src.pricing_engine._is_amalgamated_reference: amalgamated_price >0
+    AND price_confidence in ("multi", "solo"). Also handles candidate CSV where
+    Price Source starts with "Amalgamated" (e.g. "Amalgamated (DSA,MSRP,DMPG)").
+    Solo-outlier/Algorithm (none, pd.NA) returns False → family-min *may* clamp.
+    """
+    try:
+        # Candidate CSV signal: Price Source starting with "Amalgamated"
+        ps = row.get("price_source", "")
+        try:
+            if pd.notna(ps) and isinstance(ps, str) and ps.strip().lower().startswith("amalgamated"):
+                return True
+        except Exception:
+            pass
+        # Validated signal: amalgamated_price + price_confidence
+        amalg = row.get("amalgamated_price")
+        if amalg is None:
+            return False
+        try:
+            if pd.isna(amalg):
+                return False
+        except Exception:
+            pass
+        try:
+            f = float(amalg)  # type: ignore[arg-type]
+            if not math.isfinite(f) or f <= 0:
+                return False
+        except Exception:
+            return False
+        pc = row.get("price_confidence")
+        try:
+            if pd.isna(pc):  # type: ignore[arg-type]
+                return False
+        except Exception:
+            pass
+        if pc is None:
+            return False
+        return str(pc) in ("multi", "solo")
+    except Exception:
+        return False
+
+
 def _family_min_for_row(row) -> float | None:
     """Family-flat minimum for magic weapons (+1/+2/+3) — mirror src.pricing_engine._family_min_for_criteria."""
     try:
@@ -400,7 +445,7 @@ def _battery_min_for_row(row) -> float | None:
 def apply_final_guarantees(df):
     """Path-independent final gate post-blend: final_price = max(final_price, (a) absolute floor, (b) family-min, (c) battery parity).
 
-    (a) uses existing official/consumable exemptions; (b) family-min uses official exemption; (c) battery uses official exemption only (no consumable exemption — gems are wondrous).
+    (a) uses existing official/consumable exemptions; (b) family-min uses official + amalgamated exemptions (Hop C5: reference authority — solo-outlier/Algorithm still clamp); (c) battery uses official exemption only (no consumable exemption — gems are wondrous).
     Extends apply_absolute_rarity_floor semantics for the final gate — see pricing_engine helpers.
     """
     adjustments: list[dict] = []
@@ -433,9 +478,10 @@ def apply_final_guarantees(df):
         if floor is not None and not _is_official_price_row(row) and not _is_consumable_modifier_row(row):
             if float(floor) > target:
                 target = float(floor)
-        # (b) family-min (official exemption only; ammunition already excluded in helper)
+        # (b) family-min (official + amalgamated exemptions; ammunition already excluded in helper)
+        # Hop C5: gate to non-amalgamated items only (reference authority)
         fam = _family_min_for_row(row)
-        if fam is not None and not _is_official_price_row(row):
+        if fam is not None and not _is_official_price_row(row) and not _is_amalgamated_row(row):
             if fam > target:
                 target = fam
         # (c) battery parity (official exemption only, no consumable exemption)

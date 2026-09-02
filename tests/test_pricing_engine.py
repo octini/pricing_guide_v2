@@ -637,3 +637,55 @@ def test_price_authority_flag_vs_branch_consistency():
     # official → official
     c_off = {**base, "amalgamated_price": 5000, "price_confidence": "multi"}
     assert derive_price_authority(c_off, criteria_coverage=3, guide_spread=0.8, price_source="official") == "official"
+
+
+# ─── Hop C5: family-min gated to non-amalgamated (reference authority) ───────
+def test_hop_c5_family_min_gated_to_non_amalgamated():
+    """(a) amalgamated +3 Dagger 8987 NOT lifted; (b) Algorithm 146 →725; (c) amalgamated Needler NOT lifted."""
+    # (a) amalgamated +3 Dagger: has amalgamated multi → family-min must NOT lift, stays at amalgamated
+    c_dagger_amalg = make_criteria(
+        rarity="very_rare", weapon_bonus=3, item_type_code="M|XPHB", is_ammunition=False,
+        amalgamated_price=8987.72, price_confidence="multi", name="+3 Dagger"
+    )
+    price_dagger = calculate_price(c_dagger_amalg)
+    # With amalgamated, price should be amalgamated (8987), not family-min 14950 (floor 1000 <8987)
+    assert price_dagger == pytest.approx(8987.72, rel=0.01)
+    # Same dagger without amalgamated (Algorithm) → family-min 14950
+    c_dagger_algo = make_criteria(
+        rarity="very_rare", weapon_bonus=3, item_type_code="M|XPHB", is_ammunition=False,
+        amalgamated_price=None, price_confidence="none", name="+3 Dagger"
+    )
+    price_dagger_algo = calculate_price(c_dagger_algo)
+    assert price_dagger_algo == pytest.approx(14950, rel=0.01)
+
+    # (b) Algorithm +1 cheap-base weapon at 146 → lifted to 725 (family-min)
+    c_cheap = make_criteria(
+        rarity="rare", weapon_bonus=1, item_type_code="M|XPHB", is_ammunition=False,
+        amalgamated_price=None, price_confidence="none", name="+1 Longsword"
+    )
+    price_cheap = calculate_price(c_cheap)
+    assert price_cheap == pytest.approx(725, rel=0.01)
+    # solo-outlier should still clamp (Algorithm path)
+    c_solo_outlier = make_criteria(
+        rarity="rare", weapon_bonus=1, item_type_code="M|XPHB", is_ammunition=False,
+        amalgamated_price=146.0, price_confidence="solo-outlier", name="+1 Longsword"
+    )
+    price_solo = calculate_price(c_solo_outlier)
+    assert price_solo == pytest.approx(725, rel=0.01)
+
+    # (c) amalgamated Drow +3 Needler → NOT family-min lifted, but floored to 8000 (legendary floor)
+    c_needler_amalg = make_criteria(
+        rarity="legendary", weapon_bonus=3, item_type_code="R|XPHB", is_ammunition=False,
+        amalgamated_price=635.88, price_confidence="multi", name="Drow +3 Repeater Needler"
+    )
+    price_needler = calculate_price(c_needler_amalg)
+    # Family-min gated (no 14950), but absolute floor 8000 wins over 635
+    assert price_needler == pytest.approx(8000, rel=0.01)
+    assert price_needler != pytest.approx(14950, rel=0.01)
+    # Non-amalgamated Needler (hypothetical) would be lifted to 14950
+    c_needler_algo = make_criteria(
+        rarity="legendary", weapon_bonus=3, item_type_code="R|XPHB", is_ammunition=False,
+        amalgamated_price=None, price_confidence="none", name="Drow +3 Repeater Needler"
+    )
+    price_needler_algo = calculate_price(c_needler_algo)
+    assert price_needler_algo == pytest.approx(14950, rel=0.01)

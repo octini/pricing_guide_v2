@@ -60,15 +60,21 @@ def test_ammunition_excluded_from_family_minimum():
     # Ammo stays at amalgam (per-piece) ~32.88, floored to 50? Actually uncommon floor 50 => max(50,32.88)=50
     # But must NOT be lifted to weapon family 362.5
     assert price_ammo < 362.5
-    # Same bonus as weapon (M) with same amalgam should be lifted to family
-    c_weapon = make_criteria(rarity="uncommon", weapon_bonus=1, req_attune="none", item_type_code="M", is_ammunition=False, name="+1 Dagger", amalgamated_price=32.88, price_confidence="multi")
-    price_weapon = calculate_price(c_weapon)
-    assert price_weapon >= 362.5 - 1e-6
+    # Hop C5: Same bonus as weapon (M) with same amalgam should NOT be lifted (reference authority)
+    c_weapon_amalg = make_criteria(rarity="uncommon", weapon_bonus=1, req_attune="none", item_type_code="M", is_ammunition=False, name="+1 Dagger", amalgamated_price=32.88, price_confidence="multi")
+    price_weapon_amalg = calculate_price(c_weapon_amalg)
+    # Amalgamated weapon stays at amalgam/floor, NOT family 362.5
+    assert price_weapon_amalg < 362.5
+    # Non-amalgamated weapon must be lifted to family 362.5
+    c_weapon_algo = make_criteria(rarity="uncommon", weapon_bonus=1, req_attune="none", item_type_code="M", is_ammunition=False, name="+1 Dagger", amalgamated_price=None, price_confidence="none")
+    price_weapon_algo = calculate_price(c_weapon_algo)
+    assert price_weapon_algo >= 362.5 - 1e-6
     # Also direct simple without amalgam: uncommon +1 weapon is 362.5, ammo simple would be 362.5 but with exclusion should stay not uplifted beyond that
     # Verify helper returns None for ammo
     from src.pricing_engine import _family_min_for_criteria
     assert _family_min_for_criteria(c_ammo) is None
-    assert _family_min_for_criteria(c_weapon) is not None
+    assert _family_min_for_criteria(c_weapon_algo) is not None
+    assert _family_min_for_criteria(c_weapon_amalg) is not None  # helper still returns value, but gating prevents use
 
 # ─── Battery floor (q7b) — parity not premium ────────────────────────────────
 def test_battery_floor_diamond_gem():

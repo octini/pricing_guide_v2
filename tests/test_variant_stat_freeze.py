@@ -78,3 +78,58 @@ def test_frozen_group_absent_emits_warning(caplog):
     msgs = [r.getMessage() for r in caplog.records]
     assert any("Frozen variant group +2 Weapon absent from corpus" in m for m in msgs)
     assert any("Frozen variant group +3 Weapon absent from corpus" in m for m in msgs)
+
+
+# ─── Hop C5: needle-weight contamination — weapon stats must exclude ammo ───────
+def test_hop_c5_weapon_stats_exclude_ammunition():
+    """Weapon variant-group stats must EXCLUDE is_ammunition True members (Needle 0.02lb).
+
+    Diagnose: Adamantine Weapon contaminated by Adamantine Needle (0.02lb, A|XPHB) → min_weight 0.02
+    vs filtered 1.0; Needler weapon (3lb) no longer ammo-depressed (adj 0 vs negative).
+    Bounded diagnosis: which pool/stat produces Needler's large negative adj → weight pool min_weight
+    via log_range = log(max/min); ammo 0.02 expands range, depresses weight_factor for light weapons
+    but Needler at median stays 0; filtered restores honest min.
+    """
+    from src.variant_system import compute_adjustment_factor, categorize_generic_variant
+
+    # Build weapon group with 3 honest weapons (1lb-6lb) + 1 ammo member (0.02lb)
+    rows = [
+        {"specific_name": "Adamantine Longsword", "generic_name": "Adamantine Weapon", "weight": 3.0, "ac": None, "dmg_tier": 3.0, "is_ammunition": False},
+        {"specific_name": "Adamantine Greatsword", "generic_name": "Adamantine Weapon", "weight": 6.0, "ac": None, "dmg_tier": 4.0, "is_ammunition": False},
+        {"specific_name": "Adamantine Dagger", "generic_name": "Adamantine Weapon", "weight": 1.0, "ac": None, "dmg_tier": 2.0, "is_ammunition": False},
+        {"specific_name": "Adamantine Needle", "generic_name": "Adamantine Weapon", "weight": 0.02, "ac": None, "dmg_tier": None, "is_ammunition": True},  # contaminant
+        {"specific_name": "Adamantine Arrow", "generic_name": "Adamantine Weapon", "weight": 0.05, "ac": None, "dmg_tier": None, "is_ammunition": True},
+    ]
+    df = pd.DataFrame(rows)
+    stats = compute_generic_group_stats(df)
+    w_stats = stats[stats["generic_name"] == "Adamantine Weapon"].iloc[0]
+    # After exclusion, min_weight should be 1.0 (lightest honest weapon), not 0.02
+    assert w_stats["min_weight"] == pytest.approx(1.0, rel=0.01)
+    # variant_count should reflect filtered count (3 weapons, not 5)
+    assert w_stats["variant_count"] == 3
+    # median_weight should be 3.0 (honest median), not pulled down by ammo
+    assert w_stats["median_weight"] == pytest.approx(3.0, rel=0.01)
+
+    # Verify Needler weapon (3lb, dmg_tier None) adjustment is not ammo-depressed
+    # Needler-like row: weight 3lb (median), so weight_factor 0 → overall 0
+    needler_row = pd.Series({"weight": 3.0, "dmg_tier": None})
+    cat = categorize_generic_variant("Adamantine Weapon", "M|XPHB")
+    adj = compute_adjustment_factor(needler_row, w_stats, cat)
+    assert adj == pytest.approx(0.0, abs=0.001)
+    # Light weapon (1lb Dagger) would have been more negative if ammo included (log_range larger → dampened negative)
+    # Filtered gives more honest negative: log(1/3)/log(6/1) ≈ -0.61 vs with ammo log(1/3)/log(6/0.02) ≈ -0.19
+    dagger_row = pd.Series({"weight": 1.0, "dmg_tier": 2.0})
+    adj_dagger = compute_adjustment_factor(dagger_row, w_stats, cat)
+    # With filtered min 1.0, max 6.0, median 3.0 → weight_factor = log(1/3)/log(6/1) = -1.0986/1.7918 = -0.613, dmg_factor = (2-3)/(4-2)= -0.5 → blend = -0.556
+    assert adj_dagger == pytest.approx(-0.556, abs=0.02)
+
+    # Ammo groups must RETAIN their members (not filtered)
+    rows_ammo = [
+        {"specific_name": "Needle of Slaying", "generic_name": "Ammunition of Slaying", "weight": 0.02, "ac": None, "dmg_tier": None, "is_ammunition": True},
+        {"specific_name": "Arrow of Slaying", "generic_name": "Ammunition of Slaying", "weight": 0.05, "ac": None, "dmg_tier": None, "is_ammunition": True},
+    ]
+    df_ammo = pd.DataFrame(rows_ammo)
+    stats_ammo = compute_generic_group_stats(df_ammo)
+    a_stats = stats_ammo[stats_ammo["generic_name"] == "Ammunition of Slaying"].iloc[0]
+    assert a_stats["variant_count"] == 2
+    assert a_stats["min_weight"] == pytest.approx(0.02, rel=0.01)

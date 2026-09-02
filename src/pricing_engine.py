@@ -304,6 +304,30 @@ def _has_valid_amalgamated(criteria: dict) -> bool:
     return f > 0
 
 
+def _is_amalgamated_reference(criteria: dict) -> bool:
+    """Hop C5: True when item has a valid amalgamated reference (multi/solo).
+
+    Mirrors the absolute-floor/mundane-relative detection: amalgamated_price >0
+    AND price_confidence in ("multi", "solo"). Solo-outlier and Algorithm/formula-only
+    (none, pd.NA, etc.) return False → family-min *may* clamp. Used to gate family-min
+    so published guide prices WIN for anchored items.
+    """
+    try:
+        if not _has_valid_amalgamated(criteria):
+            return False
+        pc = criteria.get("price_confidence")
+        try:
+            if pd.isna(pc):
+                return False
+        except Exception:
+            pass
+        if pc is None:
+            return False
+        return str(pc) in ("multi", "solo")
+    except Exception:
+        return False
+
+
 def _is_criteria_rich(criteria_coverage: Optional[int]) -> bool:
     if criteria_coverage is None:
         return False
@@ -1563,18 +1587,20 @@ def calculate_price(
         amalgamated_price = criteria.get("amalgamated_price")
         if pd.notna(amalgamated_price) and amalgamated_price > 0:
             simple_price = amalgamated_price
-            # Family minimum for amalgam branch: compare raw (no attunement — guide prices already factor it)
-            try:
-                if weapon_bonus in WEAPON_BONUS_VALUES and not criteria.get("is_ammunition", False):
-                    _bt = str(criteria.get("item_type_code", "") or "").split("|")[0].strip()
-                    if _bt in ("M", "R"):
-                        # benchmark is already tier-priced; multiplier only discounts sub-norm rarity
-                        _rm = {"common": 0.25, "mundane": 0.25, "uncommon": 0.5, "rare": 1.0, "very_rare": 1.0, "legendary": 1.0, "artifact": 1.0}
-                        _family_raw = float(WEAPON_BONUS_VALUES[weapon_bonus]) * _rm.get(rarity, 1.0)
-                        if simple_price < _family_raw:
-                            simple_price = _family_raw
-            except Exception:
-                pass
+            # Hop C5: Family minimum gated to non-amalgamated items only (reference authority)
+            # Skip for amalgamated references (multi/solo) — solo-outlier/Algorithm still clamp via other paths
+            if not _is_amalgamated_reference(criteria):
+                try:
+                    if weapon_bonus in WEAPON_BONUS_VALUES and not criteria.get("is_ammunition", False):
+                        _bt = str(criteria.get("item_type_code", "") or "").split("|")[0].strip()
+                        if _bt in ("M", "R"):
+                            # benchmark is already tier-priced; multiplier only discounts sub-norm rarity
+                            _rm = {"common": 0.25, "mundane": 0.25, "uncommon": 0.5, "rare": 1.0, "very_rare": 1.0, "legendary": 1.0, "artifact": 1.0}
+                            _family_raw = float(WEAPON_BONUS_VALUES[weapon_bonus]) * _rm.get(rarity, 1.0)
+                            if simple_price < _family_raw:
+                                simple_price = _family_raw
+                except Exception:
+                    pass
             # Do NOT apply attunement modifier to amalgamated prices -
             # guide prices already factor in attunement requirements
         else:
@@ -1601,16 +1627,17 @@ def calculate_price(
             elif req_attune == "class":
                 attune_mod = 0.80
             simple_price *= attune_mod
-            # Family minimum for non-amalgam branch: ensure raw benchmark before property
-            try:
-                if weapon_bonus in WEAPON_BONUS_VALUES and not criteria.get("is_ammunition", False):
-                    _bt2 = str(criteria.get("item_type_code", "") or "").split("|")[0].strip()
-                    if _bt2 in ("M", "R"):
-                        _fam2 = _family_min_for_criteria(criteria)
-                        if _fam2 is not None and simple_price < _fam2:
-                            simple_price = _fam2
-            except Exception:
-                pass
+            # Hop C5: Family minimum gated to non-amalgamated items only (reference authority)
+            if not _is_amalgamated_reference(criteria):
+                try:
+                    if weapon_bonus in WEAPON_BONUS_VALUES and not criteria.get("is_ammunition", False):
+                        _bt2 = str(criteria.get("item_type_code", "") or "").split("|")[0].strip()
+                        if _bt2 in ("M", "R"):
+                            _fam2 = _family_min_for_criteria(criteria)
+                            if _fam2 is not None and simple_price < _fam2:
+                                simple_price = _fam2
+                except Exception:
+                    pass
         
         if simple_price > 0:
             # Apply property premium for named variants (e.g., Returning weapons)
@@ -1652,26 +1679,29 @@ def calculate_price(
     _should_force_formula = _is_rich and _is_div and price_confidence in ("multi", "solo")
     if pd.notna(amalgamated_price) and amalgamated_price > 0 and price_confidence in ("multi", "solo") and not _should_force_formula:
         amalg_price = float(amalgamated_price)
-        # Family minimum for anchor-priced weapons (only if not ammunition)
-        try:
-            wb_anchor = criteria.get("weapon_bonus")
-            if wb_anchor and wb_anchor in WEAPON_BONUS_VALUES and not criteria.get("is_ammunition", False):
-                _bt_a = str(criteria.get("item_type_code", "") or "").split("|")[0].strip()
-                if _bt_a in ("M", "R"):
-                    _fam_a = _family_min_for_criteria(criteria)
-                    # For anchor, family min without attune vs with attune? Use helper (with attune) but anchor has no attune discount;
-                    # to be conservative, compare raw without attune as well
-                    if _fam_a is not None and amalg_price < _fam_a:
-                        # Also check raw without attune — if anchor has class attune but guide already includes it, don't double-discount
-                        # benchmark is already tier-priced; multiplier only discounts sub-norm rarity
-                        _rm_a = {"common": 0.25, "mundane": 0.25, "uncommon": 0.5, "rare": 1.0, "very_rare": 1.0, "legendary": 1.0, "artifact": 1.0}
-                        _raw_a = float(WEAPON_BONUS_VALUES[int(wb_anchor)]) * _rm_a.get(rarity, 1.0)
-                        # If anchor price is below either raw or with-attune version, raise to max
-                        _candidate = max(_fam_a, _raw_a)
-                        if amalg_price < _candidate:
-                            amalg_price = _candidate
-        except Exception:
-            pass
+        # Hop C5: Family minimum gated to non-amalgamated items only (reference authority)
+        # Skip for amalgamated references (multi/solo) — solo-outlier/Algorithm still clamp via other paths
+        # Anchor path is by definition amalgamated, so this block becomes a no-op for family-min
+        if not _is_amalgamated_reference(criteria):
+            try:
+                wb_anchor = criteria.get("weapon_bonus")
+                if wb_anchor and wb_anchor in WEAPON_BONUS_VALUES and not criteria.get("is_ammunition", False):
+                    _bt_a = str(criteria.get("item_type_code", "") or "").split("|")[0].strip()
+                    if _bt_a in ("M", "R"):
+                        _fam_a = _family_min_for_criteria(criteria)
+                        # For anchor, family min without attune vs with attune? Use helper (with attune) but anchor has no attune discount;
+                        # to be conservative, compare raw without attune as well
+                        if _fam_a is not None and amalg_price < _fam_a:
+                            # Also check raw without attune — if anchor has class attune but guide already includes it, don't double-discount
+                            # benchmark is already tier-priced; multiplier only discounts sub-norm rarity
+                            _rm_a = {"common": 0.25, "mundane": 0.25, "uncommon": 0.5, "rare": 1.0, "very_rare": 1.0, "legendary": 1.0, "artifact": 1.0}
+                            _raw_a = float(WEAPON_BONUS_VALUES[int(wb_anchor)]) * _rm_a.get(rarity, 1.0)
+                            # If anchor price is below either raw or with-attune version, raise to max
+                            _candidate = max(_fam_a, _raw_a)
+                            if amalg_price < _candidate:
+                                amalg_price = _candidate
+            except Exception:
+                pass
         # Battery floor for anchor-priced items
         try:
             _batt_a = _battery_min_for_criteria(criteria)
@@ -2300,13 +2330,14 @@ def calculate_price(
     if "gleaming" in item_name_lower and base_item_cost > 0:
         price += 200
 
-    # Family minimum for formula-priced weapons (after selection, before floor; attune kept after)
-    try:
-        _fam_final = _family_min_for_criteria(criteria)
-        if _fam_final is not None and price < _fam_final:
-            price = float(_fam_final)
-    except Exception:
-        pass
+    # Hop C5: Family minimum gated to non-amalgamated items only (reference authority)
+    if not _is_amalgamated_reference(criteria):
+        try:
+            _fam_final = _family_min_for_criteria(criteria)
+            if _fam_final is not None and price < _fam_final:
+                price = float(_fam_final)
+        except Exception:
+            pass
 
     # Battery floor (q7b) — parity, not premium
     try:

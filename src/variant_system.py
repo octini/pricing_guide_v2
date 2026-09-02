@@ -118,6 +118,11 @@ def extract_generic_variant_mapping(master_df: pd.DataFrame) -> pd.DataFrame:
         # Compute damage tier
         dmg_tier = parse_dice_tier(dmg1)
 
+        # Determine is_ammunition from raw type (mirrors criteria_extractor: type_base == "A" or ammo flag)
+        raw_type_val = raw.get('type', '')
+        type_base_raw = str(raw_type_val).split('|')[0] if raw_type_val else ''
+        is_ammunition_flag = type_base_raw == 'A' or bool(raw.get('ammo', False))
+
         mapping_rows.append({
             'specific_name': row['name'],
             'generic_name': generic_name,
@@ -135,6 +140,7 @@ def extract_generic_variant_mapping(master_df: pd.DataFrame) -> pd.DataFrame:
             'bonus_weapon_damage': bonus_weapon_damage,
             'bonus_spell_save_dc': bonus_spell_save_dc,
             'bonus_spell_attack': bonus_spell_attack,
+            'is_ammunition': is_ammunition_flag,
         })
 
     return pd.DataFrame(mapping_rows)
@@ -154,13 +160,28 @@ def compute_generic_group_stats(mapping_df: pd.DataFrame) -> pd.DataFrame:
 
     stats = []
     for name, group in groups:
-        weights = group['weight'].dropna()
-        acs = group['ac'].dropna()
-        dmg_tiers = group['dmg_tier'].dropna()
+        # ── Hop C5: weapon variant-group stats must EXCLUDE ammunition members ──────
+        # Narrow exclusion: only for weapon groups (generic_name contains "weapon"), drop
+        # is_ammunition True rows (e.g. Needle of Slaying 0.02lb) so needle WEAPONS
+        # (Repeater Needler) stop inheriting ammunition-like negative adjustments.
+        # Ammo groups (e.g. "Adamantine Ammunition") retain their members.
+        group_for_stats = group
+        if 'is_ammunition' in group.columns and 'weapon' in name.lower():
+            try:
+                ammo_mask = group['is_ammunition'].fillna(False).astype(bool)
+                filtered = group[~ammo_mask]
+                # Only adopt filtered if it retains at least one member; else keep original
+                if len(filtered) > 0:
+                    group_for_stats = filtered
+            except Exception:
+                group_for_stats = group
+        weights = group_for_stats['weight'].dropna()
+        acs = group_for_stats['ac'].dropna()
+        dmg_tiers = group_for_stats['dmg_tier'].dropna()
 
         stats.append({
             'generic_name': name,
-            'variant_count': len(group),
+            'variant_count': len(group_for_stats),
             'median_weight': weights.median() if len(weights) > 0 else None,
             'min_weight': weights.min() if len(weights) > 0 else None,
             'max_weight': weights.max() if len(weights) > 0 else None,

@@ -452,9 +452,8 @@ def test_battery_parity_charges_fallback():
 
 
 def test_family_min_variant_path_drow_needler():
-    """Family-min must fire on variant-path items: Drow +3 Needler 2,480 -> 14,950 (legendary 14,950×1.0×none, capped)."""
-    # Drow +3 Repeater Needler: weapon_bonus 3, rarity legendary, type R non-ammo, req_attune none, amalgamated 635
-    # benchmark is already tier-priced; multiplier only discounts sub-norm rarity -> legendary 1.0
+    """Hop C5: Family-min gated to non-amalgamated — Drow +3 Needler (amalgamated) NOT lifted; non-amalgamated variant still lifts."""
+    # Amalgamated Drow +3 Needler must NOT be family-min lifted (reference authority); but absolute floor 8000 still applies
     df = _make_df([{
         "name": "Drow +3 Repeater Needler",
         "rarity": "legendary",
@@ -469,12 +468,13 @@ def test_family_min_variant_path_drow_needler():
         "price_confidence": "multi",
     }])
     adjs = apply_final_guarantees(df)
-    # Expected: 14950 * 1.0 (legendary) * 1.0 (none) = 14950
-    assert df.loc[0, "final_price"] == pytest.approx(14950, rel=0.01)
-    assert len(adjs) >= 1
-    # Variant with open attunement -> 0.9 multiplier
+    # Hop C5: amalgamated → NOT family-min lifted, but absolute floor 8000 wins over 2480
+    assert df.loc[0, "final_price"] == pytest.approx(8000, rel=0.01)
+    # No family-min adjustment, but floor adjustment counts; we check family-min not applied by ensuring not 14950
+    assert df.loc[0, "final_price"] != pytest.approx(14950, rel=0.01)
+    # Non-amalgamated variant with open attunement -> 0.9 multiplier SHOULD lift (solo-outlier/Algorithm path)
     df_open = _make_df([{
-        "name": "Drow +3 Repeater Needler (open)",
+        "name": "Drow +3 Repeater Needler (open, non-amal)",
         "rarity": "legendary",
         "item_type_code": "R|XPHB",
         "is_ammunition": False,
@@ -483,6 +483,8 @@ def test_family_min_variant_path_drow_needler():
         "final_price": 2480.31,
         "weapon_bonus": 3,
         "req_attune": "open",
+        "amalgamated_price": pd.NA,
+        "price_confidence": "none",
     }])
     apply_final_guarantees(df_open)
     assert df_open.loc[0, "final_price"] == pytest.approx(14950 * 1.0 * 0.90, rel=0.01)
@@ -585,9 +587,9 @@ def test_family_min_silver_sword():
 
 
 def test_final_gate_path_independent_variant_vs_amalgamated():
-    """Final gate must work regardless of price_confidence/variant path (spec: path-independent)."""
-    # Same weapon with different price_confidences should both clamp to family-min
-    for conf in ["multi", "solo", "none"]:
+    """Hop C5: Final gate gated to non-amalgamated — multi/solo NOT lifted, none/solo-outlier lifted (path-independent + reference authority)."""
+    # Amalgamated (multi/solo) must NOT family-min clamp, but absolute floor 200 still applies (rare)
+    for conf in ["multi", "solo"]:
         df = _make_df([{
             "name": "Test +2 Longsword",
             "rarity": "rare",
@@ -599,8 +601,139 @@ def test_final_gate_path_independent_variant_vs_amalgamated():
             "weapon_bonus": 2,
             "req_attune": "none",
             "price_confidence": conf,
-            "amalgamated_price": 635.88 if conf != "none" else pd.NA,
+            "amalgamated_price": 635.88,
+        }])
+        apply_final_guarantees(df)
+        # Family-min gated, so stays at max(100, floor 200)=200, not 3400
+        assert df.loc[0, "final_price"] == pytest.approx(200.0, rel=0.01), f"amalgamated {conf} should NOT be family-lifted (floor 200)"
+    # Non-amalgamated (none) and solo-outlier MUST clamp
+    for conf, amalg in [("none", pd.NA), ("solo-outlier", 635.88)]:
+        df = _make_df([{
+            "name": "Test +2 Longsword",
+            "rarity": "rare",
+            "item_type_code": "M|XPHB",
+            "is_ammunition": False,
+            "is_poison": False,
+            "price_source": "rule",
+            "final_price": 100.0,
+            "weapon_bonus": 2,
+            "req_attune": "none",
+            "price_confidence": conf,
+            "amalgamated_price": amalg,
         }])
         apply_final_guarantees(df)
         # rare +2: 3400 * 1.0 = 3400
-        assert df.loc[0, "final_price"] == pytest.approx(3400, rel=0.01), f"failed for {conf}"
+        assert df.loc[0, "final_price"] == pytest.approx(3400, rel=0.01), f"non-amalgamated {conf} should be lifted"
+    # Candidate Price Source "Amalgamated (...)" also blocks
+    df2 = _make_df([{
+        "name": "Test +2 Longsword",
+        "rarity": "rare",
+        "item_type_code": "M|XPHB",
+        "is_ammunition": False,
+        "is_poison": False,
+        "price_source": "Amalgamated (DSA,MSRP,DMPG)",
+        "final_price": 100.0,
+        "weapon_bonus": 2,
+        "req_attune": "none",
+        "price_confidence": "multi",
+        "amalgamated_price": 635.88,
+    }])
+    apply_final_guarantees(df2)
+    # Family-min blocked, but absolute floor 200 still applies
+    assert df2.loc[0, "final_price"] == pytest.approx(200.0, rel=0.01)
+
+
+# ─── Hop C5: family-min gated to non-amalgamated (reference authority) ──────────
+def test_hop_c5_a_amalgamated_dagger_not_lifted():
+    """(a) amalgamated +3 Dagger at 8987 → NOT lifted (blessed price restored)."""
+    df = _make_df([{
+        "name": "+3 Dagger",
+        "rarity": "very_rare",
+        "item_type_code": "M|XPHB",
+        "is_ammunition": False,
+        "is_poison": False,
+        "price_source": "Amalgamated (DSA,MSRP,DMPG)",
+        "final_price": 8987.72,
+        "weapon_bonus": 3,
+        "req_attune": "none",
+        "amalgamated_price": 14460.0,
+        "price_confidence": "multi",
+    }])
+    adjs = apply_final_guarantees(df)
+    assert df.loc[0, "final_price"] == pytest.approx(8987.72, rel=0.01)
+    assert len(adjs) == 0
+    # Also via validated-style row (price_source rule but confidence multi)
+    df2 = _make_df([{
+        "name": "+3 Dagger",
+        "rarity": "very_rare",
+        "item_type_code": "M|XPHB",
+        "is_ammunition": False,
+        "is_poison": False,
+        "price_source": "rule",
+        "final_price": 8987.72,
+        "weapon_bonus": 3,
+        "req_attune": "none",
+        "amalgamated_price": 14460.0,
+        "price_confidence": "multi",
+    }])
+    adjs2 = apply_final_guarantees(df2)
+    assert df2.loc[0, "final_price"] == pytest.approx(8987.72, rel=0.01)
+    assert len(adjs2) == 0
+
+
+def test_hop_c5_b_algorithm_cheap_weapon_lifted():
+    """(b) Algorithm/anchored-less +1 cheap-base weapon at 146 → lifted to 725."""
+    df = _make_df([{
+        "name": "+1 Longsword (cheap)",
+        "rarity": "rare",
+        "item_type_code": "M|XPHB",
+        "is_ammunition": False,
+        "is_poison": False,
+        "price_source": "rule",
+        "final_price": 146.0,
+        "weapon_bonus": 1,
+        "req_attune": "none",
+        "amalgamated_price": pd.NA,
+        "price_confidence": "none",
+    }])
+    adjs = apply_final_guarantees(df)
+    assert df.loc[0, "final_price"] == pytest.approx(725, rel=0.01)
+    assert len(adjs) >= 1
+    # solo-outlier also lifts (Algorithm path)
+    df2 = _make_df([{
+        "name": "+1 Longsword solo-outlier",
+        "rarity": "rare",
+        "item_type_code": "M|XPHB",
+        "is_ammunition": False,
+        "is_poison": False,
+        "price_source": "rule-outlier-detected",
+        "final_price": 146.0,
+        "weapon_bonus": 1,
+        "req_attune": "none",
+        "amalgamated_price": 615.0,
+        "price_confidence": "solo-outlier",
+    }])
+    adjs2 = apply_final_guarantees(df2)
+    assert df2.loc[0, "final_price"] == pytest.approx(725, rel=0.01)
+
+
+def test_hop_c5_c_amalgamated_needler_not_lifted():
+    """(c) amalgamated Drow +3 Repeater Needler → NOT family-min lifted (fix via CHANGE 2; authority-correct if remains low)."""
+    df = _make_df([{
+        "name": "Drow +3 Repeater Needler",
+        "rarity": "legendary",
+        "item_type_code": "R|XPHB",
+        "is_ammunition": False,
+        "is_poison": False,
+        "price_source": "Amalgamated (DSA,MSRP,DMPG)",
+        "final_price": 2480.0,
+        "weapon_bonus": 3,
+        "req_attune": "none",
+        "amalgamated_price": 635.88,
+        "price_confidence": "multi",
+    }])
+    adjs = apply_final_guarantees(df)
+    # Family-min gated, but absolute floor 8000 still applies (legendary)
+    assert df.loc[0, "final_price"] == pytest.approx(8000.0, rel=0.01)
+    assert df.loc[0, "final_price"] != pytest.approx(14950, rel=0.01)
+    # If later root fix raises its guide reference, it will rise via amalgamated, not family-min — still correct
