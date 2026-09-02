@@ -262,10 +262,10 @@ def test_extra_damage_crit_only_multiplier_preserves_existing_expected_value():
 
 
 def test_common_weapon_bonus_scales_by_rarity():
-    """Common +1 weapon (simple path): uses amalgamated price 725."""
+    """Common +1 weapon (simple path): benchmark tier-priced with common 0.25 discount."""
     c = make_criteria(rarity="common", weapon_bonus=1)
     price = calculate_price(c)
-    assert price == pytest.approx(725, rel=0.01)
+    assert price == pytest.approx(725 * 0.25, rel=0.01)
 
 
 def test_legendary_weapon_bonus_scales_by_rarity():

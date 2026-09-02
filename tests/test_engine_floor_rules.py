@@ -44,14 +44,14 @@ def test_family_minimum_plus1_dagger():
     assert price >= 725 - 1e-6
 
 def test_family_minimum_scales_with_rarity():
-    # Uncommon 0.5, very_rare 2.0, legendary 3.0
+    # benchmark is already tier-priced; multiplier only discounts sub-norm rarity -> very_rare 1.0, legendary 1.0
     c_uncommon = make_criteria(rarity="uncommon", weapon_bonus=2, req_attune="none", item_type_code="M", name="+2 Dagger")
     assert calculate_price(c_uncommon) >= 3400 * 0.5 - 1e-6
     c_vr = make_criteria(rarity="very_rare", weapon_bonus=2, req_attune="none", item_type_code="M", name="+2 Dagger")
-    assert calculate_price(c_vr) >= 3400 * 2.0 - 1e-6
+    assert calculate_price(c_vr) >= 3400 * 1.0 - 1e-6
     c_leg = make_criteria(rarity="legendary", weapon_bonus=3, req_attune="none", item_type_code="M", name="+3 Dagger")
-    # legendary +3 raw 14950*3=44850, but floor 8000, so expect at least 44850 (family) vs floor
-    assert calculate_price(c_leg) >= 14950 * 3.0 - 1e-6
+    # legendary +3 raw 14950*1.0=14950, floor 8000, so expect at least 14950
+    assert calculate_price(c_leg) >= 14950 * 1.0 - 1e-6
 
 def test_ammunition_excluded_from_family_minimum():
     # +1 Needle (A) amalgam 32.88 vs weapon family 362.5 — ammo must NOT be lifted

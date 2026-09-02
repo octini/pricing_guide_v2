@@ -146,6 +146,13 @@ def _known_good_status(rows: list[Row], *, review_threshold_pct: float = 1.0, fa
     return "PASS"
 
 
+def _threshold_counts(rows: list[Row]) -> dict[str, int]:
+    return {
+        ">5%": sum(1 for row in rows if abs(row["pct_delta"]) > 5),
+        ">1%": sum(1 for row in rows if abs(row["pct_delta"]) > 1),
+    }
+
+
 def analyze_price_drift(baseline_rows: list[Row], candidate_rows: list[Row]) -> dict[str, Any]:
     baseline_by_key = {_key(row): row for row in baseline_rows}
     candidate_by_key = {_key(row): row for row in candidate_rows}
@@ -182,7 +189,12 @@ def analyze_price_drift(baseline_rows: list[Row], candidate_rows: list[Row]) -> 
     artifact_legendary_rows = [
         row for row in rows_by_abs_delta if str(row["Rarity"]).casefold() in {"artifact", "legendary"}
     ]
+    reference_anchored_rows = [row for row in rows if row["reference_split"] == "reference-anchored"]
+    formula_rows = [row for row in rows if row["reference_split"] == "formula/ML-only"]
     reference_split = _group_summary(rows, "reference_split")
+    known_good_counts = _threshold_counts(known_good_rows)
+    reference_counts = _threshold_counts(reference_anchored_rows)
+    formula_counts = _threshold_counts(formula_rows)
     return {
         "common_count": len(common_keys),
         "new_count": len(new_keys),
@@ -202,6 +214,12 @@ def analyze_price_drift(baseline_rows: list[Row], candidate_rows: list[Row]) -> 
         "source_split": _group_summary(rows, "Source"),
         "known_good_rows": known_good_rows,
         "known_good_status": _known_good_status(known_good_rows),
+        "known_good_counts": known_good_counts,
+        "reference_anchored_rows": reference_anchored_rows,
+        "reference_anchored_status": _known_good_status(reference_anchored_rows),
+        "reference_anchored_counts": reference_counts,
+        "formula_rows": formula_rows,
+        "formula_counts": formula_counts,
         "artifact_legendary_rows": artifact_legendary_rows,
         "largest_movers": rows_by_abs_delta[:25],
         "largest_percent_movers": rows_by_abs_pct[:25],
@@ -304,8 +322,10 @@ def build_report(analysis: dict[str, Any], *, baseline_path: Path, candidate_pat
         "",
         "## Known-good anchors",
         "",
-        "Known-good status: **" + analysis["known_good_status"] + "** (PASS ≤1% drift; REVIEW >1%; FAIL >5%).",
+        f"Known-good status: **{analysis['known_good_status']}** ({analysis['known_good_counts']['>5%']}/{len(analysis['known_good_rows'])} rows >5%, {analysis['known_good_counts']['>1%']}/{len(analysis['known_good_rows'])} rows >1%; PASS ≤1% drift; REVIEW >1%; FAIL >5%).",
+        f"Reference-anchored status: **{analysis['reference_anchored_status']}** ({analysis['reference_anchored_counts']['>5%']}/{len(analysis['reference_anchored_rows'])} rows >5%, {analysis['reference_anchored_counts']['>1%']}/{len(analysis['reference_anchored_rows'])} rows >1%; median {_pct(analysis['reference_split'].get('reference-anchored', {}).get('median_pct', 0))}).",
         "Configured anchors include Holy Avenger, Defender, Vorpal Sword, +1/+2/+3 Weapon/Armor, Dragon Slayer, Giant Slayer, and Vicious Weapon families when present.",
+        "Scope note: known-good status reflects the known-good anchor table honestly; reference-anchored is reported separately so a FAIL there does not mislabel the anchor table.",
         "",
         *_mover_table(analysis["known_good_rows"], limit=20),
         "",

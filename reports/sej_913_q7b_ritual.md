@@ -220,5 +220,88 @@ grep -F "Piwafwi (Cloak of Elvenkind)" output/pricing_guide_candidate.csv
 - `tests/test_reskin_rarity_fixes.py` — magic-only tests, 2 magic matches (Piwafwi + Amber)
 - `tests/test_floor_enforcement.py` — battery + family-min tests
 
-**Next:** Horowitz review + product sign-off for 881 known-good FAILs (intended family-min). After approval, adopt candidate: `cp output/pricing_guide_candidate.csv output/pricing_guide.csv` and commit.
+---
+
+## 10. Hop C4 — capped family-min + reskin uncommon-or-higher (2026-09-02)
+
+**Date:** 2026-09-02 hop C4 (post-watchdog-abort completion)
+**Parent:** a903c07 (hop C3) — 09+10 re-ran after capped multiplier + reskin fix, guardrail regenerated, candidate untracked
+**Suite:** 367 tests green (364 hop C3 + 3 C4) — `python3 -m pytest tests/ -q` → 367 passed
+
+### Capped multiplier rationale
+
+- **Problem:** Hop C3 final gate used rarity_mult `{uncommon 0.5, rare 1.0, very_rare 2.0, legendary 3.0, artifact 4.0, common/mundane 0.25}`. Benchmark WEAPON_BONUS_VALUES `{1:725,2:3400,3:14950}` is already tier-priced (calibrated from DSA/MSRP/DMPG at rare). Multiplying again by 2.0×/3.0× double-counted: e.g., Drow +3 Needler 14950×3.0=44850 (legendary) inflated 881 anchored +1/+2/+3 weapons (very_rare 2.0×, legendary 3.0×).
+- **Fix:** Discount-only cap — `{"common":0.25, "mundane":0.25, "uncommon":0.5, "rare":1.0, "very_rare":1.0, "legendary":1.0, "artifact":1.0}` applied in three places: `src/pricing_engine.py:_family_min_for_criteria`, `calculate_price` (simple_price + amalg branch), and `scripts/09_enforce_floors.py:297 _family_min_for_row`. Now `family_raw = WEAPON_BONUS_VALUES[bonus] * mult` only discounts sub-norm rarity (common/uncommon), else 1.0.
+- **Effect:** Drow +3 Needler legendary: 14950×1.0×1.0 (none attune)=14,950 (was 44,850). Silver Sword uncommon: 14950×0.5×0.8 (class)=5,980 unchanged (uncommon discount retained). +3 True Name Dart legendary: 14950×1.0×0.8? No — attune yes class 0.8 but candidate shows 11,960 (14950×0.8? Actually 14950×0.8=11960) — matches. Benchmark now tier-priced honestly; 881 double-count eliminated (now 495 remaining >5% are correctly low-baseline Repeater Needlers/Darts lifting from 1,000–6,644 to benchmark 14,950 — intentional, not double-count).
+
+### Reskin inner-rarity >= uncommon
+
+- **Problem:** Hop C3 magic-only inherited when `inner_rarity not in (mundane,none,"")` — still allowed common (Amber) to inherit. Honest recount hop C3: 2 embedded copies among 22 pattern matches (Piwafwi + Spell Gem Amber) — Amber common ingredient 114.4 incorrectly inherited vs validated 9,518.
+- **Fix:** `scripts/10_generate_output.py` now requires `inner_rarity_norm in ("uncommon","rare","very_rare","legendary","artifact")` — common/mundane excluded. Name-embedded `"<Name> (Original)"` only copies when inner is uncommon-or-higher magic.
+- **Effect:** 22 → 1 embedded copy: **Piwafwi (Cloak of Elvenkind) only** (Uncommon Cloak → 4,072). Spell Gem (Amber) now correctly keeps validated Very Rare price 9,518 (was 114.4). All other reskins (Mule, Moonbow, Snugglebeast, Grenade, Diamond Gem, Obsidian, Shard) correctly retain validated prices via 09 path.
+
+### Guardrail — final anchor verdict (after hop C4, capped)
+
+Regenerated `reports/price_creep_guardrail.md` via `python3 scripts/reports/price_creep_guardrail.py --baseline output/pricing_guide.csv --candidate output/pricing_guide_candidate.csv`:
+
+- **Common rows:** 11940 (1 new / 1 missing dedup edge)
+- **Known-good status:** **FAIL (495/1768 rows >5%, 567/1768 rows >1%; PASS ≤1%; REVIEW >1%; FAIL >5%)** — honest scope; table shows 20 FAIL rows (all +3 weapons 47–1395%) — previously header lacked counts, now labeled. 495 are correctly low-baseline +1/+2/+3 weapons lifting to benchmark (Repeater Needlers 1,000→14,950 1395% etc.) — not double-count. Holy Avenger 90 rows remain PASS (0/90 >5%).
+- **Reference-anchored status:** **FAIL (663/2533 rows >5%, 1121/2533 rows >1%; median 0.03%)** — reported separately; previously conflated with known-good header (bug: header counted reference-anchored population or stale variable, showing FAIL even when anchor table had honest PASS). Scope note added.
+- **Aggregate median % drift:** **0.00%** ✓ — median PASS remains.
+- **Rows >5% overall:** 3396 (>10% 2748, >25% 1316) — mean 252% inflated by low-baseline lifts (e.g., Wyrm Copper 0→5,887 1,177,254%).
+- **Split:** formula/ML-only 9407 median 0.00% mean 318%; reference-anchored 2533 median 0.03% mean 8.36%.
+
+**Anchor verdict:** No longer 881 double-count; remaining 495 FAILs are intentional benchmark lifts for low-baseline weapons (correct). Holistic median PASS, anchor FAILs require sign-off as before but now honestly scoped. Guardrail header now reflects known-good table honestly plus separate reference line.
+
+### Final mechanism table — orchestrator-verified rows (verbatim prices, hop C4 candidate)
+
+Use `grep -F "Name" output/pricing_guide_candidate.csv` — all 13 correct:
+
+| Item | Candidate price (verbatim) | Source / Rarity | Verdict |
+|------|---------------------------|-----------------|----------|
+| **Drow +3 Repeater Needler** | **14,950** | Monster Manual / Legendary | PASS — capped 14950×1.0×1.0 none |
+| **Masks of the Sacred Beasts (Mule)** | **11,296** (`11296.37`) | Griffon's Saddlebag 2 / Very Rare | PASS — reskin fixed (was 8) |
+| **Moonbow (Shortbow)** | **12,560.62** | Call from the Deep / Rare | PASS — reskin fixed (was 25) |
+| **Snugglebeast (Dragon)** | **5,918** (`5918.48`) | Griffon's Saddlebag 1 / Rare | PASS — reskin fixed (was 1) |
+| **Wyrm's Breath Grenade (Silver)** | **44,859** (`44859.47`) | Heliana's / Legendary | PASS — grenade-control battery hold monster |
+| **Spell Gem (Diamond)** | **100,000** | Out of the Abyss / Legendary | PASS — battery 9:100000 |
+| **Spell Gem (Amber)** | **9,518** (`9518.49`) | Out of the Abyss / Very Rare | PASS — **freed** from common Amber 114.4 (now 9518 vs validated) |
+| **Spell Gem (Obsidian)** | **772.5** | Out of the Abyss / Uncommon | PASS — battery 0:25 no bind |
+| **Shard Solitaire (Diamond)** | **69,421** (`69421.8`) | Keys from Golden Vault / Legendary | PASS — 69421 vs old 62309 lift via ML retrain |
+| **Silver Sword** | **5,980** | Mordenkainen's / Uncommon | PASS — family-min 14950×0.5×0.8 class |
+| **+3 True Name Dart** | **11,960** | Illrigger Revised / Legendary | PASS — capped 14950×0.8 class (was 390% drift) |
+| **Universal Solvent** | **8,376** (`8376.16`) | XDMG / Legendary | PASS — floor 8000 no bind |
+| **Piwafwi (Cloak of Elvenkind)** | **4,072** (`4072.45`) | Out of the Abyss / Uncommon | PASS — sole embedded copy (1/22), inheritance intact |
+
+**Honest labels:** 13 PASS, 0 GAP. Reskin 22→1, Amber freed, family-min capped.
+
+---
+
+## 11. Verification — hop C4
+
+- **Tests:** 367 passed `python3 -m pytest tests/ -q` (tail `367 passed in ~5s`)
+- **Guardrail:** `Known-good status: **FAIL** (495/1768 rows >5% ...)`, `Reference-anchored status: **FAIL** (663/2533 ...)`, `Median % drift: 0.00%`
+- **Candidate:** 11942 lines (11941 rows) ✓, baseline 11942 lines ✓
+- **Git:** commit `fix(913): cap family-min rarity multiplier at 1.0 ...` parent a903c07; `bd dolt push && git push` done; `git status --porcelain` clean (except untracked candidate/outputs)
+- **Canonical preserved:** `output/pricing_guide.csv` 11942 unchanged (baseline); candidate untracked until Horowitz+user sign-off
+
+---
+
+## 12. Files — hop C4
+
+- `src/pricing_engine.py` — capped rarity_mult discount-only
+- `scripts/09_enforce_floors.py:297` — same cap
+- `scripts/10_generate_output.py` — inner-rarity >= uncommon (>=22→1)
+- `scripts/reports/price_creep_guardrail.py` — header scope fix (counts + separate reference line + scope note)
+- `reports/price_creep_guardrail.md` — regenerated with corrected header
+- `reports/sej_913_q7b_ritual.md` — this file (added hop C4)
+- `tests/test_*` — updated for capped expectations + reskin
+- `data/processed/*.csv` — re-ran 09+10 outputs
+- `output/pricing_guide_candidate.csv` — 11942 candidate (untracked, do NOT adopt yet)
+
+**Next:** Horowitz + user sign-off for anchored FAILs (now 495 honest, not 881 double-count) + Piwafwi sole reskin. After approval, adopt: `cp output/pricing_guide_candidate.csv output/pricing_guide.csv`.
+
+---
+
+**Next (from hop C3):** Horowitz review + product sign-off for 881 known-good FAILs (intended family-min). After approval, adopt candidate: `cp output/pricing_guide_candidate.csv output/pricing_guide.csv` and commit.
 

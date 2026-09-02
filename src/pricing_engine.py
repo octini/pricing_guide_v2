@@ -476,7 +476,8 @@ def _family_min_for_criteria(criteria: dict) -> float | None:
         if item_type_code not in ("M", "R"):
             return None
         rarity = criteria.get("rarity", "unknown")
-        rarity_mults = {"uncommon": 0.5, "rare": 1.0, "very_rare": 2.0, "legendary": 3.0}
+        # benchmark is already tier-priced; multiplier only discounts sub-norm rarity
+        rarity_mults = {"common": 0.25, "mundane": 0.25, "uncommon": 0.5, "rare": 1.0, "very_rare": 1.0, "legendary": 1.0, "artifact": 1.0}
         mult = rarity_mults.get(rarity, 1.0)
         family_raw = float(WEAPON_BONUS_VALUES[wb_int]) * mult
         req_attune = criteria.get("req_attune", "none")
@@ -1567,7 +1568,8 @@ def calculate_price(
                 if weapon_bonus in WEAPON_BONUS_VALUES and not criteria.get("is_ammunition", False):
                     _bt = str(criteria.get("item_type_code", "") or "").split("|")[0].strip()
                     if _bt in ("M", "R"):
-                        _rm = {"uncommon": 0.5, "rare": 1.0, "very_rare": 2.0, "legendary": 3.0}
+                        # benchmark is already tier-priced; multiplier only discounts sub-norm rarity
+                        _rm = {"common": 0.25, "mundane": 0.25, "uncommon": 0.5, "rare": 1.0, "very_rare": 1.0, "legendary": 1.0, "artifact": 1.0}
                         _family_raw = float(WEAPON_BONUS_VALUES[weapon_bonus]) * _rm.get(rarity, 1.0)
                         if simple_price < _family_raw:
                             simple_price = _family_raw
@@ -1580,11 +1582,15 @@ def calculate_price(
             # Apply modest rarity scaling for items without amalgamated prices
             # Scaling is conservative to prevent massive inflation
             if simple_price > 0 and rarity != 'artifact':
+                # benchmark is already tier-priced; multiplier only discounts sub-norm rarity
                 rarity_multipliers = {
+                    "common": 0.25,
+                    "mundane": 0.25,
                     "uncommon": 0.5,
                     "rare": 1.0,
-                    "very_rare": 2.0,
-                    "legendary": 3.0,  # Reduced from 10.0 to prevent overpricing
+                    "very_rare": 1.0,
+                    "legendary": 1.0,
+                    "artifact": 1.0,
                 }
                 simple_price *= rarity_multipliers.get(rarity, 1.0)
             # Apply attunement modifier only for non-amalgamated prices
@@ -1657,7 +1663,8 @@ def calculate_price(
                     # to be conservative, compare raw without attune as well
                     if _fam_a is not None and amalg_price < _fam_a:
                         # Also check raw without attune — if anchor has class attune but guide already includes it, don't double-discount
-                        _rm_a = {"uncommon": 0.5, "rare": 1.0, "very_rare": 2.0, "legendary": 3.0}
+                        # benchmark is already tier-priced; multiplier only discounts sub-norm rarity
+                        _rm_a = {"common": 0.25, "mundane": 0.25, "uncommon": 0.5, "rare": 1.0, "very_rare": 1.0, "legendary": 1.0, "artifact": 1.0}
                         _raw_a = float(WEAPON_BONUS_VALUES[int(wb_anchor)]) * _rm_a.get(rarity, 1.0)
                         # If anchor price is below either raw or with-attune version, raise to max
                         _candidate = max(_fam_a, _raw_a)

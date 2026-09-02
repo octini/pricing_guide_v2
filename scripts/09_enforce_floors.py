@@ -293,7 +293,8 @@ def _family_min_for_row(row) -> float | None:
         if item_type_code not in ("M", "R"):
             return None
         rarity = str(row.get("rarity", "unknown") or "unknown").lower().replace(" ", "_")
-        rarity_mults = {"uncommon": 0.5, "rare": 1.0, "very_rare": 2.0, "legendary": 3.0, "artifact": 4.0, "common": 0.25, "mundane": 0.25}
+        # benchmark is already tier-priced; multiplier only discounts sub-norm rarity
+        rarity_mults = {"common": 0.25, "mundane": 0.25, "uncommon": 0.5, "rare": 1.0, "very_rare": 1.0, "legendary": 1.0, "artifact": 1.0}
         mult = rarity_mults.get(rarity, 1.0)
         family_raw = float(WEAPON_BONUS_VALUES[wb_int]) * mult
         req_attune = str(row.get("req_attune", "none") or "none").strip().lower()

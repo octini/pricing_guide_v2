@@ -452,8 +452,9 @@ def test_battery_parity_charges_fallback():
 
 
 def test_family_min_variant_path_drow_needler():
-    """Family-min must fire on variant-path items: Drow +3 Needler 2,480 -> 44,850 (legendary 14,950×3.0×none)."""
+    """Family-min must fire on variant-path items: Drow +3 Needler 2,480 -> 14,950 (legendary 14,950×1.0×none, capped)."""
     # Drow +3 Repeater Needler: weapon_bonus 3, rarity legendary, type R non-ammo, req_attune none, amalgamated 635
+    # benchmark is already tier-priced; multiplier only discounts sub-norm rarity -> legendary 1.0
     df = _make_df([{
         "name": "Drow +3 Repeater Needler",
         "rarity": "legendary",
@@ -468,8 +469,8 @@ def test_family_min_variant_path_drow_needler():
         "price_confidence": "multi",
     }])
     adjs = apply_final_guarantees(df)
-    # Expected: 14950 * 3.0 (legendary) * 1.0 (none) = 44850
-    assert df.loc[0, "final_price"] == pytest.approx(44850, rel=0.01)
+    # Expected: 14950 * 1.0 (legendary) * 1.0 (none) = 14950
+    assert df.loc[0, "final_price"] == pytest.approx(14950, rel=0.01)
     assert len(adjs) >= 1
     # Variant with open attunement -> 0.9 multiplier
     df_open = _make_df([{
@@ -484,7 +485,67 @@ def test_family_min_variant_path_drow_needler():
         "req_attune": "open",
     }])
     apply_final_guarantees(df_open)
-    assert df_open.loc[0, "final_price"] == pytest.approx(14950 * 3.0 * 0.90, rel=0.01)
+    assert df_open.loc[0, "final_price"] == pytest.approx(14950 * 1.0 * 0.90, rel=0.01)
+
+
+def test_family_min_legendary_plus3_already_at_benchmark_untouched():
+    """Legendary +3 weapon already at 14,950 -> UNTOUCHED (no bind, anchor preserved)."""
+    df = _make_df([{
+        "name": "Legendary +3 Longsword",
+        "rarity": "legendary",
+        "item_type_code": "M|XPHB",
+        "is_ammunition": False,
+        "is_poison": False,
+        "price_source": "rule",
+        "final_price": 14950.0,
+        "weapon_bonus": 3,
+        "req_attune": "none",
+    }])
+    adjs = apply_final_guarantees(df)
+    assert df.loc[0, "final_price"] == pytest.approx(14950, rel=0.01)
+    assert len(adjs) == 0
+
+
+def test_family_min_plus1_rare_no_attune_at_146_clamped_to_725():
+    """+1 rare no-attune at 146 -> 725 (family-min)."""
+    df = _make_df([{
+        "name": "+1 Longsword Rare",
+        "rarity": "rare",
+        "item_type_code": "M|XPHB",
+        "is_ammunition": False,
+        "is_poison": False,
+        "price_source": "rule",
+        "final_price": 146.0,
+        "weapon_bonus": 1,
+        "req_attune": "none",
+    }])
+    adjs = apply_final_guarantees(df)
+    assert df.loc[0, "final_price"] == pytest.approx(725, rel=0.01)
+    assert len(adjs) >= 1
+
+
+def test_defender_cavalry_hammer_no_lift():
+    """Defender Cavalry Hammer case: legendary +X at 31,500 -> no lift if family min <= 31,500 (compute honestly)."""
+    # Determine Defender's weapon_bonus honestly from data if available; default to 3 for worst-case (14950)
+    # With capped multiplier, legendary +3 family min is 14950*1.0=14950 which is <31500 so no lift
+    for wb, expected_min in [(1, 725), (2, 3400), (3, 14950)]:
+        fam = 725 if wb == 1 else 3400 if wb == 2 else 14950
+        # legendary 1.0, no-attune 1.0 => fam
+        assert fam <= 31500, f"family min {fam} for +{wb} exceeds 31500, report row"
+        df = _make_df([{
+            "name": f"Defender Cavalry Hammer +{wb}",
+            "rarity": "legendary",
+            "item_type_code": "M|XPHB",
+            "is_ammunition": False,
+            "is_poison": False,
+            "price_source": "rule",
+            "final_price": 31500.0,
+            "weapon_bonus": wb,
+            "req_attune": "none",
+        }])
+        adjs = apply_final_guarantees(df)
+        assert df.loc[0, "final_price"] == pytest.approx(31500.0, rel=0.01), f"Defender +{wb} should not be lifted"
+        assert len(adjs) == 0
 
 
 def test_family_min_silver_sword():
