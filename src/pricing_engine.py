@@ -457,6 +457,122 @@ WEAPON_BONUS_VALUES = {
     3: 14950,    
 }
 
+# ─── Family minimum (913) + battery floor (q7b) helpers ───────────────────────
+def _family_min_for_criteria(criteria: dict) -> float | None:
+    """Family-flat minimum for magic weapons (+1/+2/+3)."""
+    try:
+        wb = criteria.get("weapon_bonus")
+        if wb is None or pd.isna(wb):
+            return None
+        try:
+            wb_int = int(float(wb))
+        except Exception:
+            return None
+        if wb_int not in WEAPON_BONUS_VALUES:
+            return None
+        if criteria.get("is_ammunition", False):
+            return None
+        item_type_code = str(criteria.get("item_type_code", "") or "").split("|")[0].strip()
+        if item_type_code not in ("M", "R"):
+            return None
+        rarity = criteria.get("rarity", "unknown")
+        rarity_mults = {"uncommon": 0.5, "rare": 1.0, "very_rare": 2.0, "legendary": 3.0}
+        mult = rarity_mults.get(rarity, 1.0)
+        family_raw = float(WEAPON_BONUS_VALUES[wb_int]) * mult
+        req_attune = criteria.get("req_attune", "none")
+        attune_mod = 0.90 if req_attune == "open" else 0.80 if req_attune == "class" else 1.0
+        return family_raw * attune_mod
+    except Exception:
+        return None
+
+
+def _battery_min_for_criteria(criteria: dict) -> float | None:
+    """Scroll-parity battery floor: max level -> scroll price."""
+    try:
+        battery_level = None
+        sb = criteria.get("spell_battery_max_level")
+        if sb is not None:
+            try:
+                if not pd.isna(sb):
+                    lvl = int(float(sb))
+                    if 0 <= lvl <= 9:
+                        battery_level = lvl
+            except Exception:
+                pass
+        if battery_level is None:
+            charges_raw = criteria.get("charges")
+            charges_val = None
+            if charges_raw is not None:
+                try:
+                    if pd.isna(charges_raw):
+                        charges_val = None
+                    elif isinstance(charges_raw, str):
+                        m = re.search(r"(\d+)", charges_raw)
+                        if m:
+                            charges_val = int(m.group(1))
+                    else:
+                        charges_val = int(float(charges_raw))
+                except Exception:
+                    charges_val = None
+            if charges_val and charges_val > 0:
+                attached = criteria.get("attached_spells")
+                if attached is not None:
+                    try:
+                        if pd.isna(attached):
+                            attached = None
+                    except Exception:
+                        pass
+                    if attached is not None:
+                        # parse attached_spells for non-empty and max level
+                        parsed = None
+                        try:
+                            if isinstance(attached, str):
+                                s = attached.strip()
+                                if s and s not in ("", "[]", "nan"):
+                                    parsed = ast.literal_eval(s)
+                                else:
+                                    parsed = []
+                            else:
+                                parsed = attached
+                        except Exception:
+                            parsed = None
+                        has = False
+                        levels: list[int] = []
+                        if isinstance(parsed, dict):
+                            for k, upd in parsed.items():
+                                if k in ("ability", "choose", "options"):
+                                    continue
+                                if isinstance(upd, list):
+                                    if len(upd) > 0:
+                                        has = True
+                                    for sp in upd:
+                                        lvl = get_spell_level(sp)
+                                        if lvl is not None and lvl >= 0:
+                                            levels.append(lvl)
+                                elif isinstance(upd, dict):
+                                    for freq, spells in upd.items():
+                                        if isinstance(spells, list) and len(spells) > 0:
+                                            has = True
+                                        if isinstance(spells, list):
+                                            for sp in spells:
+                                                lvl = get_spell_level(sp)
+                                                if lvl is not None and lvl >= 0:
+                                                    levels.append(lvl)
+                        elif isinstance(parsed, list):
+                            if len(parsed) > 0:
+                                has = True
+                            for sp in parsed:
+                                lvl = get_spell_level(sp)
+                                if lvl is not None and lvl >= 0:
+                                    levels.append(lvl)
+                        if has and levels:
+                            battery_level = max(levels)
+        if battery_level is not None:
+            return float(SPELL_SCROLL_PRICES.get(battery_level)) if battery_level in SPELL_SCROLL_PRICES else None
+    except Exception:
+        return None
+    return None
+
 EXTRA_DAMAGE_CONDITION_MULTIPLIERS = {
     "unconditional": 1.0,
     "vs_creature_type": 0.25,
@@ -1446,6 +1562,17 @@ def calculate_price(
         amalgamated_price = criteria.get("amalgamated_price")
         if pd.notna(amalgamated_price) and amalgamated_price > 0:
             simple_price = amalgamated_price
+            # Family minimum for amalgam branch: compare raw (no attunement — guide prices already factor it)
+            try:
+                if weapon_bonus in WEAPON_BONUS_VALUES and not criteria.get("is_ammunition", False):
+                    _bt = str(criteria.get("item_type_code", "") or "").split("|")[0].strip()
+                    if _bt in ("M", "R"):
+                        _rm = {"uncommon": 0.5, "rare": 1.0, "very_rare": 2.0, "legendary": 3.0}
+                        _family_raw = float(WEAPON_BONUS_VALUES[weapon_bonus]) * _rm.get(rarity, 1.0)
+                        if simple_price < _family_raw:
+                            simple_price = _family_raw
+            except Exception:
+                pass
             # Do NOT apply attunement modifier to amalgamated prices -
             # guide prices already factor in attunement requirements
         else:
@@ -1468,6 +1595,16 @@ def calculate_price(
             elif req_attune == "class":
                 attune_mod = 0.80
             simple_price *= attune_mod
+            # Family minimum for non-amalgam branch: ensure raw benchmark before property
+            try:
+                if weapon_bonus in WEAPON_BONUS_VALUES and not criteria.get("is_ammunition", False):
+                    _bt2 = str(criteria.get("item_type_code", "") or "").split("|")[0].strip()
+                    if _bt2 in ("M", "R"):
+                        _fam2 = _family_min_for_criteria(criteria)
+                        if _fam2 is not None and simple_price < _fam2:
+                            simple_price = _fam2
+            except Exception:
+                pass
         
         if simple_price > 0:
             # Apply property premium for named variants (e.g., Returning weapons)
@@ -1480,6 +1617,13 @@ def calculate_price(
             if criteria.get("is_focus"):
                 simple_price += 300
             
+            # Battery floor (q7b) for simple path — parity, not premium
+            try:
+                _batt = _battery_min_for_criteria(criteria)
+                if _batt is not None and simple_price < _batt:
+                    simple_price = float(_batt)
+            except Exception:
+                pass
             # Apply floor
             floor = RARITY_FLOORS.get(rarity, 1)
             return max(floor, simple_price)
@@ -1502,6 +1646,32 @@ def calculate_price(
     _should_force_formula = _is_rich and _is_div and price_confidence in ("multi", "solo")
     if pd.notna(amalgamated_price) and amalgamated_price > 0 and price_confidence in ("multi", "solo") and not _should_force_formula:
         amalg_price = float(amalgamated_price)
+        # Family minimum for anchor-priced weapons (only if not ammunition)
+        try:
+            wb_anchor = criteria.get("weapon_bonus")
+            if wb_anchor and wb_anchor in WEAPON_BONUS_VALUES and not criteria.get("is_ammunition", False):
+                _bt_a = str(criteria.get("item_type_code", "") or "").split("|")[0].strip()
+                if _bt_a in ("M", "R"):
+                    _fam_a = _family_min_for_criteria(criteria)
+                    # For anchor, family min without attune vs with attune? Use helper (with attune) but anchor has no attune discount;
+                    # to be conservative, compare raw without attune as well
+                    if _fam_a is not None and amalg_price < _fam_a:
+                        # Also check raw without attune — if anchor has class attune but guide already includes it, don't double-discount
+                        _rm_a = {"uncommon": 0.5, "rare": 1.0, "very_rare": 2.0, "legendary": 3.0}
+                        _raw_a = float(WEAPON_BONUS_VALUES[int(wb_anchor)]) * _rm_a.get(rarity, 1.0)
+                        # If anchor price is below either raw or with-attune version, raise to max
+                        _candidate = max(_fam_a, _raw_a)
+                        if amalg_price < _candidate:
+                            amalg_price = _candidate
+        except Exception:
+            pass
+        # Battery floor for anchor-priced items
+        try:
+            _batt_a = _battery_min_for_criteria(criteria)
+            if _batt_a is not None and amalg_price < _batt_a:
+                amalg_price = float(_batt_a)
+        except Exception:
+            pass
         # Apply floor
         floor = RARITY_FLOORS.get(rarity, 1)
         return max(floor, amalg_price)
@@ -2123,6 +2293,21 @@ def calculate_price(
     if "gleaming" in item_name_lower and base_item_cost > 0:
         price += 200
 
+    # Family minimum for formula-priced weapons (after selection, before floor; attune kept after)
+    try:
+        _fam_final = _family_min_for_criteria(criteria)
+        if _fam_final is not None and price < _fam_final:
+            price = float(_fam_final)
+    except Exception:
+        pass
+
+    # Battery floor (q7b) — parity, not premium
+    try:
+        _batt_final = _battery_min_for_criteria(criteria)
+        if _batt_final is not None and price < _batt_final:
+            price = float(_batt_final)
+    except Exception:
+        pass
 
     floor = RARITY_FLOORS.get(rarity, 1)
     price = max(floor, price)
