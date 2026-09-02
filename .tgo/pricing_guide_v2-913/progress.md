@@ -109,3 +109,32 @@ Gate must not protect REJECTED references (price_authority == formula → forced
 ### Status
 Hop C6 complete — 373 tests pass, candidate 11942 with Vertebrae 14950, guardrail 6/1768 & 75/2533 FAIL honest (median 0.00% PASS), mechanism 6/6 PASS, tail 82/7/994, git commit pending bd dolt push + git push; R2 deferred to adoption commit.
 
+
+## Adoption — wave-1.5 candidate as canonical baseline (user sign-off 2026-09-01) — 2026-09-02
+
+### Objective
+Adopt C6 candidate (output/pricing_guide_candidate.csv, 11942 lines, 11941 rows, Diamond 100000) as canonical baseline per user sign-off 2026-09-01. Execute atomic adoption: cp candidate→canonical, regenerate 4 stale audit artifacts via dance steps, verify, commit, close issues, push.
+
+### Touch set
+- `output/pricing_guide.csv` — cp -f candidate→canonical (md5 51f19f3cd550bf83c6a57f2818ccff6c identical, diff candidate 0)
+- `output/pricing_guide.xlsx` — python3 scripts/10_generate_output.py (rewrites canonical identically + fresh xlsx 2163018)
+- `output/anomaly_report.md` — python3 scripts/07_validate.py (loads 12241, outlier rates, is_outlier/is_extreme_outlier, writes validated; also runs 07b variant audit)
+- `output/variant_consistency_report.csv` — via 07_validate → 07b_variant_consistency (8 families, 2 flagged, CV 0.6308 gleaming)
+- `output/official_price_anchor_audit.csv` — via src/official_price_anchor.write_official_price_audit from data/processed/items_ml_priced.csv (999 rows, near_agreement 724, exact_commodity 155, high_disagreement 117)
+- `data/processed/items_validated.csv` — regenerated via 07_validate (12241) then floors re-applied via 09_enforce_floors (13 tripwire + final gate Vertebrae 12647→14950, Dart 7950→8000), then 10 re-ran to keep canonical identical
+- Verification: wc -l 11942, grep 100000.0 =3 (Diamond present), git diff 93cd09e..HEAD 16071 lines (real adoption)
+- Commit f598b97 feat(913,q7b,sej) — git add output/ (6 files, 19669 insertions)
+- Issues closed: 913, q7b, sej; rrd remains open per spec
+- Push: bd dolt push + git push f598b97 to origin/master
+
+### Decisions
+- Regeneration order: 10 → 07_validate → official_audit → 09_enforce_floors → 10 to preserve idempotence; 10 first confirms canonical identical before validation overwrites validated; 09 re-floors after validation to restore final-gate state (Vertebrae, Dart) so final 10 yields candidate-identical.
+- Official audit rebuilt via direct write_official_price_audit (no retrain) — deterministic, matches dance step 06_ml_refine post-blend audit; full 06 retrain not needed (R2 0.9700 fingerprint unchanged).
+- Candidate and canonical now identical (0 diff) — adoption proven.
+
+### Blockers
+- None.
+
+### Status
+Adoption complete — f598b97 committed and pushed, issues 913/q7b/sej closed, verified 11942/11942 identical, 93cd09e diff real, rrd open. Progress files updated; follow-up commit pending for .tgo.
+

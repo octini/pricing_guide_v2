@@ -89,3 +89,22 @@ Same as 913 Hop C6 — rejected-anchor gate (price_authority formula not protect
 ### Status
 Hop C6 complete — 373 tests pass, candidate 11942 with Vertebrae 14950, guardrail 6/1768 & 75/2533 honest, tail 82/7/994, R2 deferred.
 
+
+## Adoption — wave-1.5 candidate as canonical baseline (user sign-off 2026-09-01) — 2026-09-02
+
+### Objective
+Adopt wave-1.5 candidate as canonical — tripwire floors, battery parity, family-min gated.
+
+### Touch set
+- Same output/ adoption as 913 (cp, 10, 07_validate, official_audit, 09, 10)
+- Verification identical 11942, Diamond 100000, diff 16071
+
+### Decisions
+- Tripwire floors remain backstop: official+consumable exempt; 13 floor-lifts (8000/1000/200) + 2 final-gate (Vertebrae 14950, Dart 8000); Drow premium-exempt floor-clamped approved scope.
+
+### Blockers
+- None.
+
+### Status
+Adoption complete — committed f598b97, sej closed, pushed, verified. R2 regenerated.
+
