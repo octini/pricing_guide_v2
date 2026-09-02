@@ -19,6 +19,23 @@ from pathlib import Path
 
 sys.path.insert(0, str(Path(__file__).parent.parent))
 
+try:
+    from src.pricing_engine import RARITY_FLOORS as ABSOLUTE_RARITY_FLOORS  # tripwire floors: absolute per-rarity minima
+    from src.list_curation import is_commodity_exact_price_candidate as _is_commodity_candidate  # noqa: F401 (reference for policy)
+except Exception:
+    ABSOLUTE_RARITY_FLOORS = {
+        "mundane": 1,
+        "common": 10,
+        "uncommon": 50,
+        "rare": 200,
+        "very_rare": 1000,
+        "legendary": 8000,
+        "artifact": 50000,
+        "unknown_magic": 10,
+        "unknown": 1,
+        "varies": 10,
+    }
+
 
 INPUT_CSV = Path('data/processed/items_validated.csv')
 OUTPUT_CSV = Path('data/processed/items_validated.csv')
@@ -166,6 +183,124 @@ def is_flavor_item(name):
     return any(kw in name_lower for kw in FLAVOR_KEYWORDS)
 
 
+def _base_type_code(value) -> str:
+    """Return base type code before '|' — mirrors pricing_engine / list_curation handling."""
+    if value is None:
+        return ""
+    try:
+        if pd.isna(value):
+            return ""
+    except Exception:
+        pass
+    return str(value).split("|")[0].strip()
+
+
+def _is_official_price_row(row) -> bool:
+    """True when row's price came from the official/commodity-exact path.  Those rows bypass floors."""
+    # Primary signal in the pipeline output is price_source == 'official'.
+    # Observed values: 'official', 'rule', 'rule+variant', 'rule-outlier-detected'.
+    ps = row.get("price_source", "")
+    try:
+        if pd.isna(ps):
+            ps = ""
+    except Exception:
+        pass
+    if isinstance(ps, str) and ps.strip().lower() == "official":
+        return True
+    # Fallback: legacy check via is_commodity_exact_candidate shape would require raw JSON; the
+    # price_source signal is authoritative for the validated CSV.  No additional fallback needed.
+    return False
+
+
+def _is_consumable_modifier_row(row) -> bool:
+    """True for items whose price was intentionally discounted via get_consumable_modifier.
+
+    Mirrors src/pricing_engine.get_consumable_modifier detection but limited to the four
+    spec-exempt types: ammunition, potion, scroll, poison ( Grenades/wondrous remain clamped ).
+    Detection uses the same flags the engine uses, as they appear in 09's CSV: is_ammunition,
+    is_poison, item_type_code pipe-prefix, and name tokens for potion/elixir.
+    """
+    # ammunition: is_ammunition flag
+    ammo = row.get("is_ammunition", False)
+    try:
+        if pd.notna(ammo) and bool(ammo):
+            return True
+    except Exception:
+        if ammo is True or str(ammo).lower() == "true":
+            return True
+    # poison: is_poison flag
+    poison = row.get("is_poison", False)
+    try:
+        if pd.notna(poison) and bool(poison):
+            return True
+    except Exception:
+        if poison is True or str(poison).lower() == "true":
+            return True
+    # type-based: P (potion), SC (scroll)
+    base = _base_type_code(row.get("item_type_code", ""))
+    if base == "P":
+        return True
+    if base == "SC":
+        return True
+    # name-based potion/elixir (engine checks name regardless of type)
+    name_val = row.get("name", "")
+    try:
+        if pd.isna(name_val):
+            name_val = ""
+    except Exception:
+        pass
+    name_lower = str(name_val).lower()
+    if "potion" in name_lower or "elixir" in name_lower:
+        return True
+    # G + oil/ointment is intentionally NOT exempt per spec (only the four types above); do not return True here.
+    return False
+
+
+def apply_absolute_rarity_floor(df):
+    """Apply tripwire absolute floor to df in-place; return list of adjustments."""
+    adjustments = []
+    for idx, row in df.iterrows():
+        rarity_raw = row.get("rarity", "")
+        try:
+            if pd.isna(rarity_raw):
+                continue
+        except Exception:
+            pass
+        if not isinstance(rarity_raw, str):
+            rarity_raw = str(rarity_raw)
+        rarity_key = rarity_raw.lower().replace(" ", "_")
+        floor = ABSOLUTE_RARITY_FLOORS.get(rarity_key)
+        if floor is None:
+            continue
+        final = row.get("final_price", 0)
+        try:
+            if pd.isna(final):
+                continue
+        except Exception:
+            pass
+        try:
+            current = float(final)
+        except (TypeError, ValueError):
+            continue
+        if not current or current <= 0:
+            continue
+        if _is_official_price_row(row):
+            continue
+        if _is_consumable_modifier_row(row):
+            continue
+        if current < float(floor) - 0.01:
+            old_price = current
+            df.loc[idx, "final_price"] = round(float(floor), 2)
+            adjustments.append({
+                "name": row.get("name", ""),
+                "rarity": rarity_raw,
+                "old_price": old_price,
+                "new_price": float(floor),
+                "floor": float(floor),
+            })
+    return adjustments
+
+
 def main():
     df = pd.read_csv(INPUT_CSV)
     print(f'Loaded {len(df)} items')
@@ -216,6 +351,25 @@ def main():
                     'rarity': row['rarity'],
                     'is_flavor': is_flavor_item(name),
                 })
+    
+    # --- Absolute rarity floor (tripwire) ---
+    # RARITY_FLOORS is a tripwire, not a destination: clamp any item priced below its
+    # rarity's absolute floor to that floor, except (1) official/commodity-exact prices
+    # (they never reach this clamp; preserve exactly) and (2) consumable-modifier items
+    # (ammunition/potion/scroll/poison) whose deliberately discounted per-unit pricing
+    # intentionally sits below the generic floor.  Grenades and wondrous items DO clamp.
+    # This runs AFTER the mundane-relative weapons/armor clamp and does not alter it.
+    absolute_adjustments = apply_absolute_rarity_floor(df)
+    if absolute_adjustments:
+        print(f"\n=== ABSOLUTE RARITY FLOOR (TRIPWIRE) ===")
+        print(f"Total absolute adjustments: {len(absolute_adjustments)}")
+        for adj in sorted(absolute_adjustments, key=lambda x: (x["rarity"], x["old_price"]))[:40]:
+            print(f"  {adj['name']:45s} | {adj['rarity']:15s} | {adj['old_price']:>10.2f} -> {adj['new_price']:>10.2f} gp (floor {adj['floor']:.0f})")
+        if len(absolute_adjustments) > 40:
+            print(f"  ... and {len(absolute_adjustments)-40} more")
+    else:
+        print(f"\n=== ABSOLUTE RARITY FLOOR (TRIPWIRE) ===")
+        print(f"Total absolute adjustments: 0")
     
     # --- Fix: Use official_price_gp as floor for items with unknown/non-magic rarity ---
     # Items like Spiked Armor have official_price_gp=75 but rule_price=1 because
