@@ -44,3 +44,48 @@ Same as 913 Hop C4 — capped family-min (benchmark already tier-priced) + reski
 ### Status
 Complete — hop C4 complete, 367 tests pass, candidate 11942 correct, guardrail header fixed, ritual doc updated. Commit pending.
 
+
+## Hop C5 — family-min gated to non-amalgamated + needle-weight root fix (2026-09-02) — sej view
+
+### Objective
+Same as 913 Hop C5 — family-min reference-authority gating + Adamantine Weapon ammo exclusion. Guardrail known-good 495→5, reference 663→74, median 0.00%. Tail 1083 rows, Drow authority-correct.
+
+### Touch set
+- Same src/scripts/tests as 913 Hop C5 (see 913 progress)
+- `reports/sej_913_q7b_ritual.md` Hop C5 section added (gate summary, root-fix Adamantine 0.02→1.0 +N/Drow clean, guardrail verbatim 5/1768 + 74/2533, needler remained low 8000)
+- `reports/tail_attribution_sej913.csv` refreshed 1083 rows (78 intended, 7 floor, 998 variance) — Drow floor-tripwire
+- `reports/price_creep_guardrail.md` regenerated (5/1768 collapsing vs 495)
+- `data/processed/*.csv` re-ran 05→10 (12241 rows)
+
+### Decisions
+- As 913: gating restores authority; variant exclusion narrow; Drow 8000 floor not 14950 — authority-correct.
+- Hop C5 does not change sej tripwire policy; floors remain tripwire backstop (absolute floors still exempt official/consumable).
+
+### Blockers
+- None.
+
+### Status
+Complete — hop C5 complete, 372 tests pass, guardrail collapsed, tail refreshed, ritual updated. Commit 1b7ea83 pushed.
+
+## Hop C6 — rejected-anchor gate fix + honest tail re-bucketing (2026-09-02) — sej view
+
+### Objective
+Same as 913 Hop C6 — rejected-anchor gate (price_authority formula not protected) + battery-parity re-bucketing (4 rows) + policy disclosures. No sej policy change; tripwire remains backstop.
+
+### Touch set
+- Same src/scripts/tests as 913 Hop C6 (see 913 progress)
+- `reports/tail_attribution_sej913.csv` — 4 battery-parity rows re-bucketed 78/7/998 → 82/7/994 (Cottage Chest, Mudslick Tower, Unknown Elixir, Jade Serpent Staff)
+- `reports/price_creep_guardrail.md` — regenerated: Known-good 6/1768 (+ Vertebrae), Reference 75/2533, median 0.00%
+- `reports/sej_913_q7b_ritual.md` — Hop C6 section added (R1 rejected-anchor, R3a 6 honest known-good + ≥8 floor + 47/59 Adamantine collateral, R3b battery 82, R3c Drow premium-exempt + battery binds anchored zero)
+- `data/processed/items_validated.csv` — +3 Adamantine Vertebrae 12647→14950 final gate
+
+### Decisions
+- As 913: rejected anchors not winning; Drow winning anchors remain floor-clamped (premium-exempt per approved scope); battery parity binds anchored rows theoretically but zero amalgamated battery rows currently — flagged for future waves.
+- Sej tripwire floors unchanged (still tripwire, not destination; consumable-exempt).
+
+### Blockers
+- None. R2 deferred to adoption commit.
+
+### Status
+Hop C6 complete — 373 tests pass, candidate 11942 with Vertebrae 14950, guardrail 6/1768 & 75/2533 honest, tail 82/7/994, R2 deferred.
+

@@ -51,3 +51,61 @@ Cap family-min rarity multiplier at 1.0 (benchmark already tier-priced; double-c
 ### Status
 Complete — hop C4 edits landed uncommitted, 09+10 re-ran, guardrail regenerated with corrected header, candidate verified 13 rows correct, 367 tests pass. Commit next.
 
+
+## Hop C5 — family-min gated to non-amalgamated (reference authority restored) + needle-weight root fix (2026-09-02)
+
+### Objective
+Gate family-min to non-amalgamated items only (reference authority) + fix Adamantine Weapon ammo contamination (needle-weight). Collapse known-good >5% from 495 → 5, reference-anchored 663 → 74, median 0.00% retained. Verify Drow +3 Repeater Needler remains low (authority-correct). 372 tests green, candidate 11942, commit pushed.
+
+### Touch set
+- `src/pricing_engine.py` — `_is_amalgamated_reference()` + gated family-min in `calculate_price` (simple amalgam, non-amalgam, anchor) and `_family_min_for_criteria` retained capped 1.0; solo-outlier still clamps
+- `src/variant_system.py` — `extract_generic_variant_mapping` records `is_ammunition` (type_base A or ammo flag); `compute_generic_group_stats` excludes ammo for weapon groups (`'weapon' in name.lower()`), filtered median/min/count (Adamantine Weapon min 1.0 not 0.02, count 3, Needler adj 0); Drow/+N groups already clean
+- `scripts/09_enforce_floors.py` — `_is_amalgamated_row()` (Price Source Amalgamated or amalgamated_price+multi/solo) + gated final gate `not _is_amalgamated_row` (official + amalgamated exemptions); `math` import
+- `tests/test_engine_floor_rules.py` — amalgamated weapon stays <362.5 not lifted, non-amalgamated lifted
+- `tests/test_variant_stat_freeze.py` — `test_hop_c5_weapon_stats_exclude_ammunition` (Adamantine Weapon, Needler adj 0)
+- `tests/test_pricing_engine.py`, `tests/test_floor_enforcement.py` — gated expectations
+- `reports/price_creep_guardrail.md` — regenerated: Known-good FAIL (5/1768 >5%, 54/1768 >1%; PASS ≤1%), Reference-anchored FAIL (74/2533 >5%, 551/2533 >1%; median 0.00%), common 11940, median 0.00% mean 250.84% >5%2806 >25%1083, split formula 9407 mean 318% vs reference 2533 mean 0.05%
+- `reports/tail_attribution_sej913.csv` — refreshed 1083 rows (>25%): intended-913/q7b 78, floor-tripwire 7, ml-variance 998; Drow 2502→8000 219% floor-tripwire (amalgamated authority)
+- `reports/sej_913_q7b_ritual.md` — added Hop C5 section (gate summary, root-fix Adamantine 0.02→1.0, guardrail verbatim, needler outcome: remained low 8000 not 14950)
+- `data/processed/*.csv` — 05→05b→06→07→07b→09→10 re-ran (12241 rows, 11941 output rows)
+- `output/pricing_guide_candidate.csv` — 11942 lines, candidate untracked (Drow 8000, Mule 11296, Moonbow 12560, Snuggle Dragon 5918, Grenade Silver 44859, Diamond 100000, Piwafwi 4072, etc.)
+
+### Decisions
+- Gating rationale: amalgamated multi/solo guide prices WIN vs rule premium; solo-outlier/Algorithm (none) still clamp via family-min; prevents double-count and authority drift.
+- Variant exclusion narrow: only weapon groups drop ammo members; ammo groups (Adamantine Ammunition) retain members; filtered only if retains ≥1 member.
+- Drow outcome: amalgamated reference remains low 8000 (floor 8000, not family 14950) — authority-correct. Variant fix did not raise Needler (adj 0); +N/Drow groups already clean.
+
+### Blockers
+- None. Awaiting Horowitz + user sign-off for remaining 5 known-good and 74 reference-anchored FAILs (now honest, non-amalgamated only).
+
+### Status
+Complete — hop C5 landed in 1b7ea83 (14 files, 28685 insertions), 372 tests pass, guardrail collapsed 495→5, tail 1083, candidate verified 11942, bd dolt push + git push done, canonical preserved.
+
+## Hop C6 — rejected-anchor gate fix + honest tail re-bucketing (2026-09-02)
+
+### Objective
+Gate must not protect REJECTED references (price_authority == formula → forced-formula, rejected anchor not winning) + honest tail re-bucketing (battery-parity 4 rows) + policy disclosures. Re-run 09+10, guardrail, mechanism verify, 373 tests.
+
+### Touch set
+- `src/pricing_engine.py:_is_amalgamated_reference` — early-return False when price_authority == 'formula' (rejected anchor) before amalgamated_price/confidence check; 4 family-min sites now lift rejected anchors
+- `scripts/09_enforce_floors.py:_is_amalgamated_row` — same (price_authority formula → False) before Price Source Amalgamated check; gate in apply_final_guarantees now lifts rejected
+- `tests/test_pricing_engine.py::test_hop_c6_rejected_anchor_not_protected_by_family_min` — bounded read live row +3 Adamantine Vertebrae Sword price_authority==formula (coverage 3 spread 0.674, rule 87750, validated 12647.38), asserts _is_amalgamated false for formula / true for anchor, DataFrame simulate 12647→14950 via apply_final_guarantees, cross-check 09 predicate
+- `reports/tail_attribution_sej913.csv` — re-bucketed 4 battery-parity rows ml-variance→intended-q7b (Cottage Chest 45000 L8, Mudslick Tower 45000 L8, Unknown Elixir 8500 L6, Jade Serpent Staff 3000 L5 — exact scroll-table levels; full 1083-row scan for other exact-scroll rows found none additional — Weightlessness/Sagittarian remain ml-variance correctly); counts 78/7/998 → 82/7/994
+- `reports/sej_913_q7b_ritual.md` — added Hop C6 (R1 gate fix, R3a honest 5→6 known-good relabel 4 floor +1 drift +1 rejected Vertebrae + ≥8 floor-lifted + Adamantine collateral 47/59, R3b 994/82, R3c two policy notes: Drow premium-exempt floor-clamped 2502→8000, battery parity binds anchored rows too but ZERO amalgamated battery rows currently — theoretical)
+- `reports/price_creep_guardrail.md` — regenerated: Known-good FAIL (6/1768 >5%, 55/1768 >1%; was 5/74 before Vertebrae lift), Reference FAIL (75/2533 >5%, 552/2533 >1%; was 74), median 0.00% PASS; mean drift stable
+- `data/processed/items_validated.csv` — final gate now 12647.38→14950 for +3 Adamantine Vertebrae (+ True Name Dart 7950→8000); 09+10 re-ran, candidate 11942 preserved, canonical untouched
+- `output/pricing_guide_candidate.csv` — 11942 candidate (Vertebrae 14950, Drow 8000, Spell Gem 100000, Masks 11296, +3 Dagger 8987, Piwafwi 4072)
+
+### Decisions
+- Rejected-anchor gate: tiered-authority (coverage≥3 AND spread>0.60) forces formula → price_authority=formula; those rows are NOT winning references, so family-min may clamp. Fix checks price_authority before amalgamated. Winning anchors (anchor) remain protected. Battery parity still binds anchored rows via engine :1705-1711, but currently zero amalgamated battery rows — theoretical only.
+- Tail re-bucketing honest: battery parity exact scroll values (45000 L8 etc.) are intended-q7b, not variance; scan confirmed no other battery-parity exact-scroll mislabels.
+- Floor-lifted ≥8 (7 tail + True Name Dart 7950.1→8000 outside tail at +0.63%; actually 9 with Monster Hunter's Needler 6721→8000 at 19%) — corrects stale “1 item clamped”.
+- Adamantine collateral disclosure: 47/59 non-ammo Adamantine weapon adjustments shifted by design (log_range 300×→6×), e.g. Fighting Chain -0.199→-0.130 (740.40→748.44); Drow Crossbow Heavy byte-identical.
+- Policy notes added for sign-off: Drow premium-exempt floor-clamped per approved tripwire scope; battery parity binds anchored rows (theoretical zero currently).
+
+### Blockers
+- None. R2 (stale xlsx/audit artifacts) deferred to adoption commit after user sign-off — not regenerated in this hop.
+
+### Status
+Hop C6 complete — 373 tests pass, candidate 11942 with Vertebrae 14950, guardrail 6/1768 & 75/2533 FAIL honest (median 0.00% PASS), mechanism 6/6 PASS, tail 82/7/994, git commit pending bd dolt push + git push; R2 deferred to adoption commit.
+

@@ -689,3 +689,116 @@ def test_hop_c5_family_min_gated_to_non_amalgamated():
     )
     price_needler_algo = calculate_price(c_needler_algo)
     assert price_needler_algo == pytest.approx(14950, rel=0.01)
+
+
+# ─── Hop C6: rejected anchor NOT protected (price_authority == formula) ───────
+def test_hop_c6_rejected_anchor_not_protected_by_family_min():
+    """Forced-formula +3 weapon at 12,647.38 → family-min lifts to 14,950.
+
+    Verifies live row +3 Adamantine Vertebrae Sword has price_authority == 'formula'
+    (bounded read of data/processed/items_variant_adjusted.csv) and that
+    _is_amalgamated_reference returns False for forced-formula, so family-min applies.
+    The rejected anchor is not a winning reference.
+    """
+    import csv
+    from pathlib import Path
+    from src.pricing_engine import _is_amalgamated_reference
+
+    # Bounded read: verify live row price_authority == formula (12647.38 case)
+    csv_path = Path("data/processed/items_variant_adjusted.csv")
+    found = False
+    with csv_path.open(newline="", encoding="utf-8") as f:
+        reader = csv.DictReader(f)
+        for row in reader:
+            if row.get("name") == "+3 Adamantine Vertebrae Sword":
+                assert row.get("price_authority") == "formula", f"expected formula authority, got {row.get('price_authority')!r}"
+                # Coverage >=3 AND spread >0.60 triggers forced formula
+                cov = int(float(row.get("criteria_coverage") or 0))
+                spread = float(row.get("guide_spread") or 0)
+                assert cov >= 3 and spread > 0.60, f"coverage {cov} spread {spread} should be rich+divergent"
+                found = True
+                break
+    assert found, "+3 Adamantine Vertebrae Sword not found in items_variant_adjusted.csv"
+
+    # _is_amalgamated_reference must return False when price_authority == formula (rejected)
+    c_rejected = make_criteria(
+        rarity="very_rare", weapon_bonus=3, item_type_code="M", is_ammunition=False,
+        amalgamated_price=14460.0, price_confidence="multi", price_authority="formula",
+        name="+3 Adamantine Vertebrae Sword (rejected anchor)"
+    )
+    assert _is_amalgamated_reference(c_rejected) is False, "rejected anchor (formula authority) must not be protected"
+
+    # Same amalgam but without formula authority → protected (non-rejected)
+    c_protected = make_criteria(
+        rarity="very_rare", weapon_bonus=3, item_type_code="M", is_ammunition=False,
+        amalgamated_price=14460.0, price_confidence="multi", price_authority="anchor",
+        name="+3 Adamantine Vertebrae Sword (anchor)"
+    )
+    assert _is_amalgamated_reference(c_protected) is True
+
+    # Forced-formula +3 weapon whose blended final is 12,647.38 → family-min lifts to 14950
+    # Very_rare +3 family-min = WEAPON_BONUS_VALUES[3] * 1.0 * 1.0 (none attune) = 14950.
+    # Pure rule for +3 with extra_damage 4.5 is 87750 (>>14950), so the low 12647 only
+    # appears after ML blend (validated final). The final-gate (09) must lift that blended
+    # 12647 to 14950 when the anchor was rejected (price_authority == formula).
+    # Test via apply_final_guarantees DataFrame simulation, which mirrors 09_enforce_floors.
+    import pandas as pd
+    import importlib.util
+    import pathlib as _pl
+    spec2 = importlib.util.spec_from_file_location("_09b", _pl.Path("scripts/09_enforce_floors.py"))
+    mod2 = importlib.util.module_from_spec(spec2)
+    assert spec2.loader is not None
+    spec2.loader.exec_module(mod2)
+    # Synthetic very_rare M +3 weapon with rejected anchor, final 12647.38 (like validated)
+    df_forced = pd.DataFrame([{
+        "name": "Test +3 Adamantine Vertebrae-like",
+        "rarity": "very_rare",
+        "final_price": 12647.38,
+        "amalgamated_price": 14460.0,
+        "price_confidence": "multi",
+        "price_authority": "formula",
+        "price_source": "rule",
+        "weapon_bonus": 3,
+        "item_type_code": "M",
+        "is_ammunition": False,
+        "req_attune": "none",
+        "spell_battery_max_level": None,
+        "charges": None,
+        "attached_spells": "[]",
+    }])
+    # Verify predicate says NOT amalgamated (rejected)
+    assert mod2._is_amalgamated_row(df_forced.iloc[0]) is False
+    assert _is_amalgamated_reference({"amalgamated_price": 14460.0, "price_confidence": "multi", "price_authority": "formula"}) is False
+    # Apply final gate — should lift 12647 -> 14950
+    adjustments = mod2.apply_final_guarantees(df_forced)
+    assert df_forced.iloc[0]["final_price"] == pytest.approx(14950, rel=0.01), f"rejected anchor at 12647 should be lifted to 14950, got {df_forced.iloc[0]['final_price']}"
+    assert len(adjustments) == 1
+    # Protected anchor at same amalgam but winning → stays at 14460 (not lifted to 14950? Actually 14460 <14950 but protected so stays)
+    df_anchor = pd.DataFrame([{
+        "name": "Test +3 Winning Anchor",
+        "rarity": "very_rare",
+        "final_price": 14460.0,
+        "amalgamated_price": 14460.0,
+        "price_confidence": "multi",
+        "price_authority": "anchor",
+        "price_source": "Amalgamated (DSA,MSRP,DMPG)",
+        "weapon_bonus": 3,
+        "item_type_code": "M",
+        "is_ammunition": False,
+        "req_attune": "none",
+        "spell_battery_max_level": None,
+        "charges": None,
+        "attached_spells": "[]",
+    }])
+    assert mod2._is_amalgamated_row(df_anchor.iloc[0]) is True
+    assert _is_amalgamated_reference({"amalgamated_price": 14460.0, "price_confidence": "multi", "price_authority": "anchor"}) is True
+    adjustments2 = mod2.apply_final_guarantees(df_anchor)
+    # Winning anchor should NOT be lifted (family-min gated) → stays 14460, absolute floor 1000 <14460 so no change
+    assert df_anchor.iloc[0]["final_price"] == pytest.approx(14460.0, rel=0.01)
+    assert len(adjustments2) == 0
+
+    # Also verify 09's predicate directly (second import already verified above, but double-check raw rows)
+    row_rejected = {"amalgamated_price": 14460.0, "price_confidence": "multi", "price_authority": "formula", "price_source": "Amalgamated (DSA,MSRP,DMPG)"}
+    row_anchor = {"amalgamated_price": 14460.0, "price_confidence": "multi", "price_authority": "anchor", "price_source": "Amalgamated (DSA,MSRP,DMPG)"}
+    assert mod2._is_amalgamated_row(row_rejected) is False
+    assert mod2._is_amalgamated_row(row_anchor) is True

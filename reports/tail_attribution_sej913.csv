@@ -20,15 +20,15 @@ Suude (Blue),Tal'Dorei Campaign Setting Reborn,291.73,6851.53,2248.59%,intended-
 Suude (Brown),Tal'Dorei Campaign Setting Reborn,291.73,6851.53,2248.59%,intended-913/q7b,family-min/weapon_bonus or battery/spell_battery_max_level or grenade-control
 Suude (Red),Tal'Dorei Campaign Setting Reborn,291.73,6851.53,2248.59%,intended-913/q7b,family-min/weapon_bonus or battery/spell_battery_max_level or grenade-control
 Spell Gem (Diamond),Out of the Abyss,5000.00,100000.00,1900.00%,intended-913/q7b,family-min/weapon_bonus or battery/spell_battery_max_level or grenade-control
-Unknown Elixir,Obojima: Tales from the Tall Grass,429.16,8500.00,1880.61%,ml-variance,no wave1/stealth/floor/match signature → ML retrain / variant-stat / rule-blend variance
+Unknown Elixir,Obojima: Tales from the Tall Grass,429.16,8500.00,1880.61%,intended-913/q7b,battery parity (q7b) — scroll-table level 6: 8500 (spell_battery_max_level 6)
 Spell Gem (Topaz),Out of the Abyss,500.00,9518.56,1803.71%,intended-913/q7b,family-min/weapon_bonus or battery/spell_battery_max_level or grenade-control
 Shard Solitaire (Diamond),Keys from the Golden Vault,5000.00,69421.53,1288.43%,intended-913/q7b,family-min/weapon_bonus or battery/spell_battery_max_level or grenade-control
 Shard Solitaire (Jacinth),Keys from the Golden Vault,5000.00,69421.53,1288.43%,intended-913/q7b,family-min/weapon_bonus or battery/spell_battery_max_level or grenade-control
 Shard Solitaire (Ruby),Keys from the Golden Vault,5000.00,69421.53,1288.43%,intended-913/q7b,family-min/weapon_bonus or battery/spell_battery_max_level or grenade-control
 Shard Solitaire (Black Sapphire),Keys from the Golden Vault,5000.00,69421.53,1288.43%,intended-913/q7b,family-min/weapon_bonus or battery/spell_battery_max_level or grenade-control
-Cottage Chest,The Griffon's Saddlebag: Book Two,3533.47,45000.00,1173.54%,ml-variance,no wave1/stealth/floor/match signature → ML retrain / variant-stat / rule-blend variance
+Cottage Chest,The Griffon's Saddlebag: Book Two,3533.47,45000.00,1173.54%,intended-913/q7b,battery parity (q7b) — scroll-table level 8: 45000 (spell_battery_max_level 8)
 Mind Flayer Skull,Waterdeep: Dungeon of the Mad Mage,291.73,3089.03,958.87%,ml-variance,no wave1/stealth/floor/match signature → ML retrain / variant-stat / rule-blend variance
-Jade Serpent Staff,Waterdeep: Dungeon of the Mad Mage,291.73,3000.00,928.35%,ml-variance,no wave1/stealth/floor/match signature → ML retrain / variant-stat / rule-blend variance
+Jade Serpent Staff,Waterdeep: Dungeon of the Mad Mage,291.73,3000.00,928.35%,intended-913/q7b,battery parity (q7b) — scroll-table level 5: 3000 (spell_battery_max_level 5)
 Shield of Swans,Book of Ebon Tides,405.63,3941.13,871.61%,ml-variance,no wave1/stealth/floor/match signature → ML retrain / variant-stat / rule-blend variance
 Spell Gem (Ruby),Out of the Abyss,5000.00,45000.00,800.00%,intended-913/q7b,family-min/weapon_bonus or battery/spell_battery_max_level or grenade-control
 Secret Path,Obojima: Tales from the Tall Grass,77.66,678.43,773.59%,ml-variance,no wave1/stealth/floor/match signature → ML retrain / variant-stat / rule-blend variance
@@ -37,7 +37,7 @@ Orostead Iced Tea (Common),The Griffon's Saddlebag: Book Two,127.29,971.41,663.1
 Couatl Herald's Lash,The Griffon's Saddlebag: Book One,657.17,4777.90,627.04%,intended-913/q7b,family-min/weapon_bonus or battery/spell_battery_max_level or grenade-control
 Snugglebeast (Owlbear),The Griffon's Saddlebag: Book One,115.58,645.63,458.60%,intended-913/q7b,family-min/weapon_bonus or battery/spell_battery_max_level or grenade-control
 Couatl Herald's Mantle,The Griffon's Saddlebag: Book One,729.48,3540.22,385.31%,ml-variance,no wave1/stealth/floor/match signature → ML retrain / variant-stat / rule-blend variance
-Mudslick Tower,Phandelver and Below: The Shattered Obelisk,10117.92,45000.00,344.76%,ml-variance,no wave1/stealth/floor/match signature → ML retrain / variant-stat / rule-blend variance
+Mudslick Tower,Phandelver and Below: The Shattered Obelisk,10117.92,45000.00,344.76%,intended-913/q7b,battery parity (q7b) — scroll-table level 8: 45000 (spell_battery_max_level 8)
 Cleaning Cube,The Griffon's Saddlebag: Book Two,120.83,526.62,335.84%,ml-variance,no wave1/stealth/floor/match signature → ML retrain / variant-stat / rule-blend variance
 Indigo Painted Stone,Tales from the Shadows,852.72,3659.50,329.16%,ml-variance,no wave1/stealth/floor/match signature → ML retrain / variant-stat / rule-blend variance
 Slumbering Dragon's Wrath Vertebrae Sword,Fizban's Treasury of Dragons,894.12,3786.22,323.46%,intended-913/q7b,family-min/weapon_bonus or battery/spell_battery_max_level or grenade-control

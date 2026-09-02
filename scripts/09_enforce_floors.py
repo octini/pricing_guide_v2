@@ -278,12 +278,29 @@ def _is_amalgamated_row(row) -> bool:
     AND price_confidence in ("multi", "solo"). Also handles candidate CSV where
     Price Source starts with "Amalgamated" (e.g. "Amalgamated (DSA,MSRP,DMPG)").
     Solo-outlier/Algorithm (none, pd.NA) returns False → family-min *may* clamp.
+    Hop C6: Rejected anchors (price_authority == 'formula') return False — a rejected
+    anchor is not a winning reference and may be lifted by family-min.
     """
     try:
+        # Hop C6: Rejected anchor bypass — Price Source is not the signal for rejection;
+        # price_authority == 'formula' means the anchor was rejected via tiered-authority.
+        # Check that first so even Amalgamated Price Source rows with formula authority are not protected.
+        pa = row.get("price_authority", "")
+        try:
+            if pd.notna(pa) and isinstance(pa, str) and pa.strip().lower() == "formula":
+                return False
+        except Exception:
+            if str(pa).strip().lower() == "formula":
+                return False
         # Candidate CSV signal: Price Source starting with "Amalgamated"
         ps = row.get("price_source", "")
         try:
             if pd.notna(ps) and isinstance(ps, str) and ps.strip().lower().startswith("amalgamated"):
+                # But if price_authority already checked above, this would have returned False for formula.
+                # For rows without price_authority column (candidate CSV), we need to infer via
+                # same check — candidate CSV lacks price_authority, so we cannot reject here;
+                # however validated CSV will have price_authority, so anchored candidate rows
+                # remain protected only if not rejected. No extra handling needed.
                 return True
         except Exception:
             pass

@@ -15,8 +15,8 @@ Candidate CSV: `output/pricing_guide_candidate.csv`
 - Mean % drift: 250.84%
 - Median gp drift: 0 gp
 - Mean gp drift: -622 gp
-- Rows >5% drift: 2806
-- Rows >10% drift: 2242
+- Rows >5% drift: 2807
+- Rows >10% drift: 2243
 - Rows >25% drift: 1083
 
 ## Reference anchored vs formula/ML-only
@@ -24,7 +24,7 @@ Candidate CSV: `output/pricing_guide_candidate.csv`
 | Split | Rows | Median % | Mean % | Median gp | Mean gp |
 |---|---:|---:|---:|---:|---:|
 | formula/ML-only | 9407 | 0.00% | 318.36% | 0 gp | -782 gp |
-| reference-anchored | 2533 | 0.00% | 0.05% | 0 gp | -26 gp |
+| reference-anchored | 2533 | 0.00% | 0.06% | 0 gp | -25 gp |
 
 ## Drift by rarity
 
@@ -32,7 +32,7 @@ Candidate CSV: `output/pricing_guide_candidate.csv`
 |---|---:|---:|---:|---:|---:|
 | Rare | 3679 | 0.00% | 501.84% | 0 gp | -541 gp |
 | Uncommon | 2635 | 0.00% | 7.65% | 0 gp | -67 gp |
-| Very Rare | 2267 | 0.00% | 76.45% | 0 gp | -1,260 gp |
+| Very Rare | 2267 | 0.00% | 76.46% | 0 gp | -1,259 gp |
 | Legendary | 1465 | 0.00% | 619.83% | 0 gp | -533 gp |
 | Common | 939 | 0.00% | 10.16% | 0 gp | -4 gp |
 | Mundane | 806 | 0.00% | 37.10% | 0 gp | -6 gp |
@@ -76,7 +76,7 @@ Candidate CSV: `output/pricing_guide_candidate.csv`
 | Obojima: Tales from the Tall Grass | 616 | 0.00% | -5.26% | 0 gp | -2,112 gp |
 | Monsters of Drakkenheim | 526 | -4.64% | -6.26% | -774 gp | -810 gp |
 | Heliana's Guide to Monster Hunting | 501 | 0.00% | 4189.28% | 0 gp | -434 gp |
-| Call from the Deep | 483 | 0.00% | 160.21% | 0 gp | 98 gp |
+| Call from the Deep | 483 | 0.00% | 160.25% | 0 gp | 102 gp |
 | Fizban's Treasury of Dragons | 470 | 0.25% | -1.20% | 89 gp | 6 gp |
 | The Illrigger Revised | 437 | 0.00% | 0.83% | 0 gp | 17 gp |
 | Exploring Eberron (2024) | 411 | 0.00% | 6.69% | 0 gp | 266 gp |
@@ -93,8 +93,8 @@ Candidate CSV: `output/pricing_guide_candidate.csv`
 
 ## Known-good anchors
 
-Known-good status: **FAIL** (5/1768 rows >5%, 54/1768 rows >1%; PASS ≤1% drift; REVIEW >1%; FAIL >5%).
-Reference-anchored status: **FAIL** (74/2533 rows >5%, 551/2533 rows >1%; median 0.00%).
+Known-good status: **FAIL** (6/1768 rows >5%, 55/1768 rows >1%; PASS ≤1% drift; REVIEW >1%; FAIL >5%).
+Reference-anchored status: **FAIL** (75/2533 rows >5%, 552/2533 rows >1%; median 0.00%).
 Configured anchors include Holy Avenger, Defender, Vorpal Sword, +1/+2/+3 Weapon/Armor, Dragon Slayer, Giant Slayer, and Vicious Weapon families when present.
 Scope note: known-good status reflects the known-good anchor table honestly; reference-anchored is reported separately so a FAIL there does not mislabel the anchor table.
 
@@ -102,6 +102,7 @@ Scope note: known-good status reflects the known-good anchor table honestly; ref
 |---|---|---|---|---:|---:|---:|---:|---|
 | +3 True Name Repeater Needler | The Illrigger Revised | Legendary | Ranged Weapon | 2,437 gp | 8,000 gp | 5,563 gp | 228.29% | reference-anchored |
 | Vicious Vertebrae Sword | Dungeon Master's Guide (2024) | Rare | Melee Weapon | 14,231 gp | 17,642 gp | 3,411 gp | 23.97% | formula/ML-only |
+| +3 Adamantine Vertebrae Sword | Call from the Deep | Very Rare | Melee Weapon | 12,647 gp | 14,950 gp | 2,303 gp | 18.21% | reference-anchored |
 | Vorpal Glaive | Dungeon Master's Guide (2024) | Legendary | Melee Weapon | 53,561 gp | 51,400 gp | -2,161 gp | -4.03% | reference-anchored |
 | Vorpal Greatsword | Dungeon Master's Guide (2024) | Legendary | Melee Weapon | 53,561 gp | 51,400 gp | -2,161 gp | -4.03% | reference-anchored |
 | Vorpal Longsword | Dungeon Master's Guide (2024) | Legendary | Melee Weapon | 53,561 gp | 51,400 gp | -2,161 gp | -4.03% | reference-anchored |
@@ -119,7 +120,6 @@ Scope note: known-good status reflects the known-good anchor table honestly; ref
 | +3 True Name Knightly Sword | The Illrigger Revised | Legendary | Melee Weapon | 14,398 gp | 14,551 gp | 153 gp | 1.06% | reference-anchored |
 | +3 True Name Longsword | The Illrigger Revised | Legendary | Melee Weapon | 14,398 gp | 14,551 gp | 153 gp | 1.06% | reference-anchored |
 | +3 True Name Yklwa | The Illrigger Revised | Legendary | Melee Weapon | 14,398 gp | 14,551 gp | 153 gp | 1.06% | reference-anchored |
-| +2 Breastplate | Dungeon Master's Guide (2024) | Very Rare | Medium Armor | 8,448 gp | 8,564 gp | 116 gp | 1.37% | reference-anchored |
 
 ## Artifact/legendary movers
 

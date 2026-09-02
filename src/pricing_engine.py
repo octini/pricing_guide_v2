@@ -311,8 +311,22 @@ def _is_amalgamated_reference(criteria: dict) -> bool:
     AND price_confidence in ("multi", "solo"). Solo-outlier and Algorithm/formula-only
     (none, pd.NA, etc.) return False → family-min *may* clamp. Used to gate family-min
     so published guide prices WIN for anchored items.
+    Hop C6: Rejected anchors (price_authority == 'formula' — criteria-rich AND guide
+    spread >0.60 forces formula) are NOT winning references → return False even when
+    amalgamated multi/solo. This allows family-min to lift rejected anchors (e.g.,
+    +3 Adamantine Vertebrae Sword at 12647.38 → 14950).
     """
     try:
+        # Rejected anchor: tiered-authority override rejected the amalgamated reference
+        # price_authority == 'formula' means the anchor was forced to formula → not protected
+        pa = criteria.get("price_authority")
+        try:
+            if pd.isna(pa):
+                pa = None
+        except Exception:
+            pass
+        if pa is not None and str(pa).strip().lower() == "formula":
+            return False
         if not _has_valid_amalgamated(criteria):
             return False
         pc = criteria.get("price_confidence")
