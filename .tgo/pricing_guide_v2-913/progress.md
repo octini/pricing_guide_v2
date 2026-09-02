@@ -23,3 +23,31 @@ Hop A (landed f38356f): broaden extractor for 16 below-floor items (grenades, Mu
 
 ## Status
 Complete — hop B engine edits + 11 new tests green; full suite 344 passed (333+11), blast gate pass (family 3, battery 6); commit pending.
+
+
+## Hop C4 — capped family-min + reskin uncommon-or-higher (2026-09-02)
+
+### Objective
+Cap family-min rarity multiplier at 1.0 (benchmark already tier-priced; double-count inflated 881 anchored weapons) + reskin inner-rarity >= uncommon (22 -> 1 embedded copy, Piwafwi only; Spell Gem Amber freed) + guardrail header scope fix (counts + separate reference line). Tests 367 green, candidate mechanism rows verified, commit pending Horowitz sign-off.
+
+### Touch set
+- `src/pricing_engine.py` — rarity_mults capped `{common:0.25,mundane:0.25,uncommon:0.5,rare:1.0,very_rare:1.0,legendary:1.0,artifact:1.0}` in _family_min_for_criteria, calculate_price simple/anchor/formula paths
+- `scripts/09_enforce_floors.py:297` — same cap in _family_min_for_row
+- `scripts/10_generate_output.py` — embedded reskin requires `inner_rarity_norm in (uncommon,rare,very_rare,legendary,artifact)`; common/mundane excluded; 22 -> 1 (Piwafwi only)
+- `scripts/reports/price_creep_guardrail.py` — header scope fix: counts `known_good_counts` + `reference_anchored_counts`, separate Reference-anchored status line, scope note; stale variable / wrong population bug fixed
+- `tests/test_engine_floor_rules.py`, `tests/test_floor_enforcement.py`, `tests/test_pricing_engine.py`, `tests/test_reskin_rarity_fixes.py` — updated for capped expectations (Drow 14950, Silver Sword 5980, Amber 9518 etc)
+- `reports/price_creep_guardrail.md` — regenerated: Known-good FAIL (495/1768 >5%), Reference-anchored FAIL (663/2533), Median 0.00%
+- `reports/sej_913_q7b_ritual.md` — added Hop C4 section with capped rationale, reskin 22->1, final anchor verdict, 13-row mechanism table verbatim
+- `data/processed/*.csv` — 09+10 re-ran, 11,941 rows candidate
+
+### Decisions
+- Capped multiplier rationale: WEAPON_BONUS_VALUES already tier-priced at rare; Very Rare 2.0× and Legendary 3.0× double-counted. Cap at 1.0 ensures family-min only discounts sub-norm rarity (common 0.25, uncommon 0.5) else benchmark intact. Repeater Needler Drow 14950×1.0×1.0=14950 (was 44850). Remaining 495 FAILs are correctly low-baseline lifts (Repeater 1000->14950 1395% etc) not double-count; 881 double-count eliminated.
+- Reskin: common ingredient Amber (common 114.4) previously inherited as magic (mundane exclusion only). Now requires uncommon+ so Amber very_rare 9518 freed; only Piwafwi (Uncommon) remains among 22 pattern matches.
+- Guardrail: bug was header counted reference-anchored or stale variable while table showed known-good honestly. Fix adds explicit counts and separate reference line so verdict reflects table honestly; thresholds unchanged.
+
+### Blockers
+- None. Awaiting Horowitz + user sign-off before adopt.
+
+### Status
+Complete — hop C4 edits landed uncommitted, 09+10 re-ran, guardrail regenerated with corrected header, candidate verified 13 rows correct, 367 tests pass. Commit next.
+
