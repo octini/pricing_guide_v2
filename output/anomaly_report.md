@@ -29,7 +29,7 @@
 | varies (consumable) | 19 | 375 gp | 451 | 3 | 15.8%  |
 | varies (persistent) | 84 | 750 gp | 976 | 12 | 14.3%  |
 | very_rare (consumable) | 91 | 2,240 gp | 5,685 | 11 | 12.1%  |
-| very_rare (persistent) | 2183 | 13,863 gp | 9,542 | 200 | 9.2%  |
+| very_rare (persistent) | 2183 | 13,863 gp | 9,541 | 200 | 9.2%  |
 
 ## Extreme Outliers (> 3× rarity median)
 
