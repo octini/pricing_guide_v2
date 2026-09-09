@@ -1,0 +1,187 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Component Library Index — Mistystep Shop System (real tokens)</title>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<style>
+/* Mistystep Shop System — normative tokens. Carbon token architecture, adapted values.
+   Fantasy lives in token names/values only; structure stays generic-clean. */
+:root{
+  --color-vellum:#f4f1ea;          /* background */
+  --color-leaf:#ffffff;            /* layer-01 */
+  --color-leaf-deep:#e8e2d4;       /* layer-02 */
+  --color-ink:#161616;             /* text-primary */
+  --color-faded-ink:#525252;       /* text-secondary */
+  --color-ruled-line:#c6c0b2;      /* border-subtle (decorative only) */
+  --color-coin-edge:#6f6a5e;       /* border-strong */
+  --color-ember:#9e2b1e;           /* primary accent — live state only */
+  --color-ember-deep:#7c2117;      /* accent hover/active step */
+  --color-ember-wash:#f9e9e4;      /* stepped-row ground */
+  --color-witchlight:#0f62fe;      /* focus ring */
+  --color-blood-mark:#b81922;      /* support-error */
+  --color-rarity-common:#525252; --color-rarity-common-ground:#e8e4d8;
+  --color-rarity-uncommon:#1e6b34; --color-rarity-uncommon-ground:#e3ecdf;
+  --color-rarity-rare:#0b4fa0; --color-rarity-rare-ground:#e0e9f5;
+  --color-rarity-very-rare:#6b2fa0; --color-rarity-very-rare-ground:#e9e2f4;
+  --color-rarity-legendary:#7a4a00; --color-rarity-legendary-ground:#f3e8cf;
+  --color-rarity-artifact:#5c3d00; --color-rarity-artifact-ground:#efe3c2;
+  --color-rarity-unclassified-ground:#e4e0d4;
+  --font-ui:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Oxygen,Ubuntu,sans-serif;
+  --font-ledger:ui-monospace,"SF Mono","Cascadia Code",Menlo,Consolas,"Courier New",monospace;
+  --rounded-sm:2px; --rounded-md:4px;
+  --space-xs:4px; --space-sm:8px; --space-md:16px; --space-lg:24px; --space-xl:32px;
+  --row-measure:44px;
+}
+*{box-sizing:border-box}
+body{font-family:var(--font-ui);margin:0;background:var(--color-vellum);color:var(--color-ink);line-height:1.4}
+.ds-header{background:var(--color-leaf);border-bottom:1px solid var(--color-ruled-line);padding:var(--space-md) var(--space-lg);display:flex;gap:var(--space-md);align-items:baseline}
+.ds-header .wordmark{font-weight:700}
+.ds-header .sub{color:var(--color-faded-ink);font-size:14px}
+main{max-width:960px;margin:0 auto;padding:var(--space-lg) var(--space-md)}
+section{background:var(--color-leaf);border:1px solid var(--color-ruled-line);border-radius:var(--rounded-md);margin:0 0 var(--space-lg);padding:var(--space-lg)}
+h1{font-size:28px;line-height:1.2;margin:0 0 var(--space-sm)}
+h2{font-size:20px;line-height:1.3;margin:0 0 var(--space-sm)}
+.label{font-size:12px;font-weight:600;letter-spacing:.08em;text-transform:uppercase;color:var(--color-faded-ink)}
+table{border-collapse:collapse;width:100%;font-size:14px}
+th{text-align:left;font-size:12px;font-weight:600;letter-spacing:.08em;text-transform:uppercase;color:var(--color-faded-ink);padding:var(--space-xs) var(--space-sm);border-bottom:2px solid var(--color-coin-edge)}
+td{padding:var(--space-xs) var(--space-sm);border-bottom:1px solid var(--color-ruled-line)}
+.swatch{display:inline-block;width:44px;height:20px;vertical-align:middle;border:1px solid var(--color-coin-edge);border-radius:var(--rounded-sm)}
+.num{font-family:var(--font-ledger);font-variant-numeric:tabular-nums;font-feature-settings:"tnum"}
+/* spine filter bar */
+.ds-spine{background:var(--color-leaf);border:1px solid var(--color-ruled-line);border-radius:var(--rounded-md);padding:var(--space-sm);display:flex;gap:var(--space-sm);flex-wrap:wrap;position:sticky;top:0}
+.ds-input-search{background:var(--color-leaf);color:var(--color-ink);border:1px solid var(--color-coin-edge);border-radius:var(--rounded-sm);padding:var(--space-sm) var(--space-md);height:40px;font:inherit;flex:1;min-width:200px}
+.ds-input-search:focus-visible{outline:2px solid var(--color-witchlight);outline-offset:2px}
+.ds-chip{background:var(--color-leaf);color:var(--color-faded-ink);border:1px solid var(--color-coin-edge);border-radius:var(--rounded-sm);padding:var(--space-xs) var(--space-md);font:inherit;font-size:14px;cursor:pointer}
+.ds-chip[aria-pressed="true"]{background:var(--color-ember);border-color:var(--color-ember);color:var(--color-leaf);font-weight:600}
+.ds-chip:focus-visible{outline:2px solid var(--color-witchlight);outline-offset:2px}
+/* buttons */
+.ds-btn-primary{background:var(--color-ember);color:var(--color-leaf);border:1px solid var(--color-ember);border-radius:var(--rounded-sm);padding:var(--space-sm) var(--space-lg);font:inherit;font-size:12px;font-weight:600;letter-spacing:.08em;text-transform:uppercase;cursor:pointer}
+.ds-btn-primary:hover{background:var(--color-ember-deep);border-color:var(--color-ember-deep)}
+.ds-btn-primary:active{background:var(--color-ember-deep);transform:translateY(1px)}
+.ds-btn-primary:focus-visible{outline:2px solid var(--color-witchlight);outline-offset:2px}
+.ds-btn-primary:disabled{background:var(--color-ruled-line);border-color:var(--color-ruled-line);color:var(--color-faded-ink);cursor:not-allowed}
+.state-row{display:flex;gap:var(--space-sm);flex-wrap:wrap;align-items:center;margin:var(--space-sm) 0}
+/* price row plate — the invariant measure */
+.ds-row{display:flex;align-items:center;gap:var(--space-md);min-height:var(--row-measure);padding:0 var(--space-md);background:var(--color-leaf);border-bottom:1px solid var(--color-ruled-line)}
+.ds-row:hover{background:var(--color-leaf-deep)}
+.ds-row.is-stepped{background:var(--color-ember-wash);font-weight:600}
+.ds-row .price{margin-left:auto;font-family:var(--font-ledger);font-variant-numeric:tabular-nums;font-feature-settings:"tnum";font-weight:700}
+.ds-row:focus-visible{outline:2px solid var(--color-witchlight);outline-offset:-2px}
+/* rarity bands — label + pattern, never color alone */
+.ds-band{display:inline-block;font-size:12px;font-weight:600;letter-spacing:.08em;text-transform:uppercase;padding:var(--space-xs) var(--space-sm);border-radius:var(--rounded-sm)}
+.ds-band--common{color:var(--color-rarity-common);background:var(--color-rarity-common-ground)}
+.ds-band--uncommon{color:var(--color-rarity-uncommon);background:repeating-linear-gradient(45deg,var(--color-rarity-uncommon-ground) 0 6px,rgba(30,107,52,.12) 6px 8px)}
+.ds-band--rare{color:var(--color-rarity-rare);background:repeating-linear-gradient(90deg,var(--color-rarity-rare-ground) 0 8px,rgba(11,79,160,.14) 8px 10px)}
+.ds-band--very-rare{color:var(--color-rarity-very-rare);background:radial-gradient(circle at 4px 4px,rgba(107,47,160,.25) 1.5px,transparent 1.6px) 0 0/10px 10px,var(--color-rarity-very-rare-ground)}
+.ds-band--legendary{color:var(--color-rarity-legendary);background:repeating-linear-gradient(45deg,var(--color-rarity-legendary-ground) 0 5px,rgba(122,74,0,.16) 5px 7px),repeating-linear-gradient(-45deg,transparent 0 5px,rgba(122,74,0,.10) 5px 7px)}
+.ds-band--artifact{color:var(--color-rarity-artifact);background:var(--color-rarity-artifact-ground)}
+.ds-band--unclassified{color:var(--color-rarity-common);background:var(--color-rarity-unclassified-ground)}
+.ds-band--unknown-magic{color:var(--color-rarity-rare);background:var(--color-rarity-unclassified-ground)}
+/* detail sheet */
+.ds-sheet{background:var(--color-leaf);border:1px solid var(--color-coin-edge);border-radius:var(--rounded-md) var(--rounded-md) 0 0;border-bottom:none;padding:var(--space-lg)}
+.ds-sheet .grab{display:block;width:40px;height:4px;border-radius:2px;background:var(--color-ruled-line);margin:0 auto var(--space-md)}
+footer{padding:var(--space-lg);text-align:center;color:var(--color-faded-ink);font-size:12px;letter-spacing:.08em;text-transform:uppercase}
+.type-demo{margin:var(--space-xs) 0}
+.note{font-size:14px;color:var(--color-faded-ink)}
+.err{color:var(--color-blood-mark);font-size:14px}
+</style>
+</head>
+<body>
+<header class="ds-header"><span class="wordmark">Mistystep</span><span class="sub">Shop System · component index (real tokens)</span></header>
+<main>
+<h1>Component Library Index</h1>
+<p class="note">Normative source: <span class="num">:root</span> custom properties above. Every value below renders from those tokens. Contrast table: text pairs ≥ 4.5:1, focus ring ≥ 3:1 (verified pairs in build notes).</p>
+
+<section id="tokens">
+<h2>1. Tokens</h2>
+<p class="label">Color</p>
+<table>
+<tr><th>Token</th><th>Value</th><th>Swatch</th><th>Use</th></tr>
+<tr><td class="num">--color-vellum</td><td class="num">#f4f1ea</td><td><span class="swatch" style="background:#f4f1ea"></span></td><td>Page background</td></tr>
+<tr><td class="num">--color-leaf</td><td class="num">#ffffff</td><td><span class="swatch" style="background:#ffffff"></span></td><td>Layer-01: panels, rows, inputs</td></tr>
+<tr><td class="num">--color-leaf-deep</td><td class="num">#e8e2d4</td><td><span class="swatch" style="background:#e8e2d4"></span></td><td>Layer-02: row hover</td></tr>
+<tr><td class="num">--color-ink</td><td class="num">#161616</td><td><span class="swatch" style="background:#161616"></span></td><td>Primary text (16.04:1 on vellum)</td></tr>
+<tr><td class="num">--color-faded-ink</td><td class="num">#525252</td><td><span class="swatch" style="background:#525252"></span></td><td>Secondary text, labels (6.93:1 on vellum)</td></tr>
+<tr><td class="num">--color-ruled-line</td><td class="num">#c6c0b2</td><td><span class="swatch" style="background:#c6c0b2"></span></td><td>Dividers only — never a state signal</td></tr>
+<tr><td class="num">--color-coin-edge</td><td class="num">#6f6a5e</td><td><span class="swatch" style="background:#6f6a5e"></span></td><td>Input strokes, strong borders (5.39:1 on leaf)</td></tr>
+<tr><td class="num">--color-ember</td><td class="num">#9e2b1e</td><td><span class="swatch" style="background:#9e2b1e"></span></td><td>Accent: live state ONLY (6.61:1 text on vellum; 7.45:1 white on ember)</td></tr>
+<tr><td class="num">--color-ember-deep</td><td class="num">#7c2117</td><td><span class="swatch" style="background:#7c2117"></span></td><td>Accent hover/active step</td></tr>
+<tr><td class="num">--color-ember-wash</td><td class="num">#f9e9e4</td><td><span class="swatch" style="background:#f9e9e4"></span></td><td>Stepped-row ground (ink 15.34:1)</td></tr>
+<tr><td class="num">--color-witchlight</td><td class="num">#0f62fe</td><td><span class="swatch" style="background:#0f62fe"></span></td><td>Focus ring, 2px + 2px offset (5.00:1 on leaf)</td></tr>
+<tr><td class="num">--color-blood-mark</td><td class="num">#b81922</td><td><span class="swatch" style="background:#b81922"></span></td><td>Error text only (5.82:1 on vellum)</td></tr>
+</table>
+<p class="label">Rarity (text on tinted ground, label always present)</p>
+<table>
+<tr><th>Token pair</th><th>Values</th><th>Band</th><th>Ratio</th></tr>
+<tr><td class="num">common</td><td class="num">#525252 on #e8e4d8</td><td><span class="ds-band ds-band--common">Common</span></td><td class="num">6.15:1 · solid</td></tr>
+<tr><td class="num">uncommon</td><td class="num">#1e6b34 on #e3ecdf</td><td><span class="ds-band ds-band--uncommon">Uncommon</span></td><td class="num">5.40:1 · diagonal hatch</td></tr>
+<tr><td class="num">rare</td><td class="num">#0b4fa0 on #e0e9f5</td><td><span class="ds-band ds-band--rare">Rare</span></td><td class="num">6.49:1 · vertical rule</td></tr>
+<tr><td class="num">very-rare</td><td class="num">#6b2fa0 on #e9e2f4</td><td><span class="ds-band ds-band--very-rare">Very rare</span></td><td class="num">6.56:1 · dotted</td></tr>
+<tr><td class="num">legendary</td><td class="num">#7a4a00 on #f3e8cf</td><td><span class="ds-band ds-band--legendary">Legendary</span></td><td class="num">6.15:1 · crosshatch</td></tr>
+<tr><td class="num">artifact</td><td class="num">#5c3d00 on #efe3c2</td><td><span class="ds-band ds-band--artifact">Artifact</span></td><td class="num">7.74:1 · solid</td></tr>
+<tr><td class="num">unclassified</td><td class="num">#525252 on #e4e0d4</td><td><span class="ds-band ds-band--unclassified">Varies</span></td><td class="num">5.92:1 · solid (Mundane / Unknown / Varies; Unknown Magic wears rare ink, 6.03:1)</td></tr>
+</table>
+<p class="label">Rounded / spacing / measure</p>
+<table>
+<tr><th>Token</th><th>Value</th><th>Use</th></tr>
+<tr><td class="num">--rounded-sm / --rounded-md</td><td class="num">2px / 4px</td><td>Near-square corners everywhere; rows square</td></tr>
+<tr><td class="num">--space-xs · sm · md · lg · xl</td><td class="num">4 · 8 · 16 · 24 · 32px</td><td>Single spacing ramp (Carbon architecture)</td></tr>
+<tr><td class="num">--row-measure</td><td class="num">44px min-height</td><td>The Plate Measure: every row one rhythm</td></tr>
+</table>
+</section>
+
+<section id="type">
+<h2>2. Type scale</h2>
+<p class="type-demo" style="font-size:28px;font-weight:700;line-height:1.2">Title — panel titles, 28/1.2/700</p>
+<p class="type-demo" style="font-size:16px;line-height:1.5;max-width:65ch">Body — row and sheet text, 16/1.5, max 65ch. Prices ride in the ledger face: <span class="num">12,500 gp · 1,501 gp · 50 gp</span> (tabular, never shifts).</p>
+<p class="type-demo label">Label — small caps, 12/600, +0.08em tracking, faded ink</p>
+<p class="err">Error — blood-mark text, 14px, never color alone (pairs with icon/label text)</p>
+</section>
+
+<section id="spine">
+<h2>3. Filter spine (sticky bar)</h2>
+<div class="ds-spine" role="search">
+<input class="ds-input-search" type="search" value="flame tongue" aria-label="Search items">
+<button class="ds-chip" aria-pressed="true">Attuned</button>
+<button class="ds-chip" aria-pressed="false">Rare+</button>
+<button class="ds-chip" aria-pressed="false">&lt; 5,000 gp</button>
+<button class="ds-btn-primary">Search</button>
+</div>
+<p class="note">One flat accent owns live state: only the pressed chip and the primary action wear ember. Focus any control (Tab) for the witchlight ring.</p>
+</section>
+
+<section id="states">
+<h2>4. Button / input states</h2>
+<div class="state-row">
+<button class="ds-btn-primary">Search</button>
+<button class="ds-btn-primary" disabled>Search</button>
+<input class="ds-input-search" style="flex:0 1 240px" value="hover / focus me" aria-label="State demo">
+</div>
+<p class="note">Default → hover (ember-deep) → focus-visible (2px witchlight + 2px offset) → active (ember-deep + 1px press) → disabled (ruled-line ground, faded-ink text). No shadows anywhere: flat by default.</p>
+</section>
+
+<section id="rows">
+<h2>5. Price row plate (signature component)</h2>
+<div class="ds-row" tabindex="0"><span class="ds-band ds-band--rare">Rare</span><span><strong>Flame Tongue</strong> <span class="note">· longsword · DMG</span></span><span class="price">12,500 gp</span></div>
+<div class="ds-row is-stepped" tabindex="0"><span class="ds-band ds-band--very-rare">Very rare</span><span><strong>Frost Brand</strong> <span class="note">· longsword · DMG · attuned</span></span><span class="price">18,000 gp</span></div>
+<p class="note">Every row: one <span class="num">44px</span> measure. Selection steps forward — ember-wash ground plus semibold weight — never boxes, rules, or cards.</p>
+</section>
+
+<section id="sheet">
+<h2>6. Detail sheet (one-pull)</h2>
+<div class="ds-sheet"><span class="grab" aria-hidden="true"></span>
+<p class="label">Very rare · requires attunement</p>
+<h2 style="margin-top:0">Frost Brand</h2>
+<p style="max-width:65ch">Price <span class="num"><strong>18,000 gp</strong></span>. Key rules facts ride here; the sheet is the one lifted plane. States: closed → pulling → open → dismissed, one committed gesture.</p>
+</div>
+</section>
+
+<section id="chrome">
+<h2>7. Header / footer</h2>
+<p class="note">Header: leaf ground, wordmark + section label, ruled-line divider. Footer: small-caps faded-ink line. No ornament; density is the aesthetic.</p>
+</section>
+</main>
+<footer>Mistystep · Shop System · weight budget honored: single file, system faces, zero assets</footer>
+</body>
+</html>
