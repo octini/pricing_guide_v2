@@ -1,0 +1,125 @@
+@import "@fontsource-variable/bricolage-grotesque/index.css";
+@import "@fontsource-variable/inter/index.css";
+@import "../../dist/tokens.css";
+@import "tailwindcss" prefix(ds);
+
+/* Class-based dark mode: .dark on <html> flips the semantic aliases. */
+@custom-variant dark (&:where(.dark, .dark *));
+
+/*
+ * Single @theme authority. Every entry aliases a generated token var, so
+ * tokens/tokens.json stays the only source of truth. Prefixed utilities:
+ * ds:bg-paper, ds:text-ink, ds:border-border, ds:bg-accent,
+ * ds:bg-support-1, ds:bg-support-2, ds:rounded-card…
+ */
+@theme {
+  --color-paper: var(--paper);
+  --color-paper-raised: var(--paper-raised);
+  --color-ink: var(--ink);
+  --color-muted: var(--muted);
+  --color-border: var(--border);
+  --color-accent: var(--accent);
+  --color-accent-strong: var(--accent-strong);
+  --color-accent-soft: var(--accent-soft);
+  --color-accent-ink: var(--accent-ink);
+
+  /* Portfolio trio supports. Solid fills pair with --color-accent-ink;
+     soft tints pair with --color-accent-ink in both modes. */
+  --color-support-1: var(--support-1);
+  --color-support-1-soft: var(--support-1-soft);
+  --color-support-2: var(--support-2);
+  --color-support-2-soft: var(--support-2-soft);
+
+  --radius-sm: var(--radius-sm);
+  --radius-card: var(--radius-card);
+  --radius-slab: var(--radius-slab);
+  --radius-pill: var(--radius-pill);
+
+  --shadow-soft: var(--shadow-soft);
+
+  --font-display: var(--font-display);
+  --font-sans: var(--font-body);
+
+  --ease-out: var(--motion-ease);
+}
+
+@layer base {
+  html {
+    background-color: var(--paper);
+    color: var(--ink);
+    font-family: var(--font-body);
+  }
+
+  h1,
+  h2,
+  h3,
+  .ds-display {
+    font-family: var(--font-display);
+    letter-spacing: -0.01em;
+  }
+}
+
+/*
+ * Lift/press feedback. Uses the single 150ms token pair from tokens.json.
+ * Reduced-motion fallback is mandatory wherever .ds-lift is used.
+ */
+@layer components {
+  .ds-lift {
+    transition:
+      transform var(--motion-duration) var(--motion-ease),
+      box-shadow var(--motion-duration) var(--motion-ease);
+  }
+
+  .ds-lift:hover {
+    transform: translateY(-1px);
+    box-shadow: var(--shadow-soft);
+  }
+
+  .ds-lift:active {
+    transform: translateY(0);
+    box-shadow: none;
+  }
+
+  /*
+   * QUIET voice (opt-in). Punch is the default component voice: Button,
+   * Card, and Badge ship with 2px ink borders and a small hard offset
+   * shadow. Wrap any section in [data-voice="quiet"] to restore hairline
+   * borders and the soft shadow for the Button/Card Badge inside it.
+   * Fields, overlays, tables, and nav keep hairline precision in both
+   * voices; this block touches only the three punch components.
+   */
+  [data-voice="quiet"] .ds-btn {
+    border-width: var(--border-hairline);
+    box-shadow: none;
+  }
+  [data-voice="quiet"] .ds-btn--primary { border-color: transparent; }
+  [data-voice="quiet"] .ds-btn--secondary { border-color: var(--border); }
+  [data-voice="quiet"] .ds-btn--outline { border-color: var(--accent-strong); }
+  [data-voice="quiet"] .ds-btn--primary:active,
+  [data-voice="quiet"] .ds-btn--secondary:active,
+  [data-voice="quiet"] .ds-btn--outline:active {
+    transform: translateY(0);
+    box-shadow: none;
+  }
+  [data-voice="quiet"] .ds-card {
+    border: var(--border-hairline) solid var(--border);
+    border-radius: var(--radius-card);
+    box-shadow: none;
+  }
+  [data-voice="quiet"] .ds-badge {
+    border-width: var(--border-hairline);
+    box-shadow: none;
+  }
+  [data-voice="quiet"] .ds-badge--accent { border-color: transparent; }
+  [data-voice="quiet"] .ds-badge--neutral { border-color: var(--border); }
+  [data-voice="quiet"] .ds-badge--outline { border-color: var(--accent-strong); }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .ds-lift,
+  .ds-lift:hover,
+  .ds-lift:active {
+    transition: none;
+    transform: none;
+  }
+}

@@ -1,0 +1,36 @@
+---
+// PageHeader pattern. Compact page opener: eyebrow, display headline,
+// muted lede, optional action row. One instance per page, above content.
+export interface Props {
+  eyebrow?: string;
+  title: string;
+  lede?: string;
+}
+
+const { eyebrow, title, lede } = Astro.props;
+---
+<header class="ds-pagehead">
+  {eyebrow && <p class="ds-pagehead__eyebrow">{eyebrow}</p>}
+  <h1 class="ds-pagehead__title">{title}</h1>
+  {lede && <p class="ds-pagehead__lede">{lede}</p>}
+  <slot name="actions" />
+</header>
+
+<style>
+  .ds-pagehead { max-width: 44rem; padding: 2rem 0 1.5rem; }
+  .ds-pagehead__eyebrow {
+    margin: 0 0 0.5rem;
+    font-size: 0.75rem;
+    font-weight: 600;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    color: var(--accent-strong);
+  }
+  .ds-pagehead__title {
+    margin: 0;
+    font-size: 1.75rem;
+    line-height: 1.2;
+    color: var(--ink);
+  }
+  .ds-pagehead__lede { margin: 0.625rem 0 0; font-size: 1rem; line-height: 1.6; color: var(--muted); }
+</style>

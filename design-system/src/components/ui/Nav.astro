@@ -1,0 +1,55 @@
+---
+// Nav. Semantic link list; active link takes aria-current="page" plus the
+// accent underline. Native anchors: keyboard support is free.
+export interface NavItem { href: string; label: string; current?: boolean; }
+
+export interface Props {
+  items: NavItem[];
+  ariaLabel?: string;
+}
+
+const { items, ariaLabel = 'Primary' } = Astro.props;
+---
+<nav class="ds-nav" aria-label={ariaLabel}>
+  <ul class="ds-nav__list">
+    {items.map((item) => (
+      <li>
+        <a
+          class="ds-nav__link"
+          href={item.href}
+          aria-current={item.current ? 'page' : undefined}
+        >{item.label}</a>
+      </li>
+    ))}
+  </ul>
+</nav>
+
+<style>
+  .ds-nav__list {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.25rem;
+    margin: 0;
+    padding: 0;
+    list-style: none;
+  }
+  .ds-nav__link {
+    display: inline-block;
+    padding: 0.5rem 0.75rem;
+    border-radius: var(--radius-sm);
+    font-size: 0.875rem;
+    font-weight: 600;
+    color: var(--muted);
+    text-decoration: none;
+    border-bottom: 2px solid transparent;
+    transition: color var(--motion-duration) var(--motion-ease),
+      background-color var(--motion-duration) var(--motion-ease);
+  }
+  .ds-nav__link:hover { color: var(--ink); background-color: var(--paper-raised); }
+  .ds-nav__link:active { color: var(--accent-strong); }
+  .ds-nav__link[aria-current='page'] { color: var(--accent-strong); border-bottom-color: var(--accent-strong); }
+  .ds-nav__link:focus-visible { outline: 2px solid var(--accent-strong); outline-offset: 2px; }
+  @media (prefers-reduced-motion: reduce) {
+    .ds-nav__link { transition: none; }
+  }
+</style>

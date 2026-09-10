@@ -1,0 +1,114 @@
+---
+// Button. Renders <a> when href is set, <button> otherwise.
+// Variants: primary (accent fill) / secondary (raised fill) / outline.
+// Sizes: sm / md / lg. Pill radius, 150ms lift/press, focus-visible ring.
+// Voice: punch by default (2px ink border, small hard offset shadow).
+// Wrap in [data-voice="quiet"] to restore hairlines and no shadow.
+// Primary hover pairs the strong fill with paper text so resting and
+// hover both pass AA in light and dark modes.
+import Icon, { type IconName } from './Icon.astro';
+
+export type ButtonVariant = 'primary' | 'secondary' | 'outline';
+export type ButtonSize = 'sm' | 'md' | 'lg';
+
+export interface Props {
+  variant?: ButtonVariant;
+  size?: ButtonSize;
+  href?: string;
+  type?: 'button' | 'submit' | 'reset';
+  disabled?: boolean;
+  icon?: IconName;
+  ariaLabel?: string;
+}
+
+const {
+  variant = 'primary',
+  size = 'md',
+  href,
+  type = 'button',
+  disabled = false,
+  icon,
+  ariaLabel,
+} = Astro.props;
+
+const cls = ['ds-btn', `ds-btn--${variant}`, `ds-btn--${size}`].join(' ');
+const Tag = href && !disabled ? 'a' : 'button';
+---
+<Tag
+  class={cls}
+  href={Tag === 'a' ? href : undefined}
+  type={Tag === 'button' ? type : undefined}
+  disabled={Tag === 'button' ? disabled : undefined}
+  aria-disabled={Tag === 'a' && disabled ? 'true' : undefined}
+  aria-label={ariaLabel}
+>
+  {icon && <Icon name={icon} size={size === 'sm' ? 14 : size === 'lg' ? 20 : 16} />}
+  <slot />
+</Tag>
+
+<style>
+  .ds-btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    justify-content: center;
+    border-radius: var(--radius-pill);
+    border: var(--border-punch) solid transparent;
+    box-shadow: 3px 3px 0 var(--ink);
+    font-family: var(--font-body);
+    font-weight: 600;
+    line-height: 1.25;
+    cursor: pointer;
+    text-decoration: none;
+    transition:
+      transform var(--motion-duration) var(--motion-ease),
+      background-color var(--motion-duration) var(--motion-ease),
+      border-color var(--motion-duration) var(--motion-ease),
+      box-shadow var(--motion-duration) var(--motion-ease),
+      color var(--motion-duration) var(--motion-ease);
+  }
+  .ds-btn--sm { padding: 0.375rem 0.75rem; font-size: 0.8125rem; }
+  .ds-btn--md { padding: 0.5625rem 1.125rem; font-size: 0.875rem; }
+  .ds-btn--lg { padding: 0.75rem 1.5rem; font-size: 1rem; }
+
+  .ds-btn--primary {
+    background-color: var(--accent);
+    color: var(--accent-ink);
+    border-color: var(--ink);
+  }
+  .ds-btn--primary:hover {
+    background-color: var(--accent-strong);
+    color: var(--paper);
+    transform: translateY(-1px);
+  }
+  .ds-btn--primary:active,
+  .ds-btn--secondary:active,
+  .ds-btn--outline:active {
+    transform: translate(3px, 3px);
+    box-shadow: 0 0 0 var(--ink);
+  }
+
+  .ds-btn--secondary {
+    background-color: var(--paper-raised);
+    color: var(--ink);
+    border-color: var(--ink);
+  }
+  .ds-btn--secondary:hover { border-color: var(--accent-strong); color: var(--accent-strong); transform: translateY(-1px); }
+
+  .ds-btn--outline { background-color: transparent; color: var(--accent-strong); border-color: var(--ink); }
+  .ds-btn--outline:hover { background-color: var(--accent-soft); transform: translateY(-1px); }
+
+  .ds-btn:focus-visible {
+    outline: 2px solid var(--accent-strong);
+    outline-offset: 2px;
+  }
+  .ds-btn[disabled], .ds-btn[aria-disabled='true'] {
+    opacity: 0.55;
+    cursor: not-allowed;
+    transform: none;
+    box-shadow: none;
+  }
+  @media (prefers-reduced-motion: reduce) {
+    .ds-btn, .ds-btn:hover, .ds-btn:active { transition: none; transform: none; }
+  }
+</style>

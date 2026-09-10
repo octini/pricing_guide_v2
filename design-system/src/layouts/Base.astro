@@ -1,0 +1,23 @@
+---
+// Base layout. Single global theme.css import for the whole system.
+// Every page renders through here; components must not import theme.css.
+import '../styles/theme.css';
+
+export interface Props {
+  title?: string;
+  dark?: boolean;
+}
+
+const { title = 'Design system', dark = false } = Astro.props;
+---
+<!doctype html>
+<html lang="en" class:list={[{ dark }]}>
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>{title}</title>
+  </head>
+  <body>
+    <slot />
+  </body>
+</html>

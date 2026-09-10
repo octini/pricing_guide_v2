@@ -1,0 +1,62 @@
+---
+// Site Header pattern. Sticky paper bar: brand mark, Nav, action slot.
+// Composes the Nav primitive; brand is an anchor for keyboard reach.
+import Nav, { type NavItem } from '../ui/Nav.astro';
+
+export interface Props {
+  brandLabel?: string;
+  brandHref?: string;
+  items: NavItem[];
+}
+
+const { brandLabel = 'Studio', brandHref = '/', items } = Astro.props;
+---
+<header class="ds-sitehead">
+  <div class="ds-sitehead__inner">
+    <a class="ds-sitehead__brand" href={brandHref}>
+      <span class="ds-sitehead__mark" aria-hidden="true"></span>
+      {brandLabel}
+    </a>
+    <Nav items={items} />
+    <div class="ds-sitehead__actions">
+      <slot name="actions" />
+    </div>
+  </div>
+</header>
+
+<style>
+  .ds-sitehead {
+    position: sticky;
+    top: 0;
+    z-index: 10;
+    background-color: var(--paper);
+    border-bottom: var(--border-hairline) solid var(--border);
+  }
+  .ds-sitehead__inner {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    max-width: 72rem;
+    margin: 0 auto;
+    padding: 0.625rem 1rem;
+  }
+  .ds-sitehead__brand {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    margin-right: auto;
+    font-family: var(--font-display);
+    font-weight: 700;
+    font-size: 1rem;
+    color: var(--ink);
+    text-decoration: none;
+  }
+  .ds-sitehead__mark {
+    width: 0.875rem;
+    height: 0.875rem;
+    border-radius: var(--radius-pill);
+    background-color: var(--accent-strong);
+  }
+  .ds-sitehead__brand:focus-visible { outline: 2px solid var(--accent-strong); outline-offset: 2px; }
+  .ds-sitehead__actions { display: inline-flex; align-items: center; gap: 0.5rem; }
+</style>

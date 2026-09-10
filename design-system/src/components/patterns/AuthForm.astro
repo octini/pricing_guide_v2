@@ -1,0 +1,73 @@
+---
+// Auth pattern: PageHeader + Card login form (email, password, submit).
+// Client validation writes to an aria-live summary and focuses it.
+// Island contract (framework renderer): <AuthForm client:load … />.
+import Button from '../ui/Button.astro';
+import Card from '../ui/Card.astro';
+import Input from '../ui/Input.astro';
+import PageHeader from './PageHeader.astro';
+
+export interface Props {
+  eyebrow?: string;
+  title?: string;
+  lede?: string;
+  action?: string;
+  error?: string;
+}
+
+const {
+  eyebrow = 'Account',
+  title = 'Welcome back',
+  lede = 'Sign in to continue.',
+  action = '/login',
+  error,
+} = Astro.props;
+
+const formId = 'ds-auth-form';
+---
+<div class="ds-auth">
+  <PageHeader eyebrow={eyebrow} title={title} lede={lede} />
+  <Card>
+    <div class="ds-auth__summary" id={`${formId}-summary`} role="alert" tabindex="-1" hidden={!error}>
+      {error}
+    </div>
+    <form class="ds-auth__form" id={formId} action={action} method="post" novalidate={false}>
+      <Input label="Email" name="email" type="email" autocomplete="email" required />
+      <Input label="Password" name="password" type="password" autocomplete="current-password" required />
+      <Button type="submit" icon="sign-in">Sign in</Button>
+      <slot name="below" />
+    </form>
+  </Card>
+</div>
+
+<script define:vars={{ formId }}>
+  const form = document.getElementById(formId);
+  const summary = document.getElementById(`${formId}-summary`);
+  form?.addEventListener('submit', (event) => {
+    if (form.checkValidity()) return;
+    event.preventDefault();
+    const missing = [...form.querySelectorAll('[required]')]
+      .filter((el) => !el.value.trim())
+      .map((el) => el.getAttribute('name'));
+    if (summary) {
+      summary.hidden = false;
+      summary.textContent = `Complete these fields: ${missing.join(', ')}.`;
+      summary.focus();
+    }
+  });
+</script>
+
+<style>
+  .ds-auth { max-width: 28rem; }
+  .ds-auth__form { display: grid; gap: 1rem; }
+  .ds-auth__summary {
+    margin-bottom: 1rem;
+    padding: 0.625rem 0.75rem;
+    border-radius: var(--radius-card);
+    background-color: var(--accent-soft);
+    color: var(--accent-strong);
+    font-size: 0.875rem;
+    font-weight: 600;
+  }
+  .ds-auth__summary:focus-visible { outline: 2px solid var(--accent-strong); outline-offset: 2px; }
+</style>

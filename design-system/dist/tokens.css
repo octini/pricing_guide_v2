@@ -1,0 +1,79 @@
+/**
+ * DO NOT EDIT. Generated from tokens/tokens.json via Style Dictionary v4.
+ * Rebuild with: npm run tokens:build
+ * Source of truth: tokens/tokens.json (DTCG format).
+ */
+
+/**
+ * Do not edit directly, this file was auto-generated.
+ */
+
+:root {
+  --accent-100: #ffdbe4; /** Softest tint. Light-mode accent-soft background. */
+  --accent-200: #ffb3c6; /** Pale pink. Dark-mode accent-strong (hover fill and text); passes AA on dark paper. */
+  --accent-300: #ff708f; /** Coral core. Primary accent fill both modes; plum text on top passes AA. */
+  --accent-400: #f06085; /** Deep coral. Amp step for the accent knob; plum text on top still passes AA. */
+  --accent-500: #b81f4d; /** Mid berry. Text-safe on light paper and on accent-soft. */
+  --accent-600: #9c1743; /** Deep berry. Text-safe on light paper and on accent-soft. */
+  --accent-700: #7a0e35; /** Darkest berry. Light-mode accent-strong: hover fill (cream text on top) and text on paper or soft. */
+  --accent-800: #57233a; /** Deep plum-rose. Dark-mode accent-soft background. */
+  --border-hairline: 1px; /** Quiet borders, fields, overlays, table chrome. */
+  --border-punch: 2px; /** Default voice borders (Button, Card, Badge). */
+  --font-body: Inter, ui-sans-serif, system-ui, sans-serif; /** Body text and UI. */
+  --font-display: 'Bricolage Grotesque', ui-sans-serif, system-ui, sans-serif; /** Headlines and display text. */
+  --ink-50: #fbf8f5; /** Dark-mode primary text. */
+  --ink-300: #c4b3cc; /** Dark-mode secondary (muted) text. */
+  --ink-500: #6b5a78; /** Light-mode secondary (muted) text. Passes AA on cream paper. */
+  --ink-900: #30203a; /** Light-mode primary text. Plum ink. */
+  --line: #e3d2cc; /** Quiet border on cream paper. */
+  --motion-duration: 150ms; /** Lift/press transition duration. */
+  --motion-ease: cubic-bezier(0.2, 0, 0, 1); /** Ease-out curve for lift/press motion. */
+  --paper-50: #fbf8f5; /** Light-mode page background. Warm cream. */
+  --paper-100: #ffffff; /** Light-mode raised surface (cards, slabs). */
+  --paper-800: #332539; /** Dark-mode raised surface (cards, slabs). */
+  --paper-900: #241a2e; /** Dark-mode page background. Deep plum. */
+  --radius-card: 8px; /** Cards and default interactive surfaces. Quiet voice. */
+  --radius-pill: 100px; /** Pills, badges, toggle tracks. Effectively fully round. */
+  --radius-punch: 12px; /** Punch-voice card radius. */
+  --radius-slab: 16px; /** Large panels and feature slabs. */
+  --radius-sm: 4px; /** Small controls, chips, focus details. */
+  --shadow-soft: 0px 8px 24px -8px #1c140ccc; /** Lifted quiet surfaces, modal panels, popovers. */
+  --support-1-soft: #dde5fd; /** Periwinkle tint. Plum text on top passes AA both modes. */
+  --support-1-solid: #7894ed; /** Periwinkle fill. Plum text on top passes AA both modes. */
+  --support-2-soft: #d3f5e8; /** Mint tint. Plum text on top passes AA both modes. */
+  --support-2-solid: #66dfbf; /** Mint fill. Plum text on top passes AA both modes. */
+  --accent: var(--accent-300); /** Accent fills. ACCENT KNOB: point at accent 400 to amp, accent 200 to tone. */
+  --accent-ink: var(--ink-900); /** Text on solid accent fills. */
+  --accent-soft: var(--accent-100); /** Tinted accent background with accent-strong text on top. */
+  --accent-strong: var(--accent-700); /** Accent hover fill (cream text on top) and accent text on paper. Darker than the Wave 4 preview value so resting and hover both pass AA. */
+  --border: var(--line); /** Quiet borders and dividers. */
+  --ink: var(--ink-900); /** Primary text. */
+  --muted: var(--ink-500); /** Secondary text. */
+  --paper: var(--paper-50); /** Page background. */
+  --paper-raised: var(--paper-100); /** Raised surfaces (cards, slabs). */
+  --support-1: var(--support-1-solid); /** Periwinkle fill. Pair with accent-ink text. */
+  --support-1-soft: var(--support-1-soft); /** Periwinkle tint. Pair with accent-ink text. */
+  --support-2: var(--support-2-solid); /** Mint fill. Pair with accent-ink text. */
+  --support-2-soft: var(--support-2-soft); /** Mint tint. Pair with accent-ink text. */
+}
+
+/**
+ * Do not edit directly, this file was auto-generated.
+ */
+
+.dark {
+  --line: #4a3a56; /** Quiet border on dark plum paper. */
+  --accent: var(--accent-300); /** Accent fills. ACCENT KNOB: point at accent 200 to amp, accent 400 to tone. */
+  --accent-ink: var(--paper-900); /** Text on solid accent fills. */
+  --accent-soft: var(--accent-800); /** Tinted accent background with accent-strong text on top. */
+  --accent-strong: var(--accent-200); /** Accent hover fill (dark-plum text on top) and accent text on paper. */
+  --border: var(--line); /** Quiet borders and dividers. */
+  --ink: var(--ink-50); /** Primary text. */
+  --muted: var(--ink-300); /** Secondary text. */
+  --paper: var(--paper-900); /** Page background. */
+  --paper-raised: var(--paper-800); /** Raised surfaces (cards, slabs). */
+  --support-1: var(--support-1-solid); /** Periwinkle fill. Pair with accent-ink text. */
+  --support-1-soft: var(--support-1-soft); /** Periwinkle tint. Pair with accent-ink text. */
+  --support-2: var(--support-2-solid); /** Mint fill. Pair with accent-ink text. */
+  --support-2-soft: var(--support-2-soft); /** Mint tint. Pair with accent-ink text. */
+}

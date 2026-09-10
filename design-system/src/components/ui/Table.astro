@@ -1,0 +1,106 @@
+---
+// Table. Semantic table with hairline row dividers. Columns flagged
+// sortable get a header button; the inline script sorts client-side and
+// maintains aria-sort. Numeric-aware, stable, Escape resets focus order.
+// Island contract (framework renderer): <Table client:load columns rows />
+import Icon from './Icon.astro';
+
+export interface Column { key: string; label: string; sortable?: boolean; }
+
+export interface Props {
+  caption?: string;
+  columns: Column[];
+  rows: Record<string, string>[];
+}
+
+const { caption, columns, rows } = Astro.props;
+const tableId = `ds-table-${Math.random().toString(36).slice(2, 8)}`;
+---
+<div class="ds-tablewrap">
+  <table class="ds-table" id={tableId}>
+    {caption && <caption class="ds-table__caption">{caption}</caption>}
+    <thead>
+      <tr>
+        {columns.map((col, i) => (
+          <th scope="col" aria-sort={col.sortable ? (i === 0 ? 'none' : 'none') : undefined} data-key={col.sortable ? col.key : undefined}>
+            {col.sortable ? (
+              <button type="button" class="ds-table__sort" data-sort-key={col.key}>
+                {col.label}
+                <Icon name="sort" size={12} />
+              </button>
+            ) : col.label}
+          </th>
+        ))}
+      </tr>
+    </thead>
+    <tbody>
+      {rows.map((row) => (
+        <tr>
+          {columns.map((col) => (
+            <td data-key={col.key}>{row[col.key]}</td>
+          ))}
+        </tr>
+      ))}
+    </tbody>
+  </table>
+</div>
+
+<script define:vars={{ tableId }}>
+  const table = document.getElementById(tableId);
+  if (table) {
+    const state = { key: null, dir: 1 };
+    table.querySelectorAll('[data-sort-key]').forEach((btn) => {
+      btn.addEventListener('click', () => {
+        const key = btn.getAttribute('data-sort-key');
+        state.dir = state.key === key ? -state.dir : 1;
+        state.key = key;
+        const colIndex = [...btn.closest('tr').children].indexOf(btn.closest('th'));
+        const tbody = table.querySelector('tbody');
+        const rows = [...tbody.rows];
+        const numeric = rows.every((r) => !Number.isNaN(Number(r.cells[colIndex].textContent.trim())));
+        rows.sort((a, b) => {
+          const av = a.cells[colIndex].textContent.trim();
+          const bv = b.cells[colIndex].textContent.trim();
+          const cmp = numeric ? Number(av) - Number(bv) : av.localeCompare(bv);
+          return cmp * state.dir;
+        });
+        rows.forEach((r) => tbody.appendChild(r));
+        table.querySelectorAll('th').forEach((th) => th.removeAttribute('aria-sort'));
+        btn.closest('th').setAttribute('aria-sort', state.dir === 1 ? 'ascending' : 'descending');
+      });
+    });
+  }
+</script>
+
+<style>
+  .ds-tablewrap { overflow-x: auto; border: var(--border-hairline) solid var(--border); border-radius: var(--radius-card); }
+  .ds-table { width: 100%; border-collapse: collapse; font-size: 0.875rem; color: var(--ink); background-color: var(--paper); }
+  .ds-table__caption { padding: 0.75rem; text-align: left; font-weight: 600; }
+  .ds-table th {
+    text-align: left;
+    font-size: 0.75rem;
+    font-weight: 600;
+    letter-spacing: 0.04em;
+    text-transform: uppercase;
+    color: var(--muted);
+    background-color: var(--paper-raised);
+    border-bottom: var(--border-hairline) solid var(--border);
+  }
+  .ds-table th, .ds-table td { padding: 0.625rem 0.75rem; }
+  .ds-table td { border-bottom: var(--border-hairline) solid var(--border); }
+  .ds-table tbody tr:last-child td { border-bottom: none; }
+  .ds-table tbody tr:hover { background-color: var(--paper-raised); }
+  .ds-table__sort {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.375rem;
+    padding: 0;
+    border: none;
+    background: none;
+    font: inherit;
+    color: inherit;
+    cursor: pointer;
+  }
+  .ds-table__sort:hover { color: var(--accent-strong); }
+  .ds-table__sort:focus-visible { outline: 2px solid var(--accent-strong); outline-offset: 2px; border-radius: var(--radius-sm); }
+</style>

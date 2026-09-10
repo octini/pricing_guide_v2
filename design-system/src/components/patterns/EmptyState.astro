@@ -1,0 +1,44 @@
+---
+// Empty state pattern. Muted tray icon, display headline, helper body,
+// action slot for the next step.
+import Icon from '../ui/Icon.astro';
+
+export interface Props {
+  title?: string;
+  body?: string;
+}
+
+const { title = 'Nothing here yet', body = 'Items you create will appear in this space.' } = Astro.props;
+---
+<section class="ds-state" aria-label={title}>
+  <span class="ds-state__chip" aria-hidden="true"><Icon name="tray" size={24} /></span>
+  <h2 class="ds-state__title">{title}</h2>
+  <p class="ds-state__body">{body}</p>
+  <div class="ds-state__actions"><slot /></div>
+</section>
+
+<style>
+  .ds-state {
+    display: grid;
+    justify-items: center;
+    gap: 0.5rem;
+    padding: 3rem 1.5rem;
+    text-align: center;
+    border: var(--border-hairline) dashed var(--border);
+    border-radius: var(--radius-slab);
+    background-color: var(--paper);
+  }
+  .ds-state__chip {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 3rem;
+    height: 3rem;
+    border-radius: var(--radius-pill);
+    background-color: var(--paper-raised);
+    color: var(--muted);
+  }
+  .ds-state__title { margin: 0.5rem 0 0; font-size: 1.125rem; color: var(--ink); }
+  .ds-state__body { margin: 0; max-width: 26rem; font-size: 0.875rem; color: var(--muted); }
+  .ds-state__actions { margin-top: 0.75rem; display: inline-flex; gap: 0.5rem; }
+</style>

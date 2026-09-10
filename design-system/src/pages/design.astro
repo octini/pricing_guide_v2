@@ -1,0 +1,290 @@
+---
+// Design lab (Wave 3). Renders every Wave 2 component with variants and
+// states, the type/spacing scales, a dark-band demo, and the component
+// index. Breakout demo renders only when PUBLIC_DS_BREAKOUT="1".
+import Base from '../layouts/Base.astro';
+import Button from '../components/ui/Button.astro';
+import Card from '../components/ui/Card.astro';
+import Badge from '../components/ui/Badge.astro';
+import Icon from '../components/ui/Icon.astro';
+import Input from '../components/ui/Input.astro';
+import Textarea from '../components/ui/Textarea.astro';
+import Select from '../components/ui/Select.astro';
+import Nav from '../components/ui/Nav.astro';
+import Table from '../components/ui/Table.astro';
+import Modal from '../components/ui/Modal.astro';
+import Tooltip from '../components/ui/Tooltip.astro';
+import PageHeader from '../components/patterns/PageHeader.astro';
+import Header from '../components/patterns/Header.astro';
+import Footer from '../components/patterns/Footer.astro';
+import AuthForm from '../components/patterns/AuthForm.astro';
+import EmptyState from '../components/patterns/EmptyState.astro';
+import ErrorState from '../components/patterns/ErrorState.astro';
+import Breakout from '../components/demo/Breakout.astro';
+
+const navItems = [
+  { href: '#lab-buttons', label: 'Buttons', current: true },
+  { href: '#lab-cards', label: 'Cards' },
+  { href: '#lab-forms', label: 'Forms' },
+  { href: '#lab-index', label: 'Index' },
+];
+---
+<Base title="Design lab — v1.1">
+  <Header brandLabel="Studio" brandHref="/design" items={navItems}>
+    <span slot="actions"><Button size="sm" href="#lab-index">Index</Button></span>
+  </Header>
+
+  <main class="ds-lab">
+    <PageHeader
+      eyebrow="Design system v1.1"
+      title="Component lab"
+      lede="Every primitive and pattern with its variants in the portfolio trio, punch voice by default. Tab through to check focus rings; hover and press to check feedback."
+    />
+
+    <section class="ds-lab__section" id="lab-color" data-lab="color-trio">
+      <h2>Color trio</h2>
+      <p class="ds-lab__note">Coral carries actions and emphasis; periwinkle and mint mark supporting fills. Every fill ships light + dark and passes AA with its ink (verified by <code>node scripts/contrast.mjs</code>).</p>
+      <div class="ds-lab__row">
+        <span class="ds-lab__chip ds-lab__chip--accent"><strong>Accent</strong> coral #ff708f</span>
+        <span class="ds-lab__chip ds-lab__chip--s1"><strong>Support-1</strong> periwinkle #7894ed</span>
+        <span class="ds-lab__chip ds-lab__chip--s2"><strong>Support-2</strong> mint #66dfbf</span>
+      </div>
+      <div class="ds-lab__row">
+        <span class="ds-lab__chip ds-lab__chip--accent-soft"><strong>Accent-soft</strong> #ffdbe4</span>
+        <span class="ds-lab__chip ds-lab__chip--s1-soft"><strong>Support-1-soft</strong> #dde5fd</span>
+        <span class="ds-lab__chip ds-lab__chip--s2-soft"><strong>Support-2-soft</strong> #d3f5e8</span>
+      </div>
+    </section>
+
+    <section class="ds-lab__section" id="lab-buttons" data-lab="buttons">
+      <h2>Buttons</h2>
+      <div class="ds-lab__row">
+        <Button>Primary</Button>
+        <Button variant="secondary">Secondary</Button>
+        <Button variant="outline">Outline</Button>
+        <Button href="#lab-buttons" icon="arrow-right">Link button</Button>
+        <Button disabled>Disabled</Button>
+      </div>
+      <div class="ds-lab__row">
+        <Button size="sm">Small</Button>
+        <Button size="md">Medium</Button>
+        <Button size="lg" icon="sign-in">Large</Button>
+      </div>
+      <p class="ds-lab__note">States: hover swaps to the strong fill with paper text and lifts 1px; active presses into the frame; focus-visible draws a 2px strong ring; disabled drops to 55% opacity.</p>
+    </section>
+
+    <section class="ds-lab__section" id="lab-badges" data-lab="badges">
+      <h2>Badges and icons</h2>
+      <div class="ds-lab__row">
+        <Badge variant="accent" icon="check">New</Badge>
+        <Badge>Neutral</Badge>
+        <Badge variant="outline">Outline</Badge>
+        <Badge icon="tray">Tag with icon</Badge>
+      </div>
+      <div class="ds-lab__row">
+        <Icon name="home" size={20} />
+        <Icon name="search" size={20} />
+        <Icon name="user" size={20} />
+        <Icon name="info" size={20} />
+        <Icon name="warning" size={20} />
+      </div>
+      <p class="ds-lab__note">Icons inherit currentColor (Phosphor, MIT). Tag usage is a Badge with a leading icon.</p>
+    </section>
+
+    <section class="ds-lab__section" id="lab-cards" data-lab="cards">
+      <h2>Cards</h2>
+      <div class="ds-lab__grid">
+        <Card eyebrow="Eyebrow" title="Plain card"><p>Body copy sits on raised paper with a hairline border.</p></Card>
+        <Card title="Lift card" lift><p>Hover lifts this card via .ds-lift.</p></Card>
+        <Card><p>Card without a title, for free-form content.</p></Card>
+      </div>
+    </section>
+
+    <section class="ds-lab__section" id="lab-nav" data-lab="nav">
+      <h2>Navigation</h2>
+      <Nav items={[
+        { href: '#lab-nav', label: 'Overview', current: true },
+        { href: '#lab-forms', label: 'Forms' },
+        { href: '#lab-table', label: 'Data' },
+      ]} />
+      <p class="ds-lab__note">Active link carries aria-current="page" plus the accent underline.</p>
+    </section>
+
+    <section class="ds-lab__section" id="lab-forms" data-lab="forms">
+      <h2>Forms</h2>
+      <div class="ds-lab__grid">
+        <Input label="Name" name="lab-name" placeholder="Ada Lovelace" help="Full name, as it should appear." />
+        <Input label="Email" name="lab-email" type="email" required error="Enter a valid email." />
+        <Input label="Disabled" name="lab-disabled" value="Not editable" disabled />
+        <Textarea label="Notes" name="lab-notes" placeholder="A few sentences…" help="Optional context." />
+        <Select label="Role" name="lab-role" options={[
+          { value: 'design', label: 'Design' },
+          { value: 'eng', label: 'Engineering' },
+          { value: 'ops', label: 'Operations' },
+        ]} help="Pick the closest match." />
+        <Select label="Plan (error)" name="lab-plan" options={[{ value: '', label: 'Choose…' }]} error="Select a plan." />
+      </div>
+      <p class="ds-lab__note">Field contract: label + help or error; errors set aria-invalid and aria-describedby; disabled dims to 55%.</p>
+    </section>
+
+    <section class="ds-lab__section" id="lab-table" data-lab="table">
+      <h2>Table</h2>
+      <Table
+        caption="Team directory"
+        columns={[
+          { key: 'name', label: 'Name', sortable: true },
+          { key: 'role', label: 'Role', sortable: true },
+          { key: 'seat', label: 'Seat' },
+        ]}
+        rows={[
+          { name: 'Ada', role: 'Design', seat: 'A1' },
+          { name: 'Bo', role: 'Engineering', seat: 'B2' },
+          { name: 'Cy', role: 'Operations', seat: 'C3' },
+        ]}
+      />
+      <p class="ds-lab__note">Sortable headers are buttons; the script rewrites aria-sort. Hover highlights the row.</p>
+    </section>
+
+    <section class="ds-lab__section" id="lab-overlays" data-lab="overlays">
+      <h2>Modal and tooltip</h2>
+      <div class="ds-lab__row">
+        <span data-modal-open="ds-lab-modal"><Button variant="secondary">Open modal</Button></span>
+        <Tooltip text="Helpful hint"><span class="ds-lab__tiptext">Hover or focus me</span></Tooltip>
+      </div>
+      <Modal id="ds-lab-modal" title="Lab modal">
+        <p class="ds-lab__note">Native dialog: platform focus trap, Escape closes, backdrop click closes.</p>
+        <span data-modal-close=""><Button variant="secondary">Close</Button></span>
+      </Modal>
+    </section>
+
+    <section class="ds-lab__section" id="lab-auth" data-lab="auth">
+      <h2>Auth form</h2>
+      <AuthForm />
+    </section>
+
+    <section class="ds-lab__section" id="lab-states" data-lab="states">
+      <h2>Empty and error states</h2>
+      <div class="ds-lab__grid">
+        <EmptyState title="No drafts" body="Drafts you save will land here."><Button size="sm">New draft</Button></EmptyState>
+        <ErrorState title="Load failed" body="Check the connection and try again."><Button size="sm" variant="secondary">Retry</Button></ErrorState>
+      </div>
+    </section>
+
+    <section class="ds-lab__section" id="lab-type" data-lab="type-scale">
+      <h2>Type scale</h2>
+      <h1 class="ds-display">Display h1 — Bricolage</h1>
+      <h2>Heading h2 — Bricolage</h2>
+      <h3>Heading h3 — Bricolage</h3>
+      <p>Body — Inter. The quick brown fox at 1rem/1.6.</p>
+      <p><small>Small print — Inter at 0.8125rem, muted.</small></p>
+    </section>
+
+    <section class="ds-lab__section" id="lab-spacing" data-lab="spacing-scale">
+      <h2>Spacing and shape scales</h2>
+      <div class="ds-lab__swatches">
+        <span class="ds-lab__swatch ds-lab__swatch--sm">radius-sm 4</span>
+        <span class="ds-lab__swatch ds-lab__swatch--card">radius-card 8</span>
+        <span class="ds-lab__swatch ds-lab__swatch--slab">radius-slab 16</span>
+        <span class="ds-lab__swatch ds-lab__swatch--pill">radius-pill</span>
+      </div>
+      <p class="ds-lab__note">One hairline border, one soft shadow (hover the lift card above), one 150ms motion pair with a reduced-motion fallback.</p>
+    </section>
+
+    <section class="ds-lab__section ds-lab__band dark" id="lab-dark" data-lab="dark-band" aria-label="Dark mode preview">
+      <h2>Dark band</h2>
+      <p class="ds-lab__note">This band renders the same semantic tokens under .dark: paper, ink, accent, and muted all flip as a pair.</p>
+      <div class="ds-lab__row">
+        <Button>Primary</Button>
+        <Button variant="secondary">Secondary</Button>
+        <Badge variant="accent">Accent badge</Badge>
+      </div>
+      <Card title="Dark card"><p>Cards, buttons, and badges reuse the same markup in both modes.</p></Card>
+    </section>
+
+    <section class="ds-lab__section" id="lab-quiet" data-lab="quiet-voice" aria-label="Quiet voice opt-in demo">
+      <h2>Quiet voice (opt-in)</h2>
+      <p class="ds-lab__note">Punch is the default: 2px ink borders with a small hard offset shadow. Wrap any section in <code>data-voice="quiet"</code> to restore hairlines and the soft shadow for the Button, Card, and Badge inside it. Fields, overlays, tables, and nav keep hairline precision in both voices.</p>
+      <div data-voice="quiet" class="ds-lab__quiet">
+        <div class="ds-lab__row">
+          <Button>Primary</Button>
+          <Button variant="secondary">Secondary</Button>
+          <Badge variant="accent" icon="check">New</Badge>
+          <Badge>Neutral</Badge>
+        </div>
+        <Card eyebrow="Quiet" title="Quiet card"><p>Same Card markup, hairline frame, no hard shadow.</p></Card>
+      </div>
+    </section>
+
+    <section class="ds-lab__section" id="lab-breakout" data-lab="breakout">
+      <h2>Breakout (gated)</h2>
+      <p class="ds-lab__note">Default off. Set PUBLIC_DS_BREAKOUT="1" to render the quarantined voice below.</p>
+      <Breakout />
+    </section>
+
+    <section class="ds-lab__section" id="lab-index" data-lab="index">
+      <h2>Component index</h2>
+      <dl class="ds-lab__index">
+        <div><dt>Color trio — tokens/tokens.json</dt><dd>Coral accent ramp (the amp/tone knob), fixed periwinkle support-1 and mint support-2, cream paper + plum ink. Every fill ships light + dark and passes AA; hover states pass with no exceptions.</dd></div>
+        <div><dt>Button — ui/Button.astro</dt><dd>Anatomy: pill, label + optional icon, 2px ink border, hard offset shadow. States: hover swaps to the strong fill with paper text, active presses into the frame, focus-visible 2px strong ring, disabled 55%. Do: use the link form for navigation. Don't: invent sizes or colors.</dd></div>
+        <div><dt>Card — ui/Card.astro</dt><dd>Anatomy: raised paper, 2px ink border, 12px radius, hard offset shadow, optional eyebrow/title. States: optional lift on hover. Do: one idea per card. Don't: nest cards.</dd></div>
+        <div><dt>Badge / Tag — ui/Badge.astro</dt><dd>Anatomy: pill + label, 2px ink border, hard offset shadow, optional leading icon for tags. States: static (no hover). Do: accent for status, neutral for counts. Don't: use badges as buttons.</dd></div>
+        <div><dt>Icon — ui/Icon.astro</dt><dd>Anatomy: bounded Phosphor set, inherits currentColor. States: none of its own. Do: pair with visible text. Don't: add icon packs.</dd></div>
+        <div><dt>Input / Textarea / Select — ui/</dt><dd>Anatomy: label, control, help or error. States: hover border, focus-visible ring, error border + message, disabled dim. Do: always render the label. Don't: use placeholder as the label.</dd></div>
+        <div><dt>Nav — ui/Nav.astro</dt><dd>Anatomy: semantic list of anchors. States: hover wash, active ink, current-page accent underline. Do: mark the current page. Don't: use for button actions.</dd></div>
+        <div><dt>Table — ui/Table.astro</dt><dd>Anatomy: caption, sortable header buttons, hairline rows. States: row hover, aria-sort on headers. Do: keep columns few. Don't: replace pagination with endless columns.</dd></div>
+        <div><dt>Modal — ui/Modal.astro</dt><dd>Anatomy: native dialog, panel, close button. States: open/closed via platform. Do: trigger with data-modal-open. Don't: stack modals.</dd></div>
+        <div><dt>Tooltip — ui/Tooltip.astro</dt><dd>Anatomy: trigger + inverted bubble. States: hover/focus-within reveal, Escape dismisses. Do: keep text short. Don't: put interactive content inside.</dd></div>
+        <div><dt>PageHeader — patterns/PageHeader.astro</dt><dd>Anatomy: eyebrow, display h1, lede, action slot. States: static. Do: one per page. Don't: skip the h1.</dd></div>
+        <div><dt>Header / Footer — patterns/</dt><dd>Anatomy: sticky paper bar with Nav; hairline footer with small print. States: link hover/focus. Do: keep the header compact. Don't: add second nav rows.</dd></div>
+        <div><dt>AuthForm — patterns/AuthForm.astro</dt><dd>Anatomy: PageHeader + Card login. States: aria-live error summary on invalid submit. Do: keep email/password order. Don't: add fields without labels.</dd></div>
+        <div><dt>Empty / Error — patterns/</dt><dd>Anatomy: icon chip, headline, body, action slot. States: static (error uses role=alert). Do: offer the next action. Don't: add a second error hue.</dd></div>
+        <div><dt>Quiet voice — [data-voice="quiet"] (theme.css)</dt><dd>Opt-in wrapper restoring hairline borders and the soft shadow for wrapped Button, Card, and Badge. Do: wrap calm sections. Don't: mix voices inside one card.</dd></div>
+        <div><dt>Breakout — demo/Breakout.astro (quarantined)</dt><dd>Gated by PUBLIC_DS_BREAKOUT="1"; default renders nothing. Never imported by core components.</dd></div>
+      </dl>
+    </section>
+  </main>
+
+  <Footer note="Design system v1.1 — original synthesis, MIT Phosphor icons." />
+</Base>
+
+<style>
+  .ds-lab { max-width: 72rem; margin: 0 auto; padding: 0 1rem 4rem; display: grid; gap: 2.5rem; }
+  .ds-lab__section { display: grid; gap: 1rem; align-content: start; }
+  .ds-lab__section h2 { margin: 0; font-size: 1.25rem; }
+  .ds-lab__row { display: flex; flex-wrap: wrap; align-items: center; gap: 0.75rem; }
+  .ds-lab__grid { display: grid; gap: 1rem; grid-template-columns: repeat(auto-fit, minmax(16rem, 1fr)); }
+  .ds-lab__note { margin: 0; font-size: 0.875rem; color: var(--muted); max-width: 44rem; }
+  .ds-lab__band { padding: 1.5rem; border: var(--border-hairline) solid var(--border); border-radius: var(--radius-slab); background-color: var(--paper); }
+  .ds-lab__swatches { display: flex; flex-wrap: wrap; gap: 0.75rem; }
+  .ds-lab__swatch { padding: 0.5rem 1rem; background-color: var(--paper-raised); border: var(--border-hairline) solid var(--border); font-size: 0.8125rem; }
+  .ds-lab__swatch--sm { border-radius: var(--radius-sm); }
+  .ds-lab__swatch--card { border-radius: var(--radius-card); }
+  .ds-lab__swatch--slab { border-radius: var(--radius-slab); }
+  .ds-lab__swatch--pill { border-radius: var(--radius-pill); }
+  .ds-lab__index { display: grid; gap: 1rem; margin: 0; }
+  .ds-lab__index div { padding: 1rem; background-color: var(--paper-raised); border: var(--border-hairline) solid var(--border); border-radius: var(--radius-card); }
+  .ds-lab__tiptext { font-weight: 600; color: var(--accent-strong); text-decoration: underline; text-underline-offset: 3px; }
+  .ds-lab__quiet { display: grid; gap: 1rem; padding: 1.5rem; background-color: var(--paper); border: var(--border-hairline) dashed var(--border); border-radius: var(--radius-slab); }
+  .ds-lab__chip {
+    display: inline-flex;
+    align-items: baseline;
+    gap: 0.375rem;
+    padding: 0.625rem 1rem;
+    border-radius: var(--radius-pill);
+    font-size: 0.8125rem;
+    border: var(--border-punch) solid var(--ink);
+    box-shadow: 2px 2px 0 var(--ink);
+  }
+  .ds-lab__chip strong { font-weight: 700; }
+  .ds-lab__chip--accent { background-color: var(--accent); color: var(--accent-ink); }
+  .ds-lab__chip--s1 { background-color: var(--support-1); color: var(--accent-ink); }
+  .ds-lab__chip--s2 { background-color: var(--support-2); color: var(--accent-ink); }
+  .ds-lab__chip--accent-soft { background-color: var(--accent-soft); color: var(--accent-strong); }
+  .ds-lab__chip--s1-soft { background-color: var(--support-1-soft); color: var(--accent-ink); }
+  .ds-lab__chip--s2-soft { background-color: var(--support-2-soft); color: var(--accent-ink); }
+  .ds-lab__index dt { font-weight: 700; margin-bottom: 0.375rem; }
+  .ds-lab__index dd { margin: 0; font-size: 0.875rem; color: var(--muted); }
+  @media (prefers-reduced-motion: reduce) {
+    .ds-lab, .ds-lab * { animation: none; }
+  }
+</style>

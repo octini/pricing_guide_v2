@@ -1,0 +1,34 @@
+---
+// Site Footer pattern. Hairline rule, muted small print, link slot.
+export interface Props {
+  note?: string;
+}
+
+const { note = 'An original design system. No third-party brand assets.' } = Astro.props;
+---
+<footer class="ds-sitefoot">
+  <div class="ds-sitefoot__inner">
+    <p class="ds-sitefoot__note">{note}</p>
+    <div class="ds-sitefoot__links">
+      <slot />
+    </div>
+  </div>
+</footer>
+
+<style>
+  .ds-sitefoot { border-top: var(--border-hairline) solid var(--border); }
+  .ds-sitefoot__inner {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 0.75rem 1.5rem;
+    max-width: 72rem;
+    margin: 0 auto;
+    padding: 1.25rem 1rem 2rem;
+  }
+  .ds-sitefoot__note { margin: 0 auto 0 0; font-size: 0.8125rem; color: var(--muted); }
+  .ds-sitefoot__links { display: inline-flex; gap: 1rem; font-size: 0.8125rem; }
+  .ds-sitefoot__links :global(a) { color: var(--muted); text-decoration: none; }
+  .ds-sitefoot__links :global(a:hover) { color: var(--accent-strong); }
+  .ds-sitefoot__links :global(a:focus-visible) { outline: 2px solid var(--accent-strong); outline-offset: 2px; }
+</style>

@@ -1,0 +1,45 @@
+---
+// Error state pattern. Single-hue rule: the error voice reuses the coral
+// accent family (accent-soft chip, accent-strong title), so no hue outside
+// the trio enters the system. Pair passes AA in both modes (see DESIGN.md).
+import Icon from '../ui/Icon.astro';
+
+export interface Props {
+  title?: string;
+  body?: string;
+}
+
+const { title = 'Something went wrong', body = 'The request failed. Check the details and try again.' } = Astro.props;
+---
+<section class="ds-errstate" role="alert" aria-label={title}>
+  <span class="ds-errstate__chip" aria-hidden="true"><Icon name="warning" size={24} /></span>
+  <h2 class="ds-errstate__title">{title}</h2>
+  <p class="ds-errstate__body">{body}</p>
+  <div class="ds-errstate__actions"><slot /></div>
+</section>
+
+<style>
+  .ds-errstate {
+    display: grid;
+    justify-items: center;
+    gap: 0.5rem;
+    padding: 3rem 1.5rem;
+    text-align: center;
+    border: var(--border-hairline) solid var(--border);
+    border-radius: var(--radius-slab);
+    background-color: var(--paper);
+  }
+  .ds-errstate__chip {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 3rem;
+    height: 3rem;
+    border-radius: var(--radius-pill);
+    background-color: var(--accent-soft);
+    color: var(--accent-strong);
+  }
+  .ds-errstate__title { margin: 0.5rem 0 0; font-size: 1.125rem; color: var(--accent-strong); }
+  .ds-errstate__body { margin: 0; max-width: 26rem; font-size: 0.875rem; color: var(--muted); }
+  .ds-errstate__actions { margin-top: 0.75rem; display: inline-flex; gap: 0.5rem; }
+</style>

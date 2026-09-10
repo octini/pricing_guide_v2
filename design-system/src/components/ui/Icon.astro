@@ -1,0 +1,61 @@
+---
+// Phosphor icon wrapper (MIT).
+// SPDX-License-Identifier: MIT — icons © Phosphor Icons (phosphoricons.com).
+// Package: phosphor-astro 2.1.0. Bounded name set keeps the API string-based;
+// color inherits currentColor so icons always resolve through semantic tokens.
+import ArrowsDownUp from 'phosphor-astro/ArrowsDownUp.astro';
+import ArrowRight from 'phosphor-astro/ArrowRight.astro';
+import CaretDown from 'phosphor-astro/CaretDown.astro';
+import CaretUp from 'phosphor-astro/CaretUp.astro';
+import Check from 'phosphor-astro/Check.astro';
+import EnvelopeSimple from 'phosphor-astro/EnvelopeSimple.astro';
+import House from 'phosphor-astro/House.astro';
+import Info from 'phosphor-astro/Info.astro';
+import LockKey from 'phosphor-astro/LockKey.astro';
+import MagnifyingGlass from 'phosphor-astro/MagnifyingGlass.astro';
+import SignIn from 'phosphor-astro/SignIn.astro';
+import Tray from 'phosphor-astro/Tray.astro';
+import UserCircle from 'phosphor-astro/UserCircle.astro';
+import WarningCircle from 'phosphor-astro/WarningCircle.astro';
+import X from 'phosphor-astro/X.astro';
+
+export type IconName =
+  | 'sort' | 'arrow-right' | 'caret-down' | 'caret-up' | 'check'
+  | 'envelope' | 'home' | 'info' | 'lock' | 'search'
+  | 'sign-in' | 'tray' | 'user' | 'warning' | 'close';
+
+export interface Props {
+  name: IconName;
+  size?: number;
+  label?: string;
+}
+
+const { name, size = 20, label } = Astro.props;
+
+const map: Record<IconName, any> = {
+  'sort': ArrowsDownUp,
+  'arrow-right': ArrowRight,
+  'caret-down': CaretDown,
+  'caret-up': CaretUp,
+  'check': Check,
+  'envelope': EnvelopeSimple,
+  'home': House,
+  'info': Info,
+  'lock': LockKey,
+  'search': MagnifyingGlass,
+  'sign-in': SignIn,
+  'tray': Tray,
+  'user': UserCircle,
+  'warning': WarningCircle,
+  'close': X,
+};
+
+const Cmp = map[name];
+---
+<Cmp
+  width={size}
+  height={size}
+  aria-hidden={label ? undefined : 'true'}
+  role={label ? 'img' : undefined}
+  aria-label={label}
+/>
